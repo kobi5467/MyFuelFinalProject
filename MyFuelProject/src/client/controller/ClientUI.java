@@ -6,5 +6,6 @@ public class ClientUI {
 		System.out.println("hello");
 		System.out.println("Or maman is the king.");
 		System.out.println("aaaa");
+		System.out.println("abc");
 	}
 }
