@@ -1,9 +1,16 @@
 package client.controller;
 
-public class ClientUI {
+import javafx.application.Application;
+import javafx.stage.Stage;
+
+public class ClientUI extends Application{
 
 	public static void main(String[] args) {
-		System.out.println("hello");
-		System.out.println("Or maman is NOT !! the king. bla bla bla");
+		launch(args);
+	}
+
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		
 	}
 }
