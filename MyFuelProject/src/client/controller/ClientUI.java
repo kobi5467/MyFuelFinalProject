@@ -11,6 +11,6 @@ public class ClientUI extends Application{
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		
+		System.out.println("START CLIENT");
 	}
 }
