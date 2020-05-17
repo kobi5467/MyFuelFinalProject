@@ -1,13 +1,20 @@
 package client.gui;
 
+import java.io.IOException;
+
+import client.controller.ClientUI;
+import client.controller.ObjectContainer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 public class LoginController {
 
@@ -43,12 +50,31 @@ public class LoginController {
 
     @FXML
     void onCloseWindow(MouseEvent event) {
-    	System.out.println("close !!");
+//    	ClientUI.clientController.closeConnection();
+    	ObjectContainer.loginStage.close();
     }
 
     @FXML
     void onLogin(ActionEvent event) {
 
     }
+
+    public Pane getMainPane() {
+    	return mainLoginPane;
+    }
+    
+	public void start(Stage primaryStage) throws IOException {
+		FXMLLoader loader = new  FXMLLoader();
+    	loader.setLocation(getClass().getResource("LoginForm.fxml"));
+    	
+    	Pane root = loader.load();
+		ObjectContainer.loginController = loader.getController();
+		Pane p = ObjectContainer.loginController.getMainPane();
+		ObjectContainer.allowDrag(p, ObjectContainer.loginStage);
+		
+		Scene scene = new Scene(root);
+		primaryStage.setScene(scene);
+		primaryStage.show();
+	}
 
 }
