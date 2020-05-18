@@ -1,5 +1,7 @@
 package entitys;
 
+import enums.UserPermission;
+
 public class User {
 
 	private String username;

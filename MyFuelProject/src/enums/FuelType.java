@@ -1,4 +1,4 @@
-package entitys;
+package enums;
 
 public enum FuelType {
 
