@@ -1,6 +1,6 @@
 package entitys;
 
-import enums.Status;
+import entitys.enums.Status;
 
 public class FuelInventoryOrder extends Order{
 

@@ -1,6 +1,6 @@
 package entitys;
 
-import enums.UserPermission;
+import entitys.enums.UserPermission;
 
 public class Supplier extends User {
 

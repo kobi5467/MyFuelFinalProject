@@ -2,7 +2,7 @@ package entitys;
 
 import java.util.ArrayList;
 
-import enums.UserPermission;
+import entitys.enums.UserPermission;
 
 public class Customer extends User {
 

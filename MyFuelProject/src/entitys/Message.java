@@ -1,6 +1,6 @@
 package entitys;
 
-import enums.MessageType;
+import entitys.enums.MessageType;
 
 public class Message {
 

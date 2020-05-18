@@ -9,9 +9,9 @@ public class FuelInventory {
 	private float currentFuelAmount;
 	private float thresholdAmount;
 	private float maxFuelAmount;
-	
-	public FuelInventory(FuelStation fuelStation, Fuel fuel,
-			float currentFuelAmount, float thresholdAmount, float maxFuelAmount) {
+
+	public FuelInventory(FuelStation fuelStation, Fuel fuel, float currentFuelAmount, float thresholdAmount,
+			float maxFuelAmount) {
 		this.fuelStation = fuelStation;
 		this.fuel = fuel;
 		this.currentFuelAmount = currentFuelAmount;
@@ -61,15 +61,8 @@ public class FuelInventory {
 
 	@Override
 	public String toString() {
-		return "FuelInventory [fuelStation=" + fuelStation + ", fuel=" + fuel
-				+ ", currentFuelAmount=" + currentFuelAmount
-				+ ", thresholdAmount=" + thresholdAmount + ", maxFuelAmount="
-				+ maxFuelAmount + "]";
+		return "FuelInventory [fuelStation=" + fuelStation + ", fuel=" + fuel + ", currentFuelAmount="
+				+ currentFuelAmount + ", thresholdAmount=" + thresholdAmount + ", maxFuelAmount=" + maxFuelAmount + "]";
 	}
-	
-	
-	
-	
-	
-}
 
+}

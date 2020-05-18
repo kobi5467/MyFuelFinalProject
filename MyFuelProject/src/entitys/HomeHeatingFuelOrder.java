@@ -1,7 +1,7 @@
 package entitys;
 
-import enums.PaymentMethod;
-import enums.Status;
+import entitys.enums.PaymentMethod;
+import entitys.enums.Status;
 
 public class HomeHeatingFuelOrder extends Order {
 

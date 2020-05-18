@@ -1,7 +1,7 @@
 package entitys;
 
-import enums.OrganizationAffiliation;
-import enums.UserPermission;
+import entitys.enums.OrganizationAffiliation;
+import entitys.enums.UserPermission;
 
 public class Employee extends User {
 	

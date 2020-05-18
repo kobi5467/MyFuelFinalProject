@@ -1,6 +1,6 @@
 package entitys;
 
-import enums.SaleTemplateType;
+import entitys.enums.SaleTemplateType;
 
 public class SaleTemplate {
 

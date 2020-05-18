@@ -1,6 +1,6 @@
 package entitys;
 
-import enums.FuelType;
+import entitys.enums.FuelType;
 
 public class Fuel {
 

@@ -1,6 +1,6 @@
 package entitys;
 
-import enums.CustomerTypes;
+import entitys.enums.CustomerTypes;
 
 public class CustomerType { 
 	
