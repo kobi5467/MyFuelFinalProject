@@ -50,6 +50,9 @@ public class LoginController {
     private ImageView imgPass;
 
     @FXML
+    private Label lblErrorMessage;
+    
+    @FXML
     private Button btnMinimize;
 
     @FXML
@@ -68,22 +71,23 @@ public class LoginController {
     void onLogin(ActionEvent event) {
     	String userName = txtUsername.getText().trim();
     	String password = txtPassword.getText().trim();
+    	String errorMessage = "";
     	
     	if(userName.isEmpty() || password.isEmpty()) {
-    		System.out.println("Please fill all fields");
+    		errorMessage = "Please fill all fields";
     	}else {
     		boolean isValid = checkIfFieldsAreCorrect(userName, password);
     		if(isValid) {
+    			System.out.println("Success");
     			MoveToHomeForm();
     		}else {
-    			System.out.println("user name or password or incorrect..");
+    			errorMessage = "user name or password are incorrect..";
     		}
     	}
+    	lblErrorMessage.setText(errorMessage);
     }
 
     public void MoveToHomeForm() {
-		
-    	
     	if(ObjectContainer.mainFormController == null) {
     		ObjectContainer.mainFormController = new MainFormController();
     	}
@@ -105,6 +109,7 @@ public class LoginController {
     	
     	Pane root = loader.load();
 		ObjectContainer.loginController = loader.getController();
+		ObjectContainer.loginController.initUI();
 		Pane p = ObjectContainer.loginController.getMainPane();
 		ObjectContainer.allowDrag(p, ObjectContainer.loginStage);
 		
@@ -113,6 +118,10 @@ public class LoginController {
 		primaryStage.show();
 	}
 	
+	private void initUI() {
+		lblErrorMessage.setText("");
+	}
+
 	public boolean checkIfFieldsAreCorrect(String userName, String password) {
 		boolean isCorrect = false;
 		

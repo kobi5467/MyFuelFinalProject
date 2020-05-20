@@ -15,16 +15,16 @@
             <Image url="@../../images/MyFuelLoginLogo.jpg" />
          </image>
       </ImageView>
-      <Pane fx:id="loginPane" layoutX="30.0" layoutY="135.0" prefHeight="230.0" prefWidth="250.0">
+      <Pane fx:id="loginPane" layoutX="30.0" layoutY="135.0" prefHeight="230.0" prefWidth="294.0">
          <children>
-            <TextField fx:id="txtUsername" layoutX="65.0" layoutY="81.0" prefHeight="25.0" prefWidth="155.0" promptText="Username" />
-            <TextField fx:id="txtPassword" layoutX="65.0" layoutY="124.0" prefHeight="25.0" prefWidth="155.0" promptText="Password" />
-            <Button fx:id="btnLogin" layoutX="63.0" layoutY="182.0" mnemonicParsing="false" onAction="#onLogin" prefHeight="25.0" prefWidth="127.0" text="Login">
+            <TextField fx:id="txtUsername" layoutX="70.0" layoutY="81.0" prefHeight="25.0" prefWidth="155.0" promptText="Username" />
+            <TextField fx:id="txtPassword" layoutX="70.0" layoutY="125.0" prefHeight="25.0" prefWidth="155.0" promptText="Password" />
+            <Button fx:id="btnLogin" layoutX="79.0" layoutY="182.0" mnemonicParsing="false" onAction="#onLogin" prefHeight="25.0" prefWidth="127.0" text="Login">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
-            <Label fx:id="lblLoginTitle" layoutX="84.0" layoutY="14.0" text="Login">
+            <Label fx:id="lblLoginTitle" layoutX="106.0" layoutY="14.0" text="Login">
                <font>
                   <Font name="System Bold" size="31.0" />
                </font>
@@ -39,6 +39,7 @@
                   <Image url="@../../images/pass_icon.png" />
                </image>
             </ImageView>
+            <Label fx:id="lblErrorMessage" layoutX="63.0" layoutY="158.0" text="Label" />
          </children>
       </Pane>
       <Button fx:id="btnMinimize" layoutX="733.0" layoutY="14.0" mnemonicParsing="false" onAction="#onMinimize" text="-" />

@@ -37,7 +37,6 @@ public class ClientController extends AbstractClient {
 			sendToServer(msg);		
 			while(waitingForResponse){
 				try {
-					System.out.println("blablabla");
 					Thread.sleep(100);
 				}catch(InterruptedException e) {
 					e.printStackTrace();

@@ -22,6 +22,11 @@
 	-fx-background-color:#fffff0;
 }
 
+#lblErrorMessage{
+	-fx-text-fill:#ff0000;
+	-fx-text-style:bold;
+}
+
 #btnLogin{
 	-fx-background-color:linear-gradient(to left, #02b6de, #024079);
 	-fx-background-radius:15px;
