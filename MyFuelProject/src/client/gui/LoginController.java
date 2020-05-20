@@ -78,7 +78,7 @@ public class LoginController {
     	}else {
     		boolean isValid = checkIfFieldsAreCorrect(userName, password);
     		if(isValid) {
-    			System.out.println("Success !");
+    			System.out.println("Success !!");
     			MoveToHomeForm();
     		}else {
     			errorMessage = "user name or password are incorrect..";
