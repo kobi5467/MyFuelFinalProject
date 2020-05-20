@@ -14,12 +14,10 @@ public class Customer extends User {
 	private PurchaseModel purchaseModel;
 	private CreditCard creditCard;
 	private ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
-	
-	public Customer(String username, String password,
-			UserPermission userPermission, String name, String email,
-			String phoneNumber, String customerId, String city, String street,
-			int customerRate, CustomerType customerType,
-			PurchaseModel purchaseModel, CreditCard creditCard,
+
+	public Customer(String username, String password, UserPermission userPermission, String name, String email,
+			String phoneNumber, String customerId, String city, String street, int customerRate,
+			CustomerType customerType, PurchaseModel purchaseModel, CreditCard creditCard,
 			ArrayList<Vehicle> vehicles) {
 		super(username, password, userPermission, name, email, phoneNumber);
 		this.customerId = customerId;
@@ -98,16 +96,9 @@ public class Customer extends User {
 
 	@Override
 	public String toString() {
-		return "Customer [customerId=" + customerId + ", City=" + City
-				+ ", Street=" + Street + ", customerRate=" + customerRate
-				+ ", customerType=" + customerType + ", purchaseModel="
-				+ purchaseModel + ", creditCard=" + creditCard + "]";
+		return "Customer [customerId=" + customerId + ", City=" + City + ", Street=" + Street + ", customerRate="
+				+ customerRate + ", customerType=" + customerType + ", purchaseModel=" + purchaseModel + ", creditCard="
+				+ creditCard + "]";
 	}
 
-
-	
-	
-	
-	
-	
 }

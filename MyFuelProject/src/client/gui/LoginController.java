@@ -2,8 +2,13 @@ package client.gui;
 
 import java.io.IOException;
 
+import com.google.gson.JsonObject;
+
 import client.controller.ClientUI;
 import client.controller.ObjectContainer;
+import entitys.Message;
+import entitys.enums.MessageType;
+import entitys.enums.UserPermission;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +17,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -46,17 +50,49 @@ public class LoginController {
     private ImageView imgPass;
 
     @FXML
-    private ImageView btnClose;
+    private Button btnMinimize;
 
     @FXML
-    void onCloseWindow(MouseEvent event) {
-//    	ClientUI.clientController.closeConnection();
+    private Button btnExit;
+
+    //************ LOCAL VARIABLE ************
+    private UserPermission userPermission;
+    
+    @FXML
+    void onExit(ActionEvent event) {
+    	//TODO - close connection from server here.
     	ObjectContainer.loginStage.close();
     }
 
     @FXML
     void onLogin(ActionEvent event) {
+    	String userName = txtUsername.getText().trim();
+    	String password = txtPassword.getText().trim();
+    	
+    	if(userName.isEmpty() || password.isEmpty()) {
+    		System.out.println("Please fill all fields");
+    	}else {
+    		boolean isValid = checkIfFieldsAreCorrect(userName, password);
+    		if(isValid) {
+    			MoveToHomeForm();
+    		}else {
+    			System.out.println("user name or password or incorrect..");
+    		}
+    	}
+    }
 
+    public void MoveToHomeForm() {
+		
+    	
+    	if(ObjectContainer.mainFormController == null) {
+    		ObjectContainer.mainFormController = new MainFormController();
+    	}
+    	ObjectContainer.mainFormController.start(userPermission);
+	}
+
+	@FXML
+    void onMinimize(ActionEvent event) {
+    	ObjectContainer.loginStage.setIconified(true);
     }
 
     public Pane getMainPane() {
@@ -76,5 +112,24 @@ public class LoginController {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
-
+	
+	public boolean checkIfFieldsAreCorrect(String userName, String password) {
+		boolean isCorrect = false;
+		
+		JsonObject json = new JsonObject();
+		json.addProperty("userName", userName);
+		json.addProperty("password", password);
+		
+		Message msg = new Message(MessageType.CHECK_LOGIN,json.toString());
+		ClientUI.clientController.handleMessageFromClient(msg);
+		
+		Message response = ObjectContainer.currentMessageFromServer;
+		JsonObject responseJson = response.getMessageAsJsonObject();
+		
+		if(responseJson.get("isValid").getAsBoolean()) {
+			isCorrect = true;
+			userPermission = UserPermission.stringToEnumVal(responseJson.get("permission").getAsString());
+		}
+		return isCorrect;
+	}
 }

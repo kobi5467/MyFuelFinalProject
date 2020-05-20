@@ -4,7 +4,7 @@ public class FuelCompany {
 
 	private String companyId;
 	private String companyName;
-	
+
 	public FuelCompany(String companyId, String companyName) {
 		super();
 		this.companyId = companyId;
@@ -29,8 +29,7 @@ public class FuelCompany {
 
 	@Override
 	public String toString() {
-		return "FuelCompany [companyId=" + companyId + ", companyName="
-				+ companyName + "]";
+		return "FuelCompany [companyId=" + companyId + ", companyName=" + companyName + "]";
 	}
-	
+
 }

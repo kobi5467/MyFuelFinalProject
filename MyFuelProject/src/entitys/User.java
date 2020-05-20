@@ -95,5 +95,4 @@ public class User {
 				+ ", name=" + name + ", email=" + email + ", phoneNumber=" + phoneNumber + ", lastLoginTime="
 				+ lastLoginTime + ", isLogin=" + isLogin + "]";
 	}	
-	
 }

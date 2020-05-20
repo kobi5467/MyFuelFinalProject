@@ -1,7 +1,5 @@
 package entitys;
 
-import java.util.ArrayList;
-
 public class FuelInventory {
 
 	private FuelStation fuelStation;
@@ -10,8 +8,7 @@ public class FuelInventory {
 	private float thresholdAmount;
 	private float maxFuelAmount;
 
-	public FuelInventory(FuelStation fuelStation, Fuel fuel, float currentFuelAmount, float thresholdAmount,
-			float maxFuelAmount) {
+	public FuelInventory(FuelStation fuelStation, Fuel fuel, float currentFuelAmount, float thresholdAmount, float maxFuelAmount) {
 		this.fuelStation = fuelStation;
 		this.fuel = fuel;
 		this.currentFuelAmount = currentFuelAmount;

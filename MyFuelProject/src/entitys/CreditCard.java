@@ -6,9 +6,8 @@ public class CreditCard {
 	private String cardNumber;
 	private String validationDate;
 	private int cvvNumber;
-	
-	public CreditCard(String cardOnwerId, String cardNumber,
-			String validationDate, int cvvNumber) {
+
+	public CreditCard(String cardOnwerId, String cardNumber, String validationDate, int cvvNumber) {
 		super();
 		this.cardOnwerId = cardOnwerId;
 		this.cardNumber = cardNumber;
@@ -50,10 +49,8 @@ public class CreditCard {
 
 	@Override
 	public String toString() {
-		return "CreditCard [cardOnwerId=" + cardOnwerId + ", cardNumber="
-				+ cardNumber + ", validationDate=" + validationDate
-				+ ", cvvNumber=" + cvvNumber + "]";
+		return "CreditCard [cardOnwerId=" + cardOnwerId + ", cardNumber=" + cardNumber + ", validationDate="
+				+ validationDate + ", cvvNumber=" + cvvNumber + "]";
 	}
-	
-	
+
 }

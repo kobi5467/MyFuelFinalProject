@@ -1,6 +1,11 @@
 package client.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
 import client.gui.LoginController;
+import client.gui.MainFormController;
+import entitys.Message;
 import javafx.event.EventHandler;
 import javafx.event.WeakEventHandler;
 import javafx.scene.Node;
@@ -20,10 +25,15 @@ public class ObjectContainer {
 	// **************************************** 	   controllers 		****************************************
 	
 	public static LoginController loginController;
+	public static MainFormController mainFormController;
 	
 	
 	
 	// ****************************************     global variables 	****************************************
+	
+	public static Message currentMessageFromServer;
+	
+	// ****************************************     global methods  	****************************************
 	
 
 	
