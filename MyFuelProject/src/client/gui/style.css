@@ -1,4 +1,13 @@
 
+/************************* CLOSE AND MINIMIZE BUTTONS **********************/
+/* Transparent buttons !! */
+#btnExit , #btnMinimize{
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
 /*************************     LOGIN PANE        ***************************/
 
 #mainLoginPane, #imgLoginBackground{

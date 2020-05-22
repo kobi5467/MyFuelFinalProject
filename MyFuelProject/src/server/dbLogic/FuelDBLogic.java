@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import entitys.Fuel;
 import entitys.enums.FuelType;
-import server.dbLogic.DBConnector;
 
 public class FuelDBLogic {
 	
@@ -56,7 +55,7 @@ public class FuelDBLogic {
 					float maxPricePerLitter = rs.getFloat("maxPricePerLitter");
 					
 					
-					fuel = new Fuel(FuelType.stringToEnumVal(fuelType),pricePerLitter,maxPricePerLitter);
+					fuel = new Fuel(FuelType.stringToEnumVal(fuelType) ,pricePerLitter,maxPricePerLitter);
 				}
 			}else {
 				System.out.println("Conn is null");

@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.51" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.MainFormController">
+<Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.MainFormController">
    <children>
       <ImageView fx:id="imgBackgroundMain" fitHeight="800.0" fitWidth="1200.0" pickOnBounds="true">
          <image>
@@ -36,8 +36,8 @@
                         <Font name="System Bold" size="69.0" />
                      </font>
                   </Label>
-                  <Button fx:id="btnExit" layoutX="913.0" layoutY="10.0" mnemonicParsing="false" onAction="#onExitWindow" text="X" />
-                  <Button fx:id="btnMinimize" layoutX="879.0" layoutY="10.0" mnemonicParsing="false" onAction="#onMinimize" text="--" />
+                  <Button fx:id="btnExit" layoutX="913.0" layoutY="10.0" mnemonicParsing="false" onAction="#onExitWindow" prefHeight="25.0" prefWidth="25.0" />
+                  <Button fx:id="btnMinimize" layoutX="879.0" layoutY="10.0" mnemonicParsing="false" onAction="#onMinimize" prefHeight="25.0" prefWidth="25.0" />
                </children>
             </Pane>
             <Pane fx:id="logoPane" prefHeight="200.0" prefWidth="200.0">

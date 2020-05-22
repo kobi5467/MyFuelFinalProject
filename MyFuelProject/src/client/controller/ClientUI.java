@@ -21,4 +21,9 @@ public class ClientUI extends Application{
 		ObjectContainer.loginController = new LoginController();
 		ObjectContainer.loginController.start(primaryStage);
 	}
+	
+	public static void accept(Object msg) {
+		clientController.handleMessageFromClient(msg);
+	}
+	
 }

@@ -28,9 +28,17 @@ public class ObjectContainer {
 	
 	// **************************************** 	   pane controllers	****************************************
 	
-	public static DeterminingFuelRatesController determiningFuelRatesController;
+	// MARKETING REPRESENTATIVE
 	public static CustomerRegistrationController customerRegistrationController;
 	
+	// MARKETING MANAGER
+	public static DeterminingFuelRatesController determiningFuelRatesController;
+	
+	// CUSTOMER
+	
+	// STATION MANAGER
+
+	// SUPPLIER
 	
 	
 	// ****************************************     global variables 	****************************************
@@ -39,7 +47,17 @@ public class ObjectContainer {
 	
 	// ****************************************     global methods  	****************************************
 	
-
+	public static boolean checkIfStringContainsOnlyNumbers(String val) {
+		boolean flag = true;
+		for (int i = 0; i < val.length(); i++) {
+			if (!Character.isDigit(val.charAt(i))) {
+				flag = false;
+				break;
+			}
+		}
+		return flag;
+	}
+	
 	
 	// **************************************** Allow to drag the window **************************************** 
 	

@@ -124,7 +124,6 @@ public class MainFormController {
 
 	@FXML
 	public void initialize() {
-
 	    Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {        
 	    	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");  
 			LocalDateTime now = LocalDateTime.now();  
@@ -199,6 +198,7 @@ public class MainFormController {
 	}
 	
 	private void setPane(String title) {
+		changePane.getChildren().clear();
 		if(title.equals("CustomerRegistration")) {
 			if(ObjectContainer.customerRegistrationController == null) {
 				ObjectContainer.customerRegistrationController = new CustomerRegistrationController();
@@ -226,10 +226,10 @@ public class MainFormController {
 		menuButtons[index].setBackground(background);
 	}
 		
-	public void setUserDetails(User user) {
-		lblUsername.setText(user.getName());
-		String userPermission = user.getUserPermission().equals(UserPermission.CUSTOMER) ? "" : user.getUserPermission().toString();
-		lblEmploeeRole.setText(userPermission);
+	public void setUserDetails() {
+//		lblUsername.setText(user.getName());
+//		String userPermission = user.getUserPermission().equals(UserPermission.CUSTOMER) ? "" : user.getUserPermission().toString();
+//		lblEmploeeRole.setText(userPermission);
 	}
 
 }

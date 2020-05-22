@@ -2,27 +2,30 @@ package client.gui;
 
 import java.io.IOException;
 
+import com.google.gson.JsonObject;
+
+import client.controller.ClientUI;
 import client.controller.ObjectContainer;
+import entitys.Message;
+import entitys.User;
+import entitys.enums.MessageType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.input.InputMethodEvent;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class CustomerRegistrationController {
 
-	// ************************************************Main**********************************************
 	@FXML
 	private Pane mainRegistrationPane;
 
-	// ************************************************Stage 1*******************************************
+	/******************************* STAGE 1 *******************************/
 	@FXML
 	private Pane stageOne;
 
@@ -30,7 +33,7 @@ public class CustomerRegistrationController {
 	private TextField txtUsername;
 
 	@FXML
-	private TextField txtPassword;
+	private PasswordField txtPassword;
 
 	@FXML
 	private TextField txtCustomerID;
@@ -51,9 +54,6 @@ public class CustomerRegistrationController {
 	private TextField txtStreet;
 
 	@FXML
-	private Button btnNext1;
-
-	@FXML
 	private Label lblUserNameError;
 
 	@FXML
@@ -71,18 +71,19 @@ public class CustomerRegistrationController {
 	@FXML
 	private Label lblCustomerNameError;
 
-	// ************************************************Stage 2*******************************************
+	@FXML
+	private Button btnShowPassword;
+
+	/******************************* STAGE 2 *******************************/
+	
 	@FXML
 	private Pane stageTwo;
 
 	@FXML
-	private Button btnPlus;
+	private ChoiceBox<String> choicePurchase;
 
 	@FXML
-	private ChoiceBox<?> choicePurchase;
-
-	@FXML
-	private ChoiceBox<?> choicePayment;
+	private ChoiceBox<String> choicePayment;
 
 	@FXML
 	private TextField txtCardNumber;
@@ -97,204 +98,268 @@ public class CustomerRegistrationController {
 	private Button btnHelp;
 
 	@FXML
-	private Button btnNext2;
-
-	@FXML
-	private Button btnBack1;
-
-	@FXML
-	private ChoiceBox<?> choiceFuelCompany;
+	private ChoiceBox<String> choiceFuelCompany;
 
 	@FXML
 	private Label lblCvvError;
+
+	@FXML
+	private Label lblCardNumberError;
+
+	@FXML
+	private Label lblDateError;
+
+	@FXML
+	private ChoiceBox<String> cbFuelCompany2;
+
+	@FXML
+	private ChoiceBox<String> cbFuelCompany3;
+
+	@FXML
+	private Button btnAddFuelCompany;
+
+	/******************************* STAGE 3 *******************************/
 	
-    @FXML
-    private Label lblCardNumberError;
-
-    @FXML
-    private Label lblDateError;
-
-	// ************************************************Stage 3*******************************************
 	@FXML
 	private Pane stageThree;
 
 	@FXML
-	private Button btnAddVehicle3;
+	private Button btnAddVehicle;
 
 	@FXML
-	private Button btnRemoveVehicle3;
+	private TextArea txtVehicleView;
 
 	@FXML
-	private Button btnRegister3;
+	private TextField txtVehicleNumber;
 
 	@FXML
-	private Button btnBack2;
+	private ChoiceBox<String> cbVehicleFulType;
 
 	@FXML
-	private TextField txtVehicleNumber3;
+	private TextField txtDeleteVehicleNumber;
 
 	@FXML
-	private TextField txtFuelType3;
+	private Button btnDeleteVehicle;
 
 	@FXML
-	private TextField textVehicleNumber3;
+	private Button btnBack;
 
 	@FXML
-	private ChoiceBox<?> choiceFuelType3;
+	private Button btnNext;
 
+	/* Local variables */
 	
-	// ************************************************************Implements*************************************************
+	private int currentStage;
+	private User user = new User();
+	
 	@FXML
-	public void start(Stage stage) {
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("CustomerRegistration.fxml"));
-		Pane root = null;
-		try {
-			root = loader.load();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		Scene scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
+	void addFuelCompanyCB(ActionEvent event) {
+
 	}
 
 	@FXML
-	void onNext1(ActionEvent event) {
-		String userName = txtUsername.getText();
-		String password = txtPassword.getText();
-		String customerID = txtCustomerID.getText();
-		String customerName = txtCustomerName.getText();
-		String email = txtEmail.getText();
-		String phoneNumber = txtPhoneNumber.getText();
-		String city = txtCity.getText();
-		String streetC = txtStreet.getText();
+	void addVehicle(ActionEvent event) {
 
-		//checkUserName(userName);
-		checkPassword(password);
-		checkCustomerID(customerID);
-		//checkCustomerName(customerName);
-		if(!checkEmail(email))
-			lblEmailError.setText("Invalid Email, Enter valid email");
-		checkPhoneNumber(phoneNumber);
 	}
 
-	public void checkPassword(String password) {
-		if (password.length() < 8)
-			lblPasswordError.setText("Enter 8 or more char/digits");
-	}
-	
-	public void checkCustomerID(String customerID) {
-		if (customerID.length() != 9)
-			lblIDError.setText("Invalid ID, Enter valid ID");
-	}
-	
-	public boolean checkEmail(String email) {
-		boolean flag = false;
-		for(int i=0; i<email.length(); i++) {
-			if(email.charAt(i) == '@')
-				flag = true;
-		}
-		return flag;
-	}
-	
-	public void checkPhoneNumber(String phoneNumber) {
-		if (phoneNumber.length() != 10)
-			lblPhoneError.setText("Invalid Phone Number, Enter valid Phone Number");
-	}
-
-	
-	
-	// ************************************************************Stage 2*************************************************
 	@FXML
-	void onNext2(ActionEvent event) {
-		// Add all choice models
-		String cardNubmerC = txtCardNumber.getText();
-		String cvvC = txtCVV.getText();
-		String dateValidationC = txtDateValidation.getText();
-
-		if(!checkCardNumber(cardNubmerC))
-			lblCardNumberError.setText("Iilegal Card Number, try again");
-		checkCVV(cvvC);
-		if(!checkDateValidition(dateValidationC))
-			lblDateError.setText("Press Date Like that - mm:yy");
-	}
-
-	public void initUI() {
-		// showCreditCardFields(false);
-		// showOptionOfCreditCardChoiseBox();
-	}
-
-	/*
-	 * public void showOptionOfCreditCardChoiseBox() {
-	 * cbPaymentMethod.getItems().add("Choose type");
-	 * cbPaymentMethod.getItems().add("Cash");
-	 * cbPaymentMethod.getItems().add("Credit Card"); //
-	 * cbPaymentMethod.setValue(cbPaymentMethod.getItems().get(0)); }
-	 */
-	private void showCreditCardFields(boolean flag) {
-		txtCardNumber.setVisible(flag);
-		txtCVV.setVisible(flag);
-		txtDateValidation.setVisible(flag);
+	void deleteVehicle(ActionEvent event) {
 
 	}
 
-	public boolean checkCardNumber(String cardNumberC) {
-		boolean flag = true;
-		if (cardNumberC.length() < 8 || cardNumberC.length() > 16) {
-			return !flag;
-		} else {
-			for (int i = 0; i < cardNumberC.length(); i++) {
-				if (cardNumberC.charAt(i) < '0' || cardNumberC.charAt(i) > '9') {
-					flag = false;
-					break;
-				}
+	@FXML
+	void onBack(ActionEvent event) {
+		//
+		changeStage(-1);
+	}
+
+	@FXML
+	void onNext(ActionEvent event) {
+		boolean isValid = false;
+		switch (currentStage) {
+		case 1:
+			isValid = checkInputValidationStageOne();
+			if(isValid) {
+				changeStage(1);
 			}
+			break;
+		default:
+			break;
 		}
-		return flag;
+	}
+	
+	private boolean checkInputValidationStageOne() {
+		initErrorLabels();
+		boolean isValid = true;
+		isValid = checkUserName(txtUsername.getText().trim()) && isValid;
+		isValid = checkPassword(txtPassword.getText().trim()) && isValid;
+		isValid = checkCustomerID(txtCustomerID.getText().trim()) && isValid;
+		isValid = checkCustomerName(txtCustomerName.getText().trim()) && isValid;
+		isValid = checkEmail(txtEmail.getText().trim()) && isValid;
+		isValid = checkPhoneNumber(txtPhoneNumber.getText().trim()) && isValid;
+		return isValid;
 	}
 
-	public void checkCVV(String cvvC) {
-		int cvvInt = Integer.parseInt(cvvC);
-		if (cvvInt < 100 || cvvInt > 999)
-			lblCvvError.setText("Only 3 digits numbers");
+	private boolean checkUserName(String userName) {
+		String errorMessage = "";
+		if (userName.isEmpty()) {
+			errorMessage = "Please fill field..";
+		} else if (userIsAlreadyExist(userName)) {
+			errorMessage = "This user name is already exist";
+		} else {
+			return true;
+		}
+		lblUserNameError.setText(errorMessage);
+		return false;
 	}
 
-	public boolean checkDateValidition(String dateValidationC) {
-		if (dateValidationC.length() != 5)
-			return false;
-		if(dateValidationC.charAt(2) != ':')
-			return false;
-		return true;
+	private boolean userIsAlreadyExist(String userName) {
+		JsonObject json = new JsonObject();
+		json.addProperty("userName", userName);
+		Message message = new Message(MessageType.CHECK_IF_USER_EXIST,json.toString());
+		ClientUI.accept(message);
+		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
+		return response.get("isExist").getAsBoolean();
+	}
+
+	private boolean checkPassword(String password) {
+		String errorMessage = "";
+		if (password.isEmpty()) {
+			errorMessage = "please fill field..";
+		} else if(password.length() < 6) {
+			errorMessage = "password must contain at least 6 letters";
+		}else {
+			return true;
+		}
+		lblPasswordError.setText(errorMessage);
+		return false;
+	}
+
+	private boolean checkCustomerID(String customerID) {
+		String errorMessage = "";
+		if (customerID.isEmpty()) {
+			errorMessage = "please fill field..";
+		} else if (customerIsExist(customerID)) {
+			errorMessage = "customer ID is already exist";
+		} else {
+			return true;
+		}
+		lblIDError.setText(errorMessage);
+		return false;
+	}
+
+	private boolean customerIsExist(String customerID) {
+		// TODO - add here check in DB.
+		return false;
+	}
+
+	private boolean checkCustomerName(String customerName) {
+		String errorMessage = "";
+		if (customerName.isEmpty()) {
+			errorMessage = "please fill field..";
+		} else {
+			return true;
+		}
+		lblCustomerNameError.setText(errorMessage);
+		return false;
+	}
+
+	private boolean checkEmail(String email) {
+		String errorMessage = "";
+		if (email.isEmpty()) {
+			errorMessage = "please fill field..";
+		} else {
+			return true;
+		}
+		lblEmailError.setText(errorMessage);
+		return false;
+	}
+
+	private boolean checkPhoneNumber(String phoneNumber) {
+		String errorMessage = "";
+		if (phoneNumber.isEmpty()) {
+			errorMessage = "please fill field..";
+		} else if ((phoneNumber.length() != 10 || !ObjectContainer.checkIfStringContainsOnlyNumbers(phoneNumber))) {
+			errorMessage = "Invalid input.. ";
+		} else {
+			return true;
+		}
+		lblPhoneError.setText(errorMessage);
+		return false;
+	}
+	
+	private void changeStage(int op) {
+		
+		currentStage = currentStage + op;
+		switch (currentStage) {
+		case 1:
+			stageOne.setVisible(true);
+			stageTwo.setVisible(false);
+			stageThree.setVisible(false);
+			btnBack.setVisible(false);
+			btnNext.setText("Next");
+			break;
+		case 2:
+			stageOne.setVisible(false);
+			stageTwo.setVisible(true);
+			stageThree.setVisible(false);
+			btnBack.setVisible(true);
+			btnNext.setText("Next");
+			break;
+		case 3:
+			stageOne.setVisible(false);
+			stageTwo.setVisible(false);
+			stageThree.setVisible(true);
+			btnBack.setVisible(true);
+			btnNext.setText("Submit");
+			break;
+		default:
+			currentStage = currentStage - op;
+			changeStage(0);
+			break;
+		}
+		
+		
 	}
 
 	@FXML
-	void checkPaymentMethod(InputMethodEvent event) {
+	void onShowPassword(ActionEvent event) {
 
 	}
 
-	void onNext3(ActionEvent event) {
-		// Add all choice models
-		String vehicleNumber = txtVehicleNumber3.getText();
-		String fuelType = txtFuelType3.getText();
-
-	}
-
-	public Pane getMainPane() {
-		return mainRegistrationPane;
-	}
-
-	public void load(Pane pane) {
+	public void load(Pane changePane) { // load pane to change pane.
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("CustomerRegistrationForm.fxml"));
 
 		try {
 			mainRegistrationPane = loader.load();
-			pane.getChildren().add(mainRegistrationPane);
+			changePane.getChildren().add(mainRegistrationPane);
 			ObjectContainer.customerRegistrationController = loader.getController();
+			ObjectContainer.customerRegistrationController.initUI();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
+	private void initUI() {
+		currentStage = 1;
+		initErrorLabels();
+		btnBack.setVisible(false);
+	}
+	
+	private void initErrorLabels() {
+		//stage 1
+		lblUserNameError.setText("");
+		lblPasswordError.setText("");
+		lblIDError.setText("");
+		lblCustomerNameError.setText("");
+		lblEmailError.setText("");
+		lblPhoneError.setText("");
+		//stage 2
+		lblCardNumberError.setText("");
+		lblCvvError.setText("");
+		lblDateError.setText("");
+	}
+	
+	
 }

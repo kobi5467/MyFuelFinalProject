@@ -78,7 +78,6 @@ public class LoginController {
     	}else {
     		boolean isValid = checkIfFieldsAreCorrect(userName, password);
     		if(isValid) {
-    			System.out.println("Success !!");
     			MoveToHomeForm();
     		}else {
     			errorMessage = "user name or password are incorrect..";
@@ -128,7 +127,7 @@ public class LoginController {
 		json.addProperty("password", password);
 		
 		Message msg = new Message(MessageType.CHECK_LOGIN,json.toString());
-		ClientUI.clientController.handleMessageFromClient(msg);
+		ClientUI.accept(msg);
 		
 		Message response = ObjectContainer.currentMessageFromServer;
 		JsonObject responseJson = response.getMessageAsJsonObject();

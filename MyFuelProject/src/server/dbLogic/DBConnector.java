@@ -13,10 +13,11 @@ public class DBConnector {
 	private String password = "KJB5:jUM8m+fsc8V";
 	
 	public UserDBController userDBController;
-	
+	public FuelDBLogic fuelDBLogic;
 	public DBConnector() {
 		createConnection();
 		userDBController = new UserDBController();
+		fuelDBLogic = new FuelDBLogic();
 	}
 	
 	private void createConnection() {
