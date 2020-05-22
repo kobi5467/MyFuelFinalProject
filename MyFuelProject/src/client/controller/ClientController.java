@@ -13,6 +13,12 @@ public class ClientController extends AbstractClient {
 		super(host, port);
 	}
 
+	
+	
+	
+	
+	
+	
 	@Override
 	protected void handleMessageFromServer(Object msg) {
 		waitingForResponse = false;
