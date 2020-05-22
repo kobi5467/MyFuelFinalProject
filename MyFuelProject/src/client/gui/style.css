@@ -1,3 +1,6 @@
+
+/*************************     LOGIN PANE        ***************************/
+
 #mainLoginPane, #imgLoginBackground{
 	-fx-background-radius:15px;
 	-fx-border-color:#ffffff;
@@ -38,18 +41,33 @@
 	-fx-border-radius:15px;	
 }
 
-#mainPane{
-	-fx-background-color:linear-gradient(to left, #02b6de, #024079);
-}
+/*************************     MAIN PANE        ***************************/
 
 #lblMainTitle{
 	-fx-text-style:bold;
 	-fx-text-fill:#ffffff;
 }
 
-#buttonContainer{
-	-fx-border-color:#ffffff;
+#lblUsername, #lblEmploeeRole , #lblMainTitle{
+	-fx-text-fill:#ffffff;
+	-fx-alignment:center;
+	-fx-font-weight: bold;
 }
-#titlePane{
-	-fx-border-color:#ffffff;
+
+#lblUsername{
+	-fx-font-size: 20pt;
 }
+#lblEmploeeRole{
+	-fx-font-size: 14pt;
+}
+#lblMainTitle{
+	-fx-font-size: 60pt;
+}
+#lblDateTime{
+	-fx-font-size: 10pt;
+	-fx-text-fill:#ffffff;
+	-fx-alignment:center;
+	-fx-font-weight: bold;
+}
+
+/*************************     Customer Panesc        ***************************/

@@ -91,6 +91,7 @@ public class LoginController {
     	if(ObjectContainer.mainFormController == null) {
     		ObjectContainer.mainFormController = new MainFormController();
     	}
+    	initUI();
     	ObjectContainer.mainFormController.start(userPermission);
 	}
 
@@ -98,28 +99,25 @@ public class LoginController {
     void onMinimize(ActionEvent event) {
     	ObjectContainer.loginStage.setIconified(true);
     }
-
-    public Pane getMainPane() {
-    	return mainLoginPane;
-    }
     
 	public void start(Stage primaryStage) throws IOException {
 		FXMLLoader loader = new  FXMLLoader();
     	loader.setLocation(getClass().getResource("LoginForm.fxml"));
     	
-    	Pane root = loader.load();
+    	mainLoginPane = loader.load();
 		ObjectContainer.loginController = loader.getController();
 		ObjectContainer.loginController.initUI();
-		Pane p = ObjectContainer.loginController.getMainPane();
-		ObjectContainer.allowDrag(p, ObjectContainer.loginStage);
+		ObjectContainer.allowDrag(mainLoginPane, ObjectContainer.loginStage);
 		
-		Scene scene = new Scene(root);
+		Scene scene = new Scene(mainLoginPane);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
 	
 	private void initUI() {
 		lblErrorMessage.setText("");
+		txtUsername.setText("");
+		txtPassword.setText("");
 	}
 
 	public boolean checkIfFieldsAreCorrect(String userName, String password) {

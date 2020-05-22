@@ -1,8 +1,7 @@
 package client.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
+import client.gui.CustomerRegistrationController;
+import client.gui.DeterminingFuelRatesController;
 import client.gui.LoginController;
 import client.gui.MainFormController;
 import entitys.Message;
@@ -26,6 +25,11 @@ public class ObjectContainer {
 	
 	public static LoginController loginController;
 	public static MainFormController mainFormController;
+	
+	// **************************************** 	   pane controllers	****************************************
+	
+	public static DeterminingFuelRatesController determiningFuelRatesController;
+	public static CustomerRegistrationController customerRegistrationController;
 	
 	
 	

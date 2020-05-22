@@ -9,22 +9,6 @@ public enum UserPermission {
 	STATION_MANAGER,
 	SUPPLIER;
 	
-	public ArrayList<String> getButtonNames(UserPermission userPermission) {
-		ArrayList<String> buttonNames = new ArrayList<>();
-		buttonNames.add("Home");
-		
-		switch(userPermission) {
-		case CUSTOMER:{
-			buttonNames.add("");
-			buttonNames.add("");
-		}break;
-		
-		
-		}
-		
-		return buttonNames;
-	}
-
 	public static UserPermission stringToEnumVal(String permission) {
 		if(permission == null || permission.trim().equals("")) {
 			return null;

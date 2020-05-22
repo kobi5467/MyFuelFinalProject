@@ -56,7 +56,7 @@ public class DBTester {
 		carArray.add(car2);
 		user.add("carArray", carArray);
 		
-		System.out.println(user.get("password").getAsString());
+		System.out.println(user.toString());
 //		JsonArray array = new JsonArray();
 //		
 //		Point p = test.new Point(1, 2);
