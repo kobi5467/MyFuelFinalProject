@@ -14,10 +14,13 @@ public class DBConnector {
 	
 	public UserDBController userDBController;
 	public FuelDBLogic fuelDBLogic;
+	public CustomerDBLogic customerDBLogic;
+	
 	public DBConnector() {
 		createConnection();
 		userDBController = new UserDBController();
 		fuelDBLogic = new FuelDBLogic();
+		customerDBLogic = new CustomerDBLogic();
 	}
 	
 	private void createConnection() {

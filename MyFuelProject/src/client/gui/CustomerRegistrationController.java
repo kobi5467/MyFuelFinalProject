@@ -249,8 +249,12 @@ public class CustomerRegistrationController {
 	}
 
 	private boolean customerIsExist(String customerID) {
-		// TODO - add here check in DB.
-		return false;
+		JsonObject json = new JsonObject();
+		json.addProperty("customerID", customerID);
+		Message message = new Message(MessageType.CHECK_IF_CUSTOMER_EXIST,json.toString());
+		ClientUI.accept(message);
+		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
+		return response.get("isExist").getAsBoolean();
 	}
 
 	private boolean checkCustomerName(String customerName) {
