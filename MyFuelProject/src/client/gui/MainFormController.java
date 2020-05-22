@@ -185,16 +185,17 @@ public class MainFormController {
 	}
 	
 	protected void setInnerPaneByButtonClicked(Button btnCurrent, ArrayList<String> buttonNames) {
+		String title = "";
 		for(int i = 0; i < menuButtons.length;i++) {
 			if(btnCurrent.equals(menuButtons[i])) {
-				String title = buttonNames.get(i);
+				title = buttonNames.get(i);
 				setButtonImage(title,i,true);
 				lblMainTitle.setText(fixTitle(title));
-				setPane(title);
 			}else {
 				setButtonImage(buttonNames.get(i),i,false);
 			}
 		}
+		setPane(title);
 	}
 	
 	private void setPane(String title) {
@@ -206,8 +207,6 @@ public class MainFormController {
 		}
 	}
 	
-	
-
 	public String fixTitle(String title) {
 		String fixedTitle = ""+title.charAt(0);
 		for (int i = 1; i < title.length(); i++) {
