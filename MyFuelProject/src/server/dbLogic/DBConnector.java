@@ -15,12 +15,15 @@ public class DBConnector {
 	public UserDBController userDBController;
 	public FuelDBLogic fuelDBLogic;
 	public CustomerDBLogic customerDBLogic;
+	public PurchaseModelDBLogic purchaseModelDBLogic;
+	
 	
 	public DBConnector() {
 		createConnection();
 		userDBController = new UserDBController();
 		fuelDBLogic = new FuelDBLogic();
 		customerDBLogic = new CustomerDBLogic();
+		purchaseModelDBLogic = new PurchaseModelDBLogic();
 	}
 	
 	private void createConnection() {

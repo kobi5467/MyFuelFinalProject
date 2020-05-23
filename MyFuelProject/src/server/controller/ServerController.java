@@ -3,6 +3,7 @@ package server.controller;
 import java.io.IOException;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import entitys.Fuel;
@@ -61,12 +62,13 @@ public class ServerController extends AbstractServer {
 		JsonObject responseJson = new JsonObject();
 		switch (msg.getMessageType()) {
 		case GET_PURCHASE_MODELS:{
-			
+			JsonArray types = dbConnector.purchaseModelDBLogic.getPurchaseModelsTypes();
+			responseJson.add("purchaseModelTypes",types);
 		}break;
 		default:
 			break;
 		}
-		messageFromServer = new Message(MessageType.LOGIN_RESPONSE, responseJson.toString());
+		messageFromServer = new Message(MessageType.SERVER_RESPONSE, responseJson.toString());
 		return messageFromServer;
 	}
 

@@ -3,6 +3,7 @@ package client.gui;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import client.controller.ClientUI;
@@ -379,7 +380,6 @@ public class CustomerRegistrationController {
 		initErrorLabels();
 		initChoiceBoxes();
 		
-		
 	}
 	
 	private void initChoiceBoxes() {
@@ -394,6 +394,16 @@ public class CustomerRegistrationController {
 	private void initPurchaseModels() {
 		Message msg = new Message(MessageType.GET_PURCHASE_MODELS, "");
 		ClientUI.accept(msg);
+		
+		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
+		JsonArray types = response.get("purchaseModelTypes").getAsJsonArray();
+		
+		choicePurchase.getItems().clear();
+		choicePurchase.getItems().add("Choose purchase model");
+		for(int i = 0; i < types.size();i++) {
+			choicePurchase.getItems().add(types.get(i).getAsString());	
+		}
+		choicePurchase.setValue(choicePurchase.getItems().get(0));
 		
 	}
 
