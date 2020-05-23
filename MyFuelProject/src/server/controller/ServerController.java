@@ -35,6 +35,10 @@ public class ServerController extends AbstractServer {
 			case GET_FUEL_BY_TYPE:
 				messageFromServer = handleMarketingManagerMessage(message);
 				break;
+			
+			case GET_PURCHASE_MODELS:
+				messageFromServer = handlePurchaseModelsMessage(message);
+				break;
 				
 			case CHECK_IF_CUSTOMER_EXIST:{
 				messageFromServer = handleCustomerMessage(message);
@@ -49,6 +53,21 @@ public class ServerController extends AbstractServer {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private Message handlePurchaseModelsMessage(Message msg) {
+		Message messageFromServer = null;
+		JsonObject requestJson = msg.getMessageAsJsonObject();
+		JsonObject responseJson = new JsonObject();
+		switch (msg.getMessageType()) {
+		case GET_PURCHASE_MODELS:{
+			
+		}break;
+		default:
+			break;
+		}
+		messageFromServer = new Message(MessageType.LOGIN_RESPONSE, responseJson.toString());
+		return messageFromServer;
 	}
 
 	private Message handleCustomerMessage(Message msg) {

@@ -14,6 +14,9 @@ public enum MessageType {
 	// MARKETING MANAGER
 	GET_FUEL_BY_TYPE,
 	
+	GET_PURCHASE_MODELS,
+	
+	
 	// ************************** server messages **************************
 	//LOGIN
 	LOGIN_RESPONSE,	// can return null if the user doesn't exist or return the user.

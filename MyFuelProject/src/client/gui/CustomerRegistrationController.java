@@ -1,13 +1,14 @@
 package client.gui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import com.google.gson.JsonObject;
 
 import client.controller.ClientUI;
 import client.controller.ObjectContainer;
+import entitys.Customer;
 import entitys.Message;
-import entitys.User;
 import entitys.enums.MessageType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -150,7 +151,7 @@ public class CustomerRegistrationController {
 	/* Local variables */
 	
 	private int currentStage;
-	private User user = new User();
+	private Customer customer;
 	
 	@FXML
 	void addFuelCompanyCB(ActionEvent event) {
@@ -178,20 +179,45 @@ public class CustomerRegistrationController {
 		boolean isValid = false;
 		switch (currentStage) {
 		case 1:
+			// next1
 			isValid = checkInputValidationStageOne();
+			isValid = true;	//DELETE THIS !!
 			if(isValid) {
 				changeStage(1);
 			}
 			break;
+		case 2:
+			//next2
+			
+			break;
+			
+		case 3:
+			//submit
+			break;
+		
+		
 		default:
 			break;
 		}
+		
+		
 	}
 	
+	private void updateObjectDetails() {
+		customer.setUsername(txtUsername.getText());
+		customer.setPassword(txtPassword.getText());
+		customer.setName(txtCustomerName.getText());
+		customer.setEmail(txtEmail.getText());
+		customer.setPhoneNumber(txtPhoneNumber.getText());
+		customer.setCity(txtCity.getText());
+		customer.setStreet(txtStreet.getText());
+		customer.setCustomerId(txtCustomerID.getText());
+	}
+
 	private boolean checkInputValidationStageOne() {
 		initErrorLabels();
 		boolean isValid = true;
-		isValid = checkUserName(txtUsername.getText().trim()) && isValid;
+		isValid = checkUserName(txtUsername.getText().trim());
 		isValid = checkPassword(txtPassword.getText().trim()) && isValid;
 		isValid = checkCustomerID(txtCustomerID.getText().trim()) && isValid;
 		isValid = checkCustomerName(txtCustomerName.getText().trim()) && isValid;
@@ -346,11 +372,31 @@ public class CustomerRegistrationController {
 	}
 
 	private void initUI() {
+		customer = new Customer();
+		
 		currentStage = 1;
+		changeStage(0);
 		initErrorLabels();
-		btnBack.setVisible(false);
+		initChoiceBoxes();
+		
+		
 	}
 	
+	private void initChoiceBoxes() {
+		initPurchaseModels();
+		ArrayList<String> fuelCompanies = getAllFuelCompanies();
+	}
+
+	private ArrayList<String> getAllFuelCompanies() {
+		return null;
+	}
+
+	private void initPurchaseModels() {
+		Message msg = new Message(MessageType.GET_PURCHASE_MODELS, "");
+		ClientUI.accept(msg);
+		
+	}
+
 	private void initErrorLabels() {
 		//stage 1
 		lblUserNameError.setText("");
