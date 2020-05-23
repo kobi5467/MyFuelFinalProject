@@ -27,14 +27,7 @@ public class DBTester {
 		
 		DBTester test = new DBTester();
 		DBConnector db = new DBConnector();
-				
-		System.out.println("Customer Exist ? -> " + db.customerDBLogic.checkIfCustomerExist("312239197"));
-		System.out.println("Customer Exist ? -> " + db.customerDBLogic.checkIfCustomerExist("123456789"));
-		
-		//		System.out.println("User exist ? -> " + db.userDBController.checkLogin(json));
-//		System.out.println("UserPermission = " + db.userDBController.getUserPermission(json.get("userName").getAsString()));
-//		System.out.println("IsExist ? -> " + db.userDBController.checkIfUsernameExist(json.get("userName").getAsString()));
-//		System.out.println("IsExist ? -> " + db.userDBController.checkIfUsernameExist("blabla"));
+
 	}
 
 	

@@ -15,7 +15,8 @@ public enum MessageType {
 	GET_FUEL_BY_TYPE,
 	
 	GET_PURCHASE_MODELS,
-	
+	GET_FUEL_COMPANIES_NAMES,
+	GET_CUSTOMER_TYPES,
 	
 	// ************************** server messages **************************
 	//LOGIN

@@ -36,15 +36,17 @@ public class ServerController extends AbstractServer {
 			case GET_FUEL_BY_TYPE:
 				messageFromServer = handleMarketingManagerMessage(message);
 				break;
-			
+			case GET_FUEL_COMPANIES_NAMES:
+				messageFromServer = handleFuelMessage(message);
+				break;
 			case GET_PURCHASE_MODELS:
 				messageFromServer = handlePurchaseModelsMessage(message);
 				break;
-				
-			case CHECK_IF_CUSTOMER_EXIST:{
+
+			case CHECK_IF_CUSTOMER_EXIST:
+			case GET_CUSTOMER_TYPES:
 				messageFromServer = handleCustomerMessage(message);
 				break;
-			}
 			default:
 				messageFromServer = new Message(MessageType.ERROR_TYPE_IS_UNSET, null);
 				break;
@@ -56,15 +58,33 @@ public class ServerController extends AbstractServer {
 		}
 	}
 
+	private Message handleFuelMessage(Message msg) {
+		Message messageFromServer = null;
+		JsonObject requestJson = msg.getMessageAsJsonObject();
+		JsonObject responseJson = new JsonObject();
+		switch (msg.getMessageType()) {
+		case GET_FUEL_COMPANIES_NAMES: {
+			JsonArray types = dbConnector.fuelDBLogic.getFuelCompanyNames();
+			responseJson.add("fuelCompanies", types);
+		}
+			break;
+		default:
+			break;
+		}
+		messageFromServer = new Message(MessageType.SERVER_RESPONSE, responseJson.toString());
+		return messageFromServer;
+	}
+
 	private Message handlePurchaseModelsMessage(Message msg) {
 		Message messageFromServer = null;
 		JsonObject requestJson = msg.getMessageAsJsonObject();
 		JsonObject responseJson = new JsonObject();
 		switch (msg.getMessageType()) {
-		case GET_PURCHASE_MODELS:{
+		case GET_PURCHASE_MODELS: {
 			JsonArray types = dbConnector.purchaseModelDBLogic.getPurchaseModelsTypes();
-			responseJson.add("purchaseModelTypes",types);
-		}break;
+			responseJson.add("purchaseModelTypes", types);
+		}
+			break;
 		default:
 			break;
 		}
@@ -77,10 +97,14 @@ public class ServerController extends AbstractServer {
 		JsonObject requestJson = msg.getMessageAsJsonObject();
 		JsonObject responseJson = new JsonObject();
 		switch (msg.getMessageType()) {
-		case CHECK_IF_CUSTOMER_EXIST:{
+		case CHECK_IF_CUSTOMER_EXIST:
 			boolean isExist = dbConnector.customerDBLogic.checkIfCustomerExist(requestJson.get("customerID").getAsString());
 			responseJson.addProperty("isExist", isExist);
-		}break;
+			break;
+		case GET_CUSTOMER_TYPES:
+			JsonArray types = dbConnector.customerDBLogic.getCustomerTypes();
+			responseJson.add("customerTypes", types);
+			break;
 		default:
 			break;
 		}
@@ -103,8 +127,9 @@ public class ServerController extends AbstractServer {
 			}
 		}
 			break;
-		case CHECK_IF_USER_EXIST:{
-			boolean isExist = dbConnector.userDBController.checkIfUsernameExist(messageJson.get("userName").getAsString());
+		case CHECK_IF_USER_EXIST: {
+			boolean isExist = dbConnector.userDBController
+					.checkIfUsernameExist(messageJson.get("userName").getAsString());
 			responseJson.addProperty("isExist", isExist);
 		}
 		default:

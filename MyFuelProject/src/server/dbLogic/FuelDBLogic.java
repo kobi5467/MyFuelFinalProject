@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import com.google.gson.JsonArray;
+
 import entitys.Fuel;
 import entitys.enums.FuelType;
 
@@ -100,31 +102,27 @@ public class FuelDBLogic {
 		
 	}
 	
-//	public boolean CompareNewPriceMaxPrice(String userName) {//compare the new price with the max price
-//		boolean newPriceallow = false;
-//		
-//		String query = "";
-//		Statement stmt = null;
-//		
-//		try {
-//			if(DBConnector.conn != null) {
-//				query = "SELECT * FROM  users "
-//					  + "WHERE userName ='" + userName + "';";
-//				stmt = DBConnector.conn.createStatement();
-//				ResultSet rs = stmt.executeQuery(query);
-//				if(rs.next()) {
-//					isExist = true;
-//				}
-//			}else {
-//				System.out.println("Conn is null");
-//			}
-//			
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}	
-//		
-//		return isExist;
-//	}
 	
-	
+	public JsonArray getFuelCompanyNames() {
+		JsonArray companyNames = new JsonArray();
+		
+		String query = "";
+
+		Statement stmt = null;
+		try {
+			if (DBConnector.conn != null) {
+				query = "SELECT * FROM fuel_company;"; 
+				stmt = DBConnector.conn.createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				while(rs.next()) {
+					companyNames.add(rs.getString("companyName"));
+				}
+			} else {
+				System.out.println("Conn is null");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return companyNames;
+	}
 }

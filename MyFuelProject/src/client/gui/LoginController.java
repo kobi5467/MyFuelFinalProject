@@ -65,6 +65,7 @@ public class LoginController {
     void onExit(ActionEvent event) {
     	//TODO - close connection from server here.
     	ObjectContainer.loginStage.close();
+    	System.exit(0);
     }
 
     @FXML
