@@ -9,6 +9,8 @@ import client.controller.ClientUI;
 import client.controller.ObjectContainer;
 import entitys.Customer;
 import entitys.Message;
+import entitys.Vehicle;
+import entitys.enums.FuelType;
 import entitys.enums.MessageType;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -19,6 +21,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -29,6 +32,7 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 public class CustomerRegistrationController {
 
@@ -191,11 +195,11 @@ public class CustomerRegistrationController {
 	private ChoiceBox<String> cbVehicleFulType;
 
 	@FXML
-	private TextField txtDeleteVehicleNumber;
+    private ScrollPane spVehicleContainer;
 
-	@FXML
-	private Button btnDeleteVehicle;
-
+    @FXML
+    private VBox vbVehicleContainer;
+	
 	@FXML
 	private Button btnBack;
 
@@ -206,7 +210,7 @@ public class CustomerRegistrationController {
 	
 	private int currentStage;
 	private Customer customer;
-	
+	private JsonArray fuelTypes;
 	@FXML
 	void addFuelCompanyCB(ActionEvent event) {
 		if(btnAddFuelCompany.getLayoutX() == 600) {
@@ -235,16 +239,6 @@ public class CustomerRegistrationController {
 	}
 
 	@FXML
-	void addVehicle(ActionEvent event) {
-
-	}
-
-	@FXML
-	void deleteVehicle(ActionEvent event) {
-
-	}
-
-	@FXML
 	void onBack(ActionEvent event) {
 		//
 		changeStage(-1);
@@ -257,6 +251,7 @@ public class CustomerRegistrationController {
 		case 1:
 			// next1
 			isValid = checkInputValidationStageOne();
+			isValid = true;
 			if(isValid) {
 				changeStage(1);
 			}
@@ -264,6 +259,7 @@ public class CustomerRegistrationController {
 		case 2:
 			//next2
 			isValid = checkInputValidationStageTwo();
+			isValid = true;
 			if(isValid)
 				changeStage(1);
 			break;
@@ -516,7 +512,34 @@ public class CustomerRegistrationController {
 		return isValid;
 	}
 	
+	@FXML
+	void addVehicle(ActionEvent event) {
+		if(checkAddVehicleFields()) {
+			//add here the vehicle to the scroll pane.
+		}
+	}
 	
+	public boolean checkAddVehicleFields() {
+		String vehicleNumber = txtVehicleNumber.getText().trim();
+		String fuelType = cbCustomerType.getValue().trim();
+		
+		if(vehicleNumber.isEmpty() || fuelType.equals(cbCustomerType.getItems().get(0)) || 
+				vehicleNumber.length() < 6) {
+			System.out.println("Invalid inputs..");
+			return false;
+		}
+		
+		JsonObject vehicle = new JsonObject();
+		vehicle.addProperty("vehicleNumber", vehicleNumber);
+		Message msg = new Message(MessageType.CHECK_IF_VEHICLE_EXIST,vehicle.toString());
+		ClientUI.accept(msg);
+		
+		boolean isExist = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject().get("isExist").getAsBoolean();
+		if(isExist) {
+			System.out.println("This vehicle are already exist..");
+		}
+		return !isExist;
+	}
 	
 	private void changeStage(int op) {
 		
@@ -598,11 +621,12 @@ public class CustomerRegistrationController {
 		Background background = new Background(backgroundImage);
 		btn.setBackground(background);
 	}
-
+	
 	private void initChoiceBoxes() {
 		initPurchaseModels();
 		initFuelCompaniesCB();
 		initCustomerTypes();
+		initFuelTypes();
 		
 		String defualtValue = "Choose payment method";
 		cbPaymentMethod.getItems().add(defualtValue);
@@ -617,6 +641,10 @@ public class CustomerRegistrationController {
 		    	  creditCardPane.setVisible(showCreditCardPane);
 		      }
 		    });
+	}
+
+	private void initFuelTypes() {
+		
 	}
 
 	public void setErrorImage(ImageView img, String url) {
@@ -691,6 +719,8 @@ public class CustomerRegistrationController {
 		    });
 	}
 
+	
+	
 	private void initErrorLabels() {
 		//stage 1
 		lblUserNameError.setText("");
@@ -709,5 +739,42 @@ public class CustomerRegistrationController {
 		lblDateError.setText("");
 	}
 	
+	class VehiclePane {
+		public Pane vehiclePane;
+		public Button btnDeleteVehicle;
+		public Label lblVehicleNumber,lblFuelType;
+		public TextField txtVehicleNumber;
+		public ChoiceBox<String> cbFuelType;
+		
+		public int width = 725;
+		public int height = 100;
+		
+		public Vehicle vehicle;
+		public VehiclePane(String vehicleNumber, FuelType fuelType, String customerID) {
+			vehicle = new Vehicle(vehicleNumber, null, fuelType, customerID);
+			vehicle.setFuel(fuelType);
+			vehicle.setVehicleNumber(vehicleNumber);
+		}
+		
+		public void initPane() {
+			vehiclePane = new Pane();
+			vehiclePane.setPrefSize(width, height);
+			
+			int dist = 10;
+			
+			lblVehicleNumber = new Label();
+			lblVehicleNumber.setMinSize(130, 50);
+			lblVehicleNumber.relocate(dist,10);
+			
+			dist += lblVehicleNumber.getMinWidth() + 20;
+			
+			txtVehicleNumber = new TextField();
+			txtVehicleNumber.setMinSize(130, 50);
+			txtVehicleNumber.relocate(dist, 10);
+			
+			
+		}
+		
+	}
 	
 }

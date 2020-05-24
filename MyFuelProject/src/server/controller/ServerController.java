@@ -45,6 +45,7 @@ public class ServerController extends AbstractServer {
 
 			case CHECK_IF_CUSTOMER_EXIST:
 			case GET_CUSTOMER_TYPES:
+			case CHECK_IF_VEHICLE_EXIST:
 				messageFromServer = handleCustomerMessage(message);
 				break;
 			default:
@@ -104,6 +105,10 @@ public class ServerController extends AbstractServer {
 		case GET_CUSTOMER_TYPES:
 			JsonArray types = dbConnector.customerDBLogic.getCustomerTypes();
 			responseJson.add("customerTypes", types);
+			break;
+		case CHECK_IF_VEHICLE_EXIST:
+			boolean vehicleIsExist = dbConnector.customerDBLogic.checkIfVehicleExist(requestJson);
+			responseJson.addProperty("isExist", vehicleIsExist);
 			break;
 		default:
 			break;

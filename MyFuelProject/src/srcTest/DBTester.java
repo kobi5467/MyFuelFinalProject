@@ -1,9 +1,9 @@
 package srcTest;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import entitys.User;
+import entitys.Fuel;
+import entitys.enums.FuelType;
 import server.dbLogic.DBConnector;
 
 public class DBTester {
@@ -27,7 +27,7 @@ public class DBTester {
 		
 		DBTester test = new DBTester();
 		DBConnector db = new DBConnector();
-
+		
 	}
 
 	

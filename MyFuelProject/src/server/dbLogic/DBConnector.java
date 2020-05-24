@@ -16,7 +16,6 @@ public class DBConnector {
 	public FuelDBLogic fuelDBLogic;
 	public CustomerDBLogic customerDBLogic;
 	public PurchaseModelDBLogic purchaseModelDBLogic;
-	public VehicleDBLogic vehicleDBLogic;
 	
 	public DBConnector() {
 		createConnection();
@@ -28,7 +27,6 @@ public class DBConnector {
 		fuelDBLogic = new FuelDBLogic();
 		customerDBLogic = new CustomerDBLogic();
 		purchaseModelDBLogic = new PurchaseModelDBLogic();
-		vehicleDBLogic = new VehicleDBLogic();
 		
 	}
 	
