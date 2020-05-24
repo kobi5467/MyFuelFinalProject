@@ -1,20 +1,21 @@
 package entitys;
 
+import entitys.enums.FuelType;
 import entitys.enums.VehicleType;
 
 public class Vehicle {
 
 	private String vehicleNumber;
 	private VehicleType vehicleType;
-	private Fuel fuel;
-	private Customer Owner;
+	private FuelType fuelType;
+	private String ownerID;
 	
-	public Vehicle(String vehicleNumber, VehicleType vehicleType, Fuel fuel,
-			Customer owner) {
+	public Vehicle(String vehicleNumber, VehicleType vehicleType, FuelType fuelType,
+			String ownerID) {
 		this.vehicleNumber = vehicleNumber;
 		this.vehicleType = vehicleType;
-		this.fuel = fuel;
-		Owner = owner;
+		this.fuelType = fuelType;
+		this.ownerID = ownerID;
 	}
 
 	public String getVehicleNumber() {
@@ -33,26 +34,26 @@ public class Vehicle {
 		this.vehicleType = vehicleType;
 	}
 
-	public Fuel getFuel() {
-		return fuel;
+	public FuelType getFuel() {
+		return fuelType;
 	}
 
-	public void setFuel(Fuel fuel) {
-		this.fuel = fuel;
+	public void setFuel(FuelType fuelType) {
+		this.fuelType = fuelType;
 	}
 
-	public Customer getOwner() {
-		return Owner;
+	public String getOwner() {
+		return ownerID;
 	}
 
-	public void setOwner(Customer owner) {
-		Owner = owner;
+	public void setOwner(String ownerID) {
+		this.ownerID = ownerID;
 	}
 
 	@Override
 	public String toString() {
 		return "Vehicle [vehicleNumber=" + vehicleNumber + ", vehicleType="
-				+ vehicleType + ", fuel=" + fuel + ", Owner=" + Owner + "]";
+				+ vehicleType + ", fuel=" + fuelType.toString() + ", ownerID=" + ownerID + "]";
 	}
 	
 	

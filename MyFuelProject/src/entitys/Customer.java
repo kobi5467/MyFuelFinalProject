@@ -15,6 +15,10 @@ public class Customer extends User {
 	private CreditCard creditCard;
 	private ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
 
+	public Customer() {
+		
+	}
+	
 	public Customer(String username, String password, UserPermission userPermission, String name, String email,
 			String phoneNumber, String customerId, String city, String street, int customerRate,
 			CustomerType customerType, PurchaseModel purchaseModel, CreditCard creditCard,

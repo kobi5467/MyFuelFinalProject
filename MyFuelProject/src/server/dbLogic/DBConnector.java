@@ -13,10 +13,23 @@ public class DBConnector {
 	private String password = "12345678";
 	
 	public UserDBController userDBController;
+	public FuelDBLogic fuelDBLogic;
+	public CustomerDBLogic customerDBLogic;
+	public PurchaseModelDBLogic purchaseModelDBLogic;
+	public VehicleDBLogic vehicleDBLogic;
 	
 	public DBConnector() {
 		createConnection();
+		initLogicObjects();
+	}
+	
+	public void initLogicObjects() {
 		userDBController = new UserDBController();
+		fuelDBLogic = new FuelDBLogic();
+		customerDBLogic = new CustomerDBLogic();
+		purchaseModelDBLogic = new PurchaseModelDBLogic();
+		vehicleDBLogic = new VehicleDBLogic();
+		
 	}
 	
 	private void createConnection() {

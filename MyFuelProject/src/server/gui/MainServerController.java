@@ -53,7 +53,7 @@ public class MainServerController {
 		ServerUI.mainServerController.initUI();
 		
 		Scene scene = new Scene(root);
-//		scene.getStylesheets().add(getClass().getResource("server.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("../../client/gui/style.css").toExternalForm());
 		primaryStage.setTitle("Server Manage");
 		primaryStage.setScene(scene);
 

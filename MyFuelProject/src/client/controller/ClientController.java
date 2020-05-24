@@ -17,14 +17,7 @@ public class ClientController extends AbstractClient {
 	protected void handleMessageFromServer(Object msg) {
 		waitingForResponse = false;
 		Message message = (Message) msg;
-		switch (message.getMessageType()) {
-		case LOGIN_RESPONSE: {
-			ObjectContainer.currentMessageFromServer = message;
-		}break;
-		
-		default:
-			break;
-		}
+		ObjectContainer.currentMessageFromServer = message;
 	}
 
 	/**

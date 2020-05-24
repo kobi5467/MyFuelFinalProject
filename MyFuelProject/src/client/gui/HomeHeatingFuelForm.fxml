@@ -9,7 +9,11 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
+<<<<<<< HEAD
 <Pane fx:id="mainPane" prefHeight="620.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.HomeHeatingFuelController">
+=======
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.51" xmlns:fx="http://javafx.com/fxml/1">
+>>>>>>> refs/remotes/origin/master
    <children>
       <Text layoutX="67.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order Details" wrappingWidth="69.78515625" />
       <Text layoutX="63.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amount:" />

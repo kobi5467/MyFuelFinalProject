@@ -15,6 +15,10 @@ public class User {
 	private long lastLoginTime;
 	private boolean isLogin;
 	
+	public User() {
+		
+	}
+	
 	public User(String username, String password, UserPermission userPermission, String name, String email,
 			String phoneNumber) {
 		this.username = username;
