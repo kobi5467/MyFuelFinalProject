@@ -10,7 +10,7 @@ public class DBConnector {
 	
 	private String url = "jdbc:mysql://localhost/myfuel?serverTimezone=IST";
 	private String username = "root";
-	private String password = "KJB5:jUM8m+fsc8V";
+	private String password = "12345678";
 	
 	public UserDBController userDBController;
 	
