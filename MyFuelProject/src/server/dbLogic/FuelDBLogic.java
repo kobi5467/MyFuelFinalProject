@@ -12,9 +12,8 @@ import entitys.enums.FuelType;
 
 public class FuelDBLogic {
 	
-	public ArrayList<String> getFuelTypes(){
-		ArrayList<String> fuelTypes = new ArrayList<>();
-		String fuelType = "";
+	public JsonArray getFuelTypes(){
+		JsonArray fuelTypes = new JsonArray();
 
 		String query = "";
 		Statement stmt = null;
@@ -24,15 +23,11 @@ public class FuelDBLogic {
 				stmt = DBConnector.conn.createStatement();
 				ResultSet rs = stmt.executeQuery(query);
 				while(rs.next()) {
-					 fuelType = rs.getString("fuelType");
-					//float maxPricePerLitter = rs.getFloat("maxPricePerLitter");
-					//fuel = new Fuel(FuelType.DIESEL,pricePerLitter,maxPricePerLitter);
-					 fuelTypes.add(fuelType);
+					 fuelTypes.add(rs.getString("fuelType"));
 				}
 			}else {
 				System.out.println("Conn is null");
-			}
-			
+			}			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}		
@@ -72,7 +67,6 @@ public class FuelDBLogic {
 	
 	public void updateFuel(Fuel fuel,String newPrice) {
 		
-		Fuel fuel2 = null;
 		float PriceToUpdate= 0;
 		PriceToUpdate=Float.parseFloat(newPrice);
 		String fueltype=fuel.getFuelType().toString();
@@ -85,23 +79,17 @@ public class FuelDBLogic {
 				query =  "UPDATE fuel " + 
 				  "SET pricePerLitter = " + PriceToUpdate +  
 						  " WHERE fuelType = '" + fueltype + "';";
-				//stmt = DBConnector.conn.createStatement();
-				//ResultSet rs = stmt.executeQuery(query);
 				stmt.executeUpdate(query);
-				//				if(rs.next()) {
-//					System.out.println("Succeed");
-//				}
-//			}else {
-//				System.out.println("Conn is null");
-//			}
+			}else {
+				System.out.println("Conn is null");
+			}
 			
-		}} catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}		
 		
 		
 	}
-	
 	
 	public JsonArray getFuelCompanyNames() {
 		JsonArray companyNames = new JsonArray();

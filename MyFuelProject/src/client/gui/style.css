@@ -59,8 +59,8 @@
 
 #lblUsername, #lblEmploeeRole , #lblMainTitle{
 	-fx-text-fill:#ffffff;
-	-fx-alignment:center;
 	-fx-font-weight: bold;
+	-fx-alignment:center;
 }
 
 #lblUsername{

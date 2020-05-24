@@ -2,8 +2,11 @@ package client.controller;
 
 import client.gui.CustomerRegistrationController;
 import client.gui.DeterminingFuelRatesController;
+import client.gui.HomeHeatingFuelController;
 import client.gui.LoginController;
 import client.gui.MainFormController;
+import client.gui.OrderTrackingController;
+import client.gui.UpdateCustomerController;
 import entitys.Message;
 import javafx.event.EventHandler;
 import javafx.event.WeakEventHandler;
@@ -30,11 +33,14 @@ public class ObjectContainer {
 	
 	// MARKETING REPRESENTATIVE
 	public static CustomerRegistrationController customerRegistrationController;
+	public static UpdateCustomerController updateCustomerController;
 	
 	// MARKETING MANAGER
 	public static DeterminingFuelRatesController determiningFuelRatesController;
 	
 	// CUSTOMER
+	public static HomeHeatingFuelController homeHeatingFuelController;
+	public static OrderTrackingController orderTrackingController;
 	
 	// STATION MANAGER
 
@@ -46,7 +52,7 @@ public class ObjectContainer {
 	public static Message currentMessageFromServer;
 	
 	// ****************************************     global methods  	****************************************
-	
+		
 	public static boolean checkIfStringContainsOnlyNumbers(String val) {
 		boolean flag = true;
 		for (int i = 0; i < val.length(); i++) {
@@ -57,6 +63,15 @@ public class ObjectContainer {
 		}
 		return flag;
 	}
+	
+	public static boolean checkIfStringContainsOnlyChar(String val) {
+		for(int i = 0; i<val.length(); i++) {
+			if(!Character.isAlphabetic(val.charAt(i)))
+				return false;
+		}
+		return true;
+	}
+	
 	
 	
 	// **************************************** Allow to drag the window **************************************** 

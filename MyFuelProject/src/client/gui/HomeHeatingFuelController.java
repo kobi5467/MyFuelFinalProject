@@ -9,13 +9,11 @@ import client.controller.ClientUI;
 import client.controller.ObjectContainer;
 import entitys.Message;
 import entitys.enums.MessageType;
-import entitys.enums.UserPermission;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
@@ -24,112 +22,97 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import srcTest.TestPanes;
 
 public class HomeHeatingFuelController {
-
 	@FXML
 	private TextField txtAmount;
-
 	@FXML
 	private TextField txtDateSupply;
-
 	@FXML
 	private TextField txtStreet;
-
 	@FXML
 	private Button btnSubmit;
-
 	@FXML
 	private CheckBox boxUrgentOrder;
-
 	@FXML
 	private ChoiceBox<String> cbPaymentMethod;
-
 	@FXML
 	private TextField txtCardNumber;
-
 	@FXML
 	private TextField txtCVV;
-
 	@FXML
 	private TextField txtDateValidation;
-
 	@FXML
 	private TextField txtPaymentMethod;
 	@FXML
 	private Pane mainPane;
-
 	// @FXML
 	// private Label lblAmountError;
 	@FXML
 	private Label lblAmountErrorMsg;
-
 	@FXML
 	private Label lblStreetErrorMsg;
-
 	@FXML
 	private Label lblPaymentErrorMsg;
-
 	@FXML
 	private Label lblCardNumberErrorMsg;
-
 	@FXML
 	private Label lblCVVErrorMsg;
-
 	@FXML
 	private Label dateValidationError;
-
 	@FXML
 	private Label dateErrorMsg;
 	@FXML
 	private Text txtcvv;
-
 	@FXML
 	private Text txtCardNum;
-
 	@FXML
 	private Text txtDateVal;
-
 	@FXML
 	private DatePicker datePickerDateSupply;
-
 	@FXML
 	private DatePicker datePickerDateValidation;
 
 	@FXML
-	public void start(Stage stage) {
+	public void load(Pane changePane) {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("HomeHeatingFuelForm.fxml"));
-		Pane root = null;
 		try {
-			root = loader.load();
+			mainPane = loader.load();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		TestPanes.controller = loader.getController();
-		TestPanes.controller.initUI();
-		Scene scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
+		changePane.getChildren().add(mainPane);
+		ObjectContainer.homeHeatingFuelController = loader.getController();
+		ObjectContainer.homeHeatingFuelController.initUI();
 	}
 
 	@FXML
 	void onSubmit(ActionEvent event) {
-		Boolean flag=false;
-		String amount = txtAmount.getText().trim();
-		String street = txtStreet.getText().trim();
-		Boolean isUrgentOrder = boxUrgentOrder.isSelected();
-		String cardNubmer = txtCardNumber.getText().trim();
-		String cvv = txtCVV.getText().trim();
-		LocalDate dateSupplay = datePickerDateSupply.getValue();
-		// System.out.println(supplayDate);
-		String paymentMethod = cbPaymentMethod.getValue().trim();
-		LocalDate suplayValidation = datePickerDateValidation.getValue();
+		Boolean flag=false, flag2=false;;
+		String orderID="1234";
+		String customerId="342525";
+		String isUrgentOrder="true";
 		setErorLablesToNull();// Clean back Error message
-		flag=homeHeatingFuelFormTest(amount, street, dateSupplay,isUrgentOrder, paymentMethod,cardNubmer, cvv,suplayValidation);
-
+		flag=homeHeatingFuelFormTest(txtAmount.getText().trim(), txtStreet.getText().trim(), datePickerDateSupply.getValue().toString(),boxUrgentOrder.getText(),
+				cbPaymentMethod.getValue().trim(),txtCardNumber.getText().trim(), txtCVV.getText().trim(),datePickerDateValidation.getValue().toString());
+		
+		JsonObject json = new JsonObject();
+		json.addProperty("orderID", orderID);
+		json.addProperty("customerId", customerId);
+		json.addProperty("amount", txtAmount.getText().trim());
+		json.addProperty("street", txtStreet.getText().trim());
+		json.addProperty("isUrgentOrder","true");
+		json.addProperty("cardNubmer", txtCardNumber.getText().trim());
+		json.addProperty("cvv", txtCVV.getText().trim());
+		json.addProperty("dateSupplay", datePickerDateSupply.getValue().toString());
+		json.addProperty("paymentMethod", cbPaymentMethod.getValue().trim());
+		//json.addProperty("suplayValidation", suplayValidation.toString());
+		System.out.println("111111111111");
+		//Set new order in db:
+		Message msg = new Message(MessageType.SUBMIT_HOME_HEATING_FUEL_ORDER,json.toString());
+		ClientUI.accept(msg);	
+		/*****************      ?????? why twice !!    *******************/
 	}
 
 	public void initUI() {
@@ -141,8 +124,8 @@ public class HomeHeatingFuelController {
 	
 	}
 
-	public Boolean homeHeatingFuelFormTest(String amount, String street, LocalDate dateSupplay,Boolean isUrgentOrder,String paymentMethod, String cardNumber,
-			String CVV,LocalDate suplayValidation) {
+	public Boolean homeHeatingFuelFormTest(String amount, String street, String dateSupplay,String isUrgentOrder,String paymentMethod, String cardNumber,
+			String CVV,String suplayValidation) {
 		Boolean f1=true,f2=true,f3=true,f4=true,f5=true,f6=true;//flags
 		f1=checkAmountField(amount);
 		f2=checkStreetField(street);
@@ -150,12 +133,10 @@ public class HomeHeatingFuelController {
 		if(paymentMethod.equals("Credit Card")){
 		f4=checkCardNumberField(cardNumber);
 		f5=checkCVVField(CVV);
-		//f6=
 		}
 		System.out.println((f1&&f2&&f4));
 		return (f1&&f2&&f4);
 		
-		//checkCVVField(CVV);
 	}
 	//**************************************************Test fun**************************************************
 	public Boolean checkAmountField(String amount) {
@@ -193,9 +174,9 @@ public class HomeHeatingFuelController {
 
 	}
 
-	public Boolean checkDateSupplyField(LocalDate dateSupplay) {
+	public Boolean checkDateSupplyField(String dateSupplay) {
 		Boolean flag=true;
-			if(datePickerDateSupply.getValue()==null)
+			if(dateSupplay.equals(null))
 			dateErrorMsg.setText("Please fill date supply");
 			flag=false;
 		return flag;
@@ -331,16 +312,50 @@ public class HomeHeatingFuelController {
 
 		Message msg = new Message(MessageType.ADD_HOME_HEATING_FUEL_ORDER,json.toString());
 		ClientUI.clientController.handleMessageFromClient(msg);
-		
+		Boolean isCorrect = true;
 		Message response = ObjectContainer.currentMessageFromServer;
 		JsonObject responseJson = response.getMessageAsJsonObject();
 		
 		if(responseJson.get("isValid").getAsBoolean()) {
 			isCorrect = true;
-			userPermission = UserPermission.stringToEnumVal(responseJson.get("permission").getAsString());
+			
 		}
 		return isCorrect;
 	}
+//	public boolean insertHomeHeatingFuelOrder(String customerID) {
+//
+//		boolean isExist = false;
+//
+//		String query = " ";
+//		Statement stmt = null;
+//		int orderID=111;
+//		int customerId=444;
+//		int amount=443;
+//		String Street="harishonim 11a";
+//		String dateSupply="22/01/1994";
+//		Boolean urgentOrder=true;
+//		String saleTemplateName="sale1";
+//		try {
+//			if (DBConnector.conn != null) {
+//				query = "INSERT INTO  home_heating_fuel_order(orderID,customerId,amount,Street,dateSupply,urgentOrder,saleTemplateName)" +
+//						"VALUES(" + orderID+"," +customerId+"," +amount+"," + "'" +Street+ "'" + "," +dateSupply+","+urgentOrder+"," +saleTemplateName+")" + ";" ;
+//				System.out.println(query);
+//				
+//				stmt = DBConnector.conn.createStatement();
+//				ResultSet rs = stmt.executeQuery(query);
+//				if (rs.next()) {
+//					isExist = true;
+//				}
+//			} else {
+//				System.out.println("Conn is null");
+//			}
+//
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//
+//		return isExist;
+//	}
 	
 	
 }

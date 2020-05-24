@@ -5,36 +5,48 @@ public enum MessageType {
 	// ************************** client messages **************************
 	
 	//LOGIN
+	// User
 	CHECK_LOGIN,
-	
-	// MARKETING REPRESENTATIVE
 	CHECK_IF_USER_EXIST,
-	CHECK_IF_CUSTOMER_EXIST,
-	CHECK_IF_VEHICLE_EXIST,
-	// MARKETING MANAGER
-	GET_FUEL_BY_TYPE,
 	
-	GET_PURCHASE_MODELS,
-	GET_FUEL_COMPANIES_NAMES,
+	// Customer
+	CHECK_IF_CUSTOMER_EXIST,
 	GET_CUSTOMER_TYPES,
+	
+	
+	// Vehicle
+	CHECK_IF_VEHICLE_EXIST,
+	
+	
+	// Orders
+	CHECK_IF_ORDER_EXISTS,
+	// home heating fuel
+	SUBMIT_HOME_HEATING_FUEL_ORDER,
+	ADD_HOME_HEATING_FUEL_ORDER, /******     why to types??? ******/
+	
+	// inventory orders
+	GET_FUEL_INVENTORY_ORDERS,
+	
+	
+	// Purchase models
+	GET_PURCHASE_MODELS,
+	
+	// Fuel
+	GET_FUEL_BY_TYPE,
+	GET_FUEL_TYPES,
+	UPDATE_FUEL,
+	GET_FUEL_COMPANIES_NAMES,
+	
+	// Sale templates
+	GET_SALE_NAMES,
+	
+	// Report
+	
+	
+	// Credit Card
+	
 	
 	// ************************** server messages **************************
 	//LOGIN
-	LOGIN_RESPONSE,	// can return null if the user doesn't exist or return the user.
-<<<<<<< HEAD
-	ERROR_TYPE_IS_UNSET,
-	
-	
-	
-	
-	///Orders:
-	ADD_HOME_HEATING_FUEL_ORDER
-	
-	
-	
-	
-=======
-	ERROR_TYPE_IS_UNSET, SERVER_RESPONSE
->>>>>>> refs/remotes/origin/master
-	
+	SERVER_RESPONSE
 }

@@ -93,7 +93,7 @@ public class MainFormController {
 		}
 			break;
 		case MARKETING_MANAGER: {
-			buttonNames.add("DeterminingFuelRate");
+			buttonNames.add("DeterminingFuelRates");
 			buttonNames.add("RunningSales");
 			buttonNames.add("ReportGeneration");
 		}
@@ -199,12 +199,40 @@ public class MainFormController {
 	
 	private void setPane(String title) {
 		changePane.getChildren().clear();
+		
+		/***************************** Marketing Representative **********************************/  
 		if(title.equals("CustomerRegistration")) {
 			if(ObjectContainer.customerRegistrationController == null) {
 				ObjectContainer.customerRegistrationController = new CustomerRegistrationController();
 			}
 			ObjectContainer.customerRegistrationController.load(changePane);
 		}
+		
+		/***************************** Marketing Manager **********************************/
+		
+		if(title.equals("DeterminingFuelRates")) {
+			if(ObjectContainer.determiningFuelRatesController == null) {
+				ObjectContainer.determiningFuelRatesController = new DeterminingFuelRatesController();
+			}
+			ObjectContainer.determiningFuelRatesController.load(changePane);
+		}
+		
+		/***************************** Customer **********************************/  
+		
+		if(title.equals("HomeHeatingFuel")) {
+			if(ObjectContainer.homeHeatingFuelController == null) {
+				ObjectContainer.homeHeatingFuelController = new HomeHeatingFuelController();
+			}
+			ObjectContainer.homeHeatingFuelController.load(changePane);
+		}
+		if(title.equals("OrderTracking")) {
+			if(ObjectContainer.orderTrackingController == null) {
+				ObjectContainer.orderTrackingController = new OrderTrackingController();
+			}
+			ObjectContainer.orderTrackingController.load(changePane);
+		}
+		
+		
 	}
 	
 	public String fixTitle(String title) {

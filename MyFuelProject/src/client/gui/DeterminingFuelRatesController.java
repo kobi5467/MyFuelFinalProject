@@ -3,8 +3,16 @@ package client.gui;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import client.controller.ClientUI;
 import client.controller.ObjectContainer;
 import entitys.Fuel;
+import entitys.Message;
+import entitys.enums.FuelType;
+import entitys.enums.MessageType;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -17,7 +25,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import server.dbLogic.DBConnector;
 
 public class DeterminingFuelRatesController {
 
@@ -39,11 +46,12 @@ public class DeterminingFuelRatesController {
 	@FXML
 	private Label lblErrorMessage;
 
+	private Fuel currentFuel;
+	
 	@FXML
 	void onSubmit(ActionEvent event) {
-
-		String currentPrice = txtCurrPrice.getText().trim();
-		String maxPrice = txtMaxPrice.getText().trim();
+		boolean flag = true;
+		Fuel fuel = null;
 		String newPrice = txtNewPrice.getText().trim();
 		String errorMessage = "";
 
@@ -53,97 +61,147 @@ public class DeterminingFuelRatesController {
 			lblErrorMessage.setText(errorMessage);
 			// check if all fields are filled
 		} else {
-			checkFields(newPrice, currentPrice, maxPrice, errorMessage);
+			flag = checkFields(newPrice, errorMessage);
+			if (flag) {
+				updateFuel(fuel, newPrice);
+				txtCurrPrice.setText(newPrice);
+			}
 		}
+	}
+	
+	
+	public JsonArray getFuelTypes(){		
+		Message msg = new Message(MessageType.GET_FUEL_TYPES, "");
+		ClientUI.accept(msg);
+		
+		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
+		System.out.println(response.toString());
+		
+		return response.get("fuelTypes").getAsJsonArray();
+		
+	}
+	
+	public void updateFuel(Fuel fuel,String newPrice) {
+		JsonObject json = new JsonObject();
+		System.out.println(fuel.getFuelType());
+		String fuelType = FuelType.enumToString(fuel.getFuelType());
 
+		json.addProperty("fuelType", fuelType);
+		json.addProperty("pricePerLitter", newPrice);
+		Message msg = new Message(MessageType.UPDATE_FUEL, json.toString());
+		ClientUI.accept(msg);
+		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
+	}
+	
+
+	public void getFuelObjectByType(String fuelType) {
+		JsonObject json = new JsonObject();
+		json.addProperty("fuelType", fuelType);
+
+		Message msg = new Message(MessageType.GET_FUEL_BY_TYPE, json.toString());
+		ClientUI.clientController.handleMessageFromClient(msg);
+
+		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
+		fuelType = response.get("fuelType").getAsString();
+		FuelType fuelTypeResponse = FuelType.stringToEnumVal(fuelType);
+		float pricePerLitter = response.get("pricePerLitter").getAsFloat();
+		float maxPricePerLitter = response.get("maxPricePerLitter").getAsFloat();
+
+		currentFuel = new Fuel(fuelTypeResponse, pricePerLitter, maxPricePerLitter);
 	}
 
-	public void checkFields(String newPrice, String currPrice, String maxPrice, String errorMessage) {
-		int newPriceint = -1;
-		int maxPriceint = -1;
-		int currPriceint = -1;
+	public Boolean checkFields(String newPrice, String errorMessage) {
+		Float newPriceint = -1f;
+		Float maxPriceint = -1f;
+		Float currPriceint = -1f;
 		try {
-			newPriceint = Integer.parseInt(newPrice);
-			maxPriceint = Integer.parseInt(maxPrice);
-			currPriceint = Integer.parseInt(currPrice);
+			newPriceint = Float.parseFloat(newPrice);
+			maxPriceint = currentFuel.getMaxPricePerLitter();
+			currPriceint = currentFuel.getPricePerLitter();
 			if (newPriceint > maxPriceint) {
 				lblErrorMessage.setText("New price higher than the maximum price");
 			} else {
 				errorMessage = "";
 				lblErrorMessage.setText(errorMessage);
+				return true;
 			}
 		} catch (Exception e) {
 			lblErrorMessage.setText("Only digits!");
+			return false;
+
 		}
+		return false;
 	}
 
 	public void showOptionOfFuelTypeChoiseBox() {
-		ArrayList<String> fuelTypes= new ArrayList<>();
-//		DBConnector db = new DBConnector();
-//		fuelTypes=db.fuelDBLogic.getFuelTypes();
-		
+		JsonArray fuelTypes = getFuelTypes();
 		cbFuelType.getItems().add("Choose type");
-		int flag=0;
-		for (String FuelType : fuelTypes) {
-			
-		
-		cbFuelType.getItems().add(FuelType);
-		flag=1;
-		if(flag==1)
-		continue;
-		cbFuelType.getItems().add(FuelType);
-		flag=2;
-		if(flag==2)
-		continue;
-		cbFuelType.getItems().add(FuelType);
-		flag=3;
-		if (flag==3)
-		continue;
-		cbFuelType.getItems().add(FuelType);
+		int flag = 0;
+		for (int i = 0; i < fuelTypes.size(); i++) {
+			cbFuelType.getItems().add(fuelTypes.get(i).getAsString());
 		}
 		cbFuelType.setValue(cbFuelType.getItems().get(0));
 	}
 
-	public void start(Stage primaryStage) throws IOException {
 
+	private void afterChooseType(String type) {
+		Fuel fuel;
+
+		if (!type.equals("Choose type")) {
+			getFuelObjectByType(type);
+
+			txtCurrPrice.setText(String.valueOf(currentFuel.getPricePerLitter()));
+			txtMaxPrice.setText(String.valueOf(currentFuel.getMaxPricePerLitter()));
+			txtNewPrice.setText("");
+
+		} else {
+			txtCurrPrice.setText("");
+			txtMaxPrice.setText("");
+		}
+
+	}
+	public void load(Pane changePane) {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("DeterminingFuelRatesForm.fxml"));
 
-		Pane root = loader.load();
-
-		ObjectContainer.determiningFuelRatesController = loader.getController();
-		ObjectContainer.determiningFuelRatesController.initUI();
-
-		Scene scene = new Scene(root);
-		
-		primaryStage.setScene(scene);
-		primaryStage.show();
-		
-		//TestPanesBarak.controller.initUI();
+		try {
+			Pane pane = loader.load();
+			changePane.getChildren().add(pane);
+			ObjectContainer.determiningFuelRatesController = loader.getController();
+			ObjectContainer.determiningFuelRatesController.initUI();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	private void afterChooseType() {
-//		DBConnector db = new DBConnector();		//ArrayList<String> fuelTypes= new ArrayList<>();
-//		Fuel fuel;
-//		String type=cbFuelType.getValue();
-//		System.out.println(type);
-//		fuel = db.fuelDBLogic.getFuelObjectByType(cbFuelType.getValue());
-//		txtCurrPrice.setText(fuel.getFuelType().toString());
-	
-	}
-
 	private void initUI() {
 		lblErrorMessage.setText("");
+		txtCurrPrice.setEditable(false);
+		txtMaxPrice.setEditable(false);
 		showOptionOfFuelTypeChoiseBox();
+		// afterChooseType();
 		cbFuelType.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
-		      @Override
-		      public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
-//		        System.out.println(cbFuelType.getItems().get((Integer) number2));
-		    	  afterChooseType();
-		      }
-		    });
-		
-		
-	}
 
+			@Override
+			public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
+				afterChooseType(cbFuelType.getItems().get((Integer) number2));
+			}
+		});
+
+	}
+//	public void updatePaymentFormOnPaymentMethodClick() {
+//		cbPaymentMethod.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+//			@Override
+//			public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
+//				String value = cbPaymentMethod.getItems().get((Integer) number2);
+//
+//				if (value.equals("Choose type") || value.equals("Cash"))
+//					showCreditCardFields(false);
+//				else if (value.equals("Credit Card"))
+//					showCreditCardFields(true);
+//			}
+//		});
+//	}
+
+	
 }

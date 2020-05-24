@@ -9,7 +9,6 @@ public class FuelCompany {
 		this.companyName = companyName;
 	}
 
-
 	public String getCompanyName() {
 		return companyName;
 	}

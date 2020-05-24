@@ -43,7 +43,7 @@ public class UserDBController {
 	
 	
 	//get json object that contains the username and the password.
-	public static boolean checkLogin(JsonObject json) {
+	public boolean checkLogin(JsonObject json) {
 		boolean isValid = false;
 		String userName = json.get("userName").getAsString();
 		String password = json.get("password").getAsString();
@@ -71,7 +71,7 @@ public class UserDBController {
 		return isValid;
 	}
 	
-	public static String getUserPermission(JsonObject json) {
+	public String getUserPermission(JsonObject json) {
 		String permission = "";
 		String query = "";
 		

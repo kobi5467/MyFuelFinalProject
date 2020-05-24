@@ -95,7 +95,6 @@ public class CustomerDBLogic {
 			if (DBConnector.conn != null) {
 				query = "SELECT * FROM vehicles "
 					  + "WHERE vehicleNumber = '" + vehicleNumber + "';";
-				System.out.println(query);
 				stmt = DBConnector.conn.createStatement();
 				ResultSet rs = stmt.executeQuery(query);
 				if(rs.next()) {

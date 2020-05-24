@@ -1,6 +1,7 @@
 package client.gui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -15,6 +16,7 @@ import entitys.enums.MessageType;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -26,6 +28,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
@@ -192,7 +195,7 @@ public class CustomerRegistrationController {
 	private TextField txtVehicleNumber;
 
 	@FXML
-	private ChoiceBox<String> cbVehicleFulType;
+	private ChoiceBox<String> cbVehicleFuelType;
 
 	@FXML
     private ScrollPane spVehicleContainer;
@@ -211,6 +214,8 @@ public class CustomerRegistrationController {
 	private int currentStage;
 	private Customer customer;
 	private JsonArray fuelTypes;
+	private ArrayList<VehiclePane> vehiclePanes;
+	
 	@FXML
 	void addFuelCompanyCB(ActionEvent event) {
 		if(btnAddFuelCompany.getLayoutX() == 600) {
@@ -223,6 +228,17 @@ public class CustomerRegistrationController {
 			cbFuelCompany3.setVisible(false);
 			setBackgroundImage('+');
 		}
+	}
+	
+	public void deleteVehicleFromList(Vehicle vehicle) {
+		for(int i =0; i < vehiclePanes.size(); i++) {
+			if(vehiclePanes.get(i).vehicle.equals(vehicle)) {
+				customer.getVehicles().remove(i);
+				vehiclePanes.remove(i);
+				break;
+			}
+		}
+		updateVbChildren();
 	}
 
 	private void setBackgroundImage(char c) {
@@ -506,24 +522,40 @@ public class CustomerRegistrationController {
 	
 	private boolean checkInputValidationStageThree() {
 		boolean isValid = true;
-		
-		
-		
+		if(customer.getVehicles().size() == 0) {
+			isValid = false;
+		}
 		return isValid;
 	}
 	
 	@FXML
 	void addVehicle(ActionEvent event) {
 		if(checkAddVehicleFields()) {
-			//add here the vehicle to the scroll pane.
+			Vehicle vehicle = new Vehicle(txtVehicleNumber.getText().trim(), 
+					FuelType.stringToEnumVal(cbVehicleFuelType.getValue()), customer.getCustomerId());
+			customer.getVehicles().add(vehicle);
+			VehiclePane vehiclePane = new VehiclePane(vehicle);
+			vehiclePanes.add(vehiclePane);
+			updateVbChildren();
 		}
+	}
+
+	private void updateVbChildren() {
+		
+		vbVehicleContainer.getChildren().clear();
+		for(int i = 0; i < vehiclePanes.size(); i++) {
+			String color = i % 2 == 0 ? "#0240FF" : "#024079";
+			vehiclePanes.get(i).setBackgroundColor(color);
+			vbVehicleContainer.getChildren().add(vehiclePanes.get(i));
+		}
+		
 	}
 	
 	public boolean checkAddVehicleFields() {
 		String vehicleNumber = txtVehicleNumber.getText().trim();
-		String fuelType = cbCustomerType.getValue().trim();
+		String fuelType = cbVehicleFuelType.getValue().trim();
 		
-		if(vehicleNumber.isEmpty() || fuelType.equals(cbCustomerType.getItems().get(0)) || 
+		if(vehicleNumber.isEmpty() || fuelType.equals(cbVehicleFuelType.getItems().get(0)) || 
 				vehicleNumber.length() < 6) {
 			System.out.println("Invalid inputs..");
 			return false;
@@ -567,8 +599,6 @@ public class CustomerRegistrationController {
 			btnNext.setText("Submit");
 			break;
 		default:
-			currentStage = currentStage - op;
-			changeStage(0);
 			break;
 		}
 	}
@@ -602,6 +632,7 @@ public class CustomerRegistrationController {
 
 	private void initUI() {
 		customer = new Customer();
+		vehiclePanes = new ArrayList<CustomerRegistrationController.VehiclePane>();
 		
 		currentStage = 1;
 		creditCardPane.setVisible(false);
@@ -644,7 +675,19 @@ public class CustomerRegistrationController {
 	}
 
 	private void initFuelTypes() {
+		Message msg = new Message(MessageType.GET_FUEL_TYPES,"");
+		ClientUI.accept(msg);
 		
+		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
+		fuelTypes = response.get("fuelTypes").getAsJsonArray();
+		
+		cbVehicleFuelType.getItems().add("Choose type");
+		for(int i = 0; i < fuelTypes.size();i++) {
+			if(!fuelTypes.get(i).getAsString().equals("Home Heating Fuel")) {
+				cbVehicleFuelType.getItems().add(fuelTypes.get(i).getAsString());				
+			}
+		}
+		cbVehicleFuelType.setValue(cbVehicleFuelType.getItems().get(0));
 	}
 
 	public void setErrorImage(ImageView img, String url) {
@@ -719,8 +762,6 @@ public class CustomerRegistrationController {
 		    });
 	}
 
-	
-	
 	private void initErrorLabels() {
 		//stage 1
 		lblUserNameError.setText("");
@@ -739,40 +780,80 @@ public class CustomerRegistrationController {
 		lblDateError.setText("");
 	}
 	
-	class VehiclePane {
-		public Pane vehiclePane;
+	class VehiclePane extends AnchorPane {
+		public AnchorPane pane;
 		public Button btnDeleteVehicle;
 		public Label lblVehicleNumber,lblFuelType;
 		public TextField txtVehicleNumber;
 		public ChoiceBox<String> cbFuelType;
 		
-		public int width = 725;
-		public int height = 100;
+		public int width = 720;
+		public int height = 60;
 		
 		public Vehicle vehicle;
-		public VehiclePane(String vehicleNumber, FuelType fuelType, String customerID) {
-			vehicle = new Vehicle(vehicleNumber, null, fuelType, customerID);
-			vehicle.setFuel(fuelType);
-			vehicle.setVehicleNumber(vehicleNumber);
+		public VehiclePane(Vehicle vehicle) {
+			this.vehicle = vehicle;
+			initPane();
+		}
+		
+		public void setBackgroundColor(String color) {
+			this.setStyle("-fx-background-color:" + color + ";");			
 		}
 		
 		public void initPane() {
-			vehiclePane = new Pane();
-			vehiclePane.setPrefSize(width, height);
-			
-			int dist = 10;
-			
+			this.setPrefSize(width, height);
 			lblVehicleNumber = new Label();
-			lblVehicleNumber.setMinSize(130, 50);
-			lblVehicleNumber.relocate(dist,10);
-			
-			dist += lblVehicleNumber.getMinWidth() + 20;
+			lblVehicleNumber.setMinSize(120, 20);
+			lblVehicleNumber.relocate(15,15);
+			lblVehicleNumber.setText("Vehicle Number : ");
+			lblVehicleNumber.setStyle(""
+					+ "-fx-text-fill:#ffffff;" 
+					+ "-fx-font-weight: bold;"
+					+ "-fx-font-size:14pt;"
+					);
+			this.getChildren().add(lblVehicleNumber);
 			
 			txtVehicleNumber = new TextField();
-			txtVehicleNumber.setMinSize(130, 50);
-			txtVehicleNumber.relocate(dist, 10);
+			txtVehicleNumber.setPrefSize(120, 30);
+			txtVehicleNumber.relocate(175, 15);
+			txtVehicleNumber.setText(vehicle.getVehicleNumber());
+			this.getChildren().add(txtVehicleNumber);
 			
+			lblFuelType = new Label();
+			lblFuelType.setMinSize(70, 20);
+			lblFuelType.relocate(320,15);
+			lblFuelType.setText("Fuel Type : ");
+			lblFuelType.setStyle(""
+					+ "-fx-text-fill:#ffffff;" 
+					+ "-fx-font-weight: bold;"
+					+ "-fx-font-size:14pt;"
+					);
+			this.getChildren().add(lblFuelType);
 			
+			cbFuelType = new ChoiceBox<String>();
+			cbFuelType.setPrefSize(170, 30);
+			cbFuelType.relocate(425, 15);
+			for(int i = 0; i < fuelTypes.size(); i++) {
+				if(!fuelTypes.get(i).getAsString().equals("Home Heating Fuel")) {
+					cbFuelType.getItems().add(fuelTypes.get(i).getAsString());
+				}
+			}
+			cbFuelType.setValue(cbVehicleFuelType.getValue());
+			
+			this.getChildren().add(cbFuelType);
+			
+			btnDeleteVehicle = new Button();
+			btnDeleteVehicle.setPrefSize(30, 30);
+			btnDeleteVehicle.relocate(690, 15);
+			btnDeleteVehicle.setText("");
+			setButtonsImages("../../images/delete_icon.png", btnDeleteVehicle);
+			btnDeleteVehicle.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					deleteVehicleFromList(VehiclePane.this.vehicle);
+				}
+			});
+			this.getChildren().add(btnDeleteVehicle);
 		}
 		
 	}

@@ -10,12 +10,14 @@ public class DBConnector {
 	
 	private String url = "jdbc:mysql://localhost/myfuel?serverTimezone=IST";
 	private String username = "root";
-	private String password = "12345678";
+	private String password = "KJB5:jUM8m+fsc8V";
 	
 	public UserDBController userDBController;
 	public FuelDBLogic fuelDBLogic;
 	public CustomerDBLogic customerDBLogic;
 	public PurchaseModelDBLogic purchaseModelDBLogic;
+	public SaleDBLogic saleDBLOgic;
+	public OrderDBLogic orderDBLogic;
 	
 	public DBConnector() {
 		createConnection();
@@ -27,7 +29,8 @@ public class DBConnector {
 		fuelDBLogic = new FuelDBLogic();
 		customerDBLogic = new CustomerDBLogic();
 		purchaseModelDBLogic = new PurchaseModelDBLogic();
-		
+		saleDBLOgic = new SaleDBLogic();
+		orderDBLogic = new OrderDBLogic();
 	}
 	
 	private void createConnection() {

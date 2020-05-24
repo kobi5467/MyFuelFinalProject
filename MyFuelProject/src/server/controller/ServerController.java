@@ -34,22 +34,23 @@ public class ServerController extends AbstractServer {
 				messageFromServer = handleUserMessage(message);
 				break;
 			case GET_FUEL_BY_TYPE:
-				messageFromServer = handleMarketingManagerMessage(message);
-				break;
+			case GET_FUEL_TYPES:
 			case GET_FUEL_COMPANIES_NAMES:
 				messageFromServer = handleFuelMessage(message);
 				break;
 			case GET_PURCHASE_MODELS:
 				messageFromServer = handlePurchaseModelsMessage(message);
 				break;
-
+			case SUBMIT_HOME_HEATING_FUEL_ORDER:
+				messageFromServer = handleOrderMessage(message);
+				break;
 			case CHECK_IF_CUSTOMER_EXIST:
 			case GET_CUSTOMER_TYPES:
 			case CHECK_IF_VEHICLE_EXIST:
 				messageFromServer = handleCustomerMessage(message);
 				break;
 			default:
-				messageFromServer = new Message(MessageType.ERROR_TYPE_IS_UNSET, null);
+//				messageFromServer = new Message(MessageType.ERROR_TYPE_IS_UNSET, null);
 				break;
 			}
 
@@ -57,6 +58,22 @@ public class ServerController extends AbstractServer {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private Message handleOrderMessage(Message msg) {
+		Message messageFromServer = null;
+		JsonObject requestJson = msg.getMessageAsJsonObject();
+		JsonObject responseJson = new JsonObject();
+		switch (msg.getMessageType()) {
+		case SUBMIT_HOME_HEATING_FUEL_ORDER: {
+			dbConnector.orderDBLogic.insertHomeHeatingFuelOrder(requestJson);
+		}
+			break;
+		default:
+			break;
+		}
+		messageFromServer = new Message(MessageType.SERVER_RESPONSE, responseJson.toString());
+		return messageFromServer;
 	}
 
 	private Message handleFuelMessage(Message msg) {
@@ -67,6 +84,28 @@ public class ServerController extends AbstractServer {
 		case GET_FUEL_COMPANIES_NAMES: {
 			JsonArray types = dbConnector.fuelDBLogic.getFuelCompanyNames();
 			responseJson.add("fuelCompanies", types);
+		}
+			break;
+		case GET_FUEL_BY_TYPE: {
+			String fuelType = requestJson.get("fuelType").getAsString();
+			Fuel fuel = dbConnector.fuelDBLogic.getFuelObjectByType(fuelType);
+			String response = new Gson().toJson(fuel);
+			messageFromServer = new Message(MessageType.SERVER_RESPONSE, response);
+		}
+			break;
+
+		case GET_FUEL_TYPES: {
+			JsonArray fuelTypes = dbConnector.fuelDBLogic.getFuelTypes();
+			responseJson.add("fuelTypes", fuelTypes);
+			messageFromServer = new Message(MessageType.SERVER_RESPONSE, responseJson.toString());
+		}
+			break;
+		case UPDATE_FUEL: {
+			String fuelType = requestJson.get("fuelType").getAsString();
+			String newPrice = requestJson.get("pricePerLitter").getAsString();
+			Fuel fuel = dbConnector.fuelDBLogic.getFuelObjectByType(fuelType);
+			dbConnector.fuelDBLogic.updateFuel(fuel, newPrice);
+			messageFromServer = new Message(MessageType.SERVER_RESPONSE, "");
 		}
 			break;
 		default:
@@ -113,7 +152,7 @@ public class ServerController extends AbstractServer {
 		default:
 			break;
 		}
-		messageFromServer = new Message(MessageType.LOGIN_RESPONSE, responseJson.toString());
+		messageFromServer = new Message(MessageType.SERVER_RESPONSE, responseJson.toString());
 		return messageFromServer;
 
 	}
@@ -139,9 +178,8 @@ public class ServerController extends AbstractServer {
 		}
 		default:
 			break;
-
 		}
-		messageFromServer = new Message(MessageType.LOGIN_RESPONSE, responseJson.toString());
+		messageFromServer = new Message(MessageType.SERVER_RESPONSE, responseJson.toString());
 		return messageFromServer;
 	}
 
@@ -155,6 +193,13 @@ public class ServerController extends AbstractServer {
 			Fuel fuel = dbConnector.fuelDBLogic.getFuelObjectByType(fuelType);
 			String response = new Gson().toJson(fuel);
 			messageFromServer = new Message(MessageType.SERVER_RESPONSE, response);
+		}
+			break;
+
+		case GET_FUEL_TYPES: {
+			JsonArray fuelTypes = dbConnector.fuelDBLogic.getFuelTypes();
+			responseJson.add("fuelTypes", fuelTypes);
+			messageFromServer = new Message(MessageType.SERVER_RESPONSE, responseJson.toString());
 		}
 			break;
 		default:
