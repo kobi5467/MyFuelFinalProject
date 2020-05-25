@@ -9,13 +9,13 @@ import client.controller.ObjectContainer;
 import entitys.Message;
 import entitys.User;
 import entitys.enums.MessageType;
-import entitys.enums.UserPermission;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -36,7 +36,7 @@ public class LoginController {
     private TextField txtUsername;
 
     @FXML
-    private TextField txtPassword;
+    private PasswordField txtPassword;
 
     @FXML
     private Button btnLogin;
@@ -72,27 +72,43 @@ public class LoginController {
     void onLogin(ActionEvent event) {
     	String userName = txtUsername.getText().trim();
     	String password = txtPassword.getText().trim();
-    	String errorMessage = "";
     	
     	if(userName.isEmpty() || password.isEmpty()) {
-    		errorMessage = "Please fill all fields";
+    		lblErrorMessage.setText("Please fill all fields..");
     	}else {
-    		boolean isValid = checkIfFieldsAreCorrect(userName, password);
-    		if(isValid) {
+    		if(checkLogin(userName,password)) {
+    			ObjectContainer.currentUserLogin.setUsername(userName);
     			MoveToHomeForm();
-    		}else {
-    			errorMessage = "user name or password are incorrect..";
     		}
     	}
-    	lblErrorMessage.setText(errorMessage);
     }
 
+    public boolean checkLogin(String userName, String password) {
+    	boolean isValid = false;
+		
+		JsonObject json = new JsonObject();
+		json.addProperty("userName", userName);
+		json.addProperty("password", password);
+		
+		Message msg = new Message(MessageType.CHECK_LOGIN,json.toString());
+		ClientUI.accept(msg);
+		
+		Message response = ObjectContainer.currentMessageFromServer;
+		JsonObject responseJson = response.getMessageAsJsonObject();
+		
+		isValid = responseJson.get("isValid").getAsBoolean();
+		if(!isValid) {
+			lblErrorMessage.setText(responseJson.get("errorMessage").getAsString());
+		}
+		
+		return isValid;
+    }
+    
     public void MoveToHomeForm() {
     	if(ObjectContainer.mainFormController == null) {
     		ObjectContainer.mainFormController = new MainFormController();
     	}
-    	initUI();
-    	// add here get user details and send to main to update name and role in top left.
+    	initUI(); // to clear all login fields.
     	ObjectContainer.mainFormController.start();
 	}
 
@@ -120,25 +136,5 @@ public class LoginController {
 		lblErrorMessage.setText("");
 		txtUsername.setText("");
 		txtPassword.setText("");
-	}
-
-	public boolean checkIfFieldsAreCorrect(String userName, String password) {
-		boolean isCorrect = false;
-		
-		JsonObject json = new JsonObject();
-		json.addProperty("userName", userName);
-		json.addProperty("password", password);
-		
-		Message msg = new Message(MessageType.CHECK_LOGIN,json.toString());
-		ClientUI.accept(msg);
-		
-		Message response = ObjectContainer.currentMessageFromServer;
-		JsonObject responseJson = response.getMessageAsJsonObject();
-		
-		if(responseJson.get("isValid").getAsBoolean()) {
-			isCorrect = true;
-			ObjectContainer.currentUserLogin.setUserPermission(UserPermission.stringToEnumVal(responseJson.get("permission").getAsString()));
-		}
-		return isCorrect;
 	}
 }

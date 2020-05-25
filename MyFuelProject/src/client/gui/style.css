@@ -57,7 +57,7 @@
 	-fx-text-fill:#ffffff;
 }
 
-#lblUsername, #lblEmploeeRole , #lblMainTitle{
+#lblUsername, #lblEmployeeRole , #lblMainTitle{
 	-fx-text-fill:#ffffff;
 	-fx-font-weight: bold;
 	-fx-alignment:center;
@@ -66,7 +66,7 @@
 #lblUsername{
 	-fx-font-size: 20pt;
 }
-#lblEmploeeRole{
+#lblEmployeeRole{
 	-fx-font-size: 14pt;
 }
 #lblMainTitle{

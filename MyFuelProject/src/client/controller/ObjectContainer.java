@@ -5,6 +5,7 @@ import client.gui.DeterminingFuelRatesController;
 import client.gui.HomeHeatingFuelController;
 import client.gui.LoginController;
 import client.gui.MainFormController;
+import client.gui.MessageController;
 import client.gui.OrderTrackingController;
 import client.gui.ReportControler;
 import client.gui.RunningSalesController;
@@ -31,7 +32,7 @@ public class ObjectContainer {
 	
 	public static Stage loginStage;
 	public static Stage mainStage;
-	public static Stage errorStage;
+	public static Stage messageStage;
 	
 	
 	// **************************************** 	   controllers 		****************************************
@@ -58,6 +59,10 @@ public class ObjectContainer {
 	public static ReportControler reportController;
 
 	// SUPPLIER
+	
+	
+	public static MessageController messageController;
+	
 	
 	
 	// ****************************************     global variables 	****************************************

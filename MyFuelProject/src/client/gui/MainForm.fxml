@@ -47,7 +47,7 @@
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblEmploeeRole" layoutY="170.0" prefHeight="27.0" prefWidth="250.0" text="Marketing Representative">
+                  <Label fx:id="lblEmployeeRole" layoutY="170.0" prefHeight="27.0" prefWidth="250.0" text="Marketing Representative">
                      <font>
                         <Font size="10.0" />
                      </font>

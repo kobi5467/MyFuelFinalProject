@@ -34,7 +34,7 @@ public enum FuelType {
 			ret = "Diesel";
 			break;
 		case SCOOTER_FUEL:
-			ret = "Scooter fuel";
+			ret = "Scooter Fuel";
 			break;
 		case HOME_HEATING_FUEL:
 			ret = "Home Heating Fuel";

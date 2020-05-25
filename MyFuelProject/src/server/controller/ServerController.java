@@ -31,6 +31,8 @@ public class ServerController extends AbstractServer {
 			switch (message.getMessageType()) {
 			case CHECK_LOGIN:
 			case CHECK_IF_USER_EXIST:
+			case GET_USER_DETAILS:
+			case LOGOUT:
 				messageFromServer = handleUserMessage(message);
 				break;
 			case GET_FUEL_BY_TYPE:
@@ -179,23 +181,30 @@ public class ServerController extends AbstractServer {
 
 	public Message handleUserMessage(Message msg) {
 		Message messageFromServer = null;
-		JsonObject messageJson = msg.getMessageAsJsonObject();
+		JsonObject requestJson = msg.getMessageAsJsonObject();
 		JsonObject responseJson = new JsonObject();
 		switch (msg.getMessageType()) {
 		case CHECK_LOGIN: {
-			boolean isValid = dbConnector.userDBController.checkLogin(messageJson);
-			responseJson.addProperty("isValid", isValid);
-			if (isValid) {
-				String permission = dbConnector.userDBController.getUserPermission(messageJson);
-				responseJson.addProperty("permission", permission);
-			}
+			String userName = requestJson.get("userName").getAsString();
+			String password = requestJson.get("password").getAsString();
+			
+			responseJson = dbConnector.userDBController.checkLogin(userName,password);
 		}
 			break;
-		case CHECK_IF_USER_EXIST: {
+		case CHECK_IF_USER_EXIST: 
 			boolean isExist = dbConnector.userDBController
-					.checkIfUsernameExist(messageJson.get("userName").getAsString());
+					.checkIfUsernameExist(responseJson.get("userName").getAsString());
 			responseJson.addProperty("isExist", isExist);
-		}
+			break;
+		
+		case GET_USER_DETAILS:
+			responseJson = dbConnector.userDBController.getUserDetails(requestJson);
+			String employeeRole = dbConnector.employeeDBLogic.getEmployeeRoleByUsername(requestJson.get("userName").getAsString());
+			responseJson.addProperty("employeeRole", employeeRole);
+			break;
+		case LOGOUT:
+			dbConnector.userDBController.updateLoginFlag(requestJson.get("userName").getAsString(), 0);
+			break;
 		default:
 			break;
 		}

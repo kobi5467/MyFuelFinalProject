@@ -5,8 +5,12 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import com.google.gson.JsonObject;
+
+import client.controller.ClientUI;
 import client.controller.ObjectContainer;
-import entitys.User;
+import entitys.Message;
+import entitys.enums.MessageType;
 import entitys.enums.UserPermission;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -63,7 +67,7 @@ public class MainFormController {
 	private Label lblUsername;
 
 	@FXML
-	private Label lblEmploeeRole;
+	private Label lblEmployeeRole;
 
 	@FXML
 	private Label lblDateTime;
@@ -151,17 +155,18 @@ public class MainFormController {
 		}
 		ObjectContainer.mainFormController = loader.getController();
 
-		ObjectContainer.mainFormController.initUI(ObjectContainer.currentUserLogin.getUserPermission());
+		ObjectContainer.mainFormController.initUI();
 		ObjectContainer.allowDrag(mainPane, ObjectContainer.mainStage);
-
+		
 		Scene scene = new Scene(mainPane);
 		ObjectContainer.mainStage.setScene(scene);
 		ObjectContainer.loginStage.hide();
 		ObjectContainer.mainStage.show();
 	}
 
-	public void initUI(UserPermission userPermission) {
-		ArrayList<String> buttonNames = getButtonNames(userPermission);
+	public void initUI() {
+		updateUserDetails();
+		ArrayList<String> buttonNames = getButtonNames(ObjectContainer.currentUserLogin.getUserPermission());
 
 		menuButtons = new Button[buttonNames.size()];
 		
@@ -183,6 +188,19 @@ public class MainFormController {
 		}
 	}
 	
+	private void updateUserDetails() {
+		JsonObject json = new JsonObject();
+		json.addProperty("userName", ObjectContainer.currentUserLogin.getUsername());
+		Message msg = new Message(MessageType.GET_USER_DETAILS,json.toString());
+		ClientUI.accept(msg);
+		
+		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
+		lblUsername.setText(response.get("name").getAsString());
+		String employeeRole = response.get("employeeRole").getAsString();
+		lblEmployeeRole.setText(employeeRole);
+		ObjectContainer.currentUserLogin.setUserPermission(UserPermission.stringToEnumVal(response.get("userPermission").getAsString()));
+	}
+
 	protected void setInnerPaneByButtonClicked(Button btnCurrent, ArrayList<String> buttonNames) {
 		String title = "";
 		for(int i = 0; i < menuButtons.length;i++) {
@@ -254,7 +272,24 @@ public class MainFormController {
 		}
 		
 		
+		
+		/***************************** ALL USERS **********************************/  
+		
+		if(title.equals("Logout")) {
+			if(ObjectContainer.messageController == null) {
+				ObjectContainer.messageController = new MessageController();
+			}
+			ObjectContainer.messageController.start("logout");
+		}
+		
 	}
+	
+	public void logout() {
+		JsonObject json = new JsonObject();
+		json.addProperty("userName", ObjectContainer.currentUserLogin.getUsername());
+		Message msg = new Message(MessageType.LOGOUT, json.toString());		
+	}
+	
 	
 	public String fixTitle(String title) {
 		String fixedTitle = ""+title.charAt(0);

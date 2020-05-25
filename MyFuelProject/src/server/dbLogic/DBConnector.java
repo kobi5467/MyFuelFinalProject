@@ -18,6 +18,7 @@ public class DBConnector {
 	public PurchaseModelDBLogic purchaseModelDBLogic;
 	public SaleDBLogic saleDBLOgic;
 	public OrderDBLogic orderDBLogic;
+	public EmployeeDBLogic employeeDBLogic;
 	
 	public DBConnector() {
 		createConnection();
@@ -31,6 +32,7 @@ public class DBConnector {
 		purchaseModelDBLogic = new PurchaseModelDBLogic();
 		saleDBLOgic = new SaleDBLogic();
 		orderDBLogic = new OrderDBLogic();
+		employeeDBLogic = new EmployeeDBLogic();
 	}
 	
 	private void createConnection() {

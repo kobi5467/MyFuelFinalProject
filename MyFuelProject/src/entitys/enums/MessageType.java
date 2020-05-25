@@ -8,6 +8,7 @@ public enum MessageType {
 	// User
 	CHECK_LOGIN,
 	CHECK_IF_USER_EXIST,
+	GET_USER_DETAILS,
 	
 	// Customer
 	CHECK_IF_CUSTOMER_EXIST,
@@ -45,6 +46,8 @@ public enum MessageType {
 	
 	// Credit Card
 	
+	
+	LOGOUT, // LOGOUT Message
 	
 	// ************************** server messages **************************
 	//LOGIN
