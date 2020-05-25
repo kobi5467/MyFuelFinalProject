@@ -208,6 +208,13 @@ public class MainFormController {
 			ObjectContainer.customerRegistrationController.load(changePane);
 		}
 		
+		if(title.equals("UpdateCustomer")) {
+			if(ObjectContainer.updateCustomerController == null) {
+				ObjectContainer.updateCustomerController = new UpdateCustomerController();
+			}
+			ObjectContainer.updateCustomerController.load(changePane);
+		}
+		
 		/***************************** Marketing Manager **********************************/
 		
 		if(title.equals("DeterminingFuelRates")) {

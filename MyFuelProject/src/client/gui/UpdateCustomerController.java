@@ -30,7 +30,7 @@ public class UpdateCustomerController {
 	private Pane Pane2;
 
 	@FXML
-	private Pane UpdateCustomer;
+	private Pane updateCustomer;
 
 	@FXML
 	private TextField txtUserNameUpdate;
@@ -95,17 +95,18 @@ public class UpdateCustomerController {
 
 	/******************************* Implements ********************************/
 
-	public void start(Stage primaryStage) throws IOException {
+	public void load(Pane changePane) {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("UpdateCustomerForm.fxml"));
 
-		UpdateCustomer = loader.load();
-		ObjectContainer.updateCustomerController = loader.getController();
-		ObjectContainer.updateCustomerController.initUI();
-
-		Scene scene = new Scene(UpdateCustomer);
-		primaryStage.setScene(scene);
-		primaryStage.show();
+		try {
+			updateCustomer = loader.load();
+			changePane.getChildren().add(updateCustomer);
+			ObjectContainer.updateCustomerController = loader.getController();
+			ObjectContainer.updateCustomerController.initUI();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void initUI() {

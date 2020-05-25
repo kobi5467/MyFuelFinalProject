@@ -10,7 +10,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.UpdateCustomerController">
    <children>
-      <Pane fx:id="UpdateCustomer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="949.0">
+      <Pane fx:id="updateCustomer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="949.0">
          <children>
             <Pane fx:id="Pane2" layoutY="128.0" prefHeight="446.0" prefWidth="956.0">
                <children>
