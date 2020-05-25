@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import client.controller.ClientUI;
 import client.controller.ObjectContainer;
 import entitys.Message;
+import entitys.User;
 import entitys.enums.MessageType;
 import entitys.enums.UserPermission;
 import javafx.event.ActionEvent;
@@ -59,7 +60,6 @@ public class LoginController {
     private Button btnExit;
 
     //************ LOCAL VARIABLE ************
-    private UserPermission userPermission;
     
     @FXML
     void onExit(ActionEvent event) {
@@ -92,7 +92,8 @@ public class LoginController {
     		ObjectContainer.mainFormController = new MainFormController();
     	}
     	initUI();
-    	ObjectContainer.mainFormController.start(userPermission);
+    	// add here get user details and send to main to update name and role in top left.
+    	ObjectContainer.mainFormController.start();
 	}
 
 	@FXML
@@ -107,6 +108,7 @@ public class LoginController {
     	mainLoginPane = loader.load();
 		ObjectContainer.loginController = loader.getController();
 		ObjectContainer.loginController.initUI();
+		ObjectContainer.currentUserLogin = new User();
 		ObjectContainer.allowDrag(mainLoginPane, ObjectContainer.loginStage);
 		
 		Scene scene = new Scene(mainLoginPane);
@@ -135,7 +137,7 @@ public class LoginController {
 		
 		if(responseJson.get("isValid").getAsBoolean()) {
 			isCorrect = true;
-			userPermission = UserPermission.stringToEnumVal(responseJson.get("permission").getAsString());
+			ObjectContainer.currentUserLogin.setUserPermission(UserPermission.stringToEnumVal(responseJson.get("permission").getAsString()));
 		}
 		return isCorrect;
 	}

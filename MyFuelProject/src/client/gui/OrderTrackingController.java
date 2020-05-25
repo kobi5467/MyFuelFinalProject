@@ -88,7 +88,8 @@ public class OrderTrackingController {
 		loader.setLocation(getClass().getResource("OrderTrackingForm.fxml"));
 
 		try {
-			Pane root = loader.load();
+			OrderTrackingControlPane = loader.load();
+			paneChange.getChildren().add(OrderTrackingControlPane);
 			ObjectContainer.orderTrackingController = loader.getController();
 			ObjectContainer.orderTrackingController.initUI();
 		} catch (IOException e) {

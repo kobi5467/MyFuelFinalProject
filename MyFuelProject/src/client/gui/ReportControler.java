@@ -1,5 +1,7 @@
 package client.gui;
 
+import java.io.IOException;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -12,17 +14,20 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class ReportControler {
 
-	@FXML
-	private Pane tfEndDate;
+	 @FXML
+    private Pane reportPane;	
 
 	@FXML
 	private Text txtReportType;
@@ -253,29 +258,26 @@ public class ReportControler {
 				});
 	}
 
-//	public void start(Stage stage) {
-//		FXMLLoader loader = new FXMLLoader();
-//		loader.setLocation(getClass().getResource("ReportGeneration.fxml"));
-//
-//		Pane root = null;
-//		try {
-//			root = loader.load();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		ClientUI.controller = loader.getController();
-//		ClientUI.controller.initUI();
-//
-//		Scene scene = new Scene(root);
-//		stage.setScene(scene);
-//		stage.show();
-//	}
+	public void load(Pane paneChange) {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("ReportGeneration.fxml"));
 
-	private void initUI() {
+		try {
+			reportPane = loader.load();
+			paneChange.getChildren().add(reportPane);
+			ObjectContainer.reportController = loader.getController();
+			ObjectContainer.reportController.initUI(ObjectContainer.currentUserLogin.getUserPermission());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private void initUI(UserPermission userPermission) {
 
 		lblErorrFields.setText("");
 		lblErorrFields.setVisible(true);
-		setReportTypeByUserPermissions(UserPermission.MARKETING_MANAGER);
+		setReportTypeByUserPermissions(userPermission);
 		showFieldsByReoprtType();
 
 	}

@@ -6,8 +6,10 @@ import client.gui.HomeHeatingFuelController;
 import client.gui.LoginController;
 import client.gui.MainFormController;
 import client.gui.OrderTrackingController;
+import client.gui.ReportControler;
 import client.gui.UpdateCustomerController;
 import entitys.Message;
+import entitys.User;
 import javafx.event.EventHandler;
 import javafx.event.WeakEventHandler;
 import javafx.scene.Node;
@@ -43,6 +45,7 @@ public class ObjectContainer {
 	public static OrderTrackingController orderTrackingController;
 	
 	// STATION MANAGER
+	public static ReportControler reportController;
 
 	// SUPPLIER
 	
@@ -50,6 +53,7 @@ public class ObjectContainer {
 	// ****************************************     global variables 	****************************************
 	
 	public static Message currentMessageFromServer;
+	public static User currentUserLogin;
 	
 	// ****************************************     global methods  	****************************************
 		

@@ -1,9 +1,7 @@
 package client.gui;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -18,13 +16,11 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
 public class DeterminingFuelRatesController {
 
@@ -51,10 +47,14 @@ public class DeterminingFuelRatesController {
 	@FXML
 	void onSubmit(ActionEvent event) {
 		boolean flag = true;
-		Fuel fuel = null;
 		String newPrice = txtNewPrice.getText().trim();
 		String errorMessage = "";
 
+		lblErrorMessage.setStyle(""
+				+ "-fx-text-fill:#ff0000;" 
+				+ "-fx-font-weight: bold;"
+				+ "-fx-font-size:14pt;"
+				);
 		if (newPrice.isEmpty() || cbFuelType.getValue().equals("Choose type")) {
 
 			errorMessage = "Please fill all fields";
@@ -63,43 +63,47 @@ public class DeterminingFuelRatesController {
 		} else {
 			flag = checkFields(newPrice, errorMessage);
 			if (flag) {
-				updateFuel(fuel, newPrice);
-				txtCurrPrice.setText(newPrice);
+				updateFuel(newPrice);
 			}
 		}
 	}
 	
-	
 	public JsonArray getFuelTypes(){		
 		Message msg = new Message(MessageType.GET_FUEL_TYPES, "");
 		ClientUI.accept(msg);
-		
 		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
 		System.out.println(response.toString());
-		
 		return response.get("fuelTypes").getAsJsonArray();
-		
 	}
 	
-	public void updateFuel(Fuel fuel,String newPrice) {
+	public void updateFuel(String newPrice) {
 		JsonObject json = new JsonObject();
-		System.out.println(fuel.getFuelType());
-		String fuelType = FuelType.enumToString(fuel.getFuelType());
+		System.out.println(currentFuel.getFuelType());
+		String fuelType = FuelType.enumToString(currentFuel.getFuelType());
 
 		json.addProperty("fuelType", fuelType);
 		json.addProperty("pricePerLitter", newPrice);
 		Message msg = new Message(MessageType.UPDATE_FUEL, json.toString());
 		ClientUI.accept(msg);
-		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
+		
+		lblErrorMessage.setText("Update Successfully");
+		lblErrorMessage.setStyle(""
+				+ "-fx-text-fill:#00ff00;" 
+				+ "-fx-font-weight: bold;"
+				+ "-fx-font-size:14pt;"
+				);
+		txtCurrPrice.setText("");
+		txtMaxPrice.setText("");
+		txtNewPrice.setText("");
+		cbFuelType.setValue(cbFuelType.getItems().get(0));
 	}
-	
 
 	public void getFuelObjectByType(String fuelType) {
 		JsonObject json = new JsonObject();
 		json.addProperty("fuelType", fuelType);
 
 		Message msg = new Message(MessageType.GET_FUEL_BY_TYPE, json.toString());
-		ClientUI.clientController.handleMessageFromClient(msg);
+		ClientUI.accept(msg);
 
 		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
 		fuelType = response.get("fuelType").getAsString();
@@ -149,7 +153,12 @@ public class DeterminingFuelRatesController {
 
 		if (!type.equals("Choose type")) {
 			getFuelObjectByType(type);
-
+			lblErrorMessage.setText("");
+			lblErrorMessage.setStyle(""
+					+ "-fx-text-fill:#ff0000;" 
+					+ "-fx-font-weight: bold;"
+					+ "-fx-font-size:14pt;"
+					);
 			txtCurrPrice.setText(String.valueOf(currentFuel.getPricePerLitter()));
 			txtMaxPrice.setText(String.valueOf(currentFuel.getMaxPricePerLitter()));
 			txtNewPrice.setText("");
@@ -160,6 +169,7 @@ public class DeterminingFuelRatesController {
 		}
 
 	}
+
 	public void load(Pane changePane) {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("DeterminingFuelRatesForm.fxml"));
@@ -176,6 +186,11 @@ public class DeterminingFuelRatesController {
 	
 	private void initUI() {
 		lblErrorMessage.setText("");
+		lblErrorMessage.setStyle(""
+				+ "-fx-text-fill:#ff0000;" 
+				+ "-fx-font-weight: bold;"
+				+ "-fx-font-size:14pt;"
+				);
 		txtCurrPrice.setEditable(false);
 		txtMaxPrice.setEditable(false);
 		showOptionOfFuelTypeChoiseBox();
@@ -189,19 +204,6 @@ public class DeterminingFuelRatesController {
 		});
 
 	}
-//	public void updatePaymentFormOnPaymentMethodClick() {
-//		cbPaymentMethod.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
-//			@Override
-//			public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
-//				String value = cbPaymentMethod.getItems().get((Integer) number2);
-//
-//				if (value.equals("Choose type") || value.equals("Cash"))
-//					showCreditCardFields(false);
-//				else if (value.equals("Credit Card"))
-//					showCreditCardFields(true);
-//			}
-//		});
-//	}
 
 	
 }

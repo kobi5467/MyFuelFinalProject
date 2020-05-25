@@ -36,6 +36,7 @@ public class ServerController extends AbstractServer {
 			case GET_FUEL_BY_TYPE:
 			case GET_FUEL_TYPES:
 			case GET_FUEL_COMPANIES_NAMES:
+			case UPDATE_FUEL:
 				messageFromServer = handleFuelMessage(message);
 				break;
 			case GET_PURCHASE_MODELS:
@@ -84,6 +85,7 @@ public class ServerController extends AbstractServer {
 		case GET_FUEL_COMPANIES_NAMES: {
 			JsonArray types = dbConnector.fuelDBLogic.getFuelCompanyNames();
 			responseJson.add("fuelCompanies", types);
+			messageFromServer = new Message(MessageType.SERVER_RESPONSE, responseJson.toString());
 		}
 			break;
 		case GET_FUEL_BY_TYPE: {
@@ -93,7 +95,6 @@ public class ServerController extends AbstractServer {
 			messageFromServer = new Message(MessageType.SERVER_RESPONSE, response);
 		}
 			break;
-
 		case GET_FUEL_TYPES: {
 			JsonArray fuelTypes = dbConnector.fuelDBLogic.getFuelTypes();
 			responseJson.add("fuelTypes", fuelTypes);
@@ -101,6 +102,7 @@ public class ServerController extends AbstractServer {
 		}
 			break;
 		case UPDATE_FUEL: {
+			System.out.println("UPDATE_FULE !!");
 			String fuelType = requestJson.get("fuelType").getAsString();
 			String newPrice = requestJson.get("pricePerLitter").getAsString();
 			Fuel fuel = dbConnector.fuelDBLogic.getFuelObjectByType(fuelType);
@@ -111,7 +113,6 @@ public class ServerController extends AbstractServer {
 		default:
 			break;
 		}
-		messageFromServer = new Message(MessageType.SERVER_RESPONSE, responseJson.toString());
 		return messageFromServer;
 	}
 
@@ -180,32 +181,6 @@ public class ServerController extends AbstractServer {
 			break;
 		}
 		messageFromServer = new Message(MessageType.SERVER_RESPONSE, responseJson.toString());
-		return messageFromServer;
-	}
-
-	public Message handleMarketingManagerMessage(Message msg) {
-		Message messageFromServer = null;
-		JsonObject messageJson = msg.getMessageAsJsonObject();
-		JsonObject responseJson = new JsonObject();
-		switch (msg.getMessageType()) {
-		case GET_FUEL_BY_TYPE: {
-			String fuelType = messageJson.get("fuelType").getAsString();
-			Fuel fuel = dbConnector.fuelDBLogic.getFuelObjectByType(fuelType);
-			String response = new Gson().toJson(fuel);
-			messageFromServer = new Message(MessageType.SERVER_RESPONSE, response);
-		}
-			break;
-
-		case GET_FUEL_TYPES: {
-			JsonArray fuelTypes = dbConnector.fuelDBLogic.getFuelTypes();
-			responseJson.add("fuelTypes", fuelTypes);
-			messageFromServer = new Message(MessageType.SERVER_RESPONSE, responseJson.toString());
-		}
-			break;
-		default:
-			break;
-
-		}
 		return messageFromServer;
 	}
 

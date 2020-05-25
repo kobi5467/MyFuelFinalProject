@@ -50,8 +50,6 @@ public class FuelDBLogic {
 				if(rs.next()) {
 					float pricePerLitter = rs.getFloat("pricePerLitter");
 					float maxPricePerLitter = rs.getFloat("maxPricePerLitter");
-					
-					
 					fuel = new Fuel(FuelType.stringToEnumVal(fuelType) ,pricePerLitter,maxPricePerLitter);
 				}
 			}else {
@@ -70,15 +68,14 @@ public class FuelDBLogic {
 		float PriceToUpdate= 0;
 		PriceToUpdate=Float.parseFloat(newPrice);
 		String fueltype=fuel.getFuelType().toString();
-		System.out.println(fueltype);
 		String query = "";
 		Statement stmt = null;
 		try {
 			if(DBConnector.conn != null) {
 				stmt = DBConnector.conn.createStatement();
 				query =  "UPDATE fuel " + 
-				  "SET pricePerLitter = " + PriceToUpdate +  
-						  " WHERE fuelType = '" + fueltype + "';";
+						 "SET pricePerLitter = " + PriceToUpdate +  
+						 " WHERE fuelType = '" + fueltype + "';";
 				stmt.executeUpdate(query);
 			}else {
 				System.out.println("Conn is null");
@@ -87,8 +84,6 @@ public class FuelDBLogic {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}		
-		
-		
 	}
 	
 	public JsonArray getFuelCompanyNames() {

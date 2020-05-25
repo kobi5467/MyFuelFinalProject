@@ -135,7 +135,7 @@ public class MainFormController {
 	    clock.play();
 	}
 	
-	public void start(UserPermission userPermission) {
+	public void start() {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("MainForm.fxml"));
 
@@ -151,7 +151,7 @@ public class MainFormController {
 		}
 		ObjectContainer.mainFormController = loader.getController();
 
-		ObjectContainer.mainFormController.initUI(userPermission);
+		ObjectContainer.mainFormController.initUI(ObjectContainer.currentUserLogin.getUserPermission());
 		ObjectContainer.allowDrag(mainPane, ObjectContainer.mainStage);
 
 		Scene scene = new Scene(mainPane);
@@ -215,6 +215,13 @@ public class MainFormController {
 				ObjectContainer.determiningFuelRatesController = new DeterminingFuelRatesController();
 			}
 			ObjectContainer.determiningFuelRatesController.load(changePane);
+		}
+		
+		if(title.equals("ReportGeneration")) {
+			if(ObjectContainer.reportController == null) {
+				ObjectContainer.reportController = new ReportControler();
+			}
+			ObjectContainer.reportController.load(changePane);
 		}
 		
 		/***************************** Customer **********************************/  
