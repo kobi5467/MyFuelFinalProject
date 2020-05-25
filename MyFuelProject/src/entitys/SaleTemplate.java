@@ -1,5 +1,6 @@
 package entitys;
 
+import entitys.enums.FuelType;
 import entitys.enums.SaleTemplateType;
 
 public class SaleTemplate {
@@ -11,13 +12,13 @@ public class SaleTemplate {
 	private long endSaleTime;
 	private String lastRunningDate;
 	private float discountRate;
-	private Fuel fuel; // Maybe need to be array (for sales type of customer and hours)
+	private FuelType fuelType; // Maybe need to be array (for sales type of customer and hours)
 	private String saleDescription;
 	
 	public SaleTemplate(String saleTemplateName,
 			SaleTemplateType saleTemplateType, boolean isRuuning,
 			long startSaleTime, long endSaleTime, String lastRunningDate,
-			float discountRate, Fuel fuel, String saleDescription) {
+			float discountRate, FuelType fuelType, String saleDescription) {
 		this.saleTemplateName = saleTemplateName;
 		this.saleTemplateType = saleTemplateType;
 		this.isRuuning = isRuuning;
@@ -25,7 +26,7 @@ public class SaleTemplate {
 		this.endSaleTime = endSaleTime;
 		this.lastRunningDate = lastRunningDate;
 		this.discountRate = discountRate;
-		this.fuel = fuel;
+		this.fuelType = fuelType;
 		this.saleDescription = saleDescription;
 	}
 
@@ -85,12 +86,12 @@ public class SaleTemplate {
 		this.discountRate = discountRate;
 	}
 
-	public Fuel getFuel() {
-		return fuel;
+	public FuelType getFuelType() {
+		return fuelType;
 	}
 
-	public void setFuel(Fuel fuel) {
-		this.fuel = fuel;
+	public void setFuel(FuelType fuelType) {
+		this.fuelType = fuelType;
 	}
 
 	public String getSaleDescription() {
@@ -108,7 +109,7 @@ public class SaleTemplate {
 				+ isRuuning + ", startSaleTime=" + startSaleTime
 				+ ", endSaleTime=" + endSaleTime + ", lastRunningDate="
 				+ lastRunningDate + ", discountRate=" + discountRate
-				+ ", fuel=" + fuel + ", saleDescription=" + saleDescription
+				+ ", fuelType=" + fuelType + ", saleDescription=" + saleDescription
 				+ "]";
 	}
 		

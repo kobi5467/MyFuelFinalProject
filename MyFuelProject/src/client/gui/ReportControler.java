@@ -159,8 +159,6 @@ public class ReportControler {
 		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
 		JsonArray saleNames = response.get("saleNames").getAsJsonArray();
 		setChoiceOptionOfChoiceBox(cbSaleName, saleNames, "Choose sale name");
-		
-		
 	}
 
 	public void setOptionOfReportTypeOfStationManager() {

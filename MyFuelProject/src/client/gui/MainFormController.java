@@ -217,6 +217,13 @@ public class MainFormController {
 			ObjectContainer.determiningFuelRatesController.load(changePane);
 		}
 		
+		if(title.equals("RunningSales")) {
+			if(ObjectContainer.runningSalesController == null) {
+				ObjectContainer.runningSalesController = new RunningSalesController();
+			}
+			ObjectContainer.runningSalesController.load(changePane);
+		}
+		
 		if(title.equals("ReportGeneration")) {
 			if(ObjectContainer.reportController == null) {
 				ObjectContainer.reportController = new ReportControler();

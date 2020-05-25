@@ -281,8 +281,6 @@ public class HomeHeatingFuelController {
 		
 		
 	}
-	
-	
 
 	public void setErorLablesToNull() {
 		lblAmountErrorMsg.setText(" ");
@@ -296,68 +294,6 @@ public class HomeHeatingFuelController {
 	}
 
 //**************************************************End Initialize function**************************************************
-
-	public boolean setHomeHeatingFuelOrderInDB(String amount, String street, String dateSupplay,String isUrgentOrder,
-						String paymentMethod, String cardNumber,String CVV,String dateValidaton) {
-		
-		JsonObject json = new JsonObject();
-		json.addProperty("amount", amount);
-		json.addProperty("street", street);
-		json.addProperty("dateSupplay", dateSupplay);
-		json.addProperty("isUrgentOrder", isUrgentOrder);
-		//json.addProperty("paymentMethod", paymentMethod);
-		//json.addProperty("cardNumber", cardNumber);
-		//json.addProperty("CVV", CVV);
-		//json.addProperty("dateValidaton", dateValidaton);
-
-		Message msg = new Message(MessageType.ADD_HOME_HEATING_FUEL_ORDER,json.toString());
-		ClientUI.clientController.handleMessageFromClient(msg);
-		Boolean isCorrect = true;
-		Message response = ObjectContainer.currentMessageFromServer;
-		JsonObject responseJson = response.getMessageAsJsonObject();
-		
-		if(responseJson.get("isValid").getAsBoolean()) {
-			isCorrect = true;
-			
-		}
-		return isCorrect;
-	}
-//	public boolean insertHomeHeatingFuelOrder(String customerID) {
-//
-//		boolean isExist = false;
-//
-//		String query = " ";
-//		Statement stmt = null;
-//		int orderID=111;
-//		int customerId=444;
-//		int amount=443;
-//		String Street="harishonim 11a";
-//		String dateSupply="22/01/1994";
-//		Boolean urgentOrder=true;
-//		String saleTemplateName="sale1";
-//		try {
-//			if (DBConnector.conn != null) {
-//				query = "INSERT INTO  home_heating_fuel_order(orderID,customerId,amount,Street,dateSupply,urgentOrder,saleTemplateName)" +
-//						"VALUES(" + orderID+"," +customerId+"," +amount+"," + "'" +Street+ "'" + "," +dateSupply+","+urgentOrder+"," +saleTemplateName+")" + ";" ;
-//				System.out.println(query);
-//				
-//				stmt = DBConnector.conn.createStatement();
-//				ResultSet rs = stmt.executeQuery(query);
-//				if (rs.next()) {
-//					isExist = true;
-//				}
-//			} else {
-//				System.out.println("Conn is null");
-//			}
-//
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//
-//		return isExist;
-//	}
-	
-	
 }
 	
 	

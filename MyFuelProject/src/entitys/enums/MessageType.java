@@ -22,7 +22,6 @@ public enum MessageType {
 	CHECK_IF_ORDER_EXISTS,
 	// home heating fuel
 	SUBMIT_HOME_HEATING_FUEL_ORDER,
-	ADD_HOME_HEATING_FUEL_ORDER, /******     why to types??? ******/
 	
 	// inventory orders
 	GET_FUEL_INVENTORY_ORDERS,
@@ -39,6 +38,7 @@ public enum MessageType {
 	
 	// Sale templates
 	GET_SALE_NAMES,
+	GET_SALE_TEMPLATES,
 	
 	// Report
 	

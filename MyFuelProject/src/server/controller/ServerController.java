@@ -50,6 +50,9 @@ public class ServerController extends AbstractServer {
 			case CHECK_IF_VEHICLE_EXIST:
 				messageFromServer = handleCustomerMessage(message);
 				break;
+			case GET_SALE_TEMPLATES:
+				messageFromServer = handleSaleTemplateMessage(message);
+				break;
 			default:
 //				messageFromServer = new Message(MessageType.ERROR_TYPE_IS_UNSET, null);
 				break;
@@ -59,6 +62,22 @@ public class ServerController extends AbstractServer {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private Message handleSaleTemplateMessage(Message msg) {
+		Message messageFromServer = null;
+		JsonObject requestJson = msg.getMessageAsJsonObject();
+		JsonObject responseJson = new JsonObject();
+		switch (msg.getMessageType()) {
+		case GET_SALE_TEMPLATES: 
+				JsonArray saleTemplates = dbConnector.saleDBLOgic.getSaleTemplates();
+				responseJson.add("saleTemplates", saleTemplates);
+			break;
+		default:
+			break;
+		}
+		messageFromServer = new Message(MessageType.SERVER_RESPONSE, responseJson.toString());
+		return messageFromServer;
 	}
 
 	private Message handleOrderMessage(Message msg) {
