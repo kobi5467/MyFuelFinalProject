@@ -74,6 +74,8 @@ public class MainFormController {
 
 	private Button[] menuButtons;
 	
+	private int currentPane = 0;
+	
 	@FXML
 	void onExitWindow(ActionEvent event) {
 		// add here show message if we want to logout. and logout stuff.
@@ -186,6 +188,7 @@ public class MainFormController {
 				}
 			});
 		}
+//		menuButtons[menuButtons.length - 1].relocate(5, 510);	// if we want to set the logout button at the bottom.
 	}
 	
 	private void updateUserDetails() {
@@ -206,8 +209,13 @@ public class MainFormController {
 		for(int i = 0; i < menuButtons.length;i++) {
 			if(btnCurrent.equals(menuButtons[i])) {
 				title = buttonNames.get(i);
-				setButtonImage(title,i,true);
-				lblMainTitle.setText(fixTitle(title));
+				if(!title.equals("Logout")) {
+					setButtonImage(title,i,true);
+					lblMainTitle.setText(fixTitle(title));
+					currentPane = i;
+				}else {
+					setButtonImage(buttonNames.get(currentPane),currentPane,true);
+				}
 			}else {
 				setButtonImage(buttonNames.get(i),i,false);
 			}
@@ -215,9 +223,24 @@ public class MainFormController {
 		setPane(title);
 	}
 	
+	public void showErrorMessage(String type) {
+		if(type.equals("Logout")) {
+			if(ObjectContainer.messageController == null) {
+				ObjectContainer.messageController = new MessageController();
+			}
+			ObjectContainer.messageController.start("logout");
+		}
+	}
+	
 	private void setPane(String title) {
-		changePane.getChildren().clear();
 		
+		/***************************** ALL USERS **********************************/  
+		
+		if(title.equals("Logout")) {
+			showErrorMessage(title);
+			return;
+		}
+		changePane.getChildren().clear();
 		/***************************** Marketing Representative **********************************/  
 		if(title.equals("CustomerRegistration")) {
 			if(ObjectContainer.customerRegistrationController == null) {
@@ -270,24 +293,15 @@ public class MainFormController {
 			}
 			ObjectContainer.orderTrackingController.load(changePane);
 		}
-		
-		
-		
-		/***************************** ALL USERS **********************************/  
-		
-		if(title.equals("Logout")) {
-			if(ObjectContainer.messageController == null) {
-				ObjectContainer.messageController = new MessageController();
-			}
-			ObjectContainer.messageController.start("logout");
-		}
-		
 	}
 	
 	public void logout() {
 		JsonObject json = new JsonObject();
 		json.addProperty("userName", ObjectContainer.currentUserLogin.getUsername());
-		Message msg = new Message(MessageType.LOGOUT, json.toString());		
+		Message msg = new Message(MessageType.LOGOUT, json.toString());	
+		ClientUI.accept(msg);
+		ObjectContainer.mainStage.close();
+		ObjectContainer.loginStage.show();
 	}
 	
 	

@@ -2,7 +2,11 @@ package client.gui;
 
 import java.io.IOException;
 
+import com.google.gson.JsonObject;
+
 import client.controller.ObjectContainer;
+import entitys.Message;
+import entitys.enums.MessageType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -48,7 +53,10 @@ public class MessageController {
 
     @FXML
     void onYes(ActionEvent event) {
-
+    	if(type.equals("logout")) {
+    		ObjectContainer.messageStage.close();
+    		ObjectContainer.mainFormController.logout();
+    	}
     }
 
 	public void start(String type) {
@@ -58,13 +66,14 @@ public class MessageController {
 		if (ObjectContainer.messageStage == null) {
 			ObjectContainer.messageStage = new Stage();
 			ObjectContainer.messageStage.initStyle(StageStyle.UNDECORATED);
+			ObjectContainer.messageStage.initModality(Modality.APPLICATION_MODAL);
 		}
 
 		try {
 			messagePane = loader.load();
 			ObjectContainer.messageController = loader.getController();
 			ObjectContainer.messageController.initUI(type);
-			ObjectContainer.allowDrag(messagePane, ObjectContainer.mainStage);
+			ObjectContainer.allowDrag(messagePane, ObjectContainer.messageStage);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -72,7 +81,8 @@ public class MessageController {
 		Scene scene = new Scene(messagePane);
 		ObjectContainer.messageStage.setScene(scene);
 		ObjectContainer.messageStage.centerOnScreen();
-		ObjectContainer.messageStage.show();
+		ObjectContainer.messageStage.showAndWait();
+//		ObjectContainer.messageStage.show();
 	}
 
 	private void initUI(String type) {

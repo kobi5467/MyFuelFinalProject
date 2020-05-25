@@ -72,6 +72,7 @@ public class UserDBController {
 			e.printStackTrace();
 		}
 
+		if(isValid) updateLoginFlag(userName, 1);
 		response.addProperty("isValid", isValid);
 		response.addProperty("errorMessage", errorMessage);
 		return response;
@@ -103,30 +104,6 @@ public class UserDBController {
 		}
 
 		return user;
-	}
-
-	public boolean checkIfUserAlreadyLoggedIn(String userName) {
-		boolean isLogin = false;
-		String query = "";
-
-		Statement stmt = null;
-		try {
-			if (DBConnector.conn != null) {
-				query = "SELECT * FROM users " + "WHERE userName = '" + userName + "' AND isLogin = '1';";
-				stmt = DBConnector.conn.createStatement();
-				ResultSet rs = stmt.executeQuery(query);
-				if (rs.next()) {
-					isLogin = true;
-				}
-			} else {
-				System.out.println("Conn is null");
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return isLogin;
 	}
 
 	// isLoginValue - 1 for login , 0 for logout.
