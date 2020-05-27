@@ -7,48 +7,59 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane fx:id="mainSalePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="56.0" prefWidth="808.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.SalePane">
    <children>
-      <Pane fx:id="viewPane" layoutX="-2.0" layoutY="-3.0" minWidth="0.0" prefHeight="159.0" prefWidth="814.0">
+      <Pane fx:id="viewPane" layoutX="-2.0" layoutY="-3.0" minWidth="0.0" prefHeight="159.0" prefWidth="808.0">
          <children>
-            <Label layoutX="16.0" layoutY="67.0" minHeight="30.0" minWidth="120.0" prefHeight="30.0" prefWidth="120.0" text="Start Time :">
+            <Label layoutX="16.0" layoutY="67.0" minHeight="30.0" minWidth="120.0" prefHeight="30.0" prefWidth="120.0" text="Start Time :" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="txtStartTime" layoutX="235.0" layoutY="63.0" prefHeight="40.0" prefWidth="130.0" />
-            <Label layoutX="16.0" layoutY="115.0" minHeight="30.0" minWidth="120.0" prefHeight="30.0" prefWidth="120.0" text="End Time:">
+            <TextField fx:id="txtStartTime" layoutX="235.0" layoutY="63.0" prefHeight="40.0" prefWidth="130.0">
+               <font>
+                  <Font size="18.0" />
+               </font></TextField>
+            <Label layoutX="16.0" layoutY="115.0" minHeight="30.0" minWidth="120.0" prefHeight="30.0" prefWidth="120.0" text="End Time:" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="txtEndTime" layoutX="235.0" layoutY="111.0" prefHeight="40.0" prefWidth="130.0" />
-            <Label layoutX="388.0" layoutY="16.0" minHeight="30.0" minWidth="120.0" prefHeight="30.0" prefWidth="120.0" text="Fuel type:">
+            <TextField fx:id="txtEndTime" layoutX="235.0" layoutY="111.0" prefHeight="40.0" prefWidth="130.0">
+               <font>
+                  <Font size="18.0" />
+               </font></TextField>
+            <Label layoutX="388.0" layoutY="16.0" minHeight="30.0" minWidth="120.0" prefHeight="30.0" prefWidth="120.0" text="Fuel type:" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="txtFuelType" layoutX="565.0" layoutY="8.0" prefHeight="40.0" prefWidth="130.0" />
-            <Label layoutX="388.0" layoutY="66.0" minHeight="30.0" minWidth="120.0" prefHeight="30.0" prefWidth="167.0" text="Discount Rate :">
+            <TextField fx:id="txtFuelType" layoutX="547.0" layoutY="11.0" prefHeight="40.0" prefWidth="130.0">
+               <font>
+                  <Font size="18.0" />
+               </font></TextField>
+            <Label layoutX="388.0" layoutY="66.0" minHeight="30.0" minWidth="120.0" prefHeight="30.0" prefWidth="167.0" text="Discount Rate :" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="txtDiscountRate" layoutX="565.0" layoutY="58.0" prefHeight="40.0" prefWidth="130.0" />
-            <Label layoutX="388.0" layoutY="116.0" minHeight="30.0" minWidth="106.0" prefHeight="30.0" prefWidth="106.0" text="Is Active :">
+            <TextField fx:id="txtDiscountRate" layoutX="547.0" layoutY="63.0" prefHeight="40.0" prefWidth="130.0">
+               <font>
+                  <Font size="18.0" />
+               </font></TextField>
+            <Label layoutX="388.0" layoutY="116.0" minHeight="30.0" minWidth="106.0" prefHeight="30.0" prefWidth="106.0" text="Is Active :" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Button fx:id="btnActiveYes" layoutX="565.0" layoutY="118.0" mnemonicParsing="false" onAction="#onYes" prefHeight="25.0" prefWidth="25.0" />
-            <Button fx:id="btnActiveNo" layoutX="630.0" layoutY="118.0" mnemonicParsing="false" onAction="#onNo" prefHeight="25.0" prefWidth="25.0" />
-            <Label layoutX="595.0" layoutY="116.0" minHeight="30.0" minWidth="41.0" prefHeight="30.0" prefWidth="41.0" text="Yes">
+            <Button fx:id="btnActiveYes" layoutX="547.0" layoutY="116.0" mnemonicParsing="false" onAction="#onYes" prefHeight="30.0" prefWidth="30.0" />
+            <Button fx:id="btnActiveNo" layoutX="618.0" layoutY="115.0" mnemonicParsing="false" onAction="#onNo" prefHeight="30.0" prefWidth="30.0" />
+            <Label layoutX="585.0" layoutY="116.0" minHeight="30.0" minWidth="41.0" prefHeight="30.0" prefWidth="41.0" text="Yes" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="660.0" layoutY="116.0" minHeight="30.0" minWidth="41.0" prefHeight="30.0" prefWidth="41.0" text="No">
+            <Label layoutX="654.0" layoutY="116.0" minHeight="30.0" minWidth="41.0" prefHeight="30.0" prefWidth="41.0" text="No" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -57,14 +68,18 @@
       </Pane>
       <Pane fx:id="salePane" prefHeight="66.0" prefWidth="808.0">
          <children>
-            <Label layoutX="12.0" layoutY="11.0" minHeight="30.0" minWidth="120.0" prefHeight="30.0" prefWidth="210.0" text="Sale Template Name :">
+            <Label layoutX="12.0" layoutY="11.0" minHeight="30.0" minWidth="120.0" prefHeight="30.0" prefWidth="210.0" text="Sale Template Name :" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="txtSaleName" layoutX="233.0" layoutY="7.0" prefHeight="40.0" prefWidth="130.0" />
-            <Button fx:id="btnView" layoutX="738.0" layoutY="16.0" mnemonicParsing="false" onAction="#onView" text="View" />
-            <Button fx:id="btnRunStop" layoutX="689.0" layoutY="16.0" mnemonicParsing="false" onAction="#onRunStop" text="Run" />
+            <TextField fx:id="txtSaleName" layoutX="232.0" layoutY="8.0" prefHeight="40.0" prefWidth="130.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextField>
+            <Button fx:id="btnView" layoutX="738.0" layoutY="8.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" onAction="#onView" text="View" />
+            <Button fx:id="btnRunStop" layoutX="689.0" layoutY="8.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" onAction="#onRunStop" text="Run" />
          </children>
       </Pane>
    </children>

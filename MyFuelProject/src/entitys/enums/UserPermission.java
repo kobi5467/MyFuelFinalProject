@@ -7,7 +7,8 @@ public enum UserPermission {
 	MARKETING_MANAGER,
 	MARKETING_REPRESENTATIVE,
 	STATION_MANAGER,
-	SUPPLIER;
+	SUPPLIER,
+	CEO;
 	
 	public static UserPermission stringToEnumVal(String permission) {
 		if(permission == null || permission.trim().equals("")) {
@@ -27,6 +28,9 @@ public enum UserPermission {
 		}
 		if(permission.equals("SUPPLIER")) {
 			return UserPermission.SUPPLIER;
+		}
+		if(permission.equals("CEO")) {
+			return UserPermission.CEO;
 		}
 		return null;
 	}

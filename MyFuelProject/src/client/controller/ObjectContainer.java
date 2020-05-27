@@ -72,6 +72,13 @@ public class ObjectContainer {
 	
 	// ****************************************     global methods  	****************************************
 		
+	public static void showErrorMessage(String type,String title, String msg) {
+		if(ObjectContainer.messageController == null) {
+			ObjectContainer.messageController = new MessageController();
+		}
+		ObjectContainer.messageController.start(type,title,msg);
+	}
+	
 	public static boolean checkIfStringContainsOnlyNumbers(String val) {
 		boolean flag = true;
 		for (int i = 0; i < val.length(); i++) {

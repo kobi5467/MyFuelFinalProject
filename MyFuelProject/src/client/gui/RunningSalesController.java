@@ -29,7 +29,9 @@ public class RunningSalesController {
     private VBox vbSaleContainer;
 
     private ArrayList<AnchorPane> salePanes;
-    private JsonArray saleTemplates;
+    public JsonArray saleTemplates;
+    
+    public ArrayList<SalePane> salePanesControllers;
     
     public void load(Pane changePane) {
     	FXMLLoader loader = new FXMLLoader();
@@ -48,15 +50,17 @@ public class RunningSalesController {
 	private void initUI() {
 		saleTemplates = getSaleTemplatesArray();
 		salePanes = new ArrayList<>();
+		salePanesControllers = new ArrayList<>();
 		for(int i = 0; i < saleTemplates.size(); i++) {
 			SalePane salePane = new SalePane();
+			salePanesControllers.add(salePane);
 			String color = i % 2 == 0 ? "#0240FF" : "#024079";
-			AnchorPane pane = salePane.load(saleTemplates.get(i).getAsJsonObject(),color);
+			AnchorPane pane = salePane.load(color,i);
 			salePanes.add(pane);
 		}
 		showSales();
 	}
-    
+    	
 	public JsonArray getSaleTemplatesArray() {
 		Message msg = new Message(MessageType.GET_SALE_TEMPLATES,"");
 		ClientUI.accept(msg);
@@ -72,4 +76,34 @@ public class RunningSalesController {
 			vbSaleContainer.getChildren().add(salePanes.get(i));
 		}
 	}
+
+	public boolean onChangeSaleStatus(boolean isRunning, int index) {
+		if(isRunning) {
+			saleTemplates.get(index).getAsJsonObject().addProperty("isRunning", 0);
+			Message msg = new Message(MessageType.UPDATE_RUNNING_SALE,saleTemplates.get(index).toString());
+			ClientUI.accept(msg);
+			return true;
+		}
+		
+		if(checkIfCanStartSale(index)) {
+			saleTemplates.get(index).getAsJsonObject().addProperty("isRunning", 1);
+			Message msg = new Message(MessageType.UPDATE_RUNNING_SALE,saleTemplates.get(index).toString());
+			ClientUI.accept(msg);
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean checkIfCanStartSale(int index) {
+		boolean isValid = true;
+		
+		for(int i = 0; i < saleTemplates.size(); i++) {
+			if(i != index && saleTemplates.get(i).getAsJsonObject().get("isRunning").getAsInt() == 1) {
+				isValid = false;
+			}
+		}
+		
+		return isValid;
+	}
+	
 }

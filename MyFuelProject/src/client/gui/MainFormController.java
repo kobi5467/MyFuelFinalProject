@@ -78,7 +78,7 @@ public class MainFormController {
 	
 	@FXML
 	void onExitWindow(ActionEvent event) {
-		// add here show message if we want to logout. and logout stuff.
+		logout();
 		ObjectContainer.mainStage.hide();
 		ObjectContainer.loginStage.show();
 	}
@@ -91,37 +91,34 @@ public class MainFormController {
 	public ArrayList<String> getButtonNames(UserPermission userPermission) {
 		ArrayList<String> buttonNames = new ArrayList<>();
 		buttonNames.add("Home");
-
+		
 		switch (userPermission) {
-		case CUSTOMER: {
-			buttonNames.add("HomeHeatingFuel");
-			buttonNames.add("OrderTracking");
-		}
+			case CUSTOMER: 
+				buttonNames.add("HomeHeatingFuel");
+				buttonNames.add("OrderTracking");
+				break;
+			case MARKETING_MANAGER: 
+				buttonNames.add("DeterminingFuelRates");
+				buttonNames.add("RunningSales");
+				buttonNames.add("ReportGeneration");
+				break;
+			case MARKETING_REPRESENTATIVE: 
+				buttonNames.add("CustomerRegistration");
+				buttonNames.add("UpdateCustomer");
+				buttonNames.add("SaleTemplates");
+				break;
+			case STATION_MANAGER:
+				buttonNames.add("InventoryOrders");
+				buttonNames.add("Inventory");
+				buttonNames.add("ReportGeneration");
+				break;
+			case CEO:
+				buttonNames.add("DetermineRateRequests");
+			case SUPPLIER:
+				buttonNames.add("Orders");
 			break;
-		case MARKETING_MANAGER: {
-			buttonNames.add("DeterminingFuelRates");
-			buttonNames.add("RunningSales");
-			buttonNames.add("ReportGeneration");
-		}
-			break;
-		case MARKETING_REPRESENTATIVE: {
-			buttonNames.add("CustomerRegistration");
-			buttonNames.add("UpdateCustomer");
-			buttonNames.add("SaleTemplates");
-		}
-			break;
-		case STATION_MANAGER: {
-			buttonNames.add("InventoryOrders");
-			buttonNames.add("Inventory");
-			buttonNames.add("ReportGeneration");
-		}
-			break;
-		case SUPPLIER: {
-			buttonNames.add("Order");
-		}break;
 		}
 
-		buttonNames.add("Setting");
 		buttonNames.add("About");
 		buttonNames.add("Logout");
 
@@ -223,21 +220,12 @@ public class MainFormController {
 		setPane(title);
 	}
 	
-	public void showErrorMessage(String type) {
-		if(type.equals("Logout")) {
-			if(ObjectContainer.messageController == null) {
-				ObjectContainer.messageController = new MessageController();
-			}
-			ObjectContainer.messageController.start("logout");
-		}
-	}
-	
 	private void setPane(String title) {
 		
 		/***************************** ALL USERS **********************************/  
 		
 		if(title.equals("Logout")) {
-			showErrorMessage(title);
+			ObjectContainer.showErrorMessage("yes_no","Logout","Are you sure \nyou want to logout?");
 			return;
 		}
 		changePane.getChildren().clear();
@@ -303,7 +291,6 @@ public class MainFormController {
 		ObjectContainer.mainStage.close();
 		ObjectContainer.loginStage.show();
 	}
-	
 	
 	public String fixTitle(String title) {
 		String fixedTitle = ""+title.charAt(0);

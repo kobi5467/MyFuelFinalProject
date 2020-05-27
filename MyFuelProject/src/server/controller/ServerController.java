@@ -53,6 +53,7 @@ public class ServerController extends AbstractServer {
 				messageFromServer = handleCustomerMessage(message);
 				break;
 			case GET_SALE_TEMPLATES:
+			case UPDATE_RUNNING_SALE:
 				messageFromServer = handleSaleTemplateMessage(message);
 				break;
 			default:
@@ -74,6 +75,11 @@ public class ServerController extends AbstractServer {
 		case GET_SALE_TEMPLATES: 
 				JsonArray saleTemplates = dbConnector.saleDBLOgic.getSaleTemplates();
 				responseJson.add("saleTemplates", saleTemplates);
+			break;
+		case UPDATE_RUNNING_SALE:
+				String saleName = requestJson.get("saleName").getAsString();
+				int isRunning = requestJson.get("isRunning").getAsInt();
+				dbConnector.saleDBLOgic.updateRunningSale(saleName, isRunning);
 			break;
 		default:
 			break;

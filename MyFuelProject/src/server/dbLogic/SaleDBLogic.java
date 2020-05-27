@@ -49,7 +49,7 @@ public class SaleDBLogic {
 					JsonObject saleTemplate = new JsonObject();
 					saleTemplate.addProperty("saleName", rs.getString("saleName"));
 					saleTemplate.addProperty("saleType", rs.getString("saleType"));
-					saleTemplate.addProperty("isRunning", rs.getString("isRunning"));
+					saleTemplate.addProperty("isRunning", rs.getInt("isRunning"));
 					saleTemplate.addProperty("startSaleTime", rs.getString("startSaleTime"));
 					saleTemplate.addProperty("endSaleTime", rs.getString("endSaleTime"));
 					saleTemplate.addProperty("lastRunningDate", rs.getString("lastRunningDate"));
@@ -64,5 +64,25 @@ public class SaleDBLogic {
 			e.printStackTrace();
 		}
 		return saleTemplates;
+	}
+
+
+	public void updateRunningSale(String saleName, int isRunning) {
+		String query = "";
+		Statement stmt = null;
+		try {
+			if(DBConnector.conn != null) {
+				stmt = DBConnector.conn.createStatement();
+				query =  "UPDATE sale_templates " + 
+						 "SET isRunning = " + isRunning +  
+						 " WHERE saleName = '" + saleName + "';";
+				stmt.executeUpdate(query);
+			}else {
+				System.out.println("Conn is null");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
 	}
 }

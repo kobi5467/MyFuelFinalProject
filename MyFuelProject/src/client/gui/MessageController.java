@@ -40,6 +40,7 @@ public class MessageController {
     private Button btnOk;
 
     private String type;
+    private String title;
     
     @FXML
     void onNo(ActionEvent event) {
@@ -48,18 +49,18 @@ public class MessageController {
 
     @FXML
     void onOk(ActionEvent event) {
-
+    	ObjectContainer.messageStage.close();
     }
 
     @FXML
     void onYes(ActionEvent event) {
-    	if(type.equals("logout")) {
+    	if(title.equals("Logout")) {
     		ObjectContainer.messageStage.close();
     		ObjectContainer.mainFormController.logout();
     	}
     }
 
-	public void start(String type) {
+	public void start(String type, String title, String msg) {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("MessageForm.fxml"));
 
@@ -72,7 +73,7 @@ public class MessageController {
 		try {
 			messagePane = loader.load();
 			ObjectContainer.messageController = loader.getController();
-			ObjectContainer.messageController.initUI(type);
+			ObjectContainer.messageController.initUI(type,title,msg);
 			ObjectContainer.allowDrag(messagePane, ObjectContainer.messageStage);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -82,16 +83,22 @@ public class MessageController {
 		ObjectContainer.messageStage.setScene(scene);
 		ObjectContainer.messageStage.centerOnScreen();
 		ObjectContainer.messageStage.showAndWait();
-//		ObjectContainer.messageStage.show();
 	}
 
-	private void initUI(String type) {
+	private void initUI(String type, String title, String msg) {
 		this.type = type;
-		if(type.equals("logout")) {
+		this.title = title;
+		if(type.equals("yes_no")) {
 			btnOk.setVisible(false);
-			lblMessageTitle.setText("Logout");
-			txtMessage.setText("Are you sure you \nwant to logout ?");
+			btnYes.setVisible(true);
+			btnNo.setVisible(true);
+		}else if(type.equals("Error")) {
+			btnYes.setVisible(false);
+			btnNo.setVisible(false);
+			btnOk.setVisible(true);
 		}
+		lblMessageTitle.setText(title);
+		txtMessage.setText(msg);
 		
 	}
 

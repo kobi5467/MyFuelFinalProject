@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.google.gson.JsonObject;
 
+import client.controller.ObjectContainer;
 import entitys.SaleTemplate;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -57,6 +58,10 @@ public class SalePane {
     @FXML
     private Button btnRunStop;
     
+    public boolean isView = false;
+    public boolean isRunning;
+    public int index = -1;
+    
     public void setBackgroundColor(String color) {
     	salePane.setStyle("-fx-background-color:"+color+";");
     }
@@ -67,31 +72,51 @@ public class SalePane {
     }
 
     @FXML
-    void onRunStop(ActionEvent event) {
-
+    void onYes(ActionEvent event) {
+    	
     }
-
+    
+    @FXML
+    void onRunStop(ActionEvent event) {
+    	boolean methodSuccess = ObjectContainer.runningSalesController.onChangeSaleStatus(isRunning,index);
+    	if(methodSuccess) {
+    		if(isRunning) {
+    			setButtonImage("../../images/run.png", btnRunStop);
+        	}else {
+        		setButtonImage("../../images/stop.png", btnRunStop);
+        	}
+    		isRunning = !isRunning;
+    		setYesOrNo(isRunning);
+    	}else {
+    		ObjectContainer.showErrorMessage("Error","Running Sale Error","You can't run two sales at the same time..");
+    	}
+    }
+    
     @FXML
     void onView(ActionEvent event) {
     	if(viewPane.isVisible()) {
-    		btnRunStop.setVisible(true);
-    		viewPane.setVisible(false);
-    		mainSalePane.setPrefSize(salePane.getPrefWidth(), salePane.getPrefHeight());
-    		setButtonImage("../../images/add_icon.png", btnView);
+    		closeView();
     	}else {
-    		btnRunStop.setVisible(false);
-    		viewPane.setVisible(true);
-    		mainSalePane.setPrefSize(viewPane.getPrefWidth(), viewPane.getPrefHeight());
-    		setButtonImage("../../images/minus_icon.png", btnView);
+    		showView();
     	}
     }
-
-    @FXML
-    void onYes(ActionEvent event) {
-
+    public void closeView() {
+    	isView = false;
+    	btnRunStop.setVisible(true);
+		viewPane.setVisible(false);
+		mainSalePane.setPrefSize(salePane.getPrefWidth(), salePane.getPrefHeight());
+		setButtonImage("../../images/add_icon.png", btnView);
     }
     
-    public AnchorPane load(JsonObject saleTemplate,String color) {
+    public void showView() {
+    	isView = true;
+    	btnRunStop.setVisible(false);
+		viewPane.setVisible(true);
+		mainSalePane.setPrefSize(viewPane.getPrefWidth(), viewPane.getPrefHeight());
+		setButtonImage("../../images/minus_icon.png", btnView);
+    }
+    
+    public AnchorPane load(String color, int index) {
     	FXMLLoader loader = new FXMLLoader();
     	loader.setLocation(getClass().getResource("SalePane.fxml"));
     	
@@ -99,20 +124,25 @@ public class SalePane {
 		try {
 			mainSalePane = loader.load();
 			pane = loader.getController(); 
-			pane.initUI(saleTemplate,color);
+			pane.initUI(color, index);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return mainSalePane;
     }
     
-    public void initUI(JsonObject saleTemplate, String color) {
+    public void initUI(String color, int index) {
+    	this.index = index;
     	mainSalePane.setStyle("-fx-background-color:"+color+";");
     	salePane.setVisible(true);
     	viewPane.setVisible(false);
     	setButtonImage("../../images/add_icon.png", btnView);
-    	setButtonImage("../../images/run.png", btnRunStop);
-    	fillData(saleTemplate);
+    	btnRunStop.setMinSize(40, 40);
+    	btnRunStop.setText("");
+    	btnView.setMinSize(40, 40);
+    	btnView.setText("");
+    	fillData(ObjectContainer.runningSalesController.saleTemplates.get(index).getAsJsonObject());
+    	isView = false;
     }
 
 	private void fillData(JsonObject saleTemplate) {
@@ -122,11 +152,24 @@ public class SalePane {
 		txtEndTime.setText(saleTemplate.get("endSaleTime").getAsString());
 		txtFuelType.setText(saleTemplate.get("saleType").getAsString());
 		txtDiscountRate.setText(saleTemplate.get("discountRate").getAsString());
-		String isRunning = saleTemplate.get("isRunning").getAsString();
-		if(isRunning.equals("1")) {
-			btnActiveYes.setStyle("-fx-background-color:green;");
+		isRunning = saleTemplate.get("isRunning").getAsInt() == 1;
+		
+		if(isRunning) {
+			setButtonImage("../../images/stop.png", btnRunStop);
+			setYesOrNo(true);
 		}else {
-			btnActiveNo.setStyle("-fx-background-color:red;");
+			setButtonImage("../../images/run.png", btnRunStop);
+			setYesOrNo(false);
+		}
+	}
+	
+	public void setYesOrNo(boolean isYes) {
+		if(isYes) {
+			btnActiveYes.setStyle("-fx-background-color:#00ff00");
+			btnActiveNo.setStyle("-fx-background-color:#ffffff");
+		}else {
+			btnActiveYes.setStyle("-fx-background-color:#ffffff");
+			btnActiveNo.setStyle("-fx-background-color:#ff0000");
 		}
 	}
 	

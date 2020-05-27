@@ -40,6 +40,8 @@ public enum MessageType {
 	// Sale templates
 	GET_SALE_NAMES,
 	GET_SALE_TEMPLATES,
+	UPDATE_RUNNING_SALE,
+	
 	
 	// Report
 	

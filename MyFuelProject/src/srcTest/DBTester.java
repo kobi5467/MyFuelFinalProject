@@ -28,6 +28,8 @@ public class DBTester {
 		DBTester test = new DBTester();
 		DBConnector db = new DBConnector();
 		
+//		db.saleDBLOgic.updateRunningSale("Night Sale", 1);
+//		db.saleDBLOgic.updateRunningSale("Happy Hour", 0);
 		
 	}
 
