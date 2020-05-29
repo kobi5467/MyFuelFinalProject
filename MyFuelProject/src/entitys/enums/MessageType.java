@@ -12,8 +12,8 @@ public enum MessageType {
 	
 	// Customer
 	CHECK_IF_CUSTOMER_EXIST,
-	GET_CUSTOMER_TYPES,
-	
+	GET_SUBSCRIBE_TYPES,
+	REGISTER_CUSTOMER,
 	
 	// Vehicle
 	CHECK_IF_VEHICLE_EXIST,

@@ -78,9 +78,7 @@ public class MainFormController {
 	
 	@FXML
 	void onExitWindow(ActionEvent event) {
-		logout();
-		ObjectContainer.mainStage.hide();
-		ObjectContainer.loginStage.show();
+		ObjectContainer.showMessage("yes_no","Exit","Are you sure \nyou want to exit program?");
 	}
 
 	@FXML
@@ -185,7 +183,7 @@ public class MainFormController {
 				}
 			});
 		}
-//		menuButtons[menuButtons.length - 1].relocate(5, 510);	// if we want to set the logout button at the bottom.
+		lblMainTitle.setText(fixTitle("Home"));
 	}
 	
 	private void updateUserDetails() {
@@ -208,7 +206,6 @@ public class MainFormController {
 				title = buttonNames.get(i);
 				if(!title.equals("Logout")) {
 					setButtonImage(title,i,true);
-					lblMainTitle.setText(fixTitle(title));
 					currentPane = i;
 				}else {
 					setButtonImage(buttonNames.get(currentPane),currentPane,true);
@@ -223,7 +220,7 @@ public class MainFormController {
 	public void setPane(String title) {
 		
 		/***************************** ALL USERS **********************************/  
-		
+		lblMainTitle.setText(fixTitle(title));
 		if(title.equals("Logout")) {
 			ObjectContainer.showMessage("yes_no","Logout","Are you sure \nyou want to logout?");
 			return;

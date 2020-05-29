@@ -48,8 +48,9 @@ public class ServerController extends AbstractServer {
 				messageFromServer = handleOrderMessage(message);
 				break;
 			case CHECK_IF_CUSTOMER_EXIST:
-			case GET_CUSTOMER_TYPES:
+			case GET_SUBSCRIBE_TYPES:
 			case CHECK_IF_VEHICLE_EXIST:
+			case REGISTER_CUSTOMER:
 				messageFromServer = handleCustomerMessage(message);
 				break;
 			case GET_SALE_TEMPLATES:
@@ -169,13 +170,16 @@ public class ServerController extends AbstractServer {
 			boolean isExist = dbConnector.customerDBLogic.checkIfCustomerExist(requestJson.get("customerID").getAsString());
 			responseJson.addProperty("isExist", isExist);
 			break;
-		case GET_CUSTOMER_TYPES:
-			JsonArray types = dbConnector.customerDBLogic.getCustomerTypes();
-			responseJson.add("customerTypes", types);
+		case GET_SUBSCRIBE_TYPES:
+			JsonArray types = dbConnector.customerDBLogic.getSubscribeTypes();
+			responseJson.add("subscribeTypes", types);
 			break;
 		case CHECK_IF_VEHICLE_EXIST:
 			boolean vehicleIsExist = dbConnector.customerDBLogic.checkIfVehicleExist(requestJson);
 			responseJson.addProperty("isExist", vehicleIsExist);
+			break;
+		case REGISTER_CUSTOMER:
+				register(requestJson);
 			break;
 		default:
 			break;
@@ -185,6 +189,23 @@ public class ServerController extends AbstractServer {
 
 	}
 
+	public void register(JsonObject requestJson) {
+		dbConnector.userDBController.addUser(requestJson);
+		dbConnector.customerDBLogic.addCustomer(requestJson);
+		if(requestJson.get("creditCard") != null) {
+			JsonObject creditCard = requestJson.get("creditCard").getAsJsonObject();
+			dbConnector.customerDBLogic.addCreditCard(creditCard);
+		}
+		JsonArray vehicles = requestJson.get("vehicles").getAsJsonArray(); 
+		for(int i = 0; i < vehicles.size(); i++) {
+			JsonObject vehicle = vehicles.get(i).getAsJsonObject();
+			dbConnector.customerDBLogic.addVehicle(vehicle);
+		}
+		
+		JsonArray fuelCompanies = requestJson.get("purchaseModel").getAsJsonObject().get("fuelCompany").getAsJsonArray();
+		dbConnector.customerDBLogic.addFuelCompanies(requestJson.get("customerID").getAsString(), fuelCompanies);
+	}
+	
 	public Message handleUserMessage(Message msg) {
 		Message messageFromServer = null;
 		JsonObject requestJson = msg.getMessageAsJsonObject();

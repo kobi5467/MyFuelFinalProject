@@ -4,7 +4,7 @@ import entitys.enums.UserPermission;
 
 public class User {
 
-	private String username;
+	private String userName;
 	private String password;
 	private UserPermission userPermission;
 	
@@ -21,7 +21,7 @@ public class User {
 	
 	public User(String username, String password, UserPermission userPermission, String name, String email,
 			String phoneNumber) {
-		this.username = username;
+		this.userName = username;
 		this.password = password;
 		this.userPermission = userPermission;
 		this.name = name;
@@ -30,11 +30,11 @@ public class User {
 	}
 
 	public String getUsername() {
-		return username;
+		return userName;
 	}
 
 	public void setUsername(String username) {
-		this.username = username;
+		this.userName = username;
 	}
 
 	public String getPassword() {
@@ -95,7 +95,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [username=" + username + ", password=" + password + ", userPermission=" + userPermission
+		return "User [username=" + userName + ", password=" + password + ", userPermission=" + userPermission
 				+ ", name=" + name + ", email=" + email + ", phoneNumber=" + phoneNumber + ", lastLoginTime="
 				+ lastLoginTime + ", isLogin=" + isLogin + "]";
 	}	

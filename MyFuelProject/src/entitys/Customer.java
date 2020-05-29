@@ -6,9 +6,9 @@ import entitys.enums.UserPermission;
 
 public class Customer extends User {
 
-	private String customerId;
-	private String City;
-	private String Street;
+	private String customerID;
+	private String city;
+	private String street;
 	private int customerRate;
 	private SubscribeType subscribeType;
 	private String customerType;
@@ -25,9 +25,9 @@ public class Customer extends User {
 			SubscribeType subscribeType,String customerType, PurchaseModel purchaseModel, CreditCard creditCard,
 			ArrayList<Vehicle> vehicles) {
 		super(username, password, userPermission, name, email, phoneNumber);
-		this.customerId = customerId;
-		City = city;
-		Street = street;
+		this.customerID = customerId;
+		this.city = city;
+		this.street = street;
 		this.customerRate = customerRate;
 		this.customerType = customerType;
 		this.subscribeType = subscribeType;
@@ -37,27 +37,27 @@ public class Customer extends User {
 	}
 
 	public String getCustomerId() {
-		return customerId;
+		return customerID;
 	}
 
 	public void setCustomerId(String customerId) {
-		this.customerId = customerId;
+		this.customerID = customerId;
 	}
 
 	public String getCity() {
-		return City;
+		return city;
 	}
 
 	public void setCity(String city) {
-		City = city;
+		this.city = city;
 	}
 
 	public String getStreet() {
-		return Street;
+		return street;
 	}
 
 	public void setStreet(String street) {
-		Street = street;
+		this.street = street;
 	}
 
 	public int getCustomerRate() {
@@ -110,7 +110,7 @@ public class Customer extends User {
 
 	@Override
 	public String toString() {
-		return "Customer [customerId=" + customerId + ", City=" + City + ", Street=" + Street + ", customerRate="
+		return "Customer [customerId=" + customerID + ", City=" + city + ", Street=" + street + ", customerRate="
 				+ customerRate + ", subscribeType=" + subscribeType + ", customerType=" + customerType
 				+ ", purchaseModel=" + purchaseModel + ", creditCard=" + creditCard + ", vehicles=" + vehicles + "]";
 	}

@@ -2,25 +2,25 @@ package entitys;
 
 public class CreditCard {
 
-	private String cardOnwerId;
+	private String customerID;
 	private String cardNumber;
 	private String validationDate;
 	private String cvvNumber;
 
-	public CreditCard(String cardOnwerId, String cardNumber, String validationDate, String cvvNumber) {
+	public CreditCard(String customerID, String cardNumber, String validationDate, String cvvNumber) {
 		super();
-		this.cardOnwerId = cardOnwerId;
+		this.customerID = customerID;
 		this.cardNumber = cardNumber;
 		this.validationDate = validationDate;
 		this.cvvNumber = cvvNumber;
 	}
 
-	public String getCardOnwerId() {
-		return cardOnwerId;
+	public String getCustomerID() {
+		return customerID;
 	}
 
-	public void setCardOnwerId(String cardOnwerId) {
-		this.cardOnwerId = cardOnwerId;
+	public void setCardCustomerID(String customerID) {
+		this.customerID = customerID;
 	}
 
 	public String getCardNumber() {
@@ -49,7 +49,7 @@ public class CreditCard {
 
 	@Override
 	public String toString() {
-		return "CreditCard [cardOnwerId=" + cardOnwerId + ", cardNumber=" + cardNumber + ", validationDate="
+		return "CreditCard [customerID=" + customerID + ", cardNumber=" + cardNumber + ", validationDate="
 				+ validationDate + ", cvvNumber=" + cvvNumber + "]";
 	}
 

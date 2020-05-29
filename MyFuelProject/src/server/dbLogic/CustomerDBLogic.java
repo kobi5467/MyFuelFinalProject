@@ -7,7 +7,7 @@ import java.sql.Statement;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import entitys.CreditCard;
+import entitys.enums.FuelType;
 
 public class CustomerDBLogic {
 
@@ -38,7 +38,7 @@ public class CustomerDBLogic {
 		return isExist;
 	}
 	
-	public JsonArray getCustomerTypes() {
+	public JsonArray getSubscribeTypes() {
 		JsonArray types = new JsonArray();
 		
 		String query = "";
@@ -46,11 +46,11 @@ public class CustomerDBLogic {
 
 		try {
 			if (DBConnector.conn != null) {
-				query = "SELECT * FROM  customer_type ";
+				query = "SELECT * FROM  subscribe_type ";
 				stmt = DBConnector.conn.createStatement();
 				ResultSet rs = stmt.executeQuery(query);
 				while (rs.next()) {
-					types.add(rs.getString("customerType"));
+					types.add(rs.getString("subscribeType"));
 				}
 			} else {
 				System.out.println("Conn is null");
@@ -64,6 +64,34 @@ public class CustomerDBLogic {
 		
 	}
 
+	public void addCustomer(JsonObject customer) {
+		String customerID = customer.get("customerID").getAsString();
+		String userName = customer.get("userName").getAsString();
+		String city = customer.get("city").getAsString();
+		String street = customer.get("street").getAsString();
+		String customerType = customer.get("customerType").getAsString();
+		String purchaseModelType = customer.get("purchaseModel").getAsJsonObject().get("purchaseModeltype").getAsString();
+		String subscribeType = customer.get("subscribeType").getAsJsonObject().get("subscribeType").getAsString();
+		
+		String query = "";
+
+		Statement stmt = null;
+		try {
+			if (DBConnector.conn != null) {
+				query = "INSERT INTO customer (customerID, userName, city, street, customerType, purchaseModelType, subscribeType) " + 
+						"VALUES ('" + customerID + "','"+ userName + "','" + city + "','" + street 
+								+ "','" + customerType + "','" + purchaseModelType + "','" + subscribeType + "');";
+				stmt = DBConnector.conn.createStatement();
+				stmt.execute(query);
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void addVehicle(JsonObject vehicle) {
 		String vehicleNumber = vehicle.get("vehicleNumber").getAsString();
 		String fuelType = vehicle.get("fuelType").getAsString();
@@ -75,7 +103,6 @@ public class CustomerDBLogic {
 			if (DBConnector.conn != null) {
 				query = "INSERT INTO vehicles (vehicleNumber, fuelType, customerID) " + 
 						"VALUES ('" + vehicleNumber + "','"+ fuelType + "','" + customerID + "');";
-				System.out.println(query);
 				stmt = DBConnector.conn.createStatement();
 				stmt.execute(query);
 			} else {
@@ -114,11 +141,11 @@ public class CustomerDBLogic {
 	}	
 	
 	public void addCreditCard(JsonObject creditCard) {
-		String creditCardNumber = creditCard.get("creditCardNumber").getAsString();
-		String cvv = creditCard.get("cvv").getAsString();
-		String dateValidation = creditCard.get("dateValidation").getAsString();
+		String creditCardNumber = creditCard.get("cardNumber").getAsString();
+		String cvv = creditCard.get("cvvNumber").getAsString();
+		String dateValidation = creditCard.get("validationDate").getAsString();
 		String customerID = creditCard.get("customerID").getAsString();
-		
+
 		String query = "";
 
 		Statement stmt = null;
@@ -126,7 +153,6 @@ public class CustomerDBLogic {
 			if (DBConnector.conn != null) {
 				query = "INSERT INTO credit_card (cardNumber, customerID, validationDate, cvvNumber) " + 
 						"VALUES ('" + creditCardNumber + "','"+ customerID + "','"+ dateValidation + "','" + cvv + "');";
-				System.out.println(query);
 				stmt = DBConnector.conn.createStatement();
 				stmt.execute(query);
 			} else {
@@ -136,5 +162,33 @@ public class CustomerDBLogic {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void addFuelCompanies(String customerID, JsonArray companies) {
+		String companyNames = "";
+		for(int i = 0; i < companies.size(); i++) {
+			if (i > 0) {
+				companyNames += ",";
+			}
+			companyNames += companies.get(i).getAsJsonObject().get("companyName").getAsString();
+		}
+		
+		String query = "";
+
+		Statement stmt = null;
+		try {
+			if (DBConnector.conn != null) {
+				query = "INSERT INTO customer_fuel_companies (customerID, fuelCompanies) " + 
+						"VALUES ('" + customerID + "','"+ companyNames + "');";
+				stmt = DBConnector.conn.createStatement();
+				stmt.execute(query);
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 }

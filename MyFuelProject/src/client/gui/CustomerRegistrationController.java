@@ -3,6 +3,7 @@ package client.gui;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -17,6 +18,7 @@ import entitys.SubscribeType;
 import entitys.Vehicle;
 import entitys.enums.FuelType;
 import entitys.enums.MessageType;
+import entitys.enums.UserPermission;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -245,6 +247,9 @@ public class CustomerRegistrationController {
 	private JsonArray fuelTypes;
 	private ArrayList<VehiclePane> vehiclePanes;
 	
+	private int countFuelCompany = 1;
+	
+	
 	@FXML
 	void addFuelCompanyCB(ActionEvent event) {
 		if(btnAddFuelCompany.getLayoutX() == 600) {
@@ -314,11 +319,13 @@ public class CustomerRegistrationController {
 		case 3:
 			//submit
 			isValid = checkInputValidationStageThree();
+			System.out.println("Third stage isValid = " + isValid);
 			if(isValid) {
 				register();
-				String msg = "The customer " + customer.getName() + " registered successfully.\n"+
+				String msg = customer.getName() + " registered successfully.\n"+
 							"You have registered " + customer.getVehicles().size() + " vehicles.";
 				ObjectContainer.showMessage("Error", "Register Successful", msg);
+				ObjectContainer.mainFormController.setPane("Home");
 			}
 			break;
 		default:
@@ -328,19 +335,25 @@ public class CustomerRegistrationController {
 	
 	private void register() {
 		//register customer.
-		System.out.println("Customer registered..");
+		System.out.println("REGISTER !!");
+		String customerJsonString = new Gson().toJson(customer);
+		Message msg = new Message(MessageType.REGISTER_CUSTOMER, customerJsonString);
+		ClientUI.accept(msg);
 	}
 
 	private void updateCustomerObjectDetailsStage2() {
 		if(cbPaymentMethod.getValue().equals("Credit Card")) {
 			CreditCard creditCard = new CreditCard(customer.getCustomerId(), 
 					txtCardNumber.getText(),cbMonth.getValue() + "/"+cbYear.getValue() , txtCVV.getText());
-			customer.setCreditCard(creditCard);			
+			customer.setCreditCard(creditCard);	
+			System.out.println(creditCard);
 		}
 		ArrayList<FuelCompany> companies = new ArrayList<>();
-		companies.add(new FuelCompany(cbFuelCompany.getValue()));
-		companies.add(new FuelCompany(cbFuelCompany.getValue()));
-		companies.add(new FuelCompany(cbFuelCompany.getValue()));
+		switch(countFuelCompany) {
+		case 3: companies.add(new FuelCompany(cbFuelCompany3.getValue()));
+		case 2: companies.add(new FuelCompany(cbFuelCompany2.getValue()));
+		case 1: companies.add(new FuelCompany(cbFuelCompany.getValue()));			
+		}
 		PurchaseModel purchaseModel = new PurchaseModel(cbPurchaseModel.getValue(), 0, companies);
 		customer.setPurchaseModel(purchaseModel);
 	}
@@ -349,13 +362,15 @@ public class CustomerRegistrationController {
 		//stage 1 values
 		customer.setUsername(txtUsername.getText());
 		customer.setPassword(txtPassword.getText());
+		customer.setCustomerId(txtCustomerID.getText());
 		customer.setName(txtCustomerName.getText());
 		customer.setEmail(txtEmail.getText());
 		customer.setPhoneNumber(txtPhoneNumber.getText());
 		customer.setCity(txtCity.getText());
 		customer.setStreet(txtStreet.getText());
 		customer.setCustomerId(txtCustomerID.getText());
-		
+		customer.setUserPermission(UserPermission.CUSTOMER);
+		customer.setCustomerType(cbCustomerType.getValue());
 		customer.setSubscribeType(new SubscribeType(cbSubscribeType.getValue(), 0));
 	}
 
@@ -578,6 +593,7 @@ public class CustomerRegistrationController {
 		if (cbFuelCompany2.isVisible() && cbFuelCompany3.isVisible()) { // 3 companies
 			if (!comp1.equals(comp2) && !comp2.equals(comp3) && !comp1.equals(comp3) && !comp1.equals(defaultValue)
 					&& !comp2.equals(defaultValue) && !comp3.equals(defaultValue)) {
+				countFuelCompany = 3;
 				return true;
 			}
 			lblFuelCompanyError.setText("invalid input..");
@@ -587,6 +603,7 @@ public class CustomerRegistrationController {
 			
 			if (!comp1.equals(comp2) && !comp2.equals(defaultValue) && !comp1.equals(defaultValue)) {
 				lblFuelCompanyError.setText("");
+				countFuelCompany = 2;
 				return true;
 			}
 			if (comp1.equals(comp2) && !comp1.equals(defaultValue)) {
@@ -601,6 +618,7 @@ public class CustomerRegistrationController {
 				lblFuelCompanyError.setText("invalid input..");
 				return false;
 			}
+			countFuelCompany = 1;
 			return true;
 		}
 	}
@@ -617,9 +635,13 @@ public class CustomerRegistrationController {
 	
 	private boolean checkInputValidationStageThree() {
 		boolean isValid = true;
-		if(customer.getVehicles().size() < 2 &&
-				customer.getSubscribeType().getSubscribeType().equals("MULTIPLE_VEHICLE_MONTHLY")) {
-			ObjectContainer.showMessage("Error", "Multiple vehicle monthly", "You have choosen multiple");
+		if(customer.getVehicles().size() == 0) {
+			ObjectContainer.showMessage("yes_or_no", "No Vehicle Added", "Are you sure you don't \nwant to add vehicle?");
+			isValid = ObjectContainer.yesNoMessageResult;
+		}else if(customer.getVehicles().size() < 2 && 
+			customer.getSubscribeType().getSubscribeType().equals("MULTIPLE_VEHICLE_MONTHLY") ) {
+			ObjectContainer.showMessage("Error", "Multiple vehicles", 
+					"You have choosen multiple vehicle monthly subscribe.\nPlease add more vehicles");
 			isValid = false;
 		}
 		return isValid;
@@ -655,9 +677,20 @@ public class CustomerRegistrationController {
 		String vehicleNumber = txtVehicleNumber.getText().trim();
 		String fuelType = cbVehicleFuelType.getValue().trim();
 		
-		if(vehicleNumber.isEmpty() || fuelType.equals(cbVehicleFuelType.getItems().get(0)) || 
-				vehicleNumber.length() < 6) {
+		if(vehicleNumber.isEmpty()) {
 			lblVehicleError.setText("Invalid inputs..");
+			return false;
+		}
+		if(vehicleNumber.length() < 6) {
+			lblVehicleError.setText("To short number");
+			return false;
+		}
+		if(!ObjectContainer.checkIfStringContainsOnlyNumbers(vehicleNumber)) {
+			lblVehicleError.setText("Digits only");
+			return false;
+		}
+		if(fuelType.equals(cbVehicleFuelType.getItems().get(0))) {
+			lblVehicleError.setText("Fuel type empty");
 			return false;
 		}
 		
@@ -745,6 +778,7 @@ public class CustomerRegistrationController {
 		txtShowPassword.setVisible(false);
 		setBackgroundImage('+');
 		limitTextFields();
+		lblFuelCompanyError.setLayoutX(569);
 	}	
 
 	private void limitTextFields() {
@@ -835,14 +869,14 @@ public class CustomerRegistrationController {
 	}
 	
 	private void initCustomerTypes() {
-		Message msg = new Message(MessageType.GET_CUSTOMER_TYPES,"");
+		Message msg = new Message(MessageType.GET_SUBSCRIBE_TYPES, "");
 		ClientUI.accept(msg);
-		
+
 		JsonObject json = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
-		JsonArray array = json.get("customerTypes").getAsJsonArray();
+		JsonArray array = json.get("subscribeTypes").getAsJsonArray();
 		cbSubscribeType.getItems().clear();
 		cbSubscribeType.getItems().add("Choose type");
-		for(int i = 0; i < array.size();i++) {
+		for (int i = 0; i < array.size(); i++) {
 			cbSubscribeType.getItems().add(array.get(i).getAsString());
 		}
 		cbSubscribeType.setValue(cbSubscribeType.getItems().get(0));
@@ -897,7 +931,6 @@ public class CustomerRegistrationController {
 		    		  lblPurchaseModelError.setText("");
 		    		  lblFuelCompanyError.setText("");
 		    	  }
-		    	  System.out.println(number2);
 		    	  if((Integer)number2 > 1) {
 		    		  lblFuelCompanyError.setLayoutX(800);
 		    	  }else {
@@ -938,7 +971,6 @@ public class CustomerRegistrationController {
 		lblPurchaseModelError.setText("");
 		lblPaymentMethodError.setText("");
 		lblFuelCompanyError.setText("");
-		lblFuelCompanyError.setLayoutX(569);
 		
 		//stage 3
 		lblVehicleError.setText("");

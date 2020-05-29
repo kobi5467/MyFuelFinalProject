@@ -17,8 +17,9 @@ public class ServerUI extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		mainServerController = new MainServerController();
-		mainServerController.start(primaryStage);
+//		mainServerController = new MainServerController();
+//		mainServerController.start(primaryStage);
+		runServer("5555");
 	}
 	
 	public static void runServer(String portNumber) {

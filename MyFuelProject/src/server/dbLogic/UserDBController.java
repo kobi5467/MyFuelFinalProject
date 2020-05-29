@@ -6,8 +6,6 @@ import java.sql.Statement;
 
 import com.google.gson.JsonObject;
 
-import entitys.enums.UserPermission;
-
 public class UserDBController {
 
 	// User Table structure
@@ -115,6 +113,34 @@ public class UserDBController {
 				stmt = DBConnector.conn.createStatement();
 				query = "UPDATE users " + "SET isLogin = " + isLoginValue + " WHERE userName = '" + userName + "';";
 				stmt.executeUpdate(query);
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void addUser(JsonObject user) {
+		String userName = user.get("userName").getAsString();
+		String password = user.get("password").getAsString();
+		String name = user.get("name").getAsString(); 
+		String email = user.get("email").getAsString();
+		String phoneNumber = user.get("phoneNumber").getAsString();
+		String userPermission = user.get("userPermission").getAsString();
+		
+		String query = "";
+
+		Statement stmt = null;
+		try {
+			if (DBConnector.conn != null) {
+				query = "INSERT INTO users (userName, password, name, email, phoneNumber, userPermission, isLogin) " + 
+						"VALUES ('" + userName + "','"+ password + "','" + name + "','" + email 
+								+ "','" + phoneNumber + "','" + userPermission + "',0);";
+				System.out.println(query);
+				stmt = DBConnector.conn.createStatement();
+				stmt.execute(query);
 			} else {
 				System.out.println("Conn is null");
 			}

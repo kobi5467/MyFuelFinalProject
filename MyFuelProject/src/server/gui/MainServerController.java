@@ -59,7 +59,6 @@ public class MainServerController {
 		primaryStage.setScene(scene);
 
 		primaryStage.show();
-		ServerUI.runServer("5555");	
 	}
 
 	private void initUI() {

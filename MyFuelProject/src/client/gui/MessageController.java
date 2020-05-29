@@ -44,6 +44,7 @@ public class MessageController {
     
     @FXML
     void onNo(ActionEvent event) {
+    	ObjectContainer.yesNoMessageResult = false;
     	ObjectContainer.messageStage.close();
     }
 
@@ -54,7 +55,8 @@ public class MessageController {
 
     @FXML
     void onYes(ActionEvent event) {
-    	if(title.equals("Logout")) {
+    	ObjectContainer.yesNoMessageResult = true;
+    	if(title.equals("Logout") || title.equals("Exit")) {
     		ObjectContainer.messageStage.close();
     		ObjectContainer.mainFormController.logout();
     	}

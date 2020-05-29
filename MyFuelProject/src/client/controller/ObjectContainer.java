@@ -72,6 +72,7 @@ public class ObjectContainer {
 	
 	public static Message currentMessageFromServer;
 	public static User currentUserLogin;
+	public static boolean yesNoMessageResult = false;
 	
 	// ****************************************     global methods  	****************************************
 		
@@ -104,7 +105,7 @@ public class ObjectContainer {
 	
 	public static void setTextFieldLimit(TextField txt, int limit) {	// set length limit for textfields.
 		txt.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(txt.getText().length() >= limit) {
+            if(txt.getText().length() > limit) {
             	txt.setText(txt.getText().substring(0, limit - 1));
             }
         });
