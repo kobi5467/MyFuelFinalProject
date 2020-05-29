@@ -92,7 +92,7 @@ public class MessageController {
 			btnOk.setVisible(false);
 			btnYes.setVisible(true);
 			btnNo.setVisible(true);
-		}else if(type.equals("Error")) {
+		}else if(type.equals("Error") || type.equals("connection")) {
 			btnYes.setVisible(false);
 			btnNo.setVisible(false);
 			btnOk.setVisible(true);

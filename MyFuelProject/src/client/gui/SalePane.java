@@ -88,7 +88,7 @@ public class SalePane {
     		isRunning = !isRunning;
     		setYesOrNo(isRunning);
     	}else {
-    		ObjectContainer.showErrorMessage("Error","Running Sale Error","You can't run two sales at the same time..");
+    		ObjectContainer.showMessage("Error","Running Sale Error","You can't run two sales at the same time..");
     	}
     }
     
@@ -133,7 +133,9 @@ public class SalePane {
     
     public void initUI(String color, int index) {
     	this.index = index;
-    	mainSalePane.setStyle("-fx-background-color:"+color+";");
+    	mainSalePane.setStyle("-fx-background-color:"+color+";"
+    					+ "-fx-border-color:#000000;" 
+    					+ "-fx-border-radius:5px;");
     	salePane.setVisible(true);
     	viewPane.setVisible(false);
     	setButtonImage("../../images/add_icon.png", btnView);

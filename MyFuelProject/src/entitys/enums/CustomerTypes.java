@@ -1,9 +1,0 @@
-package entitys.enums;
-
-public enum CustomerTypes {
-
-	REFULING_MIZDAMEN,
-	SINGLE_VEHICLE_MONTHLY,
-	MULTIPLE_VEHICLE_MONTHLY,
-	SIGNLE_VEHICLE_FULL_MONTHLY;
-}

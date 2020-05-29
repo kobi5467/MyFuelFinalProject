@@ -10,7 +10,8 @@ public class Customer extends User {
 	private String City;
 	private String Street;
 	private int customerRate;
-	private CustomerType customerType;
+	private SubscribeType subscribeType;
+	private String customerType;
 	private PurchaseModel purchaseModel;
 	private CreditCard creditCard;
 	private ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
@@ -21,7 +22,7 @@ public class Customer extends User {
 	
 	public Customer(String username, String password, UserPermission userPermission, String name, String email,
 			String phoneNumber, String customerId, String city, String street, int customerRate,
-			CustomerType customerType, PurchaseModel purchaseModel, CreditCard creditCard,
+			SubscribeType subscribeType,String customerType, PurchaseModel purchaseModel, CreditCard creditCard,
 			ArrayList<Vehicle> vehicles) {
 		super(username, password, userPermission, name, email, phoneNumber);
 		this.customerId = customerId;
@@ -29,6 +30,7 @@ public class Customer extends User {
 		Street = street;
 		this.customerRate = customerRate;
 		this.customerType = customerType;
+		this.subscribeType = subscribeType;
 		this.purchaseModel = purchaseModel;
 		this.creditCard = creditCard;
 		this.vehicles = vehicles;
@@ -66,20 +68,28 @@ public class Customer extends User {
 		this.customerRate = customerRate;
 	}
 
-	public CustomerType getCustomerType() {
+	public SubscribeType getSubscribeType() {
+		return subscribeType;
+	}
+
+	public void setSubscribeType(SubscribeType subscribeType) {
+		this.subscribeType = subscribeType;
+	}
+
+	public String getCustomerType() {
 		return customerType;
 	}
 
-	public void setCustomerType(CustomerType customerType) {
+	public void setCustomerType(String customerType) {
 		this.customerType = customerType;
 	}
 
-	public PurchaseModel getPurchaseModelType() {
+	public PurchaseModel getPurchaseModel() {
 		return purchaseModel;
 	}
 
-	public void setPurchaseModelType(PurchaseModel purchaseModelType) {
-		this.purchaseModel = purchaseModelType;
+	public void setPurchaseModel(PurchaseModel purchaseModel) {
+		this.purchaseModel = purchaseModel;
 	}
 
 	public CreditCard getCreditCard() {
@@ -101,8 +111,8 @@ public class Customer extends User {
 	@Override
 	public String toString() {
 		return "Customer [customerId=" + customerId + ", City=" + City + ", Street=" + Street + ", customerRate="
-				+ customerRate + ", customerType=" + customerType + ", purchaseModel=" + purchaseModel + ", creditCard="
-				+ creditCard + "]";
+				+ customerRate + ", subscribeType=" + subscribeType + ", customerType=" + customerType
+				+ ", purchaseModel=" + purchaseModel + ", creditCard=" + creditCard + ", vehicles=" + vehicles + "]";
 	}
 
 }

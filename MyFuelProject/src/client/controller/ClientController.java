@@ -36,7 +36,7 @@ public class ClientController extends AbstractClient {
 				}
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			ObjectContainer.showMessage("connection", "Connection Problem", "Connection Refused\nTry again later..");
 			quit();
 		}
 	}

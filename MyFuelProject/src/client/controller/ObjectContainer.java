@@ -12,10 +12,13 @@ import client.gui.RunningSalesController;
 import client.gui.UpdateCustomerController;
 import entitys.Message;
 import entitys.User;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.event.WeakEventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
@@ -72,7 +75,7 @@ public class ObjectContainer {
 	
 	// ****************************************     global methods  	****************************************
 		
-	public static void showErrorMessage(String type,String title, String msg) {
+	public static void showMessage(String type,String title, String msg) {
 		if(ObjectContainer.messageController == null) {
 			ObjectContainer.messageController = new MessageController();
 		}
@@ -96,6 +99,15 @@ public class ObjectContainer {
 				return false;
 		}
 		return true;
+	}
+	
+	
+	public static void setTextFieldLimit(TextField txt, int limit) {	// set length limit for textfields.
+		txt.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(txt.getText().length() >= limit) {
+            	txt.setText(txt.getText().substring(0, limit - 1));
+            }
+        });
 	}
 	
 	// **************************************** Allow to drag the window **************************************** 

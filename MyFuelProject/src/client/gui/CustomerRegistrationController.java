@@ -8,8 +8,12 @@ import com.google.gson.JsonObject;
 
 import client.controller.ClientUI;
 import client.controller.ObjectContainer;
+import entitys.CreditCard;
 import entitys.Customer;
+import entitys.FuelCompany;
 import entitys.Message;
+import entitys.PurchaseModel;
+import entitys.SubscribeType;
 import entitys.Vehicle;
 import entitys.enums.FuelType;
 import entitys.enums.MessageType;
@@ -132,6 +136,16 @@ public class CustomerRegistrationController {
 
     @FXML
     private ImageView imgStreetError;
+    
+
+    @FXML
+    private ChoiceBox<String> cbSubscribeType;
+
+    @FXML
+    private Label lblSubscribeTypeError;
+
+    @FXML
+    private ImageView imgSubscribeType;
 
 	/******************************* STAGE 2 *******************************/
 	
@@ -154,7 +168,11 @@ public class CustomerRegistrationController {
 	private TextField txtCVV;
 
 	@FXML
-	private TextField txtDateValidation;
+    private ChoiceBox<String> cbMonth;
+
+    @FXML
+    private ChoiceBox<String> cbYear;
+
 
 	@FXML
 	private Button btnHelp;
@@ -176,10 +194,18 @@ public class CustomerRegistrationController {
 	@FXML
 	private Label lblDateError;
 
-
 	@FXML
 	private Button btnAddFuelCompany;
 
+    @FXML
+    private Label lblPurchaseModelError;
+
+    @FXML
+    private Label lblPaymentMethodError;
+
+    @FXML
+    private Label lblFuelCompanyError;
+	
 	/******************************* STAGE 3 *******************************/
 	
 	@FXML
@@ -203,6 +229,9 @@ public class CustomerRegistrationController {
     @FXML
     private VBox vbVehicleContainer;
 	
+    @FXML
+    private Label lblVehicleError;
+    
 	@FXML
 	private Button btnBack;
 
@@ -267,30 +296,57 @@ public class CustomerRegistrationController {
 		case 1:
 			// next1
 			isValid = checkInputValidationStageOne();
-			isValid = true;
+			isValid =true;
 			if(isValid) {
+				updateCustomerObjectDetailsStage1();
 				changeStage(1);
 			}
 			break;
 		case 2:
 			//next2
 			isValid = checkInputValidationStageTwo();
-			isValid = true;
-			if(isValid)
+			if(isValid) {
+				updateCustomerObjectDetailsStage2();
 				changeStage(1);
+			}
 			break;
 			
 		case 3:
 			//submit
+			isValid = checkInputValidationStageThree();
+			if(isValid) {
+				register();
+				String msg = "The customer " + customer.getName() + " registered successfully.\n"+
+							"You have registered " + customer.getVehicles().size() + " vehicles.";
+				ObjectContainer.showMessage("Error", "Register Successful", msg);
+			}
 			break;
-		
-		
 		default:
 			break;
 		}
 	}
 	
-	private void updateObjectDetails() {
+	private void register() {
+		//register customer.
+		System.out.println("Customer registered..");
+	}
+
+	private void updateCustomerObjectDetailsStage2() {
+		if(cbPaymentMethod.getValue().equals("Credit Card")) {
+			CreditCard creditCard = new CreditCard(customer.getCustomerId(), 
+					txtCardNumber.getText(),cbMonth.getValue() + "/"+cbYear.getValue() , txtCVV.getText());
+			customer.setCreditCard(creditCard);			
+		}
+		ArrayList<FuelCompany> companies = new ArrayList<>();
+		companies.add(new FuelCompany(cbFuelCompany.getValue()));
+		companies.add(new FuelCompany(cbFuelCompany.getValue()));
+		companies.add(new FuelCompany(cbFuelCompany.getValue()));
+		PurchaseModel purchaseModel = new PurchaseModel(cbPurchaseModel.getValue(), 0, companies);
+		customer.setPurchaseModel(purchaseModel);
+	}
+
+	private void updateCustomerObjectDetailsStage1() {
+		//stage 1 values
 		customer.setUsername(txtUsername.getText());
 		customer.setPassword(txtPassword.getText());
 		customer.setName(txtCustomerName.getText());
@@ -299,6 +355,8 @@ public class CustomerRegistrationController {
 		customer.setCity(txtCity.getText());
 		customer.setStreet(txtStreet.getText());
 		customer.setCustomerId(txtCustomerID.getText());
+		
+		customer.setSubscribeType(new SubscribeType(cbSubscribeType.getValue(), 0));
 	}
 
 	/************************************** Check validation of stage 1 **************************************/
@@ -311,12 +369,23 @@ public class CustomerRegistrationController {
 		isValid = checkCustomerID(txtCustomerID.getText().trim()) && isValid;
 		isValid = checkCustomerName(txtCustomerName.getText().trim()) && isValid;
 		isValid = checkCustomerType(cbCustomerType.getValue().trim()) && isValid;
+		isValid = checkSubscribeType(cbSubscribeType.getValue().trim()) && isValid;
 		isValid = checkEmail(txtEmail.getText().trim()) && isValid;
 		isValid = checkPhoneNumber(txtPhoneNumber.getText().trim()) && isValid;
 		isValid = checkCity(txtCity.getText().trim()) && isValid;
 		isValid = checkStreet(txtStreet.getText().trim()) && isValid;
 		
 		return isValid;
+	}
+
+	private boolean checkCustomerType(String type) {
+		if(type.equals(cbCustomerType.getItems().get(0))) {
+			lblCustomerTypeError.setText("Please choose customer type");
+			setErrorImage(imgCustomerTypeError, "../../images/error_icon.png");
+			return false;
+		}
+		setErrorImage(imgCustomerTypeError, "../../images/v_icon.png");
+		return true; 
 	}
 
 	private boolean checkStreet(String street) {
@@ -339,13 +408,13 @@ public class CustomerRegistrationController {
 		return true;
 	}
 
-	private boolean checkCustomerType(String value) {
-		if(value.equals(cbCustomerType.getItems().get(0))) {
-			lblCustomerTypeError.setText("Please choose customer type");
-			setErrorImage(imgCustomerTypeError, "../../images/error_icon.png");
+	private boolean checkSubscribeType(String value) {
+		if(value.equals(cbSubscribeType.getItems().get(0))) {
+			lblSubscribeTypeError.setText("Please choose subsrcibe type");
+			setErrorImage(imgSubscribeType, "../../images/error_icon.png");
 			return false;
 		}
-		setErrorImage(imgCustomerTypeError, "../../images/v_icon.png");
+		setErrorImage(imgSubscribeType, "../../images/v_icon.png");
 		return true; 
 	}
 
@@ -392,8 +461,10 @@ public class CustomerRegistrationController {
 		String errorMessage = "";
 		if (customerID.isEmpty()) {
 			errorMessage = "please fill field..";
+		} else if(!ObjectContainer.checkIfStringContainsOnlyNumbers(customerID)) {
+			errorMessage = "Please insert only numbers..";
 		} else if (customerIsExist(customerID)) {
-			errorMessage = "customer ID is already exist";
+			errorMessage = "customer ID is already exist..";
 		} else {
 			setErrorImage(imgCustomerIDError, "../../images/v_icon.png");
 			return true;
@@ -466,29 +537,36 @@ public class CustomerRegistrationController {
 	
 	private boolean checkPaymentMethod(String paymentMethod) {
 		if(paymentMethod.equals(cbPaymentMethod.getItems().get(0))) {
+			lblPaymentMethodError.setText("Please choose payment method...");
 			return false;
 		}
+		lblPaymentMethodError.setText("");
 		if(paymentMethod.equals("Cash")) {
 			return true;
 		}
 		//Credit Card
 		String creditCardNumber = txtCardNumber.getText().trim();
 		String cvv = txtCVV.getText().trim();
-		String dateValidation = txtDateValidation.getText().trim();
-		return checkCreditCardValues(creditCardNumber,cvv,dateValidation);
+		String month = cbMonth.getValue();
+		String year = cbYear.getValue();
+		return checkCreditCardValues(creditCardNumber,cvv,month,year);
 	}
 
-	private boolean checkCreditCardValues(String creditCardNumber, String cvv, String dateValidation) {
+	private boolean checkCreditCardValues(String creditCardNumber, String cvv, String month,String year) {
+		boolean isValid = true;
 		if(creditCardNumber.isEmpty() || creditCardNumber.length() < 8 || creditCardNumber.length() > 16) {
-			return false;
+			lblCardNumberError.setText("Iligal card number, try again..");
+			isValid = false;
 		}
 		if(cvv.isEmpty() || cvv.length() < 3 || cvv.length() > 4) {
-			return false;
+			lblCvvError.setText("Enter 3/4 digits numbers");
+			isValid = false;
 		}
-		if(dateValidation.isEmpty()) {
-			return false;
+		if(month.equals(cbMonth.getItems().get(0)) || year.equals(cbYear.getItems().get(0))) {
+			lblDateError.setText("Please insert date validation..");
+			isValid = false;
 		}
-		return true;
+		return isValid;
 	}
 
 	private boolean checkCompanyNames() {
@@ -496,33 +574,52 @@ public class CustomerRegistrationController {
 		String comp2 = cbFuelCompany2.getValue();
 		String comp3 = cbFuelCompany3.getValue();
 		String defaultValue = cbFuelCompany.getItems().get(0);
-		if(cbPurchaseModel.getValue().equals(cbPurchaseModel.getItems().get(1))) {
-			// only 1 company name
-			return !comp1.equals(defaultValue);
-		}
-		if(cbFuelCompany3.isVisible()) {
-			// 3 companies
-			if(!comp1.equals(comp2) && !comp2.equals(comp3) && !comp1.equals(comp3) && 
-				!comp1.equals(defaultValue) && !comp2.equals(defaultValue) && !comp3.equals(defaultValue)){
+		
+		if (cbFuelCompany2.isVisible() && cbFuelCompany3.isVisible()) { // 3 companies
+			if (!comp1.equals(comp2) && !comp2.equals(comp3) && !comp1.equals(comp3) && !comp1.equals(defaultValue)
+					&& !comp2.equals(defaultValue) && !comp3.equals(defaultValue)) {
 				return true;
 			}
+			lblFuelCompanyError.setText("invalid input..");
 			return false;
-		}
-		// 2 companies
-		if(!comp1.equals(comp2) && !comp2.equals(defaultValue) && !comp1.equals(defaultValue)) 
+			
+		} else if (cbFuelCompany2.isVisible()) { // 2 compnies
+			
+			if (!comp1.equals(comp2) && !comp2.equals(defaultValue) && !comp1.equals(defaultValue)) {
+				lblFuelCompanyError.setText("");
 				return true;
-		return false;
+			}
+			if (comp1.equals(comp2) && !comp1.equals(defaultValue)) {
+				lblFuelCompanyError.setText("same companies..");
+				return false;
+			}
+			lblFuelCompanyError.setText("invalid input..");
+			return false;
+			
+		} else { // 1 company
+			if(comp1.equals(defaultValue)) {
+				lblFuelCompanyError.setText("invalid input..");
+				return false;
+			}
+			return true;
+		}
 	}
 
 	private boolean checkPurchaseModel(String purchaseModel) {
-		return !purchaseModel.equals(cbPurchaseModel.getItems().get(0));
+		if(purchaseModel.equals(cbPurchaseModel.getItems().get(0))) {
+			lblPurchaseModelError.setText("Please choose purchase model..");
+			return false;
+		}
+		return true;
 	}
 	
 	/******************************************* Check validation of stage 3 **************************************/
 	
 	private boolean checkInputValidationStageThree() {
 		boolean isValid = true;
-		if(customer.getVehicles().size() == 0) {
+		if(customer.getVehicles().size() < 2 &&
+				customer.getSubscribeType().getSubscribeType().equals("MULTIPLE_VEHICLE_MONTHLY")) {
+			ObjectContainer.showMessage("Error", "Multiple vehicle monthly", "You have choosen multiple");
 			isValid = false;
 		}
 		return isValid;
@@ -537,6 +634,9 @@ public class CustomerRegistrationController {
 			VehiclePane vehiclePane = new VehiclePane(vehicle);
 			vehiclePanes.add(vehiclePane);
 			updateVbChildren();
+			lblVehicleError.setText("");
+			cbVehicleFuelType.setValue(cbVehicleFuelType.getItems().get(0));
+			txtVehicleNumber.setText("");
 		}
 	}
 
@@ -557,7 +657,7 @@ public class CustomerRegistrationController {
 		
 		if(vehicleNumber.isEmpty() || fuelType.equals(cbVehicleFuelType.getItems().get(0)) || 
 				vehicleNumber.length() < 6) {
-			System.out.println("Invalid inputs..");
+			lblVehicleError.setText("Invalid inputs..");
 			return false;
 		}
 		
@@ -568,10 +668,12 @@ public class CustomerRegistrationController {
 		
 		boolean isExist = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject().get("isExist").getAsBoolean();
 		if(isExist) {
-			System.out.println("This vehicle are already exist..");
+			lblVehicleError.setText("Vehicle already exist");
 		}
 		return !isExist;
 	}
+	
+	/************************************** LOGIC *******************************************/
 	
 	private void changeStage(int op) {
 		
@@ -642,8 +744,26 @@ public class CustomerRegistrationController {
 		setButtonsImages("../../images/eye_icon.png",btnShowPassword);
 		txtShowPassword.setVisible(false);
 		setBackgroundImage('+');
+		limitTextFields();
 	}	
 
+	private void limitTextFields() {
+		ObjectContainer.setTextFieldLimit(txtUsername, 20);
+		ObjectContainer.setTextFieldLimit(txtPassword, 20);
+		ObjectContainer.setTextFieldLimit(txtCustomerID, 10);
+		ObjectContainer.setTextFieldLimit(txtCustomerName, 45);
+		ObjectContainer.setTextFieldLimit(txtPhoneNumber, 10);
+		ObjectContainer.setTextFieldLimit(txtEmail, 45);
+		ObjectContainer.setTextFieldLimit(txtStreet, 45);
+		ObjectContainer.setTextFieldLimit(txtCity, 30);
+		ObjectContainer.setTextFieldLimit(txtStreet, 30);
+		
+		ObjectContainer.setTextFieldLimit(txtCardNumber, 16);
+		ObjectContainer.setTextFieldLimit(txtCVV, 4);
+		
+		ObjectContainer.setTextFieldLimit(txtVehicleNumber, 10);
+	}
+	
 	private void setButtonsImages(String url, Button btn) {		
 		BackgroundImage backgroundImage = new BackgroundImage(
 				new Image(getClass().getResource(url).toExternalForm()),
@@ -658,6 +778,25 @@ public class CustomerRegistrationController {
 		initFuelCompaniesCB();
 		initCustomerTypes();
 		initFuelTypes();
+		
+		cbMonth.getItems().add("Month:");
+		for(int i = 1; i <= 12; i++) {
+			if(i < 10) cbMonth.getItems().add("0"+i);
+			else cbMonth.getItems().add(""+i);
+		}
+		cbMonth.setValue(cbMonth.getItems().get(0));
+		
+		cbYear.getItems().add("Year:");
+		for(int i = 2020; i <= 2030; i++) {
+			cbYear.getItems().add(""+i);
+		}
+		cbYear.setValue(cbYear.getItems().get(0));
+		
+		cbCustomerType.getItems().clear();
+		cbCustomerType.getItems().add("Choose customer type");
+		cbCustomerType.getItems().add("Private");
+		cbCustomerType.getItems().add("Company");
+		cbCustomerType.setValue(cbCustomerType.getItems().get(0));
 		
 		String defualtValue = "Choose payment method";
 		cbPaymentMethod.getItems().add(defualtValue);
@@ -701,12 +840,12 @@ public class CustomerRegistrationController {
 		
 		JsonObject json = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
 		JsonArray array = json.get("customerTypes").getAsJsonArray();
-		cbCustomerType.getItems().clear();
-		cbCustomerType.getItems().add("Choose type");
+		cbSubscribeType.getItems().clear();
+		cbSubscribeType.getItems().add("Choose type");
 		for(int i = 0; i < array.size();i++) {
-			cbCustomerType.getItems().add(array.get(i).getAsString());
+			cbSubscribeType.getItems().add(array.get(i).getAsString());
 		}
-		cbCustomerType.setValue(cbCustomerType.getItems().get(0));
+		cbSubscribeType.setValue(cbSubscribeType.getItems().get(0));
 	}
 
 	private void initFuelCompaniesCB() {
@@ -754,8 +893,25 @@ public class CustomerRegistrationController {
 		cbPurchaseModel.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
 		      @Override
 		      public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
+		    	  if((Integer)number2 != 0) {
+		    		  lblPurchaseModelError.setText("");
+		    		  lblFuelCompanyError.setText("");
+		    	  }
+		    	  System.out.println(number2);
+		    	  if((Integer)number2 > 1) {
+		    		  lblFuelCompanyError.setLayoutX(800);
+		    	  }else {
+		    		  lblFuelCompanyError.setLayoutX(569);
+		    	  }
 		    	  boolean showMoreCompaniesName = cbPurchaseModel.getItems().get((Integer)number2).equals(types.get(1).getAsString());
 		    	  cbFuelCompany2.setVisible(showMoreCompaniesName);
+		    	  if(showMoreCompaniesName == false) {
+		    		cbFuelCompany3.setValue(cbFuelCompany3.getItems().get(0));
+		    		btnAddFuelCompany.setLayoutX(600);
+		  			cbFuelCompany3.setVisible(false);
+		  			setBackgroundImage('+');
+		    		  
+		    	  }
 		    	  cbFuelCompany2.setValue(cbFuelCompany2.getItems().get(0));
 		    	  btnAddFuelCompany.setVisible(showMoreCompaniesName);
 		      }
@@ -769,6 +925,7 @@ public class CustomerRegistrationController {
 		lblIDError.setText("");
 		lblCustomerNameError.setText("");
 		lblCustomerTypeError.setText("");
+		lblSubscribeTypeError.setText("");
 		lblEmailError.setText("");
 		lblPhoneError.setText("");
 		lblCityError.setText("");
@@ -778,6 +935,13 @@ public class CustomerRegistrationController {
 		lblCardNumberError.setText("");
 		lblCvvError.setText("");
 		lblDateError.setText("");
+		lblPurchaseModelError.setText("");
+		lblPaymentMethodError.setText("");
+		lblFuelCompanyError.setText("");
+		lblFuelCompanyError.setLayoutX(569);
+		
+		//stage 3
+		lblVehicleError.setText("");
 	}
 	
 	class VehiclePane extends AnchorPane {

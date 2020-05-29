@@ -5,9 +5,9 @@ public class CreditCard {
 	private String cardOnwerId;
 	private String cardNumber;
 	private String validationDate;
-	private int cvvNumber;
+	private String cvvNumber;
 
-	public CreditCard(String cardOnwerId, String cardNumber, String validationDate, int cvvNumber) {
+	public CreditCard(String cardOnwerId, String cardNumber, String validationDate, String cvvNumber) {
 		super();
 		this.cardOnwerId = cardOnwerId;
 		this.cardNumber = cardNumber;
@@ -39,11 +39,11 @@ public class CreditCard {
 		this.validationDate = validationDate;
 	}
 
-	public int getCvvNumber() {
+	public String getCvvNumber() {
 		return cvvNumber;
 	}
 
-	public void setCvvNumber(int cvvNumber) {
+	public void setCvvNumber(String cvvNumber) {
 		this.cvvNumber = cvvNumber;
 	}
 

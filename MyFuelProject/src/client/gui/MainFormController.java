@@ -220,12 +220,12 @@ public class MainFormController {
 		setPane(title);
 	}
 	
-	private void setPane(String title) {
+	public void setPane(String title) {
 		
 		/***************************** ALL USERS **********************************/  
 		
 		if(title.equals("Logout")) {
-			ObjectContainer.showErrorMessage("yes_no","Logout","Are you sure \nyou want to logout?");
+			ObjectContainer.showMessage("yes_no","Logout","Are you sure \nyou want to logout?");
 			return;
 		}
 		changePane.getChildren().clear();

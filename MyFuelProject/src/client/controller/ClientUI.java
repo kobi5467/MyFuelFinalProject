@@ -4,6 +4,7 @@ import client.gui.LoginController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import server.controller.ServerUI;
 
 public class ClientUI extends Application{
 
@@ -15,6 +16,7 @@ public class ClientUI extends Application{
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		
 		clientController = new ClientController("localhost", 5555);
 		ObjectContainer.loginStage = primaryStage;
 		ObjectContainer.loginStage.initStyle(StageStyle.UNDECORATED);
@@ -23,7 +25,7 @@ public class ClientUI extends Application{
 	}
 	
 	public static void accept(Object msg) {
-		clientController.handleMessageFromClient(msg);
+		clientController.handleMessageFromClient(msg);			
 	}
 	
 }

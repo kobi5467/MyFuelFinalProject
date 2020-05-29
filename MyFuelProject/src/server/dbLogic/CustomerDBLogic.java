@@ -7,6 +7,8 @@ import java.sql.Statement;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import entitys.CreditCard;
+
 public class CustomerDBLogic {
 
 	public boolean checkIfCustomerExist(String customerID) {
@@ -111,4 +113,28 @@ public class CustomerDBLogic {
 		return isExist;
 	}	
 	
+	public void addCreditCard(JsonObject creditCard) {
+		String creditCardNumber = creditCard.get("creditCardNumber").getAsString();
+		String cvv = creditCard.get("cvv").getAsString();
+		String dateValidation = creditCard.get("dateValidation").getAsString();
+		String customerID = creditCard.get("customerID").getAsString();
+		
+		String query = "";
+
+		Statement stmt = null;
+		try {
+			if (DBConnector.conn != null) {
+				query = "INSERT INTO credit_card (cardNumber, customerID, validationDate, cvvNumber) " + 
+						"VALUES ('" + creditCardNumber + "','"+ customerID + "','"+ dateValidation + "','" + cvv + "');";
+				System.out.println(query);
+				stmt = DBConnector.conn.createStatement();
+				stmt.execute(query);
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

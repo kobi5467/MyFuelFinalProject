@@ -33,6 +33,9 @@ public class RunningSalesController {
     
     public ArrayList<SalePane> salePanesControllers;
     
+    private String color1 = "#36D1DC";//"#00B4DB";
+    private String color2 = "#5B86E5";//"#0083B0";
+    
     public void load(Pane changePane) {
     	FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("RunningSalesForm.fxml"));
@@ -54,7 +57,7 @@ public class RunningSalesController {
 		for(int i = 0; i < saleTemplates.size(); i++) {
 			SalePane salePane = new SalePane();
 			salePanesControllers.add(salePane);
-			String color = i % 2 == 0 ? "#0240FF" : "#024079";
+			String color = i % 2 == 0 ? color1 : color2;
 			AnchorPane pane = salePane.load(color,i);
 			salePanes.add(pane);
 		}

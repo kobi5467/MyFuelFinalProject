@@ -199,7 +199,7 @@ public class ServerController extends AbstractServer {
 			break;
 		case CHECK_IF_USER_EXIST: 
 			boolean isExist = dbConnector.userDBController
-					.checkIfUsernameExist(responseJson.get("userName").getAsString());
+					.checkIfUsernameExist(requestJson.get("userName").getAsString());
 			responseJson.addProperty("isExist", isExist);
 			break;
 		

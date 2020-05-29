@@ -87,4 +87,17 @@
 	-fx-background-color:transparent;
 }
 
+/************************************** Global ***************************************/
+
+.choice-box{
+	-fx-background-color:#36D1DC;
+	-fx-font-size: 10pt;
+	-fx-text-fill:#ffffff;
+	-fx-text-background-color:#ffffff;
+	-fx-alignment:center;
+	-fx-font-weight: bold;
+	-fx-border-color:#ffffff;
+	-fx-border-width:2px;
+}
+
 /*************************     Customer Panesc        ***************************/

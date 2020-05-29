@@ -2,6 +2,7 @@ package server.gui;
 
 import java.io.IOException;
 
+import client.controller.ClientUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -58,6 +59,7 @@ public class MainServerController {
 		primaryStage.setScene(scene);
 
 		primaryStage.show();
+		ServerUI.runServer("5555");	
 	}
 
 	private void initUI() {

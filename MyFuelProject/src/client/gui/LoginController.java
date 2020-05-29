@@ -133,6 +133,8 @@ public class LoginController {
 	}
 	
 	private void initUI() {
+		btnLogin.setDefaultButton(true);
+		ObjectContainer.setTextFieldLimit(txtUsername, 15);
 		lblErrorMessage.setText("");
 		txtUsername.setText("");
 		txtPassword.setText("");
