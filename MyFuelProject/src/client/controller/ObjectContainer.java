@@ -7,8 +7,10 @@ import client.gui.LoginController;
 import client.gui.MainFormController;
 import client.gui.MessageController;
 import client.gui.OrderTrackingController;
+import client.gui.RatesToApproveController;
 import client.gui.ReportControler;
 import client.gui.RunningSalesController;
+import client.gui.SupplierController;
 import client.gui.UpdateCustomerController;
 import entitys.Message;
 import entitys.User;
@@ -62,7 +64,10 @@ public class ObjectContainer {
 	public static ReportControler reportController;
 
 	// SUPPLIER
+	public static SupplierController supplierController;
 	
+	//CEO
+	public static RatesToApproveController ratesToApproveController;
 	
 	public static MessageController messageController;
 	

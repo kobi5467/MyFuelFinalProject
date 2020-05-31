@@ -301,7 +301,6 @@ public class CustomerRegistrationController {
 		case 1:
 			// next1
 			isValid = checkInputValidationStageOne();
-			isValid =true;
 			if(isValid) {
 				updateCustomerObjectDetailsStage1();
 				changeStage(1);
@@ -315,11 +314,9 @@ public class CustomerRegistrationController {
 				changeStage(1);
 			}
 			break;
-			
 		case 3:
 			//submit
 			isValid = checkInputValidationStageThree();
-			System.out.println("Third stage isValid = " + isValid);
 			if(isValid) {
 				register();
 				String msg = customer.getName() + " registered successfully.\n"+

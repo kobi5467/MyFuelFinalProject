@@ -33,9 +33,6 @@ public enum MessageType {
 	GET_FUEL_INVENTORY_ORDERS,
 	
 	
-	// fuel inventory per station
-	GET_FUEL_INVENTORY_PER_STATION,
-	
 	// Purchase models
 	GET_PURCHASE_MODELS,
 	

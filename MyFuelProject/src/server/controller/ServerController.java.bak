@@ -90,15 +90,15 @@ public class ServerController extends AbstractServer {
 				JsonArray saleTemplates = dbConnector.saleDBLOgic.getSaleTemplates();
 				responseJson.add("saleTemplates", saleTemplates);
 			break;
-		case UPDATE_RUNNING_SALE:{
+		case UPDATE_RUNNING_SALE:
 				String saleName = requestJson.get("saleName").getAsString();
 				int isRunning = requestJson.get("isRunning").getAsInt();
 				dbConnector.saleDBLOgic.updateRunningSale(saleName, isRunning);
-		}	break;
-		case GET_SALE_NAMES:{
+			break;
+		case GET_SALE_NAMES:
 			JsonArray saleName = dbConnector.saleDBLOgic.getSaleNames();
 			responseJson.add("saleNames", saleName);
-		}	break;
+			break;
 		default:
 			break;
 		}
@@ -184,14 +184,6 @@ public class ServerController extends AbstractServer {
 			messageFromServer = new Message(MessageType.SERVER_RESPONSE, "");
 		}
 			break;
-		case GET_FUEL_INVENTORY_PER_STATION: {
-			JsonArray fuelInventory = dbConnector.fuelDBLogic
-					.getFuelInventoryPerStation(requestJson.get("stationID")
-							.getAsString());
-			responseJson.add("fuelInventory", fuelInventory);
-			messageFromServer = new Message(MessageType.SERVER_RESPONSE,
-					responseJson.toString());
-		}break;
 		case SEND_RATE_REQUEST: {
 			String fuelType = requestJson.get("fuelType").getAsString();
 			String newPrice = requestJson.get("pricePerLitter").getAsString();

@@ -1,6 +1,7 @@
 package client.gui;
 
 import java.io.IOException;
+import java.sql.Date;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -20,14 +21,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class ReportControler {
 
-	 @FXML
-    private Pane reportPane;	
+	@FXML
+	private Pane reportPane;
 
 	@FXML
 	private Text txtReportType;
@@ -60,6 +62,12 @@ public class ReportControler {
 	private ChoiceBox<String> cbQuarterly;
 
 	@FXML
+	private Text txtYear;
+
+	@FXML
+	private TextField txtfieldYear;
+
+	@FXML
 	private Text txtFuelType;
 
 	@FXML
@@ -73,13 +81,85 @@ public class ReportControler {
 
 	@FXML
 	void generateReport(ActionEvent event) {
+		JsonObject request = new JsonObject();
+		switch (ObjectContainer.currentUserLogin.getUserPermission()) {
+		case MARKETING_MANAGER:
+			checkInputForMarketingManager();
+			break;
+		case STATION_MANAGER:
+			if (checkInputForStationManager() == true) {
+				if (cbReportType.getValue().equals("Purchases By Type")) {
+					// Transfer to a separate function -
+					// "createPurchasesByTypeReport
+					request.addProperty("stationID", "station 1");
+					request.addProperty("fuelType", cbFuelType.getValue());
+					Message msg = new Message(
+							MessageType.GET_ORDERS_BY_STATIONID,
+							request.toString());
+					ClientUI.accept(msg);
+					JsonObject response = ObjectContainer.currentMessageFromServer
+							.getMessageAsJsonObject();
+					JsonArray orders = response.get("orders").getAsJsonArray();
 
-		checkInputForMarketingManager();
+					for (int i = 0; i < orders.size(); i++) {
+						JsonObject order = orders.get(i).getAsJsonObject();
+						System.out.println(order.toString());
+					}
+				} else if (cbReportType.getValue().equals("Inventory items")) {
+					// Transfer to a separate function -
+					// "createInventoryItemsReport
+					request.addProperty("stationID", "station 1");// delete
+					Message msg = new Message(
+							MessageType.GET_FUEL_INVENTORY_PER_STATION,
+							request.toString());
+					ClientUI.accept(msg);
 
+					JsonObject response = ObjectContainer.currentMessageFromServer
+							.getMessageAsJsonObject();
+					JsonArray fuelInventory = response.get("fuelInventory")
+							.getAsJsonArray();
+					for (int i = 0; i < fuelInventory.size(); i++) {
+						JsonObject order = fuelInventory.get(i)
+								.getAsJsonObject();
+						System.out.println(order.toString());
+					}
+				} else {
+					if (cbReportType.getValue().equals("Quarterly Revenue")) {
+						request.addProperty("stationID", "station 1");
+						request.addProperty("fuelType", "");
+						request.addProperty("year", txtfieldYear.getText());
+						request.addProperty("quarter", cbQuarterly.getValue());
+						Message msg = new Message(
+								MessageType.GET_ORDERS_BY_STATIONID,
+								request.toString());
+						ClientUI.accept(msg);
+
+						JsonObject response = ObjectContainer.currentMessageFromServer
+								.getMessageAsJsonObject();
+						JsonArray homeHeatingFuelorders = response.get(
+								"homeHeatingFuelOrders").getAsJsonArray();
+						JsonArray fastFuelorders = response.get(
+								"fastFuelOrders").getAsJsonArray();
+						for (int i = 0; i < homeHeatingFuelorders.size(); i++) {
+							JsonObject order = homeHeatingFuelorders.get(i)
+									.getAsJsonObject();
+							System.out.println(order.toString());
+						}
+						for (int i = 0; i < fastFuelorders.size(); i++) {
+							JsonObject order = fastFuelorders.get(i)
+									.getAsJsonObject();
+							System.out.println(order.toString());
+						}
+					}
+				}
+			}
+			break;
+		default:
+		}
 	}
 
-	public void setReportTypeByUserPermissions(UserPermission userPermission) {
-		switch (userPermission) {
+	public void setReportTypeByUserPermissions() {
+		switch (ObjectContainer.currentUserLogin.getUserPermission()) {
 		case MARKETING_MANAGER:
 			setOptionOfReportTypeOfMarketingManager();
 			break;
@@ -91,61 +171,87 @@ public class ReportControler {
 
 	}
 
-	public void checkInputForMarketingManager() {
+	public boolean checkInputForMarketingManager() {
+
+		lblErorrFields.setText("");
 
 		if (cbReportType.getValue().equals(
 				"Periodic characterization of clients")) {
 			if ((dpStartDate.getValue() == null)
 					|| (dpEndDate.getValue() == null)) {
 				lblErorrFields.setText("Please fill all fields!");
+				return false;
 			}
-			// add more check
+			// add more check of date
 
 			else {
 				lblErorrFields.setText("");
+				return true;
 			}
-		} 
-		else if (cbReportType.getValue().equals("Comments report")) {
+		} else if (cbReportType.getValue().equals("Comments report")) {
 			if (cbSaleName.getValue().equals("Choose sale name")) {
 				lblErorrFields.setText("Please choose sale!");
+				return false;
 			} else {
 				lblErorrFields.setText("");
+				return true;
 			}
+		} else {
+			lblErorrFields.setText("Please choose report!");
+			return false;
 		}
-		else lblErorrFields.setText("Please choose report!");
 	}
 
-	public void checkInputForStationManager() {
-		if (cbReportType.getValue().equals("Quarterly Revenue")) {
-			if (cbQuarterly.getValue().equals("Choose quarterly")) {
-				lblErorrFields.setText("Please choose quarterly!");
-			} else {
+	public boolean checkInputForStationManager() {
+
+		lblErorrFields.setText("");
+
+		if ((cbReportType.getValue().equals("Quarterly Revenue"))) {
+			if (cbQuarterly.getValue().equals("Choose quarter")) {
+				lblErorrFields.setText("Please choose quarter!");
+				return false;
+			} else if (txtfieldYear.getText().isEmpty()) {
+				lblErorrFields.setText("Please insert year!");
+				return false;
+			} else if ((ObjectContainer
+					.checkIfStringContainsOnlyNumbers(txtfieldYear.getText()) == false)
+					|| txtfieldYear.getText().length() != 4) {
+				lblErorrFields.setText("Please insert correct year!");
+				return false;
+			}
+			else {
 				lblErorrFields.setText("");
+				return true;
 			}
 		}
 
 		else if (cbReportType.getValue().equals("Purchases By Type")) {
 			if (cbFuelType.getValue().equals("Choose fuel type")) {
-				lblErorrFields.setText("Please choose type!");
+				lblErorrFields.setText("Please choose fuel type!");
+				return false;
 			} else {
 				lblErorrFields.setText("");
+				return true;
 			}
+		} else if (cbReportType.getValue().equals("Inventory items")) {
+			lblErorrFields.setText("");
+			return true;
+		} else {
+			lblErorrFields.setText("Please choose report type!");
+			return false;
 		}
-		else lblErorrFields.setText("Please choose report!");
 	}
 
-	public void setChoiceOptionOfChoiceBox(ChoiceBox<String> choiceBox, JsonArray choiceOption , String defualtValue)
-	{
+	public void setChoiceOptionOfChoiceBox(ChoiceBox<String> choiceBox,
+			JsonArray choiceOption, String defualtValue) {
 		int i;
 		choiceBox.getItems().add(defualtValue);
-		for(i=0;i<choiceOption.size();i++)
-		{
+		for (i = 0; i < choiceOption.size(); i++) {
 			choiceBox.getItems().add(choiceOption.get(i).getAsString());
 		}
 		choiceBox.setValue(defualtValue);
 	}
-	
-	// change all this functions to be generic
+
 	public void setOptionOfReportTypeOfMarketingManager() {
 		cbReportType.getItems().add("Choose type");
 		cbReportType.getItems().add("Periodic characterization of clients");
@@ -154,33 +260,37 @@ public class ReportControler {
 
 		Message msg = new Message(MessageType.GET_SALE_NAMES, "");
 		ClientUI.accept(msg);
-		
+
 		// set option of sale
-		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
+		JsonObject response = ObjectContainer.currentMessageFromServer
+				.getMessageAsJsonObject();
 		JsonArray saleNames = response.get("saleNames").getAsJsonArray();
 		setChoiceOptionOfChoiceBox(cbSaleName, saleNames, "Choose sale name");
 	}
 
 	public void setOptionOfReportTypeOfStationManager() {
-		
+
 		cbReportType.getItems().add("Choose type");
 		cbReportType.getItems().add("Quarterly Revenue");
 		cbReportType.getItems().add("Purchases By Type");
+		cbReportType.getItems().add("Inventory items");
+
 		cbReportType.setValue(cbReportType.getItems().get(0));
 
 		// set option of Quarterly
-		cbQuarterly.getItems().add("Choose quarterly");
-		cbQuarterly.getItems().add("quarterly 1");
-		cbQuarterly.getItems().add("quarterly 2");
-		cbQuarterly.getItems().add("quarterly 3");
-		cbQuarterly.getItems().add("quarterly 4");
+		cbQuarterly.getItems().add("Choose quarter");
+		cbQuarterly.getItems().add("January - March");
+		cbQuarterly.getItems().add("April - June");
+		cbQuarterly.getItems().add("July - September");
+		cbQuarterly.getItems().add("October - December");
 		cbQuarterly.setValue(cbQuarterly.getItems().get(0));
-		
+
+		// set option of fuel type
 		Message msg = new Message(MessageType.GET_FUEL_TYPES, "");
 		ClientUI.accept(msg);
-		
-		// set option of fuel type
-		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
+
+		JsonObject response = ObjectContainer.currentMessageFromServer
+				.getMessageAsJsonObject();
 		JsonArray fuelTypes = response.get("fuelTypes").getAsJsonArray();
 		setChoiceOptionOfChoiceBox(cbFuelType, fuelTypes, "Choose fuel type");
 	}
@@ -202,6 +312,8 @@ public class ReportControler {
 	public void setVisibleQuartlyReport(boolean flag) {
 		txtQuarterly.setVisible(flag);
 		cbQuarterly.setVisible(flag);
+		txtYear.setVisible(flag);
+		txtfieldYear.setVisible(flag);
 		if (flag)
 			cbQuarterly.setValue(cbQuarterly.getItems().get(0));
 	}
@@ -256,6 +368,12 @@ public class ReportControler {
 				});
 	}
 
+	public String getMonth(String date) {
+		String month = "";
+		month = date.substring(3, 5);
+		return month;
+	}
+
 	public void load(Pane paneChange) {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("ReportGeneration.fxml"));
@@ -264,19 +382,20 @@ public class ReportControler {
 			reportPane = loader.load();
 			paneChange.getChildren().add(reportPane);
 			ObjectContainer.reportController = loader.getController();
-			ObjectContainer.reportController.initUI(ObjectContainer.currentUserLogin.getUserPermission());
+			ObjectContainer.reportController.initUI();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	private void initUI(UserPermission userPermission) {
+	private void initUI() {
 
 		lblErorrFields.setText("");
 		lblErorrFields.setVisible(true);
-		setReportTypeByUserPermissions(userPermission);
+		setReportTypeByUserPermissions();
 		showFieldsByReoprtType();
 
 	}
+
 }

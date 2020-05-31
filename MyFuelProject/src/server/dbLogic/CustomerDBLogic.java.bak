@@ -7,6 +7,8 @@ import java.sql.Statement;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import entitys.enums.FuelType;
+
 public class CustomerDBLogic {
 
 	public boolean checkIfCustomerExist(String customerID) {
@@ -188,64 +190,5 @@ public class CustomerDBLogic {
 			e.printStackTrace();
 		}
 		
-	}
-	public JsonObject getCustomerDetails(String customerID) {
-
-		JsonObject customer = new JsonObject();
-		String query = "";
-
-		Statement stmt = null;
-		try {
-			if (DBConnector.conn != null) {
-				query = "SELECT * FROM customer, users, credit_card "
-					  + "WHERE customer.customerID = '" + customerID + "'"
-					  		+ " AND users.userName = customer.userName AND customer.customerID = credit_card.customerID;";
-				stmt = DBConnector.conn.createStatement();
-				ResultSet rs = stmt.executeQuery(query);
-				if(rs.next()) {
-					customer.addProperty("customerID", customerID);
-					customer.addProperty("name", rs.getString("name"));
-					customer.addProperty("userName", rs.getString("userName"));
-					customer.addProperty("email", rs.getString("email"));
-					customer.addProperty("phoneNumber", rs.getString("phoneNumber"));
-					customer.addProperty("city", rs.getString("city"));
-					customer.addProperty("street", rs.getString("street"));
-					customer.addProperty("creditCardNumber", rs.getString("cardNumber"));
-					customer.addProperty("validationDate", rs.getString("validationDate"));
-					customer.addProperty("cvv", rs.getString("cvvNumber"));
-				}				
-			} else {
-				System.out.println("Conn is null");
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return customer;
-	}
-
-	public JsonObject updateCustomerDetails(JsonObject customerUpdate) {
-		String city = customerUpdate.get("city").getAsString();
-		String customerID = customerUpdate.get("customerID").getAsString();
-		
-		String query = "";
-		Statement stmt = null;
-		try {
-			if(DBConnector.conn != null) {
-				stmt = DBConnector.conn.createStatement();
-				query =  "UPDATE customer " + 
-						 "SET city = '" + city  + "'" + 
-						 " WHERE customerID = '" + customerID + "';";
-				stmt.executeUpdate(query);
-			}else {
-				System.out.println("Conn is null");
-			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return customerUpdate;
 	}
 }

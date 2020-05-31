@@ -62,7 +62,6 @@ public class SupplierController {
 		JsonObject request = new JsonObject();
 		request.addProperty("supplierID", "123");
 		if (checkOrderId() == true)
-			;
 		{
 			Message msg = new Message(MessageType.GET_FUEL_INVENTORY_ORDERS,request.toString());
 			ClientUI.accept(msg);
@@ -98,24 +97,20 @@ public class SupplierController {
 
 	}
 
-//	public void start(Stage stage) {
-//		FXMLLoader loader = new FXMLLoader();
-//		loader.setLocation(getClass().getResource("SupplierForm.fxml"));
-//
-//		Pane root = null;
-//		try {
-//			root = loader.load();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		ClientUI.controller = loader.getController();
-//		ClientUI.controller.initUI();
-//
-//		Scene scene = new Scene(root);
-//		stage.setScene(scene);
-//		stage.show();
-//	}
+	public void load(Pane changePane) {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("SupplierForm.fxml"));
 
+		try {
+			paneSupplier = loader.load();
+			changePane.getChildren().add(paneSupplier);
+			ObjectContainer.supplierController = loader.getController();
+			ObjectContainer.supplierController.initUI();
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	private void initUI() {
 
 		lblError.setText("");
