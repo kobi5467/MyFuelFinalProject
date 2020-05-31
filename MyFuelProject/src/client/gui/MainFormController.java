@@ -111,10 +111,11 @@ public class MainFormController {
 				buttonNames.add("ReportGeneration");
 				break;
 			case CEO:
-				buttonNames.add("DetermineRateRequests");
+				buttonNames.add("RatesRequests");
+				break;
 			case SUPPLIER:
-				buttonNames.add("Orders");
-			break;
+				buttonNames.add("OrdersRecived");
+				break;
 		}
 
 		buttonNames.add("About");
@@ -278,6 +279,16 @@ public class MainFormController {
 			}
 			ObjectContainer.orderTrackingController.load(changePane);
 		}
+		
+		
+		/************************************** CEO ***************************************/
+		
+		if(title.equals("RatesRequests")) {
+			if(ObjectContainer.ratesToApproveController == null) {
+				ObjectContainer.ratesToApproveController = new RatesToApproveController();
+			}
+			ObjectContainer.ratesToApproveController.load(changePane);
+		}
 	}
 	
 	public void logout() {
@@ -300,6 +311,7 @@ public class MainFormController {
 	public void setButtonImage(String buttonName, int index, boolean isChecked) {
 		String url = "../../images/menuButtons/"+buttonName;
 		url += isChecked ? "Check.png" : "UnCheck.png";
+		System.out.println(url);
 		BackgroundImage backgroundImage = new BackgroundImage(
 				new Image(getClass().getResource(url).toExternalForm()),
 				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,

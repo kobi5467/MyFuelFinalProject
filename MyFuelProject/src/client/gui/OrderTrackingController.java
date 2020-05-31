@@ -100,6 +100,4 @@ public class OrderTrackingController {
 	private void initUI() {
 		
 	}
-
-	
 }

@@ -75,6 +75,7 @@ public class RatesToApproveController {
 		showAllRequests();
 
 	}
+	
 	public void showAllRequests() {
 		vbRequestsContainer.getChildren().clear();
 		for (int i = 0; i < requests.size(); i++) {
@@ -87,7 +88,6 @@ public class RatesToApproveController {
 				rateRequestsAnchorPanes.remove(i);
 			}
 		}
-
 	}
 	public void start(Stage primaryStage) throws IOException {
 		FXMLLoader loader = new  FXMLLoader();
