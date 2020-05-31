@@ -41,7 +41,7 @@ public class DeterminingFuelRatesController {
 
 	@FXML
 	private Label lblErrorMessage;
-
+	
 	private Fuel currentFuel;
 	
 	@FXML
@@ -63,9 +63,34 @@ public class DeterminingFuelRatesController {
 		} else {
 			flag = checkFields(newPrice, errorMessage);
 			if (flag) {
-				updateFuel(newPrice);
+				sendRateRequest(newPrice);
+				//updateFuel(newPrice);
 			}
 		}
+	}
+	
+	public void sendRateRequest(String newPrice) {
+		JsonObject json = new JsonObject();
+		System.out.println(currentFuel.getFuelType());
+		String fuelType = FuelType.enumToString(currentFuel.getFuelType());
+
+		json.addProperty("fuelType", fuelType);
+		json.addProperty("pricePerLitter", newPrice);
+		Message msg = new Message(MessageType.SEND_RATE_REQUEST, json.toString());
+		ClientUI.accept(msg);
+		
+		lblErrorMessage.setText("Request to update sended succesfully");
+		lblErrorMessage.setStyle(""
+				+ "-fx-text-fill:#00ff00;" 
+				+ "-fx-font-weight: bold;"
+				+ "-fx-font-size:14pt;"
+				);
+		txtCurrPrice.setText("");
+		txtMaxPrice.setText("");
+		txtNewPrice.setText("");
+		cbFuelType.setValue(cbFuelType.getItems().get(0));
+		
+		
 	}
 	
 	public JsonArray getFuelTypes(){		

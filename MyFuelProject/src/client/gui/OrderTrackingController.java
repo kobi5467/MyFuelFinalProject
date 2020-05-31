@@ -1,20 +1,30 @@
 package client.gui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import client.controller.ClientUI;
 import client.controller.ObjectContainer;
+import entitys.Fuel;
+import entitys.HomeHeatingFuelOrder;
 import entitys.Message;
+import entitys.SaleTemplate;
+import entitys.enums.FuelType;
 import entitys.enums.MessageType;
+import entitys.enums.Status;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 public class OrderTrackingController {
 
@@ -28,61 +38,127 @@ public class OrderTrackingController {
 	private Button btnSearch;
 
 	@FXML
+	private Label lblerrorMessage;
+
+	@FXML
 	private Button btnOnlyOpenOrder;
 
 	@FXML
-    private Label lblerrorMessage;
-	
+	private ScrollPane spOrdersContainer;
+
+	@FXML
+	private VBox vbOrdersContainer;
+
+	@FXML
+	private Label lblOrderID;
+
+	private ArrayList<AnchorPane> orderPanes;
+	private JsonArray orders;
+	private boolean showOnlyOpenOrdersFlag = false;
+
 	@FXML
 	void OnSearch(ActionEvent event) {
-		boolean flag = true;
+		// boolean flag = true;
 
 		String OrderID = txtTypeOrderID.getText().trim();
 		String errorMessage = "";
-
-		
 
 		if (OrderID.isEmpty()) {
 
 			errorMessage = "Please fill all fields";
 			lblerrorMessage.setText(errorMessage);
+			showAllOrders();
 			// check if all fields are filled
-		}  if (ObjectContainer.checkIfStringContainsOnlyNumbers(OrderID)) {
+		} else if (!ObjectContainer.checkIfStringContainsOnlyNumbers(OrderID)) {
 			errorMessage = "Insert digits only!";
 			lblerrorMessage.setText(errorMessage);
+			showAllOrders();
 		}
-		
 
-		else
+		else if (CheckIfOrderExists(OrderID) == false) {
+			errorMessage = "Order ID doesnt exist!";
+			lblerrorMessage.setText(errorMessage);
+			showAllOrders();
+
+		}
+
+		else {
+			lblerrorMessage.setText("");
 			txtTypeOrderID.setText("");
-		System.out.println();
+			btnOnlyOpenOrder.setText("Show only open orders");
+			showOnlyOpenOrdersFlag = false;
+			// showOnlyOpenOrdersFlag=true;
+			showOrderByID(OrderID);
+		}
+
+	}
+
+	public JsonArray getHHFOrders() {
+		Message msg = new Message(MessageType.GET_HOME_HEATING_FUEL_ORDERS, "");
+		ClientUI.accept(msg);
+
+		JsonObject responseJson = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
+		JsonArray HHFOrders = responseJson.get("HHFOrders").getAsJsonArray();
+		return HHFOrders;
+	}
+
+	public void showOnlyOpenOrders() {
+		vbOrdersContainer.getChildren().clear();
+		for (int i = 0; i < orderPanes.size(); i++) {
+			String orderStatus = orders.get(i).getAsJsonObject().get("orderStatus").getAsString();
+			if (orderStatus.equals("WAITING"))
+				vbOrdersContainer.getChildren().add(orderPanes.get(i));
+		}
+
+	}
+
+	public void showOrderByID(String orderID) {
+		vbOrdersContainer.getChildren().clear();
+		for (int i = 0; i < orderPanes.size(); i++) {
+			String orderID2 = orders.get(i).getAsJsonObject().get("orderID").getAsString();
+			if (orderID2.equals(orderID))
+				vbOrdersContainer.getChildren().add(orderPanes.get(i));
+		}
+
+	}
+
+	public void showAllOrders() {
+		vbOrdersContainer.getChildren().clear();
+		for (int i = 0; i < orderPanes.size(); i++) {
+			vbOrdersContainer.getChildren().add(orderPanes.get(i));
+
+		}
+
 	}
 
 	@FXML
 	void OnShowOnlyOpenOrders(ActionEvent event) {
-
-		txtTypeOrderID.setText("");
+		if (!showOnlyOpenOrdersFlag) {
+			showOnlyOpenOrders();
+			btnOnlyOpenOrder.setText("Show all orders");
+			txtTypeOrderID.setText("");
+			showOnlyOpenOrdersFlag = true;
+		} else {
+			showAllOrders();
+			txtTypeOrderID.setText("");
+			btnOnlyOpenOrder.setText("Show only open orders");
+			showOnlyOpenOrdersFlag = false;
+		}
 
 	}
-	
-	public void CheckIfOrderExists(String orderID) {
-		JsonObject json = new JsonObject();
-		json.addProperty("orderID", orderID);
 
-		Message msg = new Message(MessageType.CHECK_IF_ORDER_EXISTS, json.toString());
-		ClientUI.clientController.handleMessageFromClient(msg);
-
-		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
-		//FuelType fuelTypeResponse = FuelType.stringToEnumVal(response.get("fuelType").getAsString());
-		//float pricePerLitter = response.get("pricePerLitter").getAsFloat();
-		//float maxPricePerLitter = response.get("maxPricePerLitter").getAsFloat();
-
-		//Fuel fuel = new Fuel(fuelTypeResponse, pricePerLitter, maxPricePerLitter);
-		//return fuel;
+	public boolean CheckIfOrderExists(String orderID) {
+		vbOrdersContainer.getChildren().clear();
+		boolean flag = false;
+		for (int i = 0; i < orderPanes.size(); i++) {
+			String orderID2 = orders.get(i).getAsJsonObject().get("orderID").getAsString();
+			if (orderID2.equals(orderID))
+				flag = true;
+		}
+		return flag;
 	}
-	
 
-	public void load(Pane paneChange){
+	public void load(Pane paneChange) {
 
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("OrderTrackingForm.fxml"));
@@ -98,6 +174,17 @@ public class OrderTrackingController {
 	}
 
 	private void initUI() {
-		
+		lblerrorMessage.setText("");
+		orders = getHHFOrders();
+		orderPanes = new ArrayList<>();
+		for (int i = 0; i < orders.size(); i++) {
+			OrderPane orderPane = new OrderPane();
+			String color = i % 2 == 0 ? "#0240FF" : "#024079";
+			AnchorPane pane = orderPane.load(orders.get(i).getAsJsonObject(), color);
+			orderPanes.add(pane);
+		}
+		showAllOrders();
+
 	}
+
 }
