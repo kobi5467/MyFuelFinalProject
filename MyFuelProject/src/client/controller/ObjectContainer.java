@@ -12,6 +12,7 @@ import client.gui.marketingmanager.ReportControler;
 import client.gui.marketingmanager.RunningSalesController;
 import client.gui.marketingrepresentative.CustomerRegistrationController;
 import client.gui.marketingrepresentative.UpdateCustomerController;
+import client.gui.stationmanager.InventoryController;
 import client.gui.supplier.SupplierController;
 import entitys.Message;
 import entitys.User;
@@ -64,7 +65,7 @@ public class ObjectContainer {
 	
 	// STATION MANAGER
 	public static ReportControler reportController;
-
+	public static InventoryController inventoryController;
 	// SUPPLIER
 	public static SupplierController supplierController;
 	

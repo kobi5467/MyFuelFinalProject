@@ -4,8 +4,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+
+import entitys.Customer;
+import entitys.PurchaseModel;
+import entitys.SubscribeType;
+import entitys.enums.UserPermission;
 
 public class CustomerDBLogic {
 
@@ -36,8 +42,9 @@ public class CustomerDBLogic {
 		return isExist;
 	}
 	
-	public JsonObject getCustomerDetailsByUsername(String userName) {
-		JsonObject customer = new JsonObject();
+	public String getCustomerDetailsByUsername(String userName) {
+		Customer customer = new Customer();
+		float discountRate = 0;
 		String query = "";
 
 		Statement stmt = null;
@@ -48,17 +55,18 @@ public class CustomerDBLogic {
 				stmt = DBConnector.conn.createStatement();
 				ResultSet rs = stmt.executeQuery(query);
 				if(rs.next()) {
-					customer.addProperty("userName", userName);
-					customer.addProperty("customerID", rs.getString("customerID"));
-					customer.addProperty("name", rs.getString("name"));
-					customer.addProperty("userName", rs.getString("userName"));
-					customer.addProperty("email", rs.getString("email"));
-					customer.addProperty("phoneNumber", rs.getString("phoneNumber"));
-					customer.addProperty("customerType", rs.getString("customerType"));
-					customer.addProperty("subscribeType", rs.getString("subscribeType"));
-					customer.addProperty("city", rs.getString("city"));
-					customer.addProperty("street", rs.getString("street"));
-					customer.addProperty("userPermission", rs.getString("userPermission"));
+					customer.setUsername(userName);
+					customer.setCustomerId(rs.getString("customerID"));
+					customer.setName(rs.getString("name"));
+					customer.setEmail(rs.getString("email"));
+					customer.setPhoneNumber(rs.getString("phoneNumber"));
+					customer.setCustomerType(rs.getString("customerType"));
+					customer.setSubscribeType(new SubscribeType(rs.getString("subscribeType"),discountRate));
+					customer.setPurchaseModel(new PurchaseModel(rs.getString("purchaseModelType"), 0, null));
+					customer.setCity(rs.getString("city"));
+					customer.setStreet(rs.getString("street"));
+					customer.setUserPermission(UserPermission.stringToEnumVal(rs.getString("userPermission")));
+					
 				}				
 			} else {
 				System.out.println("Conn is null");
@@ -68,7 +76,7 @@ public class CustomerDBLogic {
 			e.printStackTrace();
 		}
 		
-		return customer;
+		return new Gson().toJson(customer);
 	}
 	
 	public JsonArray getSubscribeTypes() {
@@ -363,6 +371,38 @@ public class CustomerDBLogic {
 		
 		
 		return companies;
+	}
+
+	public JsonArray getSubscribeTypeDiscount() {
+		JsonArray subscribeTypes = new JsonArray();
+		String query = "";
+		Statement stmt = null;
+		try {
+			if (DBConnector.conn != null) {
+				query = "SELECT * FROM subscribe_type;";
+				stmt = DBConnector.conn.createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				while(rs.next()) {
+					JsonObject json = new JsonObject();
+					json.addProperty("subscribeType", rs.getString("subscribeType"));
+					json.addProperty("discountRate", rs.getFloat("discountRate"));
+					subscribeTypes.add(json);
+				}				
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return subscribeTypes;
+	}
+
+	public float getPreviousFastFuelOrdersAmount(String customerID) {
+		
+		
+		return 111;
 	}
 
 }

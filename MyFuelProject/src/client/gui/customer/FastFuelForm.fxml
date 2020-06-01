@@ -33,39 +33,49 @@
       <ChoiceBox fx:id="cbFuelCompany" layoutX="297.0" layoutY="38.0" prefWidth="150.0" />
       <ChoiceBox fx:id="cbVehicleNumber" layoutX="297.0" layoutY="103.0" prefWidth="150.0" />
       <ChoiceBox fx:id="cbStationNumber" layoutX="658.0" layoutY="38.0" prefWidth="150.0" />
-      <Button fx:id="btnSubmitOrder" layoutX="423.0" layoutY="456.0" mnemonicParsing="false" onAction="#onSubmit" prefHeight="43.0" prefWidth="130.0" text="Submit order" />
+      <Button fx:id="btnSubmitOrder" layoutX="425.0" layoutY="468.0" mnemonicParsing="false" onAction="#onSubmit" prefHeight="43.0" prefWidth="130.0" text="Submit order" />
       <Label layoutX="381.0" layoutY="183.0" text="Order Details " textFill="WHITE" underline="true">
          <font>
             <Font name="System Bold" size="29.0" />
          </font>
       </Label>
       <TextField fx:id="txtFuelAmount" layoutX="659.0" layoutY="103.0" prefHeight="25.0" prefWidth="150.0" />
-      <Label layoutX="250.0" layoutY="272.0" text="Fuel Type :" textFill="WHITE">
+      <Label layoutX="334.0" layoutY="240.0" text="Fuel Type :" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="250.0" layoutY="326.0" text="Price per litter :" textFill="WHITE">
+      <Label layoutX="334.0" layoutY="294.0" text="Price per litter :" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="250.0" layoutY="380.0" text="Total price :" textFill="WHITE">
+      <Label layoutX="334.0" layoutY="348.0" text="Total price :" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="lblFuelType" layoutX="431.0" layoutY="272.0" text="Details here" textFill="WHITE">
+      <Label fx:id="lblFuelType" layoutX="515.0" layoutY="240.0" text="Details here" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="lblPricePerLitter" layoutX="431.0" layoutY="326.0" text="Details here" textFill="WHITE">
+      <Label fx:id="lblPricePerLitter" layoutX="515.0" layoutY="294.0" text="Details here" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="lblTotalPrice" layoutX="431.0" layoutY="380.0" text="Details here" textFill="WHITE">
+      <Label fx:id="lblTotalPrice" layoutX="515.0" layoutY="348.0" text="Details here" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="334.0" layoutY="396.0" text="After Discount :" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblPriceAfterDiscount" layoutX="515.0" layoutY="396.0" text="Details here" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>

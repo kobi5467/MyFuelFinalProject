@@ -19,10 +19,9 @@ import client.gui.marketingmanager.ReportControler;
 import client.gui.marketingmanager.RunningSalesController;
 import client.gui.marketingrepresentative.CustomerRegistrationController;
 import client.gui.marketingrepresentative.UpdateCustomerController;
+import client.gui.stationmanager.InventoryController;
 import entitys.Customer;
 import entitys.Message;
-import entitys.SubscribeType;
-import entitys.User;
 import entitys.enums.MessageType;
 import entitys.enums.UserPermission;
 import javafx.animation.Animation;
@@ -227,18 +226,7 @@ public class MainFormController {
 		ClientUI.accept(msg);
 		
 		JsonObject customerJson = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
-		System.out.println(customerJson.toString());
-		Customer customer = new Customer();
-		customer.setCity(customerJson.get("city").getAsString());
-		customer.setCustomerId(customerJson.get("customerID").getAsString());
-		customer.setName(customerJson.get("name").getAsString());
-		customer.setUsername(customerJson.get("userName").getAsString());
-		customer.setEmail(customerJson.get("email").getAsString());
-		customer.setPhoneNumber(customerJson.get("phoneNumber").getAsString());
-		customer.setCustomerType(customerJson.get("customerType").getAsString());
-		customer.setSubscribeType(new SubscribeType(customerJson.get("subscribeType").getAsString(),0));
-		customer.setStreet(customerJson.get("street").getAsString());
-		customer.setUserPermission(UserPermission.stringToEnumVal(customerJson.get("userPermission").getAsString()));
+		Customer customer = new Gson().fromJson(customerJson.get("customerDetails").getAsString(), Customer.class);
 		return customer;
 	}
 
@@ -330,6 +318,15 @@ public class MainFormController {
 			ObjectContainer.orderTrackingController.load(changePane);
 		}
 		
+		
+		/************************************* MARKETING MANAGER ****************************/
+		
+		if(title.equals("Inventory")) {
+			if(ObjectContainer.inventoryController == null) {
+				ObjectContainer.inventoryController = new InventoryController();
+			}
+			ObjectContainer.inventoryController.load(changePane);
+		}
 		
 		/************************************** CEO ***************************************/
 		

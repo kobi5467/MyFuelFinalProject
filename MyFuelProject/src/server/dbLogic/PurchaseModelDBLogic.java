@@ -33,4 +33,29 @@ public class PurchaseModelDBLogic {
 		return types;
 	}
 
+	public float getPurchaseModelDiscountByType(String purchaseModel) {
+		float discount = 0;
+		String query = "";
+
+		Statement stmt = null;
+		try {
+			if (DBConnector.conn != null) {
+				query = "SELECT * FROM  purchase_model "
+						+ "WHERE purchaseModelType = '" + purchaseModel + "';";
+				stmt = DBConnector.conn.createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				if (rs.next()) {
+					discount = rs.getFloat("purchaseModelDiscount");
+				}
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return discount;
+	}
+
 }

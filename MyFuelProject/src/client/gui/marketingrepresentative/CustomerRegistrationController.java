@@ -640,6 +640,10 @@ public class CustomerRegistrationController {
 			ObjectContainer.showMessage("Error", "Multiple vehicles", 
 					"You have choosen multiple vehicle monthly subscribe.\nPlease add more vehicles");
 			isValid = false;
+		}else if(customer.getSubscribeType().getSubscribeType().contains("SINGLE") && customer.getVehicles().size() != 1) {
+			ObjectContainer.showMessage("Error", "Single Purchase Model", 
+					"You have choosen single vehicle subscribe.\nPlease add only 1 vehicle.");
+			isValid = false;
 		}
 		return isValid;
 	}
