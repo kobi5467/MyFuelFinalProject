@@ -91,7 +91,6 @@ public class FuelDBLogic {
 		PriceToUpdate = Float.parseFloat(newPrice);
 		float currentPrice = request.getCurrentPrice();
 		String fueltype = request.getFuelType();
-		int reqID = request.getRequestID();
 		String status = request.getRequestStatus().enumToString(request.getRequestStatus());
 		String createTime = request.getCreateTime();
 		String query = "";

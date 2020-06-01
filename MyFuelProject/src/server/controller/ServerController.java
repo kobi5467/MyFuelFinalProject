@@ -53,7 +53,9 @@ public class ServerController extends AbstractServer {
 				break;
 			case SUBMIT_HOME_HEATING_FUEL_ORDER:
 			case GET_HOME_HEATING_FUEL_ORDERS:	
-			case GET_ORDERS_BY_STATIONID:
+			case GET_ORDERS_BY_STATIONID_AND_FUEL_TYPE:
+			case GET_ORDERS_BY_STATIONID_AND_QUARTER:
+			case GET_ORDERS_BY_STATIONID_AND_SALE_NAME:
 				messageFromServer = handleOrderMessage(message);
 				break;
 			case CHECK_IF_CUSTOMER_EXIST:
@@ -123,31 +125,41 @@ public class ServerController extends AbstractServer {
 			JsonArray HHFOrders = dbConnector.orderDBLogic.GetHomeHeatingFuelOrder();
 			responseJson.add("HHFOrders", HHFOrders);	
 		}break;
-		case GET_ORDERS_BY_STATIONID: {
-			String stationID = requestJson.get("stationID").getAsString();
-			String fuelType = requestJson.get("fuelType").getAsString();
+
+		case GET_ORDERS_BY_STATIONID_AND_FUEL_TYPE:{
 			JsonArray orders;
-			
-			// for quarterly report
-			if (fuelType.equals("")) {
-				orders = dbConnector.orderDBLogic
-						.getHomeHeatingFuelOrdersByStationID(requestJson);
-				responseJson.add("homeHeatingFuelOrders", orders);
-				orders = dbConnector.orderDBLogic
-						.getFastFuelOrdersByStationID(stationID);
-				responseJson.add("fastFuelOrders", orders);
-			} else { // for sale report
-				if (fuelType.equals("Home heating fuel")) {
-					orders = dbConnector.orderDBLogic
-							.getHomeHeatingFuelOrdersByStationID(requestJson);
-				} else {
-					orders = dbConnector.orderDBLogic
-							.getFastFuelOrdersByStationID(stationID);
-				}
-				responseJson.add("orders", orders);
-			}
+			String stationID=requestJson.get("stationID").getAsString();
+			String fuelType=requestJson.get("fuelType").getAsString();
+			orders = dbConnector.orderDBLogic.getOrdersDetailsByStationIdAndFuelType(stationID, fuelType);
+			responseJson.add("orders", orders);
 		}
-			break;
+		break;
+		case GET_ORDERS_BY_STATIONID_AND_QUARTER: {
+			JsonArray orders;
+			String stationID = requestJson.get("stationID").getAsString();
+			String quarter = requestJson.get("quarter").getAsString();
+			String year=requestJson.get("year").getAsString();
+			
+			orders = dbConnector.orderDBLogic.getFastFuelOrdersByStationIdAndQuarter(stationID, quarter, year);
+			responseJson.add("fastFuelOrders", orders);
+			
+			orders = dbConnector.orderDBLogic.getHomeHeatingFuelOrdersByStationIdAndQuarter(stationID, quarter, year);
+			responseJson.add("homeHeatingFuelOrders", orders);
+			
+		
+		}
+		break;
+		case GET_ORDERS_BY_STATIONID_AND_SALE_NAME:{
+			JsonArray orders;
+			String stationID = requestJson.get("stationID").getAsString();
+			String saleName = requestJson.get("saleName").getAsString();
+			
+			orders = dbConnector.orderDBLogic.getHomeHeatingFuelOrdersByStationIdAndSaleName(stationID, saleName);
+			responseJson.add("homeHeatingFuelOrders", orders);
+			
+			orders = dbConnector.orderDBLogic.getFastFuelOrdersByStationIdAndSaleName(stationID, saleName);
+			responseJson.add("fastFuelOrders", orders);
+		}break;
 		default:
 			break;
 		}

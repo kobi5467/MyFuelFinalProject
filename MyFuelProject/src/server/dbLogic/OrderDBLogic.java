@@ -3,6 +3,7 @@ package server.dbLogic;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -104,40 +105,18 @@ public class OrderDBLogic {
 
 	}
 
-	public String createDate(String quarter, String year) {
-		if (quarter.isEmpty() || year.isEmpty())
-			return "";
-		String startDate = "";
-		String endDate = "";
-		if (quarter.equals("January - March")) {
-			startDate = year + "-01-01";
-			endDate = year + "-03-31";
-		} else if (quarter.equals("April - June")) {
-			startDate = year + "-04-01";
-			endDate = year + "-06-30";
-		} else if (quarter.equals("July - September")) {
-			startDate = year + "-07-01";
-			endDate = year + "-09-30";
-		} else {
-			startDate = year + "-10-01";
-			endDate = year + "-12-31";
+//get orders details for purchases report
+	public JsonArray getOrdersDetailsByStationIdAndFuelType(String stationID,String fuelType){
+		JsonArray orders = new JsonArray();
+		String query ;
+		if(fuelType.equals("Home heating fuel")){
+			query = "SELECT * FROM home_heating_fuel_orders WHERE "+
+					"stationID = '"+stationID +"';";
 		}
-		return startDate + "_" + endDate;
-	}
-
-	public JsonArray getHomeHeatingFuelOrdersByStationID(JsonObject requestJson){
-		JsonArray homeHeatingFuelOrders = new JsonArray();
-		String stationID = requestJson.get("stationID").getAsString();
-		String quarter = requestJson.get("quarter").getAsString();
-		String year = requestJson.get("year").getAsString();
-		String dates = createDate(quarter, year);
-		System.out.println(dates);
-		
-		String query = "SELECT * FROM home_heating_fuel_orders WHERE "+
-				"stationID = '"+stationID +"' " +
-				(quarter.isEmpty() ? "" : "AND orderDate between '"+ 
-							dates.split("_")[0] + "' and '" + dates.split("_")[1])+"'"+
-						";";
+		else{
+			query = "SELECT * FROM fast_fuel_orders WHERE "+
+					"stationID = '"+stationID +"' AND fuelType='"+fuelType+"';";
+		}
 		System.out.println(query);
 		Statement stmt=null;
 		try {
@@ -148,9 +127,72 @@ public class OrderDBLogic {
 					JsonObject order = new JsonObject();
 					order.addProperty("orderID", rs.getString("orderID"));
 					order.addProperty("orderDate", rs.getString("orderDate"));
-					order.addProperty("customerID", rs.getString("customerID"));
-					order.addProperty("fuelAmount", rs.getString("fuelAmount"));
+					order.addProperty("customerId", rs.getString("customerId"));
+					order.addProperty("amountOfLitters", rs.getString("amountOfLitters"));
 					order.addProperty("totalPrice", rs.getString("totalPrice"));
+					System.out.println(order.toString());
+					orders.add(order);
+				}
+			}else {
+				System.out.println("Conn is null");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+		
+		return orders;		
+	}
+	
+	public JsonArray getFastFuelOrdersByStationIdAndQuarter(String stationID,String quarter,String year){
+		JsonArray fastFuelOrders = new JsonArray();
+		ArrayList<String> date= new ArrayList<>();
+		date =createDate(quarter, year);
+		String query = "";
+		Statement stmt=null;
+		try {
+			if(DBConnector.conn != null) {
+				query = "SELECT fuelType, sum(fuelAmount) as totalAmountOfFuel,sum(totalPrice) as totalPriceOfFuel FROM fast_fuel_orders "
+						+ "WHERE stationID='"+stationID+"' AND orderDate between '"+date.get(0)+"' and '"+date.get(1)+
+						"' group by fuelType;";
+				stmt = DBConnector.conn.createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				while(rs.next()) {
+					JsonObject order = new JsonObject();
+					order.addProperty("fuelType", rs.getString("fuelType"));
+					order.addProperty("totalAmountOfFuel", rs.getString("totalAmountOfFuel"));
+					order.addProperty("totalPriceOfFuel", rs.getString("totalPriceOfFuel"));
+					System.out.println(order.toString());
+					fastFuelOrders.add(order);
+				}
+			}else {
+				System.out.println("Conn is null");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+		
+		return fastFuelOrders;
+		
+	}
+	
+	public JsonArray getHomeHeatingFuelOrdersByStationIdAndQuarter(String stationID,String quarter,String year){
+		JsonArray homeHeatingFuelOrders = new JsonArray();
+		ArrayList<String> date= new ArrayList<>();
+		date =createDate(quarter, year);
+		String query = "";
+		Statement stmt=null;
+		try {
+			if(DBConnector.conn != null) {
+				query = "SELECT sum(fuelAmount) as totalAmountOfFuel,sum(totalPrice) as totalPriceOfFuel FROM home_heating_fuel_orders "
+						+ "WHERE stationID='"+stationID+"' AND orderDate between '"+date.get(0)+"' and '"+date.get(1)+"';";
+				stmt = DBConnector.conn.createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				while(rs.next()) {
+					JsonObject order = new JsonObject();
+					order.addProperty("totalAmountOfFuel", rs.getString("totalAmountOfFuel"));
+					order.addProperty("totalPriceOfFuel", rs.getString("totalPriceOfFuel"));
 					System.out.println(order.toString());
 					homeHeatingFuelOrders.add(order);
 				}
@@ -166,7 +208,38 @@ public class OrderDBLogic {
 		
 	}
 	
-	
+	public JsonArray getHomeHeatingFuelOrdersByStationIdAndSaleName(String stationID,String saleName){
+		JsonArray homeHeatingFuelOrders = new JsonArray();
+		String query = "";
+		Statement stmt=null;
+		try {
+			if(DBConnector.conn != null) {
+
+				query = "SELECT customerID, count(orderID) as sumOfPurchase ,sum(totalPrice) as amountOfPayment FROM home_heating_fuel_orders "
+						+ "WHERE stationID='"+stationID+"' AND saleTemplateName='"+saleName+
+						"' group by customerID;";
+				System.out.println(query);
+				stmt = DBConnector.conn.createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				while(rs.next()) {
+					JsonObject order = new JsonObject();
+					order.addProperty("customerID", rs.getString("customerID"));
+					order.addProperty("sumOfPurchase", rs.getString("sumOfPurchase"));
+					order.addProperty("amountOfPayment", rs.getString("amountOfPayment"));
+					System.out.println(order.toString());
+					homeHeatingFuelOrders.add(order);
+				}
+			}else {
+				System.out.println("Conn is null");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+		
+		return homeHeatingFuelOrders;
+		
+	}
 	
 	public JsonArray GetHomeHeatingFuelOrder() {
 		JsonArray HHFOrders = new JsonArray();
@@ -202,4 +275,59 @@ public class OrderDBLogic {
 		}
 		return HHFOrders;
 	}
+
+public JsonArray getFastFuelOrdersByStationIdAndSaleName(String stationID,String saleName){
+		JsonArray fastFuelOrders = new JsonArray();
+		String query = "";
+		Statement stmt=null;
+		try {
+			if(DBConnector.conn != null) {
+
+				query = "SELECT customerID, count(orderID) as sumOfPurchase ,sum(totalPrice) as amountOfPayment FROM fast_fuel_orders "
+						+ "WHERE stationID='"+stationID+"' AND saleTemplateName='"+saleName+
+						"' group by customerID;";
+				System.out.println(query);
+				stmt = DBConnector.conn.createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				while(rs.next()) {
+					JsonObject order = new JsonObject();
+					order.addProperty("customerID", rs.getString("customerID"));
+					order.addProperty("sumOfPurchase", rs.getString("sumOfPurchase"));
+					order.addProperty("amountOfPayment", rs.getString("amountOfPayment"));
+					System.out.println(order.toString());
+					fastFuelOrders.add(order);
+				}
+			}else {
+				System.out.println("Conn is null");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+		
+		return fastFuelOrders;
+		
+	}
+	public ArrayList<String> createDate(String quarter, String year){
+		ArrayList<String> date=new ArrayList<>();
+		String startDate = "";
+		String endDate = "";
+		if(quarter.equals("January - March")){
+			startDate = year+"-01-01";
+			endDate = year+"-03-31";
+		}else if(quarter.equals("April - June")){
+			startDate = year+"-04-01";
+			endDate = year+"-06-30";
+		}else if(quarter.equals("July - September")){
+			startDate = year+"-07-01";
+			endDate = year+"-09-30";
+		}else{
+			startDate = year+"-10-01";
+			endDate = year+"-12-31";
+		}
+		date.add(startDate);
+		date.add(endDate);
+		return date;
+	}
+	
 }

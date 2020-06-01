@@ -1,14 +1,9 @@
 package client.gui.marketingmanager;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Set;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
-import client.controller.ClientUI;
-import client.controller.ObjectContainer;
-import entitys.Message;
-import entitys.enums.MessageType;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -18,9 +13,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import client.controller.ClientUI;
+import client.controller.ObjectContainer;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import entitys.Message;
+import entitys.enums.MessageType;
 
 public class ReportControler {
 
@@ -61,7 +63,7 @@ public class ReportControler {
 	private Text txtYear;
 
 	@FXML
-	private TextField txtfieldYear;
+	private ChoiceBox<String> cbYear;
 
 	@FXML
 	private Text txtFuelType;
@@ -80,77 +82,147 @@ public class ReportControler {
 		JsonObject request = new JsonObject();
 		switch (ObjectContainer.currentUserLogin.getUserPermission()) {
 		case MARKETING_MANAGER:
-			checkInputForMarketingManager();
+			if (checkInputForMarketingManager() == true) {
+				createReportForMarketingManager(request);
+			}
 			break;
 		case STATION_MANAGER:
 			if (checkInputForStationManager() == true) {
-				if (cbReportType.getValue().equals("Purchases By Type")) {
-					// Transfer to a separate function -
-					// "createPurchasesByTypeReport
-					request.addProperty("stationID", "station 1");
-					request.addProperty("fuelType", cbFuelType.getValue());
-					Message msg = new Message(
-							MessageType.GET_ORDERS_BY_STATIONID,
-							request.toString());
-					ClientUI.accept(msg);
-					JsonObject response = ObjectContainer.currentMessageFromServer
-							.getMessageAsJsonObject();
-					JsonArray orders = response.get("orders").getAsJsonArray();
-
-					for (int i = 0; i < orders.size(); i++) {
-						JsonObject order = orders.get(i).getAsJsonObject();
-						System.out.println(order.toString());
-					}
-				} else if (cbReportType.getValue().equals("Inventory items")) {
-					// Transfer to a separate function -
-					// "createInventoryItemsReport
-					request.addProperty("stationID", "station 1");// delete
-					Message msg = new Message(
-							MessageType.GET_FUEL_INVENTORY_PER_STATION,
-							request.toString());
-					ClientUI.accept(msg);
-
-					JsonObject response = ObjectContainer.currentMessageFromServer
-							.getMessageAsJsonObject();
-					JsonArray fuelInventory = response.get("fuelInventory")
-							.getAsJsonArray();
-					for (int i = 0; i < fuelInventory.size(); i++) {
-						JsonObject order = fuelInventory.get(i)
-								.getAsJsonObject();
-						System.out.println(order.toString());
-					}
-				} else {
-					if (cbReportType.getValue().equals("Quarterly Revenue")) {
-						request.addProperty("stationID", "station 1");
-						request.addProperty("fuelType", "");
-						request.addProperty("year", txtfieldYear.getText());
-						request.addProperty("quarter", cbQuarterly.getValue());
-						Message msg = new Message(
-								MessageType.GET_ORDERS_BY_STATIONID,
-								request.toString());
-						ClientUI.accept(msg);
-
-						JsonObject response = ObjectContainer.currentMessageFromServer
-								.getMessageAsJsonObject();
-						JsonArray homeHeatingFuelorders = response.get(
-								"homeHeatingFuelOrders").getAsJsonArray();
-						JsonArray fastFuelorders = response.get(
-								"fastFuelOrders").getAsJsonArray();
-						for (int i = 0; i < homeHeatingFuelorders.size(); i++) {
-							JsonObject order = homeHeatingFuelorders.get(i)
-									.getAsJsonObject();
-							System.out.println(order.toString());
-						}
-						for (int i = 0; i < fastFuelorders.size(); i++) {
-							JsonObject order = fastFuelorders.get(i)
-									.getAsJsonObject();
-							System.out.println(order.toString());
-						}
-					}
-				}
+				createReportForStationManager(request);
 			}
 			break;
 		default:
+		}
+	}
+
+	public void createReportForMarketingManager(JsonObject request) {
+		int i;
+		float countCustomer = 0;
+		float countPurchases = 0;
+		float countPayment = 0;
+		
+		request.addProperty("stationID", "station 1");
+		if (cbReportType.getValue().equals(
+				"Periodic characterization of clients")) {
+			request.addProperty("reportType",
+					"Periodic characterization of clients");
+		} else {
+			if (cbReportType.getValue().equals("Comments report")) {
+				request.addProperty("reportType", "Comments report");
+				request.addProperty("saleName", cbSaleName.getValue());
+				Message msg = new Message(
+						MessageType.GET_ORDERS_BY_STATIONID_AND_SALE_NAME,
+						request.toString());
+				ClientUI.accept(msg);
+
+				JsonObject response = ObjectContainer.currentMessageFromServer
+						.getMessageAsJsonObject();
+				JsonArray homeHeatingFuelorders = response.get(
+						"homeHeatingFuelOrders").getAsJsonArray();
+				JsonArray fastFuelOrders = response.get("fastFuelOrders")
+						.getAsJsonArray();
+
+				HashMap<String, JsonObject> orders = new HashMap<>();
+				for(i = 0; i < homeHeatingFuelorders.size(); i++){
+					orders.put(homeHeatingFuelorders.get(i).getAsJsonObject().get("customerID").getAsString(),
+							homeHeatingFuelorders.get(i).getAsJsonObject());
+				}
+				for(i = 0; i < fastFuelOrders.size(); i++){
+					String customerID = fastFuelOrders.get(i).getAsJsonObject().get("customerID").getAsString();
+					if(orders.containsKey(customerID)){
+						JsonObject order = new JsonObject();
+						float purchase1=Float.parseFloat(orders.get(customerID).get("sumOfPurchase").getAsString());
+						float purchase2=Float.parseFloat(fastFuelOrders.get(i).getAsJsonObject().get("sumOfPurchase").getAsString());
+						float sumPurchases=purchase1+purchase2;
+						
+						float pyment1=Float.parseFloat(orders.get(customerID).get("amountOfPayment").getAsString());
+						float pyment2=Float.parseFloat(fastFuelOrders.get(i).getAsJsonObject().get("amountOfPayment").getAsString());
+						float sumPayment=pyment1+pyment2;
+						
+						order.addProperty("customerID", customerID);
+						order.addProperty("sumOfPurchase", sumPurchases );
+						order.addProperty("amountOfPayment", sumPayment);
+						orders.put(customerID, order);
+					}else{
+						orders.put(customerID, fastFuelOrders.get(i).getAsJsonObject());
+					}
+				}
+				Set<String> keys = orders.keySet();
+				for(String key : keys){
+					countCustomer++;
+					countPurchases+=orders.get(key).get("sumOfPurchase").getAsFloat();
+					countPayment += orders.get(key).get("amountOfPayment").getAsFloat();
+					System.out.println("key = " + key + " -> " +orders.get(key).toString());
+				}
+				System.out.println("total customer: "+countCustomer);
+				System.out.println("total purchases: "+countPurchases);
+				System.out.println("total pyment: "+countPayment);
+
+			}
+		}
+	}
+
+	public void createReportForStationManager(JsonObject request) {
+		request.addProperty("stationID", "station 1");
+		if (cbReportType.getValue().equals("Purchases By Type")) {
+			request.addProperty("reportType", "Purchases By Type");
+			request.addProperty("fuelType", cbFuelType.getValue());
+			Message msg = new Message(
+					MessageType.GET_ORDERS_BY_STATIONID_AND_FUEL_TYPE,
+					request.toString());
+			ClientUI.accept(msg);
+			JsonObject response = ObjectContainer.currentMessageFromServer
+					.getMessageAsJsonObject();
+			JsonArray orders = response.get("orders").getAsJsonArray();
+
+			for (int i = 0; i < orders.size(); i++) {
+				JsonObject order = orders.get(i).getAsJsonObject();
+				System.out.println(order.toString());
+			}
+		} else if (cbReportType.getValue().equals("Inventory items")) {
+			// Transfer to a separate function -
+			// "createInventoryItemsReport
+			request.addProperty("stationID", "station 1");// delete
+			Message msg = new Message(
+					MessageType.GET_FUEL_INVENTORY_PER_STATION,
+					request.toString());
+			ClientUI.accept(msg);
+
+			JsonObject response = ObjectContainer.currentMessageFromServer
+					.getMessageAsJsonObject();
+			JsonArray fuelInventory = response.get("fuelInventory")
+					.getAsJsonArray();
+			for (int i = 0; i < fuelInventory.size(); i++) {
+				JsonObject order = fuelInventory.get(i).getAsJsonObject();
+				System.out.println(order.toString());
+			}
+		} else {
+			if (cbReportType.getValue().equals("Quarterly Revenue")) {
+				request.addProperty("stationID", "station 1");
+				request.addProperty("fuelType", "");
+				request.addProperty("year", cbYear.getValue().toString());
+				request.addProperty("quarter", cbQuarterly.getValue());
+				Message msg = new Message(
+						MessageType.GET_ORDERS_BY_STATIONID_AND_QUARTER,
+						request.toString());
+				ClientUI.accept(msg);
+
+				JsonObject response = ObjectContainer.currentMessageFromServer
+						.getMessageAsJsonObject();
+				JsonArray homeHeatingFuelorders = response.get(
+						"homeHeatingFuelOrders").getAsJsonArray();
+				JsonArray fastFuelorders = response.get("fastFuelOrders")
+						.getAsJsonArray();
+				for (int i = 0; i < homeHeatingFuelorders.size(); i++) {
+					JsonObject order = homeHeatingFuelorders.get(i)
+							.getAsJsonObject();
+					System.out.println(order.toString());
+				}
+				for (int i = 0; i < fastFuelorders.size(); i++) {
+					JsonObject order = fastFuelorders.get(i).getAsJsonObject();
+					System.out.println(order.toString());
+				}
+			}
 		}
 	}
 
@@ -178,7 +250,7 @@ public class ReportControler {
 				lblErorrFields.setText("Please fill all fields!");
 				return false;
 			}
-			// add more check of date
+			// need add more test of date
 
 			else {
 				lblErorrFields.setText("");
@@ -206,16 +278,10 @@ public class ReportControler {
 			if (cbQuarterly.getValue().equals("Choose quarter")) {
 				lblErorrFields.setText("Please choose quarter!");
 				return false;
-			} else if (txtfieldYear.getText().isEmpty()) {
-				lblErorrFields.setText("Please insert year!");
+			} else if (cbYear.getValue().equals("")) {
+				lblErorrFields.setText("Please choose year!");
 				return false;
-			} else if ((ObjectContainer
-					.checkIfStringContainsOnlyNumbers(txtfieldYear.getText()) == false)
-					|| txtfieldYear.getText().length() != 4) {
-				lblErorrFields.setText("Please insert correct year!");
-				return false;
-			}
-			else {
+			} else {
 				lblErorrFields.setText("");
 				return true;
 			}
@@ -281,6 +347,11 @@ public class ReportControler {
 		cbQuarterly.getItems().add("October - December");
 		cbQuarterly.setValue(cbQuarterly.getItems().get(0));
 
+		// set options of years
+		for (int i = 2020; i <= 2030; i++)
+			cbYear.getItems().add(i + "");
+		cbYear.setValue(cbYear.getItems().get(0));
+
 		// set option of fuel type
 		Message msg = new Message(MessageType.GET_FUEL_TYPES, "");
 		ClientUI.accept(msg);
@@ -309,7 +380,7 @@ public class ReportControler {
 		txtQuarterly.setVisible(flag);
 		cbQuarterly.setVisible(flag);
 		txtYear.setVisible(flag);
-		txtfieldYear.setVisible(flag);
+		cbYear.setVisible(flag);
 		if (flag)
 			cbQuarterly.setValue(cbQuarterly.getItems().get(0));
 	}
