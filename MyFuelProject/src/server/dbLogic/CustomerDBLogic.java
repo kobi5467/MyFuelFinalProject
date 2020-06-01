@@ -36,6 +36,41 @@ public class CustomerDBLogic {
 		return isExist;
 	}
 	
+	public JsonObject getCustomerDetailsByUsername(String userName) {
+		JsonObject customer = new JsonObject();
+		String query = "";
+
+		Statement stmt = null;
+		try {
+			if (DBConnector.conn != null) {
+				query = "SELECT * FROM customer,users "
+					  + "WHERE customer.userName = users.userName AND customer.userName = '" + userName + "';";
+				stmt = DBConnector.conn.createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				if(rs.next()) {
+					customer.addProperty("userName", userName);
+					customer.addProperty("customerID", rs.getString("customerID"));
+					customer.addProperty("name", rs.getString("name"));
+					customer.addProperty("userName", rs.getString("userName"));
+					customer.addProperty("email", rs.getString("email"));
+					customer.addProperty("phoneNumber", rs.getString("phoneNumber"));
+					customer.addProperty("customerType", rs.getString("customerType"));
+					customer.addProperty("subscribeType", rs.getString("subscribeType"));
+					customer.addProperty("city", rs.getString("city"));
+					customer.addProperty("street", rs.getString("street"));
+					customer.addProperty("userPermission", rs.getString("userPermission"));
+				}				
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return customer;
+	}
+	
 	public JsonArray getSubscribeTypes() {
 		JsonArray types = new JsonArray();
 		
@@ -189,6 +224,7 @@ public class CustomerDBLogic {
 		}
 		
 	}
+	
 	public JsonObject getCustomerDetails(String customerID) {
 
 		JsonObject customer = new JsonObject();
@@ -248,4 +284,85 @@ public class CustomerDBLogic {
 		
 		return customerUpdate;
 	}
+
+	public JsonArray getVehiclesByCustomerID(String customerID) {
+		
+		JsonArray vehicles = new JsonArray();
+		
+		String query = "";
+		Statement stmt = null;
+		try {
+			if (DBConnector.conn != null) {
+				query = "SELECT * FROM vehicles "
+					  + "WHERE customerID = '" + customerID + "';";
+				stmt = DBConnector.conn.createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				while(rs.next()) {
+					JsonObject vehicle = new JsonObject();
+					vehicle.addProperty("customerID", customerID);
+					vehicle.addProperty("vehicleNumber", rs.getString("vehicleNumber"));
+					vehicle.addProperty("fuelType", rs.getString("fuelType"));
+					vehicles.add(vehicle);
+				}				
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return vehicles;
+	}
+	
+	
+	public JsonArray getFuelStationsByCompanyName(String companyName) {
+		JsonArray stations = new JsonArray();
+		String query = "";
+		Statement stmt = null;
+		try {
+			if (DBConnector.conn != null) {
+				query = "SELECT * FROM fuel_stations "
+					  + "WHERE companyName = '" + companyName + "';";
+				stmt = DBConnector.conn.createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				while(rs.next()) {
+					stations.add(rs.getString("stationID"));
+				}				
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return stations;
+	}
+	
+	
+	public String getFuelCompaniesByCustomerID(String customerID) {
+		String companies = "";
+		
+		String query = "";
+		Statement stmt = null;
+		try {
+			if (DBConnector.conn != null) {
+				query = "SELECT * FROM customer_fuel_companies "
+					  + "WHERE customerID = '" + customerID + "';";
+				stmt = DBConnector.conn.createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				while(rs.next()) {
+					companies = rs.getString("fuelCompanies");
+				}				
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return companies;
+	}
+
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<Pane fx:id="runningSalesPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.marketingmanager.RunningSalesController">
+   <children>
+      <ScrollPane fx:id="spSaleContainer" layoutX="70.0" layoutY="72.0" prefHeight="426.0" prefWidth="810.0">
+         <content>
+            <VBox fx:id="vbSaleContainer" prefHeight="423.0" prefWidth="808.0" />
+         </content>
+      </ScrollPane>
+   </children>
+</Pane>

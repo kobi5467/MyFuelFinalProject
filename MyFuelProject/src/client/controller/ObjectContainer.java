@@ -1,17 +1,18 @@
 package client.controller;
 
-import client.gui.CustomerRegistrationController;
-import client.gui.DeterminingFuelRatesController;
-import client.gui.HomeHeatingFuelController;
-import client.gui.LoginController;
-import client.gui.MainFormController;
-import client.gui.MessageController;
-import client.gui.OrderTrackingController;
-import client.gui.RatesToApproveController;
-import client.gui.ReportControler;
-import client.gui.RunningSalesController;
-import client.gui.SupplierController;
-import client.gui.UpdateCustomerController;
+import client.gui.allusers.LoginController;
+import client.gui.allusers.MainFormController;
+import client.gui.allusers.MessageController;
+import client.gui.ceo.RatesToApproveController;
+import client.gui.customer.FastFuelController;
+import client.gui.customer.HomeHeatingFuelController;
+import client.gui.customer.OrderTrackingController;
+import client.gui.marketingmanager.DeterminingFuelRatesController;
+import client.gui.marketingmanager.ReportControler;
+import client.gui.marketingmanager.RunningSalesController;
+import client.gui.marketingrepresentative.CustomerRegistrationController;
+import client.gui.marketingrepresentative.UpdateCustomerController;
+import client.gui.supplier.SupplierController;
 import entitys.Message;
 import entitys.User;
 import javafx.beans.value.ChangeListener;
@@ -59,6 +60,7 @@ public class ObjectContainer {
 	// CUSTOMER
 	public static HomeHeatingFuelController homeHeatingFuelController;
 	public static OrderTrackingController orderTrackingController;
+	public static FastFuelController fastFuelController;
 	
 	// STATION MANAGER
 	public static ReportControler reportController;

@@ -57,12 +57,15 @@ public class ServerController extends AbstractServer {
 				messageFromServer = handleOrderMessage(message);
 				break;
 			case CHECK_IF_CUSTOMER_EXIST:
+			case GET_CUSTOMER_DETAILS_BY_USERNAME:
 			case GET_SUBSCRIBE_TYPES:
 			case CHECK_IF_VEHICLE_EXIST:
 			case REGISTER_CUSTOMER:
 			case GET_CUSTOMER_DETAILS_BY_ID:
 			case UPDATE_CUSTOMER_DETAILS:
-	
+			case GET_CUSTOMER_VEHICLES_BY_CUSTOMER_ID:
+			case GET_FUEL_COMPANIES_BY_CUSTOMER_ID:
+			case GET_STATION_NUMBERS_BY_FUEL_COMPANY:
 				messageFromServer = handleCustomerMessage(message);
 				break;
 			case GET_SALE_TEMPLATES:
@@ -159,20 +162,18 @@ public class ServerController extends AbstractServer {
 		case GET_FUEL_COMPANIES_NAMES: {
 			JsonArray types = dbConnector.fuelDBLogic.getFuelCompanyNames();
 			responseJson.add("fuelCompanies", types);
-			messageFromServer = new Message(MessageType.SERVER_RESPONSE, responseJson.toString());
 		}
 			break;
 		case GET_FUEL_BY_TYPE: {
 			String fuelType = requestJson.get("fuelType").getAsString();
 			Fuel fuel = dbConnector.fuelDBLogic.getFuelObjectByType(fuelType);
 			String response = new Gson().toJson(fuel);
-			messageFromServer = new Message(MessageType.SERVER_RESPONSE, response);
+			responseJson = new Gson().fromJson(response, JsonObject.class);
 		}
 			break;
 		case GET_FUEL_TYPES: {
 			JsonArray fuelTypes = dbConnector.fuelDBLogic.getFuelTypes();
 			responseJson.add("fuelTypes", fuelTypes);
-			messageFromServer = new Message(MessageType.SERVER_RESPONSE, responseJson.toString());
 		}
 			break;
 		case UPDATE_FUEL: {
@@ -181,7 +182,6 @@ public class ServerController extends AbstractServer {
 			String newPrice = requestJson.get("pricePerLitter").getAsString();
 			Fuel fuel = dbConnector.fuelDBLogic.getFuelObjectByType(fuelType);
 			dbConnector.fuelDBLogic.updateFuel(fuel, newPrice);
-			messageFromServer = new Message(MessageType.SERVER_RESPONSE, "");
 		}
 			break;
 		case GET_FUEL_INVENTORY_PER_STATION: {
@@ -189,8 +189,6 @@ public class ServerController extends AbstractServer {
 					.getFuelInventoryPerStation(requestJson.get("stationID")
 							.getAsString());
 			responseJson.add("fuelInventory", fuelInventory);
-			messageFromServer = new Message(MessageType.SERVER_RESPONSE,
-					responseJson.toString());
 		}break;
 		case SEND_RATE_REQUEST: {
 			String fuelType = requestJson.get("fuelType").getAsString();
@@ -206,7 +204,6 @@ public class ServerController extends AbstractServer {
 					 fuel.getPricePerLitter(), Float.parseFloat(newPrice),
 			 fuelType ,createTime);
 			dbConnector.fuelDBLogic.SendRateRequest(detRequest, newPrice);
-			messageFromServer = new Message(MessageType.SERVER_RESPONSE, "");
 
 		}
 		break;
@@ -221,12 +218,12 @@ public class ServerController extends AbstractServer {
 			boolean decision=requestJson.get("decision").getAsBoolean();
 			String ID=requestJson.get("requestID").getAsString();
 			dbConnector.fuelDBLogic.UpdateDecline(decline,decision,ID);
-			messageFromServer = new Message(MessageType.SERVER_RESPONSE, "");
 		}
 		break;
 		default:
 			break;
 		}
+		messageFromServer = new Message(MessageType.SERVER_RESPONSE, responseJson.toString());
 		return messageFromServer;
 	}
 
@@ -256,6 +253,10 @@ public class ServerController extends AbstractServer {
 			boolean isExist = dbConnector.customerDBLogic.checkIfCustomerExist(requestJson.get("customerID").getAsString());
 			responseJson.addProperty("isExist", isExist);
 			break;
+			
+		case GET_CUSTOMER_DETAILS_BY_USERNAME:
+			responseJson = dbConnector.customerDBLogic.getCustomerDetailsByUsername(requestJson.get("userName").getAsString());
+			break;
 		case GET_SUBSCRIBE_TYPES:
 			JsonArray types = dbConnector.customerDBLogic.getSubscribeTypes();
 			responseJson.add("subscribeTypes", types);
@@ -271,8 +272,20 @@ public class ServerController extends AbstractServer {
 			String customerID = requestJson.get("customerID").getAsString();
 			responseJson = dbConnector.customerDBLogic.getCustomerDetails(customerID);
 			break;
-		case UPDATE_CUSTOMER_DETAILS://or
+		case UPDATE_CUSTOMER_DETAILS:
 			responseJson = dbConnector.customerDBLogic.updateCustomerDetails(requestJson);
+			break;
+		case GET_CUSTOMER_VEHICLES_BY_CUSTOMER_ID:
+			JsonArray vehicles = dbConnector.customerDBLogic.getVehiclesByCustomerID(requestJson.get("customerID").getAsString());
+			responseJson.add("vehicles", vehicles);
+			break;
+		case GET_FUEL_COMPANIES_BY_CUSTOMER_ID:
+			String companies = dbConnector.customerDBLogic.getFuelCompaniesByCustomerID(requestJson.get("customerID").getAsString());
+			responseJson.addProperty("fuelCompanies", companies);
+			break;
+		case GET_STATION_NUMBERS_BY_FUEL_COMPANY:
+			JsonArray stations = dbConnector.customerDBLogic.getFuelStationsByCompanyName(requestJson.get("fuelCompany").getAsString());
+			responseJson.add("stations", stations);
 			break;
 		default:
 			break;

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane fx:id="messagePane" prefHeight="200.0" prefWidth="400.0" style="-fx-background-color: #123456;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.allusers.MessageController">
+   <children>
+      <Label fx:id="lblMessageTitle" layoutX="1.0" layoutY="14.0" prefHeight="55.0" prefWidth="400.0" style="-fx-alignment: center;" text="Label" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="38.0" />
+         </font>
+      </Label>
+      <Text fx:id="txtMessage" fill="WHITE" layoutX="14.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="371.78399658203125">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Text>
+      <Button fx:id="btnYes" layoutX="86.0" layoutY="142.0" mnemonicParsing="false" onAction="#onYes" prefHeight="43.0" prefWidth="88.0" style="-fx-background-color: #00ff00;" text="Yes" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font></Button>
+      <Button fx:id="btnNo" layoutX="241.0" layoutY="142.0" mnemonicParsing="false" onAction="#onNo" prefHeight="43.0" prefWidth="95.0" style="-fx-background-color: #ff0000;" text="no" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font></Button>
+      <Button fx:id="btnOk" layoutX="160.0" layoutY="142.0" mnemonicParsing="false" onAction="#onOk" prefHeight="43.0" prefWidth="95.0" style="-fx-background-color: #0000ff;" text="ok" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font></Button>
+   </children>
+</Pane>

@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane fx:id="mainRegistrationPane" prefHeight="570.0" prefWidth="949.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.marketingrepresentative.CustomerRegistrationController">
+	<children>
+		<Pane fx:id="stageOne" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="949.0" visible="false">
+			<children>
+				<Label layoutX="75.0" layoutY="-4.0" prefHeight="38.0" prefWidth="325.0" text="Customer Information :" textFill="WHITE" underline="true">
+               <font>
+                  <Font name="System Bold" size="26.0" />
+               </font></Label>
+				<TextField fx:id="txtUsername" layoutX="250.0" layoutY="35.0" prefHeight="35.0" prefWidth="280.0">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></TextField>
+				<Text fill="WHITE" layoutX="80.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username :" wrappingWidth="118.34765625">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font></Text>
+				<Text fill="WHITE" layoutX="80.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password :">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font></Text>
+				<Text layoutX="165.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+            <PasswordField fx:id="txtPassword" layoutX="250.0" layoutY="86.0" prefHeight="35.0" prefWidth="280.0">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></PasswordField>
+            <TextField fx:id="txtShowPassword" layoutX="250.0" layoutY="86.0" prefHeight="35.0" prefWidth="280.0" />
+				<TextField fx:id="txtCustomerID" layoutX="250.0" layoutY="135.0" prefHeight="35.0" prefWidth="280.0">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></TextField>
+				<Text fill="WHITE" layoutX="80.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer ID :">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font></Text>
+				<Text fill="WHITE" layoutX="80.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer Name :">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font></Text>
+				<TextField fx:id="txtCustomerName" layoutX="250.0" layoutY="185.0" prefHeight="35.0" prefWidth="280.0">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></TextField>
+				<Text fill="WHITE" layoutX="80.0" layoutY="348.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email :">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font></Text>
+				<TextField fx:id="txtEmail" layoutX="250.0" layoutY="325.0" prefHeight="35.0" prefWidth="280.0">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></TextField>
+				<Text fill="WHITE" layoutX="80.0" layoutY="398.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Phone Number :">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font></Text>
+				<TextField fx:id="txtPhoneNumber" layoutX="250.0" layoutY="375.0" prefHeight="35.0" prefWidth="280.0">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></TextField>
+				<TextField fx:id="txtCity" layoutX="250.0" layoutY="425.0" prefHeight="35.0" prefWidth="280.0">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></TextField>
+				<Text fill="WHITE" layoutX="80.0" layoutY="452.0" strokeType="OUTSIDE" strokeWidth="0.0" text="City :">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font></Text>
+				<Text fill="WHITE" layoutX="80.0" layoutY="500.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Street :">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font></Text>
+				<TextField fx:id="txtStreet" layoutX="250.0" layoutY="475.0" prefHeight="35.0" prefWidth="280.0">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></TextField>
+				<Label fx:id="lblUserNameError" layoutX="583.0" layoutY="43.0" text="Username is already exist" textFill="RED">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></Label>
+				<Label fx:id="lblPasswordError" layoutX="583.0" layoutY="97.0" text="Invalid Password, Enter valid password" textFill="#a27b7b">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></Label>
+				<Label fx:id="lblIDError" layoutX="583.0" layoutY="148.0" text="Invalid ID, Enter valid ID" textFill="#d78686">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></Label>
+				<Label fx:id="lblEmailError" layoutX="583.0" layoutY="333.0" text="Invalid Email, Enter valid email" textFill="#dd1c1c">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></Label>
+				<Label fx:id="lblPhoneError" layoutX="581.0" layoutY="385.0" text="Invalid Phone Number, Enter valid Phone Number" textFill="#8a4040">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+				<Label fx:id="lblCustomerNameError" layoutX="583.0" layoutY="195.0" text="Customer Name is not exist" textFill="#bd6f6f">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></Label>
+            <Label layoutX="71.0" layoutY="512.0" text="*All fields are required" textFill="RED">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="imgUsernameError" fitHeight="35.0" fitWidth="35.0" layoutX="537.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imgPasswordError" fitHeight="35.0" fitWidth="35.0" layoutX="537.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imgCustomerIDError" fitHeight="35.0" fitWidth="35.0" layoutX="537.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imgCustomerNameError" fitHeight="35.0" fitWidth="35.0" layoutX="537.0" layoutY="186.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imgCustomerTypeError" fitHeight="35.0" fitWidth="35.0" layoutX="537.0" layoutY="234.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imgEmailError" fitHeight="35.0" fitWidth="35.0" layoutX="537.0" layoutY="324.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imgPhoneNumberError" fitHeight="35.0" fitWidth="35.0" layoutX="537.0" layoutY="374.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imgCityError" fitHeight="35.0" fitWidth="35.0" layoutX="537.0" layoutY="424.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imgStreetError" fitHeight="35.0" fitWidth="35.0" layoutX="537.0" layoutY="474.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="btnShowPassword" layoutX="494.0" layoutY="88.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#onShowPassword" prefHeight="30.0" prefWidth="30.0" />
+            <Label layoutX="80.0" layoutY="240.0" text="Customer Type :" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <ChoiceBox fx:id="cbCustomerType" layoutX="250.0" layoutY="233.0" prefHeight="35.0" prefWidth="280.0" />
+            <Label fx:id="lblCustomerTypeError" layoutX="582.0" layoutY="241.0" text="Please choose customer type" textFill="#ff3333">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblCityError" layoutX="583.0" layoutY="435.0" text="Please fill city" textFill="#ff0095">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblStreetError" layoutX="581.0" layoutY="485.0" text="Please fill street name and number" textFill="#f600ff">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="80.0" layoutY="286.0" text="Subscribe Type :" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <ChoiceBox fx:id="cbSubscribeType" layoutX="250.0" layoutY="279.0" prefHeight="35.0" prefWidth="280.0" />
+            <Label fx:id="lblSubscribeTypeError" layoutX="582.0" layoutY="287.0" text="Please choose customer type" textFill="#ff3333">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="imgSubscribeType" fitHeight="35.0" fitWidth="35.0" layoutX="537.0" layoutY="280.0" pickOnBounds="true" preserveRatio="true" />
+			</children>
+		</Pane>
+		<Pane fx:id="stageTwo" prefHeight="570.0" prefWidth="949.0" visible="false">
+			<children>
+				<Text fill="WHITE" layoutX="62.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Payment Information :" underline="true">
+               <font>
+                  <Font name="System Bold" size="26.0" />
+               </font></Text>
+				<Text fill="WHITE" layoutX="62.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Purchase Model:">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font></Text>
+				<Text fill="WHITE" layoutX="62.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fuel Company Names:">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font></Text>
+				<ChoiceBox fx:id="cbPurchaseModel" layoutX="300.0" layoutY="100.0" prefHeight="35.0" prefWidth="200.0" />
+				<Text fill="WHITE" layoutX="62.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Payment method :">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font></Text>
+				<ChoiceBox fx:id="cbPaymentMethod" layoutX="300.0" layoutY="200.0" prefHeight="35.0" prefWidth="200.0" />
+            <Pane fx:id="creditCardPane" layoutX="62.0" layoutY="278.0" prefHeight="199.0" prefWidth="838.0">
+               <children>
+      				<Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Credit Card Details :" underline="true">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Text>
+      				<Text fill="WHITE" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Card Number :">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Text>
+      				<Text fill="WHITE" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CVV :">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Text>
+      				<Text fill="WHITE" layoutY="167.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date Validation : ">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Text>
+      				<TextField fx:id="txtCardNumber" layoutX="240.0" layoutY="18.0" prefHeight="35.0" prefWidth="200.0" />
+      				<TextField fx:id="txtCVV" layoutX="240.0" layoutY="83.0" prefHeight="35.0" prefWidth="200.0" />
+      				<Button fx:id="btnHelp" layoutX="453.0" layoutY="85.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="?" />
+      				<Label fx:id="lblCvvError" layoutX="511.0" layoutY="86.0" prefHeight="28.0" prefWidth="253.0" text="Enter 3 digits numbers" textFill="#e41212">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+      				<Label fx:id="lblCardNumberError" layoutX="511.0" layoutY="25.0" text="Iilegal Card Number, try again" textFill="#ee0f0f">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+      				<Label fx:id="lblDateError" layoutX="511.0" layoutY="150.0" prefHeight="21.0" prefWidth="276.0" text="Press Date Like that - mm:yy" textFill="#d31212">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <ChoiceBox fx:id="cbMonth" layoutX="240.0" layoutY="143.0" prefHeight="34.0" prefWidth="79.0" />
+                  <ChoiceBox fx:id="cbYear" layoutX="343.0" layoutY="143.0" prefHeight="34.0" prefWidth="97.0" />
+                  <Label layoutX="325.0" layoutY="140.0" text="/" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="27.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <ChoiceBox fx:id="cbFuelCompany2" layoutX="450.0" layoutY="150.0" prefHeight="35.0" prefWidth="130.0" />
+            <ChoiceBox fx:id="cbFuelCompany3" layoutX="600.0" layoutY="150.0" prefHeight="35.0" prefWidth="130.0" />
+            <Button fx:id="btnAddFuelCompany" layoutX="600.0" layoutY="150.0" minHeight="35.0" minWidth="35.0" mnemonicParsing="false" onAction="#addFuelCompanyCB" prefHeight="35.0" prefWidth="35.0" />
+				<ChoiceBox fx:id="cbFuelCompany" layoutX="300.0" layoutY="150.0" prefHeight="35.0" prefWidth="130.0" />
+            <Label fx:id="lblPurchaseModelError" layoutX="569.0" layoutY="107.0" text="Iilegal Card Number, try again" textFill="#ee0f0f">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblPaymentMethodError" layoutX="569.0" layoutY="207.0" text="Iilegal Card Number, try again" textFill="#ee0f0f">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblFuelCompanyError" layoutX="800.0" layoutY="157.0" text="Iilegal Card Number, try again" textFill="#ee0f0f">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+			</children>
+		</Pane>
+		<Pane fx:id="stageThree" prefHeight="570.0" prefWidth="949.0">
+			<children>
+            <ScrollPane fx:id="spVehicleContainer" layoutX="116.0" layoutY="132.0" prefHeight="350.0" prefWidth="728.0">
+               <content>
+                  <VBox fx:id="vbVehicleContainer" alignment="TOP_CENTER" prefHeight="348.0" prefWidth="725.0" />
+               </content>
+            </ScrollPane>
+            <Label layoutX="108.0" layoutY="14.0" prefHeight="38.0" prefWidth="325.0" text="Vehicle Information : " textFill="WHITE" underline="true">
+               <font>
+                  <Font name="System Bold" size="26.0" />
+               </font>
+            </Label>
+				<Button fx:id="btnAddVehicle" layoutX="661.0" layoutY="63.0" mnemonicParsing="false" onAction="#addVehicle" prefHeight="34.0" prefWidth="96.0" text="Add Vehicle" />
+            <TextField fx:id="txtVehicleNumber" layoutX="251.0" layoutY="66.0" prefHeight="25.0" prefWidth="129.0" />
+            <Label layoutX="112.0" layoutY="66.0" text="Vehicle Number :" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="410.0" layoutY="67.0" text="Fuel Type : " textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <ChoiceBox fx:id="cbVehicleFuelType" layoutX="495.0" layoutY="63.0" prefWidth="150.0" />
+            <Label fx:id="lblVehicleError" layoutX="771.0" layoutY="68.0" text="Invalid input" textFill="RED">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+			</children>
+		</Pane>
+				<Button fx:id="btnBack" layoutX="50.0" layoutY="516.0" mnemonicParsing="false" onAction="#onBack" prefHeight="40.0" prefWidth="100.0" text="Back" visible="false" />
+				<Button fx:id="btnNext" layoutX="799.0" layoutY="516.0" mnemonicParsing="false" onAction="#onNext" prefHeight="40.0" prefWidth="100.0" text="Next" />
+	</children>
+</Pane>

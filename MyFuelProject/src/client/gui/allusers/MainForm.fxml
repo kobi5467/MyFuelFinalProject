@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.allusers.MainFormController">
+   <children>
+      <ImageView fx:id="imgBackgroundMain" fitHeight="800.0" fitWidth="1200.0" pickOnBounds="true">
+         <image>
+            <Image url="@../../../images/mainBG.jpg" />
+         </image>
+      </ImageView>
+      <GridPane layoutX="3.0" layoutY="5.0" prefHeight="789.0" prefWidth="1197.0">
+        <columnConstraints>
+          <ColumnConstraints maxWidth="250.0" minWidth="10.0" prefWidth="250.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="950.0" minWidth="10.0" prefWidth="950.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="224.0" minHeight="10.0" prefHeight="219.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="693.1333511352539" minHeight="10.0" prefHeight="570.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Pane fx:id="buttonContainer" GridPane.rowIndex="1" />
+            <Pane fx:id="changePane" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Pane fx:id="titlePane" prefHeight="154.0" prefWidth="811.0" GridPane.columnIndex="1">
+               <children>
+                  <Label fx:id="lblMainTitle" layoutY="55.0" prefWidth="948.0" text="TITLE">
+                     <font>
+                        <Font name="System Bold" size="69.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="btnExit" layoutX="913.0" layoutY="10.0" mnemonicParsing="false" onAction="#onExitWindow" prefHeight="25.0" prefWidth="25.0" />
+                  <Button fx:id="btnMinimize" layoutX="879.0" layoutY="10.0" mnemonicParsing="false" onAction="#onMinimize" prefHeight="25.0" prefWidth="25.0" />
+               </children>
+            </Pane>
+            <Pane fx:id="logoPane" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="lblUsername" contentDisplay="CENTER" layoutY="133.0" prefHeight="17.0" prefWidth="250.0" text="Kobi Malka" textAlignment="CENTER">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblEmployeeRole" layoutY="170.0" prefHeight="27.0" prefWidth="250.0" text="Marketing Representative">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblDateTime" layoutY="14.0" prefHeight="20.0" prefWidth="250.0" text="Label" />
+               </children>
+            </Pane>
+         </children>
+      </GridPane>
+   </children>
+</Pane>
