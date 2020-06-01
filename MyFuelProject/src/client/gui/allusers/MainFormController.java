@@ -214,8 +214,9 @@ public class MainFormController {
 		UserPermission userPermission = UserPermission.stringToEnumVal(response.get("userPermission").getAsString());
 		if(userPermission == UserPermission.CUSTOMER) {
 			ObjectContainer.currentUserLogin = getCustomerDetails(userName);
+			System.out.println(ObjectContainer.currentUserLogin.toString());
 		}else {
-			//DO NOTHING.
+			ObjectContainer.currentUserLogin.setUserPermission(userPermission);
 		}
 	}
 	

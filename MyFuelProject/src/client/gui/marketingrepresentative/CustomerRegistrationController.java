@@ -667,7 +667,6 @@ public class CustomerRegistrationController {
 			vehiclePanes.get(i).setBackgroundColor(color);
 			vbVehicleContainer.getChildren().add(vehiclePanes.get(i));
 		}
-		
 	}
 	
 	public boolean checkAddVehicleFields() {
