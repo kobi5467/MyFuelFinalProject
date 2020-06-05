@@ -15,7 +15,7 @@ import client.gui.customer.FastFuelController;
 import client.gui.customer.HomeHeatingFuelController;
 import client.gui.customer.OrderTrackingController;
 import client.gui.marketingmanager.DeterminingFuelRatesController;
-import client.gui.marketingmanager.ReportControler;
+import client.gui.marketingmanager.ReportController;
 import client.gui.marketingmanager.RunningSalesController;
 import client.gui.marketingrepresentative.CustomerRegistrationController;
 import client.gui.marketingrepresentative.UpdateCustomerController;
@@ -290,7 +290,7 @@ public class MainFormController {
 		
 		if(title.equals("ReportGeneration")) {
 			if(ObjectContainer.reportController == null) {
-				ObjectContainer.reportController = new ReportControler();
+				ObjectContainer.reportController = new ReportController();
 			}
 			ObjectContainer.reportController.load(changePane);
 		}

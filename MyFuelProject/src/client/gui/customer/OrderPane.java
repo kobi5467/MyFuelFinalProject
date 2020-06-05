@@ -51,30 +51,23 @@ public class OrderPane {
 	private TextField txtStatus;
 
 	@FXML
-	private Button btbView;
+	private Button btnView;
 
 	private Fuel currentFuel;
 
 	public String status;
-
+	
 	@FXML
 	void onView(ActionEvent event) {
 		if (viewPane.isVisible()) {
-			btbView.setVisible(true);
-			viewPane.setVisible(false);
-			btbView.setText("+");
-			mainOrderPane.setPrefSize(orderPane.getPrefWidth(), orderPane.getPrefHeight());
-
+			ObjectContainer.orderTrackingController.openOrderByIndex(null);
 		} else {
-			btbView.setVisible(true);
-			viewPane.setVisible(true);
-			btbView.setText("-");
-			mainOrderPane.setPrefSize(viewPane.getPrefWidth(), viewPane.getPrefHeight());
-
+			ObjectContainer.orderTrackingController.openOrderByIndex(this);
 		}
+		
 	}
 
-	public AnchorPane load(JsonObject HHFOrder, String color) {
+	public OrderPane load(JsonObject HHFOrder, String color) {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("OrderPane.fxml"));
 
@@ -86,7 +79,7 @@ public class OrderPane {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return mainOrderPane;
+		return pane;
 	}
 
 	public void initUI(JsonObject HHFOrder, String color) {
@@ -135,6 +128,25 @@ public class OrderPane {
 		float maxPricePerLitter = response.get("maxPricePerLitter").getAsFloat();
 
 		currentFuel = new Fuel(fuelTypeResponse, pricePerLitter, maxPricePerLitter);
+	}
+
+	
+	public AnchorPane getMainPane() {
+		return mainOrderPane;
+	}
+
+	public void showView() {
+		btnView.setVisible(true);
+		viewPane.setVisible(true);
+		btnView.setText("-");
+		mainOrderPane.setPrefSize(viewPane.getPrefWidth(), viewPane.getPrefHeight());
+	}
+
+	public void hideView() {
+		btnView.setVisible(true);
+		viewPane.setVisible(false);
+		btnView.setText("+");
+		mainOrderPane.setPrefSize(orderPane.getPrefWidth(), orderPane.getPrefHeight());
 	}
 
 }

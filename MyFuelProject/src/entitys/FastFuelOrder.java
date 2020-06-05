@@ -1,18 +1,17 @@
 package entitys;
 
-import entitys.enums.PaymentMethod;
 import entitys.enums.Status;
 
 public class FastFuelOrder extends Order{
 
-	private PaymentMethod paymentMethod;
+	private String paymentMethod;
 	private Customer customer;
 	private FuelStation fuelStation;
 	private Vehicle vehicle;
 	
 	public FastFuelOrder(String orderId, String orderDate, Status orderStatus,
 			Fuel fuel, float fuelAmount, float totalPrice,
-			SaleTemplate saleTemplate, PaymentMethod paymentMethod,
+			SaleTemplate saleTemplate, String paymentMethod,
 			Customer customer, FuelStation fuelStation, Vehicle vehicle) {
 		super(orderId, orderDate, orderStatus, fuel, fuelAmount, totalPrice,
 				saleTemplate);
@@ -22,11 +21,11 @@ public class FastFuelOrder extends Order{
 		this.vehicle = vehicle;
 	}
 
-	public PaymentMethod getPaymentMethod() {
+	public String getPaymentMethod() {
 		return paymentMethod;
 	}
 
-	public void setPaymentMethod(PaymentMethod paymentMethod) {
+	public void setPaymentMethod(String paymentMethod) {
 		this.paymentMethod = paymentMethod;
 	}
 

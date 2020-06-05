@@ -1,13 +1,18 @@
 package client.gui.customer;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 
 import com.google.gson.JsonObject;
 
 import client.controller.ClientUI;
 import client.controller.ObjectContainer;
+import entitys.Customer;
 import entitys.Message;
+import entitys.enums.FuelType;
 import entitys.enums.MessageType;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -20,10 +25,25 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
-public class HomeHeatingFuelController {
+public class HomeHeatingFuelController { // extends ComboBox<LocalDate> {
+
+	@FXML
+	private Text txtPurchaseSuccessful;
+	@FXML
+	private Pane panePurchaseInputs;
+	@FXML
+	private Pane panePurchaseSuccessful;
+	@FXML
+	private Label lblCityError;
+	@FXML
+	private Label lblCurrentPricePerLitter;
 	@FXML
 	private TextField txtAmount;
 	@FXML
@@ -72,214 +92,403 @@ public class HomeHeatingFuelController {
 	private DatePicker datePickerDateSupply;
 	@FXML
 	private DatePicker datePickerDateValidation;
+	@FXML
+	private ChoiceBox<String> cbCreditCardMonthValidation;
+	@FXML
+	private ChoiceBox<String> cbCreditCardYearValidation;
+	@FXML
+	private Text txtTotalPrice;
+	@FXML
+	private Label lblShowTotalPrice;
+	@FXML
+	private Label lbltotalPriceAfterDiscount;
+	@FXML
+	private Label lblSubTotalPriceBeforeDiscount;
+	@FXML
+	private Label lblShippingRate;
+	@FXML
+	private Label lblDiscountRate;
+	@FXML
+	private ImageView imgAmountError;
+	@FXML
+	private ImageView imgStreetError;
+	@FXML
+	private ImageView imgCityError;
+	@FXML
+	private ImageView imgDateSupllyError;
+	@FXML
+	private ImageView imgPaymentMethodError;
+	@FXML
+	private ImageView imgCVVError;
+	@FXML
+	private ImageView imgCardNumberCVV;
+	@FXML
+	private ImageView imgDateValidationError;
+	// Purchase pane:
+	@FXML
+	private Label lblOrderNumberOnPurchasePain;
+	@FXML
+	private Label lblDateSupplyInPurchasePane;
+	@FXML
+	private Label lblPaymentMethodOnPurchasePane;
+	@FXML
+	private Label lblTotalPriceOnPurchasePane;
+	@FXML
+	private Text txtOrderNumber;
+	@FXML
+	private Text txtDeliveryDetails;
+	@FXML
+	private Text txtDateSupplyOnPurchaseDetails;
+	@FXML
+	private Text paymentMethodOnPurchaseDetails;
+	@FXML
+	private Text totalPriceOnPurchaseDetails;
+	@FXML
+	private TextField txtCity;
+	// Class variables:
+	public Boolean isPressed = false;
+	public String amount;
+	public String street;
+	public String isUrgentOrder;
+	public String dateSuplly;
+	public String paymentMethod;
+	public String cardNumber;
+	public String cvv;
+	public String suplayDateValidation;
 
+	public String customerId;
+	public String orderId;
+	public String totalPrice;
+	public String orderDate;
+	public String saleTemplateName;
+	public double discountrate = 0;
+
+	private float pricePerLitter;
+
+	// public double subTotalPriceBeforeDiscount=0;
 	@FXML
 	public void load(Pane changePane) {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("HomeHeatingFuelForm.fxml"));
 		try {
 			mainPane = loader.load();
+			changePane.getChildren().add(mainPane);
+			ObjectContainer.homeHeatingFuelController = loader.getController();
+			ObjectContainer.homeHeatingFuelController.initUI();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		changePane.getChildren().add(mainPane);
-		ObjectContainer.homeHeatingFuelController = loader.getController();
-		ObjectContainer.homeHeatingFuelController.initUI();
+
 	}
 
 	@FXML
 	void onSubmit(ActionEvent event) {
-		Boolean flag=false, flag2=false;;
-		String orderID="1234";
-		String customerId="342525";
-		String isUrgentOrder="true";
 		setErorLablesToNull();// Clean back Error message
-		flag=homeHeatingFuelFormTest(txtAmount.getText().trim(), txtStreet.getText().trim(), datePickerDateSupply.getValue().toString(),boxUrgentOrder.getText(),
-				cbPaymentMethod.getValue().trim(),txtCardNumber.getText().trim(), txtCVV.getText().trim(),datePickerDateValidation.getValue().toString());
-		
-		JsonObject json = new JsonObject();
-		json.addProperty("orderID", orderID);
-		json.addProperty("customerId", customerId);
-		json.addProperty("amount", txtAmount.getText().trim());
-		json.addProperty("street", txtStreet.getText().trim());
-		json.addProperty("isUrgentOrder","true");
-		json.addProperty("cardNubmer", txtCardNumber.getText().trim());
-		json.addProperty("cvv", txtCVV.getText().trim());
-		json.addProperty("dateSupplay", datePickerDateSupply.getValue().toString());
-		json.addProperty("paymentMethod", cbPaymentMethod.getValue().trim());
-		//json.addProperty("suplayValidation", suplayValidation.toString());
-		System.out.println("111111111111");
-		//Set new order in db:
-		Message msg = new Message(MessageType.SUBMIT_HOME_HEATING_FUEL_ORDER,json.toString());
-		ClientUI.accept(msg);	
-		/*****************      ?????? why twice !!    *******************/
+		Boolean flag = homeHeatingFuelFormTest();
+		if (flag) {
+			this.saleTemplateName = "15%discount";
+			// this.dateSuplly=datePickerDateSupply.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+			this.amount = txtAmount.getText().toString().trim();
+			this.street = txtStreet.getText().toString().trim();
+			this.paymentMethod = cbPaymentMethod.getValue().toString().trim();
+			this.dateSuplly = datePickerDateSupply.getValue().toString().trim();
+			this.totalPrice = calcTotalPrice(Float.parseFloat(txtAmount.getText().trim()));
+			this.orderDate = getCurrentDate();
+			Customer customer = (Customer) ObjectContainer.currentUserLogin;
+			this.customerId = customer.getCustomerId();
+
+			JsonObject json = new JsonObject();
+			json.addProperty("orderID", this.orderId);
+			json.addProperty("customerId", this.customerId);
+			json.addProperty("amount", this.amount);
+			json.addProperty("street", this.street);
+			json.addProperty("isUrgentOrder", this.isPressed.toString());
+			json.addProperty("paymentMethod", this.paymentMethod);
+			json.addProperty("dateSupplay", this.dateSuplly);
+			json.addProperty("totalPrice", this.totalPrice);
+			json.addProperty("paymentMethod", this.paymentMethod);
+			json.addProperty("orderDate", this.orderDate);
+			json.addProperty("saleTemplateName", this.saleTemplateName);
+			json.addProperty("city", "Kiriat Haim");
+			json.addProperty("stationId", "staition 2");
+
+			if (paymentMethod.equals("Credit Card")) {
+				String month = cbCreditCardMonthValidation.getValue();
+				String year = cbCreditCardYearValidation.getValue();
+				this.suplayDateValidation = month + "/" + year;
+				this.cardNumber = txtCardNumber.getText().trim();
+				this.cvv = txtCVV.getText().trim();
+				json.addProperty("cardNubmer", this.cardNumber);
+				json.addProperty("cvv", this.cvv);
+				json.addProperty("suplayValidation", this.suplayDateValidation);
+
+			}
+
+			// Set new order in db:
+			Message msg = new Message(MessageType.SUBMIT_HOME_HEATING_FUEL_ORDER, json.toString());
+			ClientUI.accept(msg);
+
+			getOrderIdFromDB(json);
+			showPurchaseDetails();
+		}
 	}
+
+	public void showPurchaseDetails() {
+		panePurchaseInputs.setVisible(false);
+		panePurchaseSuccessful.setVisible(true);
+		lblOrderNumberOnPurchasePain.setText("make query for this");
+		lblDateSupplyInPurchasePane.setText(this.dateSuplly);
+		lblPaymentMethodOnPurchasePane.setText(this.paymentMethod);
+		lblTotalPriceOnPurchasePane.setText(this.totalPrice);
+	}
+
+	@FXML
+	void checkBoxPressed(ActionEvent event) {
+		this.isPressed = !this.isPressed;
+		if (this.isPressed) {
+			datePickerDateSupply.setDisable(true);
+			datePickerDateSupply.setValue(LocalDate.now());
+			this.discountrate = 2;// For urgent order
+			lblDiscountRate.setText(String.valueOf(this.discountrate) + "%");
+		} else {
+			datePickerDateSupply.setDisable(false);
+			datePickerDateSupply.setValue(null);
+			this.discountrate = 0;// For urgent order
+			lblDiscountRate.setText(String.valueOf(this.discountrate) + "%");
+		}
+		String ans = calcTotalPrice(Float.parseFloat(txtAmount.getText().trim()));
+	}
+//
+//	@FXML
+//	void PaymentMethodIsSelected(RotateEvent event) {
+//		System.out.println(cbPaymentMethod.getValue().toString().trim());
+//		System.out.println("1111111111111");
+//	}
+//
+//	@FXML
+//	void PaymentMethodSelected(MouseEvent event) {
+//		System.out.println(cbPaymentMethod.getValue().toString().trim());
+//		System.out.println("22222");
+//	}
 
 	public void initUI() {
-		showOptionOfCreditCardChoiseBox();
+		initCreditCardFields();
 		setErorLablesToNull();
-		showCreditCardFields(false);// Hide the credit card fields in initialize
-		initDateValidation();
+		panePurchaseSuccessful.setVisible(false);
+		showCreditCardFields(false); // Hide the credit card fields in initialize
+		initOrderSummary();
 		updatePaymentFormOnPaymentMethodClick();
-	
+
 	}
 
-	public Boolean homeHeatingFuelFormTest(String amount, String street, String dateSupplay,String isUrgentOrder,String paymentMethod, String cardNumber,
-			String CVV,String suplayValidation) {
-		Boolean f1=true,f2=true,f3=true,f4=true,f5=true,f6=true;//flags
-		f1=checkAmountField(amount);
-		f2=checkStreetField(street);
-		f3=checkDateSupplyField(dateSupplay);//need to check this method
-		if(paymentMethod.equals("Credit Card")){
-		f4=checkCardNumberField(cardNumber);
-		f5=checkCVVField(CVV);
+	// **************************************************Test
+	// fun**************************************************
+	public Boolean homeHeatingFuelFormTest() {
+		Boolean flag = true;
+		flag = checkAmountField();
+		flag = checkStreetField() && flag;
+		flag = checkCityField() && flag;
+		flag = checkDateSupplyField() && flag;
+		flag = checkPaymentMethodField() && flag;
+		if (cbPaymentMethod.getValue().trim().equals("Credit Card")) {
+			flag = checkCardNumberField() && flag;
+			flag = checkCVVField() && flag;
+			flag = checkDateValidationField() && flag;
 		}
-		System.out.println((f1&&f2&&f4));
-		return (f1&&f2&&f4);
-		
-	}
-	//**************************************************Test fun**************************************************
-	public Boolean checkAmountField(String amount) {
-		int fuelAmount = -1;
-		Boolean flag=true;
-		try {
-			fuelAmount = Integer.parseInt(amount);
-			// Check positive amount:
-			if (fuelAmount <= 0)
-				lblAmountErrorMsg.setText("Invalide amount");
-				flag=false;
-		}
-		catch (Exception e) {
-			// Check if this field is empty:
-			if (amount.isEmpty()) {
-				lblAmountErrorMsg.setText("Please fill amount");
-				flag=false;
-			}
-			// If the user put string in this filed:
-			else {
-				lblAmountErrorMsg.setText("only digits");
-				flag=false;
-				}
-		}
+		System.out.println("homeHeatingFuelFormTest going to return:" + flag);
 		return flag;
 
 	}
 
-	public Boolean checkStreetField(String street) {
-		Boolean flag=true;
-		if (street.isEmpty())
+	public Boolean checkAmountField() {
+		float fuelAmount = -1;
+		this.amount = txtAmount.getText().trim();
+		Boolean flag = true;
+		if (txtAmount.getText().toString() == null || txtAmount.getText().isEmpty()) {
+			lblAmountErrorMsg.setText("Please fill amount");
+			lblSubTotalPriceBeforeDiscount.setText("0.00 $");
+			lbltotalPriceAfterDiscount.setText("0.00 $");
+			setErrorImage(imgAmountError, "../../../images/error_icon.png");
+			return false;
+		}
+
+		fuelAmount = Float.parseFloat(this.amount);
+		// Check positive amount:
+		if (fuelAmount <= 0) {
+			lblAmountErrorMsg.setText("Invalide amount");
+			setErrorImage(imgAmountError, "../../../images/error_icon.png");
+			flag = false;
+		}
+		lblAmountErrorMsg.setText("");
+		setErrorImage(imgAmountError, "../../../images/v_icon.png");
+		return true;
+	}
+
+	public Boolean checkStreetField() {
+		if (txtStreet.getText().toString() == null || txtStreet.getText().toString().isEmpty()) {
 			lblStreetErrorMsg.setText("Please fill street");
-			flag=false;
-		return flag;
+			setErrorImage(imgStreetError, "../../../images/error_icon.png");
+			return false;
+		}
+		setErrorImage(imgStreetError, "../../../images/v_icon.png");
+		lblStreetErrorMsg.setText("");
+		return true;
 
 	}
 
-	public Boolean checkDateSupplyField(String dateSupplay) {
-		Boolean flag=true;
-			if(dateSupplay.equals(null))
+	public Boolean checkCityField() {
+		System.out.println("checkCityField" + txtCity.getText());
+		if (txtCity.getText() == null || txtCity.getText().toString().isEmpty()) {
+			lblCityError.setText("Please fill city");
+			setErrorImage(imgCityError, "../../../images/error_icon.png");
+			return false;
+		}
+		System.out.println("orrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
+		setErrorImage(imgCityError, "../../../images/v_icon.png");
+		lblCityError.setText("");
+		return true;
+
+	}
+
+	public Boolean checkDateSupplyField() {
+		if (datePickerDateSupply.getValue() == null || datePickerDateSupply.getValue().toString().trim().isEmpty()) {
 			dateErrorMsg.setText("Please fill date supply");
-			flag=false;
-		return flag;
+			setErrorImage(imgDateSupllyError, "../../../images/error_icon.png");
+			return false;
+		}
+		setErrorImage(imgDateSupllyError, "../../../images/v_icon.png");
+		dateErrorMsg.setText("");
+		return true;
 	}
-	public Boolean checkPaymentMethodField(String paymentMethod) {
-		Boolean flag=true;
-		if(paymentMethod.equals("Choose type"))
-			lblPaymentErrorMsg.setText("Please fill date");
-			flag=false;
-		return flag;
-	}
-	public Boolean checkCardNumberField(String CardNumber) {
-		int cardNum=-1;		
-		Boolean flag=true;
-			try {
-				cardNum = Integer.parseInt(CardNumber);
-				if (CardNumber.isEmpty()) {
-					lblCardNumberErrorMsg.setText("Please fill card number");
-					flag=false;
-				}
-				if( CardNumber.length()<=17&&CardNumber.length()>1) {
-					lblCardNumberErrorMsg.setText("Please enter the full card number");
-					flag=false;
-				}
-			} catch (Exception e) {								
-				lblCardNumberErrorMsg.setText("only digits");
-				flag=false;
-				}
-			return flag;
-	}
-	public Boolean checkCVVField(String CVV) {
 
-		Boolean flag=true;
-			try {
-				//CVVuserInput = Integer.parseInt(CVV);
-				if (CVV.isEmpty()) {
-					lblCVVErrorMsg.setText("Please fill CVV");
-					flag=false;
-				}
-				else if( CVV.length()<=3&&CVV.length()>=1) {
-					lblCVVErrorMsg.setText("Please enter the CVV number");
-					flag=false;
-					
-				}
-			} catch (Exception e) {								
-				lblCVVErrorMsg.setText("Only digits");
-				flag=false;
-				}
-			return flag;
+	public Boolean checkPaymentMethodField() {
+		if (cbPaymentMethod.getValue().trim().equals(cbPaymentMethod.getItems().get(0))) {
+			lblPaymentErrorMsg.setText("Please fill payment type");
+			setErrorImage(imgPaymentMethodError, "../../../images/error_icon.png");
+			return false;
+		}
+		setErrorImage(imgPaymentMethodError, "../../../images/v_icon.png");
+		lblPaymentErrorMsg.setText("");
+		return true;
+	}
+
+	public Boolean checkCardNumberField() {
+		if (txtCardNum.getText().trim() == null || txtCardNum.getText().trim().isEmpty()) {
+			lblCardNumberErrorMsg.setText("Please fill card number");
+			setErrorImage(imgCardNumberCVV, "../../../images/error_icon.png");
+			return false;
+		}
+
+		if (txtCardNum.getText().trim().length() <= 17 && txtCardNum.getText().trim().length() > 1) {
+			lblCardNumberErrorMsg.setText("Please enter the full card number");
+			setErrorImage(imgCardNumberCVV, "../../../images/error_icon.png");
+			return false;
+		}
+		setErrorImage(imgCardNumberCVV, "../../../images/v_icon.png");
+		lblCardNumberErrorMsg.setText("");
+		return true;
 
 	}
-	public Boolean checkDateValidationField(LocalDate suplayValidation) {
-		Boolean flag=true;
-			if(datePickerDateSupply.getValue()==null)
-			dateErrorMsg.setText("Please fill date supply");
-			flag=false;
-		return flag;
+
+	public Boolean checkCVVField() {
+		System.out.println("in checkCVV");
+		if (txtCVV.getText().toString() == null || txtCVV.getText().toString().isEmpty()) {
+			setErrorImage(imgCVVError, "../../../images/error_icon.png");
+			lblCVVErrorMsg.setText("Please fill CVV");
+			return false;
+		} else if (txtCVV.getText().trim().length() < 3 && txtCVV.getText().trim().length() >= 1) {
+			lblCVVErrorMsg.setText("Please enter 3 CVV digit ");
+			setErrorImage(imgCVVError, "../../../images/error_icon.png");
+			return false;
+		}
+		setErrorImage(imgCVVError, "../../../images/v_icon.png");
+		lblCVVErrorMsg.setText("");
+		return true;
+
 	}
-	
-	
-	//**************************************************End test fun**************************************************
-	
-	
-	//**************************************************Initialize function**************************************************
-	
-	public void initDateValidation() {
-		datePickerDateValidation.setShowWeekNumbers(false);
+
+	public Boolean checkDateValidationField() {
+		System.out.println("in checkDateValidationField");
+		if (cbCreditCardMonthValidation.getValue().trim().equals(cbCreditCardMonthValidation.getItems().get(0))) {
+			dateValidationError.setText("Please fill month");
+			setErrorImage(imgDateValidationError, "../../../images/error_icon.png");
+			return false;
+		}
+
+		else if (cbCreditCardYearValidation.getValue().trim().equals(cbCreditCardYearValidation.getItems().get(0))) {
+			dateValidationError.setText("Please fill year");
+			setErrorImage(imgDateValidationError, "../../../images/error_icon.png");
+			return false;
+		}
+		setErrorImage(imgDateValidationError, "../../../images/v_icon.png");
+		dateValidationError.setText("");
+		return true;
 	}
+
+	// **************************************************End test
+	// fun**************************************************
+
+	// **************************************************Initialize
+	// function**************************************************
+//	
+//	public void initDateValidation() {
+//		datePickerDateValidation.setShowWeekNumbers(false);
+//	}
 
 	private void showCreditCardFields(boolean flag) {
 		txtCardNumber.setVisible(flag);
 		txtCardNum.setVisible(flag);
 		txtCVV.setVisible(flag);
 		txtcvv.setVisible(flag);
-		datePickerDateValidation.setVisible(flag);
 		txtDateVal.setVisible(flag);
+		cbCreditCardMonthValidation.setVisible(flag);
+		cbCreditCardYearValidation.setVisible(flag);
+		dateValidationError.setVisible(flag);
+		lblCardNumberErrorMsg.setVisible(flag);
+		lblCVVErrorMsg.setVisible(flag);
+		imgCardNumberCVV.setVisible(flag);
+		imgCVVError.setVisible(flag);
+		imgDateValidationError.setVisible(flag);
 	}
 
-	public void showOptionOfCreditCardChoiseBox() {
+	public void initCreditCardFields() {
 		cbPaymentMethod.getItems().add("Choose type");
 		cbPaymentMethod.getItems().add("Cash");
 		cbPaymentMethod.getItems().add("Credit Card");
 		cbPaymentMethod.setValue(cbPaymentMethod.getItems().get(0));
+
+		cbCreditCardMonthValidation.getItems().add("Month:");
+		for (int i = 1; i <= 12; i++) {
+			if (i < 10)
+				cbCreditCardMonthValidation.getItems().add("0" + i);
+			else
+				cbCreditCardMonthValidation.getItems().add("" + i);
+		}
+		// Show year choice box:
+		cbCreditCardMonthValidation.setValue(cbCreditCardMonthValidation.getItems().get(0));
+		cbCreditCardYearValidation.getItems().add("Year:");
+		for (int i = 2020; i <= 2030; i++) {
+			cbCreditCardYearValidation.getItems().add("" + i);
+		}
+		cbCreditCardYearValidation.setValue(cbCreditCardYearValidation.getItems().get(0));
 	}
+
 	public void updatePaymentFormOnPaymentMethodClick() {
 		cbPaymentMethod.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
 				String value = cbPaymentMethod.getItems().get((Integer) number2);
-
+				System.out.println("we are in updatePaymentForm");
 				if (value.equals("Choose type") || value.equals("Cash"))
 					showCreditCardFields(false);
-				else if (value.equals("Credit Card"))
+				else if (value.equals("Credit Card")) {
+					System.out.println("open credit card field");
 					showCreditCardFields(true);
+
+				}
 			}
 		});
 
-	}
-	
-	public void updateCheckBoxFormOnPaymentMethodClick() {
-		
-		
-		
 	}
 
 	public void setErorLablesToNull() {
@@ -290,11 +499,105 @@ public class HomeHeatingFuelController {
 		lblCardNumberErrorMsg.setText("");
 		lblCVVErrorMsg.setText("");
 		dateValidationError.setText("");
-		//lblCardNumberErrorMsg.setVisible(true);
+		lblCityError.setText("");
 	}
 
+	public void initOrderSummary() {
+		lblSubTotalPriceBeforeDiscount.setText("0.00" + " $");
+		lblShippingRate.setText("0.00 $");
+		lblDiscountRate.setText("0 %");
+		lbltotalPriceAfterDiscount.setText("0.00 $");
+		lblCurrentPricePerLitter.setText(String.valueOf(getFuelObjectByType("Home Heating Fuel")) + "$");
+	}
 //**************************************************End Initialize function**************************************************
+
+	// **************************************************Data Base
+	// function**************************************************
+
+	public float getFuelObjectByType(String fuelType) {
+		System.out.println("in getFuelObjectByType");
+		JsonObject json = new JsonObject();
+		json.addProperty("fuelType", fuelType);
+		Message msg = new Message(MessageType.GET_FUEL_BY_TYPE, json.toString());
+		ClientUI.accept(msg);
+
+		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
+		fuelType = response.get("fuelType").getAsString();
+		FuelType fuelTypeResponse = FuelType.stringToEnumVal(fuelType);
+		pricePerLitter = response.get("pricePerLitter").getAsFloat();
+		System.out.println("price is:" + pricePerLitter);
+		return pricePerLitter;
+	}
+
+	public void getOrderIdFromDB(JsonObject json) {
+		// get last order id from db:
+		Message msg = new Message(MessageType.GET_ORDER_ID, json.toString());
+		ClientUI.accept(msg);
+		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
+		this.orderId = response.get("orderId").getAsString();
+		System.out.println("order id is::::::::::::" + this.orderId);
+		this.orderId = response.get("orderId").getAsString();
+		System.out.println("IN gentrateNewOrderId:" + response.toString());
+	}
+	// **************************************************End Initialize
+	// function**************************************************
+
+	public String getCurrentDate() {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date(System.currentTimeMillis());
+		return formatter.format(date).toString();
+	}
+
+	@FXML
+	void updateOrderSummary(KeyEvent event) {
+		if (checkAmountField()) {
+			calcTotalPrice(Float.parseFloat(txtAmount.getText().trim()));
+		}
+	}
+
+	@FXML
+	void PaymentMethodChosen(MouseDragEvent event) {// Don't delete!!
+	}
+
+	public void setErrorImage(ImageView img, String url) {
+		Image image = new Image(getClass().getResource(url).toString());
+		img.setImage(image);
+	}
+
+	public String calcTotalPrice(float amountOfLitters) {
+		Boolean discountFlag = false;// If we have any discount change to true;
+		double totalPriceAfterDiscount = 0, subTotalPriceBeforeDiscount = 0, commissionForUrgentorder = 0;
+		if (checkAmountField()) {
+			if (this.isPressed) {
+				this.discountrate = 0;
+				commissionForUrgentorder = 2;
+				discountFlag = true;
+				lblDiscountRate.setText(String.valueOf(this.discountrate) + " %");
+			}
+			if (amountOfLitters >= 600 && amountOfLitters <= 800) {
+				this.discountrate = 3;
+				discountFlag = true;
+				lblDiscountRate.setText(String.valueOf(this.discountrate) + " %");
+			} else if (amountOfLitters >= 800) {
+				this.discountrate = 4;
+				discountFlag = true;
+				lblDiscountRate.setText(String.valueOf(this.discountrate) + " %");
+			}
+			// Calculate the price:
+			subTotalPriceBeforeDiscount = (double) amountOfLitters * (double) pricePerLitter
+					* (100 + commissionForUrgentorder) * 0.01;
+			subTotalPriceBeforeDiscount = Double
+					.parseDouble(new DecimalFormat("##.##").format(subTotalPriceBeforeDiscount));
+			totalPriceAfterDiscount = Double.parseDouble(new DecimalFormat("##.##").format(totalPriceAfterDiscount));
+			totalPriceAfterDiscount = subTotalPriceBeforeDiscount * (100 - this.discountrate) * 0.01;
+			lblSubTotalPriceBeforeDiscount.setText(String.valueOf(subTotalPriceBeforeDiscount));
+			lbltotalPriceAfterDiscount.setText(String.valueOf(totalPriceAfterDiscount));
+
+			if (discountFlag)
+				return String.valueOf(totalPriceAfterDiscount);
+			return String.valueOf(subTotalPriceBeforeDiscount);
+		}
+		return null;
+	}
+
 }
-	
-	
-	

@@ -8,7 +8,7 @@ import client.gui.customer.FastFuelController;
 import client.gui.customer.HomeHeatingFuelController;
 import client.gui.customer.OrderTrackingController;
 import client.gui.marketingmanager.DeterminingFuelRatesController;
-import client.gui.marketingmanager.ReportControler;
+import client.gui.marketingmanager.ReportController;
 import client.gui.marketingmanager.RunningSalesController;
 import client.gui.marketingrepresentative.CustomerRegistrationController;
 import client.gui.marketingrepresentative.UpdateCustomerController;
@@ -64,7 +64,7 @@ public class ObjectContainer {
 	public static FastFuelController fastFuelController;
 	
 	// STATION MANAGER
-	public static ReportControler reportController;
+	public static ReportController reportController;
 	public static InventoryController inventoryController;
 	// SUPPLIER
 	public static SupplierController supplierController;
@@ -95,6 +95,20 @@ public class ObjectContainer {
 		boolean flag = true;
 		for (int i = 0; i < val.length(); i++) {
 			if (!Character.isDigit(val.charAt(i))) {
+				flag = false;
+				break;
+			}
+		}
+		return flag;
+	}
+	public static boolean checkIfStringContainsOnlyNumbersFloatType(String val) {
+		boolean flag = true;
+		for (int i = 0; i < val.length(); i++) {
+			if (!Character.isDigit(val.charAt(i))) {
+				if(val.charAt(i)=='.') {
+					flag=true;
+					continue;
+				}
 				flag = false;
 				break;
 			}

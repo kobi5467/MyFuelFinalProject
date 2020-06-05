@@ -257,6 +257,9 @@ public class CustomerDBLogic {
 					customer.addProperty("creditCardNumber", rs.getString("cardNumber"));
 					customer.addProperty("validationDate", rs.getString("validationDate"));
 					customer.addProperty("cvv", rs.getString("cvvNumber"));
+					customer.addProperty("customerType", rs.getString("customerType"));
+					customer.addProperty("subscribeType", rs.getString("subscribeType"));
+					customer.addProperty("purchaseModelType", rs.getString("purchaseModelType"));
 				}				
 			} else {
 				System.out.println("Conn is null");
@@ -265,23 +268,46 @@ public class CustomerDBLogic {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+		System.out.println(customer.toString());
 		return customer;
 	}
 
 	public JsonObject updateCustomerDetails(JsonObject customerUpdate) {
 		String city = customerUpdate.get("city").getAsString();
+		String street = customerUpdate.get("street").getAsString();
+		String phoneNumber = customerUpdate.get("phoneNumber").getAsString();
+		String email = customerUpdate.get("email").getAsString();
+		String creditCard = customerUpdate.get("creditCard").getAsString();
+		String validationDate = customerUpdate.get("dateValidation").getAsString();
+		String cvv = customerUpdate.get("cvv").getAsString();
+		String userName = customerUpdate.get("userName").getAsString();
 		String customerID = customerUpdate.get("customerID").getAsString();
 		
-		String query = "";
+		System.out.println(customerUpdate.toString());
+		
+		String queryCustomer = "";
+		String queryUser = "";
+		String queryCreditCard = "";
 		Statement stmt = null;
 		try {
 			if(DBConnector.conn != null) {
 				stmt = DBConnector.conn.createStatement();
-				query =  "UPDATE customer " + 
-						 "SET city = '" + city  + "'" + 
+				queryCustomer =  "UPDATE customer " + 
+						 "SET city = '" + city  + "'" + ", street= '" + street + "'" +
 						 " WHERE customerID = '" + customerID + "';";
-				stmt.executeUpdate(query);
+				stmt.executeUpdate(queryCustomer);
+				
+				queryUser = "UPDATE users " +
+						"SET email  = '" + email + "'" + ", phoneNumber= '" + phoneNumber + "'" +
+						" WHERE userName = '" + userName + "';";
+				stmt.executeUpdate(queryUser);
+				
+				System.out.println(customerID);
+				queryCreditCard = "UPDATE credit_card " +
+						"SET cardNumber = '" + creditCard + "'" + ", validationDate = '" + validationDate + "'" + ", cvvNumber = '" + cvv + "'" +
+						" WHERE customerID = '" + customerID + "';";
+				stmt.executeUpdate(queryCreditCard);
+				 
 			}else {
 				System.out.println("Conn is null");
 			}
@@ -399,10 +425,86 @@ public class CustomerDBLogic {
 		return subscribeTypes;
 	}
 
+	public void removeVehicleFromDB(JsonObject removeVehicle) {
+		String query = "";
+		System.out.println(removeVehicle.toString());
+		Statement stmt = null;
+		try {
+			if (DBConnector.conn != null) {
+				query = "DELETE FROM vehicles " +
+						"WHERE vehicleNumber = '" + removeVehicle.get("vehicleNumber").getAsString() + "';";
+				stmt = DBConnector.conn.createStatement();
+				stmt.executeUpdate(query);
+			
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public float getPreviousFastFuelOrdersAmount(String customerID) {
 		
 		
 		return 111;
 	}
 
+	public JsonObject updateVehicleInDB(JsonObject newVehicle) {
+		
+		String customerid = newVehicle.get("customerID").getAsString();
+		String fueltype = newVehicle.get("fuelType").getAsString();
+		String vehiclenumber = newVehicle.get("vehicleNumber").getAsString();
+		
+		String query = "";
+		Statement stmt = null;
+		try {
+			if(DBConnector.conn != null) {
+				stmt = DBConnector.conn.createStatement();
+				query =  "INSERT INTO vehicles"
+				        + " VALUES ('" + vehiclenumber + "', '" + fueltype + "', '" + customerid + "');";
+				stmt.executeUpdate(query);
+				
+				 
+			}else {
+				System.out.println("Conn is null");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return newVehicle;
+		
+	}
+
+	public void updatePurchaseModelByID(JsonObject purchaseModelJson) {
+		String customerID = purchaseModelJson.get("customerID").getAsString();
+		String purchaseModelType = purchaseModelJson.get("purchaseModelType").getAsString();
+		String fuelCompanies = purchaseModelJson.get("fuelCompanies").getAsString();
+		System.out.println(purchaseModelJson.toString());
+		String queryPurchase = "";
+		String queryfuelCompanies = "";
+		Statement stmt = null;
+		try {
+			if(DBConnector.conn != null) {
+				stmt = DBConnector.conn.createStatement();
+				queryPurchase =  "UPDATE customer_fuel_companies "
+				        + "SET fuelCompanies =  '" + fuelCompanies + "'" +
+				         " WHERE customerID = '" + customerID + "';";
+				stmt.executeUpdate(queryPurchase);
+				
+				queryfuelCompanies = "UPDATE customer "
+						+ "SET purchaseModelType = '" + purchaseModelType + "'" +
+						" WHERE customerID = '" + customerID + "';";
+				stmt.executeUpdate(queryfuelCompanies);
+			}else {
+				System.out.println("Conn is null");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

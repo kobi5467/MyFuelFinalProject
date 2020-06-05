@@ -18,12 +18,12 @@
          </font>
       </Label>
       <Button fx:id="btnOnlyOpenOrder" layoutX="483.0" layoutY="25.0" mnemonicParsing="false" onAction="#OnShowOnlyOpenOrders" text="Show only open orders" />
-      <ScrollPane fx:id="spOrdersContainer" layoutX="50.0" layoutY="114.0" prefHeight="444.0" prefWidth="878.0">
+      <ScrollPane fx:id="spOrdersContainer" layoutX="50.0" layoutY="114.0" prefHeight="405.0" prefWidth="864.0">
          <content>
-            <VBox fx:id="vbOrdersContainer" prefHeight="433.0" prefWidth="863.0" />
+            <VBox fx:id="vbOrdersContainer" prefWidth="863.0" />
          </content>
       </ScrollPane>
-      <Label fx:id="lblOrderID" layoutX="37.0" layoutY="34.0" text="Order ID:">
+      <Label fx:id="lblOrderID" layoutX="37.0" layoutY="34.0" text="Order ID:" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>

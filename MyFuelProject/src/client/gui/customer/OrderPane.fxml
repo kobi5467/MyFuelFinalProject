@@ -7,57 +7,56 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane fx:id="mainOrderPane" minHeight="56.0" minWidth="808.0" prefHeight="56.0" prefWidth="808.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="client.gui.customer.OrderPane">
+<AnchorPane fx:id="mainOrderPane" minHeight="56.0" minWidth="808.0" prefHeight="56.0" prefWidth="808.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.customer.OrderPane">
    <children>
-      <Pane fx:id="viewPane" prefHeight="180.0" prefWidth="814.0">
+      <Pane fx:id="viewPane" minHeight="180.0" minWidth="814.0" prefHeight="180.0" prefWidth="814.0">
          <children>
-            <TextField fx:id="txtFuelType" layoutX="164.0" layoutY="68.0" prefHeight="41.0" prefWidth="170.0" />
-            <Label layoutX="13.0" layoutY="68.0" prefHeight="41.0" prefWidth="135.0" text="Fuel type:">
+            <TextField fx:id="txtFuelType" layoutX="124.0" layoutY="68.0" prefHeight="41.0" prefWidth="178.0" />
+            <Label layoutX="13.0" layoutY="68.0" prefHeight="41.0" prefWidth="135.0" text="Fuel type:" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="txtAmount" layoutX="164.0" layoutY="128.0" prefHeight="41.0" prefWidth="170.0" />
-            <Label layoutX="13.0" layoutY="127.0" prefHeight="41.0" prefWidth="135.0" text="Amount:">
+            <TextField fx:id="txtAmount" layoutX="124.0" layoutY="128.0" prefHeight="41.0" prefWidth="178.0" />
+            <Label layoutX="13.0" layoutY="127.0" prefHeight="41.0" prefWidth="135.0" text="Amount:" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
             <TextField fx:id="txtPricePerLitter" layoutX="502.0" layoutY="66.0" prefHeight="41.0" prefWidth="97.0" />
-            <Label alignment="CENTER_RIGHT" layoutX="352.0" layoutY="66.0" prefHeight="41.0" prefWidth="122.0" text="Price per Litter:">
+            <Label alignment="CENTER_RIGHT" layoutX="352.0" layoutY="66.0" prefHeight="41.0" prefWidth="122.0" text="Price per Litter:" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
             <TextField fx:id="txtTotalPrice" layoutX="502.0" layoutY="120.0" prefHeight="41.0" prefWidth="97.0" />
-            <Label layoutX="354.0" layoutY="120.0" prefHeight="41.0" prefWidth="122.0" text="Total price:">
+            <Label layoutX="354.0" layoutY="120.0" prefHeight="41.0" prefWidth="122.0" text="Total price:" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="orderPane" prefHeight="70.0" prefWidth="808.0">
+      <Pane fx:id="orderPane" minHeight="70.0" minWidth="808.0" prefHeight="70.0" prefWidth="808.0">
          <children>
             <TextField fx:id="txtOrderNumber" layoutX="130.0" layoutY="7.0" prefHeight="41.0" prefWidth="122.0" />
-            <Label alignment="CENTER_RIGHT" layoutX="-15.0" layoutY="7.0" prefHeight="41.0" prefWidth="135.0" text="Order number:">
+            <Label alignment="CENTER_RIGHT" layoutX="-15.0" layoutY="7.0" prefHeight="41.0" prefWidth="135.0" text="Order number:" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
             <TextField fx:id="txtStatus" layoutX="600.0" layoutY="7.0" prefHeight="41.0" prefWidth="122.0" />
-            <Label alignment="CENTER_RIGHT" layoutX="465.0" layoutY="7.0" prefHeight="41.0" prefWidth="122.0" text="Status:">
+            <Label alignment="CENTER_RIGHT" layoutX="465.0" layoutY="7.0" prefHeight="41.0" prefWidth="122.0" text="Status:" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Button fx:id="btbView" layoutX="744.0" layoutY="13.0" mnemonicParsing="false" onAction="#onView" text="+">
+            <Button fx:id="btnView" layoutX="744.0" layoutY="13.0" mnemonicParsing="false" onAction="#onView" text="+">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Label alignment="CENTER_RIGHT" layoutX="250.0" layoutY="7.0" prefHeight="41.0" prefWidth="122.0" text="Supply date:">
+            <Label alignment="CENTER_RIGHT" layoutX="250.0" layoutY="7.0" prefHeight="41.0" prefWidth="122.0" text="Supply date:" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>

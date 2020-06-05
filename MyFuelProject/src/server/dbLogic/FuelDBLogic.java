@@ -13,6 +13,38 @@ import entitys.enums.FuelType;
 
 public class FuelDBLogic {
 
+	public JsonArray getFuelInventoryByUserName(String userName) {
+		JsonArray array = new JsonArray();
+		
+		String query = "";
+		Statement stmt = null;
+		try {
+			if (DBConnector.conn != null) {
+				//stationID, fuelType, currentFuelAmount, thresholdAmount, maxFuelAmount
+				query = "SELECT fuelType, currentFuelAmount, thresholdAmount, maxFuelAmount "
+					+   "FROM  fuel_inventorys, employees, fuel_stations "
+					+   "WHERE employees.userName = '"+userName +"' AND "
+							+ "employees.employeNumber = fuel_stations.managerID AND "
+							+ "fuel_stations.stationID = fuel_inventorys.stationID;";
+				stmt = DBConnector.conn.createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				while (rs.next()) {
+					JsonObject json = new JsonObject();
+					json.addProperty("fuelType", rs.getString("fuelType"));
+					json.addProperty("currentFuelAmount", rs.getFloat("currentFuelAmount"));
+					json.addProperty("thresholdAmount", rs.getFloat("thresholdAmount"));
+					json.addProperty("maxFuelAmount", rs.getFloat("maxFuelAmount"));
+					array.add(json);
+				}
+			} else {
+				System.out.println("Conn is null");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return array;
+	}
 	public JsonArray getFuelTypes() {
 		JsonArray fuelTypes = new JsonArray();
 
@@ -195,6 +227,29 @@ public class FuelDBLogic {
 		}
 	}
 	
+	public String getStationIDbyManagerID(String managerID) {
+		String query = "";
+		Statement stmt = null;
+		String stationID="";
+		try {
+			if(DBConnector.conn != null) {
+				query = "SELECT * FROM  fuel_stations "
+						+ "WHERE managerID='"+managerID+"';";
+				stmt = DBConnector.conn.createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				while(rs.next()) {
+					
+					stationID=rs.getString("stationID");
+				}
+			}else {
+				System.out.println("Conn is null");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+		return stationID;
+	}
 	public JsonArray getFuelInventoryPerStation(String stationID){
 		JsonArray fuelInventory = new JsonArray();
 
@@ -226,6 +281,27 @@ public class FuelDBLogic {
 		
 		return fuelInventory;
 		
+	}
+	public void updateFuelInventory(String threshold, String maxAmount,String fuelType) {
+
+		
+		String query = "";
+		Statement stmt = null;
+		try {
+			if (DBConnector.conn != null) {
+				stmt = DBConnector.conn.createStatement();
+				query = "UPDATE fuel_inventorys " + "SET thresholdAmount = '" + threshold +
+						"', maxFuelAmount = '"+ maxAmount+"' "
+						+	" WHERE fuelType = '" + fuelType
+						+ "';";
+				stmt.executeUpdate(query);
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

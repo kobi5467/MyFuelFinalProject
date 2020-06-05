@@ -21,5 +21,4 @@ public class FuelCompany {
 	public String toString() {
 		return "FuelCompany [companyName=" + companyName + "]";
 	}
-
 }

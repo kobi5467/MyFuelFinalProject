@@ -29,5 +29,28 @@ public class EmployeeDBLogic {
 		}
 		return employeeRole;
 	}
+	public String getEmployeeIDByUsername(String userName) {
+		String employeeID = "";
+		
+		String query = "";
+		Statement stmt = null;
+		try {
+			if (DBConnector.conn != null) {
+				query = "SELECT * FROM  employees " + 
+						"WHERE userName ='" + userName + "';";
+				stmt = DBConnector.conn.createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				if (rs.next()) {
+					employeeID = rs.getString("employeNumber");
+				}
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return employeeID;
+	}
 
 }

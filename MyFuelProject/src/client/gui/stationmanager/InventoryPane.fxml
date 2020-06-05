@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="mainInventoryPane" prefHeight="177.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.stationmanager.InventoryPane">
+   <children>
+      <Label layoutX="13.0" layoutY="25.0" text="Fuel Type :" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnEdit" layoutX="748.0" layoutY="100.0" mnemonicParsing="false" onAction="#onEdit" prefHeight="31.0" prefWidth="79.0" text="Edit" />
+      <TextField fx:id="txtFuelType" layoutX="132.0" layoutY="25.0" prefHeight="35.0" prefWidth="130.0" />
+      <TextField fx:id="txtThreshold" layoutX="396.0" layoutY="25.0" prefHeight="35.0" prefWidth="130.0" />
+      <TextField fx:id="txtMaxAmount" layoutX="700.0" layoutY="25.0" prefHeight="35.0" prefWidth="130.0" />
+      <Label layoutX="285.0" layoutY="25.0" text="Threshold :" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="554.0" layoutY="25.0" text="Max Amount :" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblAmount" layoutX="542.0" layoutY="100.0" text="475.5 / 600 Litters" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <ProgressBar fx:id="pbFuelAmount" layoutX="20.0" layoutY="100.0" prefHeight="35.0" prefWidth="500.0" progress="0.0" />
+      <Line fx:id="thresholdLine" endX="-100.0" endY="35.0" layoutX="214.0" layoutY="98.0" startX="-100.0" startY="5.0" stroke="RED" strokeWidth="5.0" />
+      <Label fx:id="lblErrorMessage" layoutX="525.0" layoutY="72.0" prefHeight="22.0" prefWidth="314.0" text="error!" textFill="RED">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

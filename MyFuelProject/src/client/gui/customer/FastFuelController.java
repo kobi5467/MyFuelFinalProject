@@ -9,7 +9,6 @@ import client.controller.ClientUI;
 import client.controller.ObjectContainer;
 import entitys.Customer;
 import entitys.Message;
-import entitys.SubscribeType;
 import entitys.enums.FuelType;
 import entitys.enums.MessageType;
 import javafx.beans.value.ChangeListener;
@@ -97,8 +96,8 @@ public class FastFuelController {
             	float amount = Float.parseFloat(stringAmount);
             	totalPrice = amount * pricePerLitter;
             	lblTotalPrice.setText(String.format("%.2f", totalPrice));
-//            	priceAfterDiscount = calcTotalPrice();
-//            	lblPriceAfterDiscount.setText(String.format("%.2f", priceAfterDiscount));
+            	priceAfterDiscount = calcTotalPrice();
+            	lblPriceAfterDiscount.setText(String.format("%.2f", priceAfterDiscount));
             }catch(Exception e) {
             	System.out.println("NOT FLAOT INPUT");
             }
@@ -175,7 +174,8 @@ public class FastFuelController {
     	ClientUI.accept(msg);
     	
     	JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
-    	
+    	String saleTemplateName = response.get("saleTemplateName").getAsString();
+    	System.out.println(saleTemplateName);
     	return 0;
 	}
 

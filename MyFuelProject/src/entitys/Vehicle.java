@@ -1,7 +1,6 @@
 package entitys;
 
 import entitys.enums.FuelType;
-import entitys.enums.VehicleType;
 
 public class Vehicle {
 

@@ -19,6 +19,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 public class OrderTrackingController {
@@ -48,9 +49,12 @@ public class OrderTrackingController {
 	private Label lblOrderID;
 
 	private ArrayList<AnchorPane> orderPanes;
+	public static ArrayList<OrderPane> orderPaneControllers;
 	private JsonArray orders;
 	private boolean showOnlyOpenOrdersFlag = false;
-
+	public static int currentOrderOpen = 0;	
+	
+	
 	@FXML
 	void OnSearch(ActionEvent event) {
 		// boolean flag = true;
@@ -76,7 +80,6 @@ public class OrderTrackingController {
 			showAllOrders();
 
 		}
-
 		else {
 			lblerrorMessage.setText("");
 			txtTypeOrderID.setText("");
@@ -85,11 +88,12 @@ public class OrderTrackingController {
 			// showOnlyOpenOrdersFlag=true;
 			showOrderByID(OrderID);
 		}
-
 	}
 
 	public JsonArray getHHFOrders() {
-		Message msg = new Message(MessageType.GET_HOME_HEATING_FUEL_ORDERS, "");
+		JsonObject json = new JsonObject();
+		json.addProperty("userName", ObjectContainer.currentUserLogin.getUsername());
+		Message msg = new Message(MessageType.GET_HOME_HEATING_FUEL_ORDERS, json.toString());
 		ClientUI.accept(msg);
 
 		JsonObject responseJson = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
@@ -104,7 +108,6 @@ public class OrderTrackingController {
 			if (orderStatus.equals("WAITING"))
 				vbOrdersContainer.getChildren().add(orderPanes.get(i));
 		}
-
 	}
 
 	public void showOrderByID(String orderID) {
@@ -113,6 +116,8 @@ public class OrderTrackingController {
 			String orderID2 = orders.get(i).getAsJsonObject().get("orderID").getAsString();
 			if (orderID2.equals(orderID))
 				vbOrdersContainer.getChildren().add(orderPanes.get(i));
+			
+
 		}
 
 	}
@@ -121,9 +126,7 @@ public class OrderTrackingController {
 		vbOrdersContainer.getChildren().clear();
 		for (int i = 0; i < orderPanes.size(); i++) {
 			vbOrdersContainer.getChildren().add(orderPanes.get(i));
-
 		}
-
 	}
 
 	@FXML
@@ -133,15 +136,26 @@ public class OrderTrackingController {
 			btnOnlyOpenOrder.setText("Show all orders");
 			txtTypeOrderID.setText("");
 			showOnlyOpenOrdersFlag = true;
+			
+
 		} else {
 			showAllOrders();
 			txtTypeOrderID.setText("");
 			btnOnlyOpenOrder.setText("Show only open orders");
 			showOnlyOpenOrdersFlag = false;
 		}
-
 	}
 
+	public void openOrderByIndex(OrderPane p) {
+		for (int i = 0; i < orderPaneControllers.size(); i++) {
+			if(p != null && orderPaneControllers.get(i).equals(p)) {
+				orderPaneControllers.get(i).showView();
+			}else {
+				orderPaneControllers.get(i).hideView();
+			}
+		}
+	}
+	
 	public boolean CheckIfOrderExists(String orderID) {
 		vbOrdersContainer.getChildren().clear();
 		boolean flag = false;
@@ -171,15 +185,20 @@ public class OrderTrackingController {
 	private void initUI() {
 		lblerrorMessage.setText("");
 		orders = getHHFOrders();
+		orders.add(orders.get(0));
+		orders.add(orders.get(0));
+		orders.add(orders.get(0));
+		orders.add(orders.get(0));
 		orderPanes = new ArrayList<>();
+		orderPaneControllers = new ArrayList<>();
 		for (int i = 0; i < orders.size(); i++) {
 			OrderPane orderPane = new OrderPane();
 			String color = i % 2 == 0 ? "#0240FF" : "#024079";
-			AnchorPane pane = orderPane.load(orders.get(i).getAsJsonObject(), color);
+			orderPaneControllers.add(orderPane.load(orders.get(i).getAsJsonObject(), color));
+			AnchorPane pane = orderPaneControllers.get(i).getMainPane();
 			orderPanes.add(pane);
 		}
 		showAllOrders();
-
 	}
 
 }
