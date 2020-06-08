@@ -72,7 +72,7 @@ public class InventoryOrderPaneController {
     public Pane getOrderPane(){
     	return orderPane;
     }
-
+    
 	public InventoryOrderPaneController load(JsonObject orders, String color) {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("InventoryOrderPane.fxml"));

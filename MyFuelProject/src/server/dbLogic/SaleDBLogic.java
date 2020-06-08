@@ -62,7 +62,6 @@ public class SaleDBLogic {
 		return saleTemplates;
 	}
 
-
 	public void updateRunningSale(String saleName, int isRunning) {
 		String query = "";
 		Statement stmt = null;

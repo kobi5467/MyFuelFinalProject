@@ -97,6 +97,8 @@ public class ReportController {
 	@FXML
 	private Label lblAmountOfPayment;
 
+	private String stationID;
+	private JsonArray currentColumns;
 	@FXML
 	void generateReport(ActionEvent event) {
 		tblReport.getColumns().clear();
@@ -122,6 +124,7 @@ public class ReportController {
 			ArrayList<ArrayList<String>> rows) {
 		tblReport.getColumns().clear();
 		tblReport.getItems().clear();
+		currentColumns = new JsonArray();
 		for (int i = 0; i < columns.size(); i++) {
 			final int index = i;
 			TableColumn<ObservableList<String>, String> column = new TableColumn<>(
@@ -129,6 +132,7 @@ public class ReportController {
 			column.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(
 					param.getValue().get(index)));
 			tblReport.getColumns().add(column);
+			currentColumns.add(columns.get(i));
 		}
 		for (int i = 0; i < rows.size(); i++) {
 			tblReport.getItems().add(
@@ -137,11 +141,16 @@ public class ReportController {
 	}
 
 	// Add new report to DB
-	public void addNewReport(JsonArray reportData) {
+	public void addNewReport(JsonArray rows) {
 		JsonObject request = new JsonObject();
 		String reportType;
 		reportType = cbReportType.getValue();
 		request.addProperty("reportType", reportType);
+		
+		JsonObject reportData = new JsonObject();
+		reportData.add("rows", rows);
+		reportData.addProperty("stationID", stationID);
+		reportData.add("columns", currentColumns);
 		request.add("reportData", reportData);
 		Message msg = new Message(MessageType.ADD_NEW_REPORT,
 				request.toString());
@@ -165,7 +174,7 @@ public class ReportController {
 		lblAmountOfPurchases.setText("");
 		lblCountCustomer.setText("");
 		lblEmptyData.setText("");
-		request.addProperty("stationID", "station 1");
+		request.addProperty("stationID", stationID);
 		if (cbReportType.getValue().equals(
 				"Periodic characterization of clients")) {
 			request.addProperty("reportType",
@@ -258,8 +267,6 @@ public class ReportController {
 					lblEmptyData.setText("There is no data for this report...");
 				} else {
 					fillTable(columns, rows);
-					col = convertArrayListToJsonObject(columns);
-					jsonOrders.add(col);
 					addNewReport(jsonOrders);
 					// show total data of report
 					lblCountCustomer
@@ -284,7 +291,7 @@ public class ReportController {
 		ArrayList<ArrayList<String>> rows = new ArrayList<>();
 		JsonObject col = new JsonObject();
 		lblEmptyData.setText("");
-		request.addProperty("stationID", "station 1");
+		request.addProperty("stationID", stationID);
 		if (cbReportType.getValue().equals("Purchases By Type")) {
 			request.addProperty("reportType", "Purchases By Type");
 			request.addProperty("fuelType", cbFuelType.getValue());
@@ -302,9 +309,6 @@ public class ReportController {
 				lblEmptyData.setText("There is no data for this report...");
 			} else {
 				fillTable(columns, rows);
-				col=convertArrayListToJsonObject(columns);
-				orders.add(col);
-				System.out.println(orders.toString());
 				addNewReport(orders);
 				for (int i = 0; i < orders.size(); i++) {
 					JsonObject order = orders.get(i).getAsJsonObject();
@@ -313,7 +317,6 @@ public class ReportController {
 			}
 
 		} else if (cbReportType.getValue().equals("Inventory items")) {
-			request.addProperty("stationID", "station 1");// delete
 			Message msg = new Message(
 					MessageType.GET_FUEL_INVENTORY_PER_STATION,
 					request.toString());
@@ -330,8 +333,6 @@ public class ReportController {
 				lblEmptyData.setText("There is no data for this report...");
 			} else {
 				fillTable(columns, rows);
-				col = convertArrayListToJsonObject(columns);
-				fuelInventory.add(col);
 				addNewReport(fuelInventory);
 				for (int i = 0; i < fuelInventory.size(); i++) {
 					JsonObject order = fuelInventory.get(i).getAsJsonObject();
@@ -341,7 +342,6 @@ public class ReportController {
 		} else {
 			if (cbReportType.getValue().equals("Quarterly Revenue")) {
 				ArrayList<ArrayList<String>> rows2 = new ArrayList<>();
-				request.addProperty("stationID", "station 1");
 				request.addProperty("fuelType", "");
 				request.addProperty("year", cbYear.getValue().toString());
 				request.addProperty("quarter", cbQuarterly.getValue());
@@ -366,10 +366,10 @@ public class ReportController {
 				if (rows.isEmpty()) {
 					lblEmptyData.setText("There is no data for this report...");
 				} else {
-					fastFuelorders.add(homeHeatingFuelorders);
+					for(int i = 0; i < homeHeatingFuelorders.size(); i++) {
+						fastFuelorders.add(homeHeatingFuelorders.get(i).getAsJsonObject());
+					}
 					fillTable(columns, rows);
-					col = convertArrayListToJsonObject(columns);
-					fastFuelorders.add(col);
 					addNewReport(fastFuelorders);
 					for (int i = 0; i < homeHeatingFuelorders.size(); i++) {
 						JsonObject order = homeHeatingFuelorders.get(i)
@@ -467,15 +467,6 @@ public class ReportController {
 	}
 
 	// dynamic function for set all choice option
-	public void setChoiceOptionOfChoiceBox(ChoiceBox<String> choiceBox,
-			JsonArray choiceOption, String defualtValue) {
-		int i;
-		choiceBox.getItems().add(defualtValue);
-		for (i = 0; i < choiceOption.size(); i++) {
-			choiceBox.getItems().add(choiceOption.get(i).getAsString());
-		}
-		choiceBox.setValue(defualtValue);
-	}
 
 	// set all choice option of marketing manager by report type
 	public void setOptionOfReportTypeOfMarketingManager() {
@@ -492,7 +483,7 @@ public class ReportController {
 		JsonObject response = ObjectContainer.currentMessageFromServer
 				.getMessageAsJsonObject();
 		JsonArray saleNames = response.get("saleNames").getAsJsonArray();
-		setChoiceOptionOfChoiceBox(cbSaleName, saleNames, "Choose sale name");
+		ObjectContainer.setChoiceOptionOfChoiceBox(cbSaleName, saleNames, "Choose sale name");
 	}
 
 	// set all choice option of station manager by report type
@@ -525,7 +516,7 @@ public class ReportController {
 		JsonObject response = ObjectContainer.currentMessageFromServer
 				.getMessageAsJsonObject();
 		JsonArray fuelTypes = response.get("fuelTypes").getAsJsonArray();
-		setChoiceOptionOfChoiceBox(cbFuelType, fuelTypes, "Choose fuel type");
+		ObjectContainer.setChoiceOptionOfChoiceBox(cbFuelType, fuelTypes, "Choose fuel type");
 	}
 
 	// visible/invisible all the component of comments report
@@ -741,16 +732,6 @@ public class ReportController {
 		return rows;
 	}
 
-	public JsonObject convertArrayListToJsonObject(ArrayList<String> columns){
-		JsonArray JsonArrayColumns = new JsonArray();
-		JsonObject JsonObjectColumns = new JsonObject();
-		for(int i=0;i<columns.size();i++)
-		{
-			JsonArrayColumns.add(columns.get(i));
-		}
-		JsonObjectColumns.add("columns", JsonArrayColumns);
-		return JsonObjectColumns;
-	}
 	public void load(Pane paneChange) {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("ReportGeneration.fxml"));
@@ -780,7 +761,17 @@ public class ReportController {
 		lblEmptyData.setVisible(true);
 		setReportTypeByUserPermissions();
 		showFieldsByReoprtType();
+		getStationID();
+	}
 
+	private void getStationID() {
+		JsonObject json = new JsonObject();
+		json.addProperty("userName", ObjectContainer.currentUserLogin.getUsername());
+		Message msg = new Message(MessageType.GET_STATION_ID_BY_USER_NAME,json.toString());
+		ClientUI.accept(msg);
+		
+		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
+		stationID = response.get("stationID").getAsString();
 	}
 
 }

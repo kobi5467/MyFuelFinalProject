@@ -196,13 +196,12 @@ public class ServerController extends AbstractServer {
 			break;
 		case GET_ORDERS_BY_STATIONID_AND_SALE_NAME:{
 			JsonArray orders;
-			String stationID = requestJson.get("stationID").getAsString();
 			String saleName = requestJson.get("saleName").getAsString();
 			
-			orders = dbConnector.orderDBLogic.getHomeHeatingFuelOrdersByStationIdAndSaleName(stationID, saleName);
+			orders = dbConnector.orderDBLogic.getHomeHeatingFuelOrdersBySaleName(saleName);
 			responseJson.add("homeHeatingFuelOrders", orders);
 			
-			orders = dbConnector.orderDBLogic.getFastFuelOrdersByStationIdAndSaleName(stationID, saleName);
+			orders = dbConnector.orderDBLogic.getFastFuelOrdersBySaleName(saleName);
 			responseJson.add("fastFuelOrders", orders);
 		}break;
 
@@ -225,7 +224,7 @@ public class ServerController extends AbstractServer {
 		switch (msg.getMessageType()) {
 		case ADD_NEW_REPORT: {
 			boolean add= dbConnector.reportDBLogic.AddNewReport(requestJson
-					.get("reportData").getAsJsonArray(),
+					.get("reportData").getAsJsonObject(),
 					requestJson.get("reportType").getAsString());
 			responseJson.addProperty("Add new report", ""+add);
 		}

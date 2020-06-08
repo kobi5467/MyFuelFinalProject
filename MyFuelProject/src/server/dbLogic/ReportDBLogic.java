@@ -38,7 +38,7 @@ public class ReportDBLogic {
 		}
 	}*/
 
-	public boolean AddNewReport(JsonArray reportData, String reportType) {
+	public boolean AddNewReport(JsonObject reportData, String reportType) {
 		String query = "";
 		String currentTime;
 		Statement stmt = null;

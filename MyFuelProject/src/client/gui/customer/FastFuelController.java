@@ -9,7 +9,6 @@ import client.controller.ClientUI;
 import client.controller.ObjectContainer;
 import entitys.Customer;
 import entitys.Message;
-
 import entitys.enums.FuelType;
 import entitys.enums.MessageType;
 import javafx.beans.value.ChangeListener;

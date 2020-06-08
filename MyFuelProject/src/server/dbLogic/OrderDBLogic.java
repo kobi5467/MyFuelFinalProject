@@ -105,7 +105,7 @@ public class OrderDBLogic {
 
 	}
 
-//get orders details for purchases report
+	//	get orders details for purchases report
 	public JsonArray getOrdersDetailsByStationIdAndFuelType(String stationID, String fuelType) {
 		JsonArray orders = new JsonArray();
 		String query;
@@ -190,6 +190,7 @@ public class OrderDBLogic {
 				ResultSet rs = stmt.executeQuery(query);
 				while (rs.next()) {
 					JsonObject order = new JsonObject();
+					order.addProperty("fuelType", "Home heating fuel");
 					order.addProperty("totalAmountOfFuel", rs.getString("totalAmountOfFuel"));
 					order.addProperty("totalPriceOfFuel", rs.getString("totalPriceOfFuel"));
 					System.out.println(order.toString());
@@ -207,20 +208,20 @@ public class OrderDBLogic {
 
 	}
 
-	public JsonArray getHomeHeatingFuelOrdersByStationIdAndSaleName(String stationID, String saleName) {
+	public JsonArray getHomeHeatingFuelOrdersBySaleName(String saleName){
 		JsonArray homeHeatingFuelOrders = new JsonArray();
 		String query = "";
-		Statement stmt = null;
+		Statement stmt=null;
 		try {
-			if (DBConnector.conn != null) {
+			if(DBConnector.conn != null) {
 
 				query = "SELECT customerID, count(orderID) as sumOfPurchase ,sum(totalPrice) as amountOfPayment FROM home_heating_fuel_orders "
-						+ "WHERE stationID='" + stationID + "' AND saleTemplateName='" + saleName
-						+ "' group by customerID;";
+						+ "WHERE saleTemplateName='"+saleName+
+						"' group by customerID;";
 				System.out.println(query);
 				stmt = DBConnector.conn.createStatement();
 				ResultSet rs = stmt.executeQuery(query);
-				while (rs.next()) {
+				while(rs.next()) {
 					JsonObject order = new JsonObject();
 					order.addProperty("customerID", rs.getString("customerID"));
 					order.addProperty("sumOfPurchase", rs.getString("sumOfPurchase"));
@@ -228,16 +229,16 @@ public class OrderDBLogic {
 					System.out.println(order.toString());
 					homeHeatingFuelOrders.add(order);
 				}
-			} else {
+			}else {
 				System.out.println("Conn is null");
 			}
-
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-
+		}		
+		
 		return homeHeatingFuelOrders;
-
+		
 	}
 
 	public JsonArray GetHomeHeatingFuelOrder(String username) {
@@ -279,20 +280,20 @@ public class OrderDBLogic {
 		return HHFOrders;
 	}
 
-	public JsonArray getFastFuelOrdersByStationIdAndSaleName(String stationID, String saleName) {
+	public JsonArray getFastFuelOrdersBySaleName(String saleName){
 		JsonArray fastFuelOrders = new JsonArray();
 		String query = "";
-		Statement stmt = null;
+		Statement stmt=null;
 		try {
-			if (DBConnector.conn != null) {
+			if(DBConnector.conn != null) {
 
 				query = "SELECT customerID, count(orderID) as sumOfPurchase ,sum(totalPrice) as amountOfPayment FROM fast_fuel_orders "
-						+ "WHERE stationID='" + stationID + "' AND saleTemplateName='" + saleName
-						+ "' group by customerID;";
+						+ "WHERE saleTemplateName='"+saleName+
+						"' group by customerID;";
 				System.out.println(query);
 				stmt = DBConnector.conn.createStatement();
 				ResultSet rs = stmt.executeQuery(query);
-				while (rs.next()) {
+				while(rs.next()) {
 					JsonObject order = new JsonObject();
 					order.addProperty("customerID", rs.getString("customerID"));
 					order.addProperty("sumOfPurchase", rs.getString("sumOfPurchase"));
@@ -300,16 +301,16 @@ public class OrderDBLogic {
 					System.out.println(order.toString());
 					fastFuelOrders.add(order);
 				}
-			} else {
+			}else {
 				System.out.println("Conn is null");
 			}
-
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-
+		}		
+		
 		return fastFuelOrders;
-
+		
 	}
 
 	public ArrayList<String> createDate(String quarter, String year) {
