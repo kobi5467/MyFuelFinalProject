@@ -1,7 +1,5 @@
 package client.controller;
 
-import com.google.gson.JsonArray;
-
 import client.gui.allusers.LoginController;
 import client.gui.allusers.MainFormController;
 import client.gui.allusers.MessageController;
@@ -11,7 +9,6 @@ import client.gui.customer.FastFuelController;
 import client.gui.customer.HomeHeatingFuelController;
 import client.gui.customer.OrderTrackingController;
 import client.gui.marketingmanager.DeterminingFuelRatesController;
-import client.gui.marketingmanager.InventoryOrdersController;
 import client.gui.marketingmanager.ReportController;
 import client.gui.marketingrepresentative.CustomerRegistrationController;
 import client.gui.marketingrepresentative.SaleTemplateController;
@@ -23,7 +20,6 @@ import entitys.User;
 import javafx.event.EventHandler;
 import javafx.event.WeakEventHandler;
 import javafx.scene.Node;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -61,8 +57,6 @@ public class ObjectContainer {
 	// STATION MANAGER
 	public static ReportController reportController;
 	public static InventoryController inventoryController;
-	public static InventoryOrdersController inventoryOrdersController;
-	
 	// SUPPLIER
 	public static SupplierController supplierController;
 	
@@ -130,15 +124,6 @@ public class ObjectContainer {
         });
 	}
 	
-	public static void setChoiceOptionOfChoiceBox(ChoiceBox<String> choiceBox,
-			JsonArray choiceOption, String defualtValue) {
-		int i;
-		choiceBox.getItems().add(defualtValue);
-		for (i = 0; i < choiceOption.size(); i++) {
-			choiceBox.getItems().add(choiceOption.get(i).getAsString());
-		}
-		choiceBox.setValue(defualtValue);
-	}
 	// **************************************** Allow to drag the window **************************************** 
 	
 	private static double mouseDragDeltaX = 0;

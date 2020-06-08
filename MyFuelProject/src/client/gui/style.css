@@ -89,6 +89,20 @@
 
 /************************************** Global ***************************************/
 
+.choice-box:disabled, .choice-box:disabled > * {
+  -fx-opacity: 0.8;
+}
+
+.text-field:disabled, .text-field:disabled > * {
+  -fx-opacity: 0.8;
+}
+.spinner:disabled, .spinner:disabled > * {
+  -fx-opacity: 0.8;
+}
+.button:disabled, .button:disabled > * {
+	-fx-opacity: 0.8;
+}
+
 .choice-box{
 	-fx-background-color:#36D1DC;
 	-fx-font-size: 10pt;
@@ -100,4 +114,45 @@
 	-fx-border-width:2px;
 }
 
-/*************************     Customer Panesc        ***************************/
+.spinner {
+	-fx-font-weight: bold;
+	-fx-font-size:15px;
+}
+
+.spinner .increment-arrow-button,
+.spinner .decrement-arrow-button {
+    -fx-body-color: #02b6de;
+}
+
+.spinner .increment-arrow-button:hover,
+.spinner .decrement-arrow-button:hover {
+    /* interpolate color between yellow and red based on first color brightness */
+    -fx-body-color: ladder(#444, #02b6de 0%, #024079 100%);
+}
+
+.spinner .increment-arrow-button:hover:pressed,
+.spinner .decrement-arrow-button:hover:pressed,
+.spinner .increment-arrow-button:pressed,
+.spinner .decrement-arrow-button:pressed {
+    /* interpolate color between yellow and red based on first color brightness */
+    -fx-body-color: ladder(#AAA, #02b6de 0%, #024079 100%);
+}
+
+#dark-blue {
+    -fx-background-color: 
+        #090a0c,
+        linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),
+        linear-gradient(#02b6de, #024079),
+        radial-gradient(center 50% 0%, radius 100%, rgba(12,131,255,0.9), rgba(255,255,255,0));
+    -fx-background-radius: 5,4,3,5;
+    -fx-background-insets: 0,1,2,0;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+    -fx-font-family: "Arial";
+    -fx-text-fill: linear-gradient(white, #d0d0d0);
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+#dark-blue Text {
+    -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.9) , 1, 0.0 , 0 , 1 );
+}

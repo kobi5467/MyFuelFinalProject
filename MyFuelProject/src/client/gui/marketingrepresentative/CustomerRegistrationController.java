@@ -633,7 +633,7 @@ public class CustomerRegistrationController {
 	private boolean checkInputValidationStageThree() {
 		boolean isValid = true;
 		if(customer.getVehicles().size() == 0) {
-			ObjectContainer.showMessage("yes_or_no", "No Vehicle Added", "Are you sure you don't \nwant to add vehicle?");
+			ObjectContainer.showMessage("yes_no", "No Vehicle Added", "Are you sure you don't \nwant to add vehicle?");
 			isValid = ObjectContainer.yesNoMessageResult;
 		}else if(customer.getVehicles().size() < 2 && 
 			customer.getSubscribeType().getSubscribeType().equals("MULTIPLE_VEHICLE_MONTHLY") ) {
@@ -779,6 +779,9 @@ public class CustomerRegistrationController {
 		setBackgroundImage('+');
 		limitTextFields();
 		lblFuelCompanyError.setLayoutX(569);
+		btnAddVehicle.setId("dark-blue");
+		btnBack.setId("dark-blue");
+		btnNext.setId("dark-blue");
 	}	
 
 	private void limitTextFields() {

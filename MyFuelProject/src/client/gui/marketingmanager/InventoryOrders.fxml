@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane fx:id="InventoryOrdersPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.marketingmanager.InventoryOrdersController">
+   <children>
+      <Pane fx:id="mainPane" prefHeight="570.0" prefWidth="949.0">
+         <children>
+            <Label fx:id="lblOrderID" layoutX="174.0" layoutY="90.0" text="Label" />
+            <Label fx:id="lblFuelType" layoutX="288.0" layoutY="90.0" text="Label" />
+            <Label fx:id="lblAmount" layoutX="399.0" layoutY="90.0" text="Label" />
+            <Label fx:id="lblSupplierName" layoutX="503.0" layoutY="90.0" text="Label" />
+            <Label fx:id="lblApprove" layoutX="671.0" layoutY="90.0" text="Label" />
+            <Label fx:id="lblDeny" layoutX="763.0" layoutY="90.0" text="Label" />
+            <ScrollPane layoutX="174.0" layoutY="133.0" prefHeight="320.0" prefWidth="620.0">
+               <content>
+                  <VBox fx:id="vbOrderPane" prefHeight="315.0" prefWidth="615.0" />
+               </content>
+            </ScrollPane>
+         </children></Pane>
+   </children>
+</AnchorPane>

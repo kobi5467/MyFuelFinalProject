@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane fx:id="mainSaleTemplatesPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="270.0" prefWidth="800.0" style="-fx-background-color: #123456; -fx-border-color: #ffffff; -fx-border-width: 3;" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.marketingrepresentative.SaleTemplatePane">
+   <children>
+      <Pane fx:id="editPane" prefHeight="270.0" prefWidth="800.0" visible="false">
+         <children>
+            <Label layoutX="14.0" layoutY="17.0" text="Name :" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="14.0" layoutY="63.0" text="Type :" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnChooseFuelType" layoutX="85.0" layoutY="61.0" mnemonicParsing="false" onAction="#onChooseFuelType" prefHeight="30.0" prefWidth="30.0" />
+            <Label layoutX="120.0" layoutY="63.0" text="By Fuel Type" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnChooseCustomerType" layoutX="85.0" layoutY="111.0" mnemonicParsing="false" onAction="#onChooseCustomerType" prefHeight="30.0" prefWidth="30.0" />
+            <Label layoutX="121.0" layoutY="113.0" text="By Customer Type" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnChooseCertainHours" layoutX="85.0" layoutY="161.0" mnemonicParsing="false" onAction="#onChooseCertainHours" prefHeight="30.0" prefWidth="30.0" />
+            <Label layoutX="120.0" layoutY="163.0" text="By Certain Hours" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtSaleName" layoutX="85.0" layoutY="16.0" prefHeight="30.0" prefWidth="324.0">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </TextField>
+            <Label layoutX="433.0" layoutY="16.0" text="Discount Rate :" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <ChoiceBox fx:id="cbFuelTypes" layoutX="307.0" layoutY="62.0" prefHeight="30.0" prefWidth="187.0" />
+            <ChoiceBox fx:id="cbCustomerType" layoutX="307.0" layoutY="111.0" prefHeight="30.0" prefWidth="187.0" />
+            <Label fx:id="lblFrom" layoutX="307.0" layoutY="163.0" text="From :" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblTo" layoutX="485.0" layoutY="163.0" text="To :" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Button id="dark-blue" fx:id="btnEdit" layoutX="700.0" layoutY="208.0" mnemonicParsing="false" onAction="#onEdit" prefHeight="35.0" prefWidth="90.0" text="Edit" />
+            <Label layoutX="14.0" layoutY="212.0" text="Description :" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtDescription" layoutX="135.0" layoutY="212.0" prefHeight="30.0" prefWidth="534.0">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </TextField>
+            <Spinner fx:id="cbDiscountRate" layoutX="568.0" layoutY="15.0" prefHeight="30.0" prefWidth="100.0" />
+            <Spinner fx:id="cbFromHour" layoutX="368.0" layoutY="161.0" prefHeight="30.0" prefWidth="107.0" />
+            <Spinner fx:id="cbToHour" layoutX="524.0" layoutY="161.0" prefHeight="30.0" prefWidth="107.0" />
+         </children>
+      </Pane>
+      <Pane fx:id="closePane" prefHeight="60.0" prefWidth="800.0">
+         <children>
+            <Label layoutX="14.0" layoutY="17.0" text="Name :" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="286.0" layoutY="17.0" text="Type :" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="565.0" layoutY="17.0" text="Discount :" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblSaleName" layoutX="84.0" layoutY="17.0" prefHeight="27.0" prefWidth="193.0" text="Sale Name" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblSaleType" layoutX="344.0" layoutY="17.0" prefHeight="27.0" prefWidth="202.0" text="Sale Type" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblDiscountRate" layoutX="654.0" layoutY="17.0" text="45%" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Button fx:id="btnOpen" layoutX="757.0" layoutY="13.0" mnemonicParsing="false" onAction="#onOpen" prefHeight="35.0" prefWidth="35.0" />
+      <Button fx:id="btnRunStop" layoutX="710.0" layoutY="12.5" mnemonicParsing="false" onAction="#onRun" prefHeight="35.0" prefWidth="35.0" />
+      <Button fx:id="btnRemove" layoutX="710.0" layoutY="12.5" mnemonicParsing="false" onAction="#onRemove" prefHeight="35.0" prefWidth="35.0" />
+   </children>
+</Pane>

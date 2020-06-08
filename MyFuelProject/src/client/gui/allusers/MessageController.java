@@ -2,11 +2,7 @@ package client.gui.allusers;
 
 import java.io.IOException;
 
-import com.google.gson.JsonObject;
-
 import client.controller.ObjectContainer;
-import entitys.Message;
-import entitys.enums.MessageType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -56,8 +52,8 @@ public class MessageController {
     @FXML
     void onYes(ActionEvent event) {
     	ObjectContainer.yesNoMessageResult = true;
+    	ObjectContainer.messageStage.close();
     	if(title.equals("Logout") || title.equals("Exit")) {
-    		ObjectContainer.messageStage.close();
     		ObjectContainer.mainFormController.logout();
     	}
     }
@@ -101,7 +97,6 @@ public class MessageController {
 		}
 		lblMessageTitle.setText(title);
 		txtMessage.setText(msg);
-		
 	}
 
 }

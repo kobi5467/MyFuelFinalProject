@@ -5,9 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 public class ReportDBLogic {
@@ -50,11 +49,7 @@ public class ReportDBLogic {
 		try {
 			if (DBConnector.conn != null) {
 				query = "INSERT INTO reports (createDate, reportType, reportData) "
-						+ "VALUES ('"
-						+ currentTime
-						+ "','"
-						+ reportType
-						+ "','" + reportData + "');";
+						+ "VALUES ('" + currentTime	+ "','"	+ reportType + "','" + reportData + "');";
 				stmt = DBConnector.conn.createStatement();
 				boolean rs = stmt.execute(query);
 				System.out.println(rs);
@@ -66,5 +61,49 @@ public class ReportDBLogic {
 		}
 		return true;
 	}
-	
+	public JsonArray getStationsID(String reportType) {
+		JsonArray stationsID= new JsonArray();
+		String query = "";
+		Statement stmt = null;
+		try {
+			if (DBConnector.conn != null) {
+				query = "SELECT * FROM reports " + "WHERE reportType='"+reportType+"';";
+				stmt = DBConnector.conn.createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				while (rs.next()) {
+					JsonObject json = new Gson().fromJson(rs.getString("reportData"),JsonObject.class);
+					stationsID.add(json.get("stationID"));
+				}
+			} else {
+				System.out.println("Conn is null");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return stationsID;
+	}
+
+	public JsonArray getCeateDates(String reportType) {
+		JsonArray createDates = new JsonArray();
+		String query = "";
+		Statement stmt = null;
+		try {
+			if (DBConnector.conn != null) {
+				query = "SELECT * FROM reports " + "WHERE reportType='"+reportType+"';";
+				stmt = DBConnector.conn.createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				while (rs.next()) {
+					JsonObject json = new Gson().fromJson(rs.getString("reportData"),JsonObject.class);
+					createDates.add(json.get("stationID"));
+				}
+			} else {
+				System.out.println("Conn is null");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return createDates;
+	}
 }

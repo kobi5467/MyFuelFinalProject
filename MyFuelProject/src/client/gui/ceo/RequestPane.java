@@ -8,7 +8,6 @@ import com.google.gson.JsonObject;
 import client.controller.ClientUI;
 import client.controller.ObjectContainer;
 import entitys.Message;
-import entitys.enums.FuelType;
 import entitys.enums.MessageType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

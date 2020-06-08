@@ -446,9 +446,26 @@ public class CustomerDBLogic {
 	}
 
 	public float getPreviousFastFuelOrdersAmount(String customerID) {
+		float lastMonthPrice = 0;
+		String query = "";
+		Statement stmt = null;
+		try {
+			if (DBConnector.conn != null) {
+				query = "SELECT * FROM fast_fuel_orders;";
+				stmt = DBConnector.conn.createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				while(rs.next()) {
+					System.out.println(rs);
+				}				
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
-		
-		return 111;
+		return lastMonthPrice;
 	}
 
 	public JsonObject updateVehicleInDB(JsonObject newVehicle) {

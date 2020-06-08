@@ -16,8 +16,8 @@ import client.gui.customer.HomeHeatingFuelController;
 import client.gui.customer.OrderTrackingController;
 import client.gui.marketingmanager.DeterminingFuelRatesController;
 import client.gui.marketingmanager.ReportController;
-import client.gui.marketingmanager.RunningSalesController;
 import client.gui.marketingrepresentative.CustomerRegistrationController;
+import client.gui.marketingrepresentative.SaleTemplateController;
 import client.gui.marketingrepresentative.UpdateCustomerController;
 import client.gui.stationmanager.InventoryController;
 import entitys.Customer;
@@ -272,6 +272,13 @@ public class MainFormController {
 			ObjectContainer.updateCustomerController.load(changePane);
 		}
 		
+		if(title.equals("SaleTemplates")) {
+			if(ObjectContainer.saleTemplateController == null) {
+				ObjectContainer.saleTemplateController = new SaleTemplateController();
+			}
+			ObjectContainer.saleTemplateController.load(changePane);
+		}
+		
 		/***************************** Marketing Manager **********************************/
 		
 		if(title.equals("DeterminingFuelRates")) {
@@ -282,10 +289,10 @@ public class MainFormController {
 		}
 		
 		if(title.equals("RunningSales")) {
-			if(ObjectContainer.runningSalesController == null) {
-				ObjectContainer.runningSalesController = new RunningSalesController();
+			if(ObjectContainer.saleTemplateController == null) {
+				ObjectContainer.saleTemplateController = new SaleTemplateController();
 			}
-			ObjectContainer.runningSalesController.load(changePane);
+			ObjectContainer.saleTemplateController.load(changePane);
 		}
 		
 		if(title.equals("ReportGeneration")) {

@@ -52,5 +52,28 @@ public class EmployeeDBLogic {
 		}
 		return employeeID;
 	}
+	public String getStationIDByUserName(String username){
+		String stationID = "";
+		
+		String query = "";
+		Statement stmt = null;
+		try {
+			if (DBConnector.conn != null) {
+				query = "SELECT fuel_stations.stationID FROM  employees, fuel_stations " + 
+						"WHERE employees.userName ='" + username + "' AND"
+								+ " fuel_stations.managerID = employees.employeeNumber ;";
+				stmt = DBConnector.conn.createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				if (rs.next()) {
+					stationID = rs.getString("stationID");
+				}
+			} else {
+				System.out.println("Conn is null");
+			}
 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return stationID;
+	}
 }

@@ -165,7 +165,7 @@ public class ServerController extends AbstractServer {
 			dbConnector.orderDBLogic.insertHomeHeatingFuelOrder(requestJson);
 		}
 			break;
-		case GET_HOME_HEATING_FUEL_ORDERS: { // check with or haim , about changes here.
+		case GET_HOME_HEATING_FUEL_ORDERS: {
 			String userName = requestJson.get("userName").getAsString();
 			JsonArray HHFOrders = dbConnector.orderDBLogic.GetHomeHeatingFuelOrder(userName);
 			responseJson.add("HHFOrders", HHFOrders);	

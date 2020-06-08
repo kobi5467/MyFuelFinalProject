@@ -150,7 +150,7 @@ public class OrderDBLogic {
 		Statement stmt = null;
 		try {
 			if (DBConnector.conn != null) {
-				query = "SELECT fuelType, sum(fuelAmount) as totalAmountOfFuel,sum(totalPrice) as totalPriceOfFuel FROM fast_fuel_orders "
+				query = "SELECT fuelType, sum(amountOfLitters) as totalAmountOfFuel,sum(totalPrice) as totalPriceOfFuel FROM fast_fuel_orders "
 						+ "WHERE stationID='" + stationID + "' AND orderDate between '" + date.get(0) + "' and '"
 						+ date.get(1) + "' group by fuelType;";
 				stmt = DBConnector.conn.createStatement();
@@ -183,7 +183,7 @@ public class OrderDBLogic {
 		Statement stmt = null;
 		try {
 			if (DBConnector.conn != null) {
-				query = "SELECT sum(fuelAmount) as totalAmountOfFuel,sum(totalPrice) as totalPriceOfFuel FROM home_heating_fuel_orders "
+				query = "SELECT sum(amountOfLitters) as totalAmountOfFuel,sum(totalPrice) as totalPriceOfFuel FROM home_heating_fuel_orders "
 						+ "WHERE stationID='" + stationID + "' AND orderDate between '" + date.get(0) + "' and '"
 						+ date.get(1) + "';";
 				stmt = DBConnector.conn.createStatement();
@@ -359,4 +359,6 @@ public class OrderDBLogic {
 		System.out.println(orderID);
 		return orderID + "";
 	}
+
+	
 }

@@ -4,13 +4,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 public class SaleDBLogic {
-
-	// saleName, saleType, isRunning, startSaleTime, endSaleTime, lastRunningDate,
-	// discountRate, saleDescription
 
 	public JsonArray getSaleNames() {
 		JsonArray saleNames = new JsonArray();
@@ -47,14 +45,12 @@ public class SaleDBLogic {
 				ResultSet rs = stmt.executeQuery(query);
 				while (rs.next()) {
 					JsonObject saleTemplate = new JsonObject();
-					saleTemplate.addProperty("saleName", rs.getString("saleTemplateName"));
-					saleTemplate.addProperty("saleType", rs.getString("saleType"));
+					saleTemplate.addProperty("saleTemplateName", rs.getString("saleTemplateName"));
 					saleTemplate.addProperty("isRunning", rs.getInt("isRunning"));
-					saleTemplate.addProperty("startSaleTime", rs.getString("startSaleTime"));
-					saleTemplate.addProperty("endSaleTime", rs.getString("endSaleTime"));
-					saleTemplate.addProperty("lastRunningDate", rs.getString("lastRunningDate"));
-					saleTemplate.addProperty("discountRate", rs.getString("discountRate"));
-					saleTemplate.addProperty("saleDescription", rs.getString("saleDescription"));
+					saleTemplate.addProperty("discountRate", rs.getInt("discountRate"));
+					saleTemplate.addProperty("description", rs.getString("description"));
+					String saleData = rs.getString("saleData");
+					saleTemplate.add("saleData", new Gson().fromJson(saleData,JsonObject.class));
 					saleTemplates.add(saleTemplate);
 				}
 			} else {
@@ -108,5 +104,52 @@ public class SaleDBLogic {
 		}
 		
 		return saleName;
+	}
+	
+	public void addNewSaleTemplate(JsonObject saleTemplate) {
+		//saleTemplateName, isRunning, discountRate, saleData, description
+		String saleTemplateName = saleTemplate.get("saleTemplateName").getAsString();
+		int discountRate = saleTemplate.get("discountRate").getAsInt();
+		JsonObject saleData = saleTemplate.get("saleData").getAsJsonObject();
+		String description = saleTemplate.get("description").getAsString();
+		int isRunning = saleTemplate.get("isRunning").getAsInt();
+		
+		String query = "";
+		Statement stmt = null;
+		try {
+			if (DBConnector.conn != null) {
+				query = "INSERT INTO sale_templates "
+						+ "(saleTemplateName, isRunning, discountRate, saleData, description) "
+					  + "VALUES ('" + saleTemplateName + "','"+ isRunning +"','" + discountRate + "','" 
+						+ saleData + "','" + description + "');"; 
+				stmt = DBConnector.conn.createStatement();
+				stmt.executeUpdate(query);
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void removeSaleTemplate(JsonObject saleTemplate) {
+		String saleTemplateName = saleTemplate.get("saleTemplateName").getAsString();
+		
+		String query = "";
+		Statement stmt = null;
+		try {
+			if (DBConnector.conn != null) {
+				query = "DELETE FROM sale_templates "
+					  + "WHERE saleTemplateName = '" + saleTemplateName + "';"; 
+				stmt = DBConnector.conn.createStatement();
+				stmt.executeUpdate(query);
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }
