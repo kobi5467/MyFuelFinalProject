@@ -15,7 +15,8 @@ public class Customer extends User {
 	private PurchaseModel purchaseModel;
 	private CreditCard creditCard;
 	private ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
-
+	private String paymentMethod;
+	
 	public Customer() {
 		
 	}
@@ -23,7 +24,7 @@ public class Customer extends User {
 	public Customer(String username, String password, UserPermission userPermission, String name, String email,
 			String phoneNumber, String customerId, String city, String street, int customerRate,
 			SubscribeType subscribeType,String customerType, PurchaseModel purchaseModel, CreditCard creditCard,
-			ArrayList<Vehicle> vehicles) {
+			ArrayList<Vehicle> vehicles, String paymentMethod) {
 		super(username, password, userPermission, name, email, phoneNumber);
 		this.customerID = customerId;
 		this.city = city;
@@ -34,6 +35,16 @@ public class Customer extends User {
 		this.purchaseModel = purchaseModel;
 		this.creditCard = creditCard;
 		this.vehicles = vehicles;
+		this.paymentMethod = paymentMethod;
+		
+	}
+
+	public String getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
 	}
 
 	public String getCustomerId() {

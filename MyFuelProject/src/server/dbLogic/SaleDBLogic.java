@@ -81,8 +81,8 @@ public class SaleDBLogic {
 		}		
 	}
 
-	public String getCurrentRunningSaleName() {
-		String saleName = "";
+	public JsonObject getCurrentRunningSaleName() {
+		JsonObject json = new JsonObject();
 		String query = "";
 		Statement stmt = null;
 		try {
@@ -92,7 +92,10 @@ public class SaleDBLogic {
 				stmt = DBConnector.conn.createStatement();
 				ResultSet rs = stmt.executeQuery(query);
 				if (rs.next()) {
-					saleName = rs.getString("saleTemplateName");
+					json.addProperty("saleTemplateName", rs.getString("saleTemplateName"));
+					json.addProperty("discountRate", rs.getInt("discountRate"));
+					JsonObject saleData = new Gson().fromJson(rs.getString("saleData"), JsonObject.class);
+					json.add("saleData", saleData);
 				}
 			} else {
 				System.out.println("Conn is null");
@@ -102,7 +105,7 @@ public class SaleDBLogic {
 			e.printStackTrace();
 		}
 		
-		return saleName;
+		return json;
 	}
 	
 	public void addNewSaleTemplate(JsonObject saleTemplate) {

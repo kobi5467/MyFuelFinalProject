@@ -353,6 +353,7 @@ public class CustomerRegistrationController {
 		}
 		PurchaseModel purchaseModel = new PurchaseModel(cbPurchaseModel.getValue(), 0, companies);
 		customer.setPurchaseModel(purchaseModel);
+		customer.setPaymentMethod(cbPaymentMethod.getValue());
 	}
 
 	private void updateCustomerObjectDetailsStage1() {

@@ -111,9 +111,11 @@ public class InventoryOrdersController {
 			if (orders.get(i).getAsJsonObject().get("orderID").getAsString().equals(orderID)) {
 				orders.remove(i);
 				order.remove(i);
-			} else {
-				vbOrderPane.getChildren().add(order.get(i).getOrderPane());
-			}
+			} 
+		}
+		
+		for(int i = 0; i < orders.size(); i++) {
+			vbOrderPane.getChildren().add(order.get(i).getOrderPane());
 		}
 		
 	}

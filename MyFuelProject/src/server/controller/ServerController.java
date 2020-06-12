@@ -19,10 +19,12 @@ import server.dbLogic.DBConnector;
 public class ServerController extends AbstractServer {
 
 	public static DBConnector dbConnector;
-
+	public static SystemManager systemManager;
+	
 	public ServerController(int port) {
 		super(port);
 		dbConnector = new DBConnector();
+		systemManager = new SystemManager(dbConnector);
 	}
 
 	@Override
@@ -35,7 +37,7 @@ public class ServerController extends AbstractServer {
 			case CHECK_LOGIN:
 			case CHECK_IF_USER_EXIST:
 			case GET_USER_DETAILS:
-			case GET_USER_ID_BY_USERNAME:	
+			case GET_USER_ID_BY_USERNAME:
 			case LOGOUT:
 				messageFromServer = handleUserMessage(message);
 				break;
@@ -50,8 +52,8 @@ public class ServerController extends AbstractServer {
 			case GET_RATES_REQUESTS:
 			case UPDATE_DECISION:
 			case GET_FUEL_INVENTORY_PER_STATION:
-			case GET_STATION_BY_MANAGERID:	
-			case UPDATE_FUEL_STATION_INVENTORY:	
+			case GET_STATION_BY_MANAGERID:
+			case UPDATE_FUEL_STATION_INVENTORY:
 			case GET_FUEL_INVENTORY_BY_USER_NAME:
 				messageFromServer = handleFuelMessage(message);
 				break;
@@ -59,11 +61,14 @@ public class ServerController extends AbstractServer {
 				messageFromServer = handlePurchaseModelsMessage(message);
 				break;
 			case SUBMIT_HOME_HEATING_FUEL_ORDER:
-			case GET_HOME_HEATING_FUEL_ORDERS:	
+			case GET_HOME_HEATING_FUEL_ORDERS:
 			case GET_ORDERS_BY_STATIONID_AND_FUEL_TYPE:
 			case GET_ORDERS_BY_STATIONID_AND_QUARTER:
 			case GET_ORDERS_BY_STATIONID_AND_SALE_NAME:
-			case GET_ORDER_ID: //check with maman
+			case GET_ORDER_ID:
+			case GET_ORDERS_FROM_DB:
+			case REMOVE_ORDER_FROM_DB:
+			case UPDATE_ORDER_IN_DB:
 				messageFromServer = handleOrderMessage(message);
 				break;
 			case CHECK_IF_CUSTOMER_EXIST:
@@ -80,6 +85,10 @@ public class ServerController extends AbstractServer {
 			case REMOVE_VEHICLE_FROM_DB:
 			case UPDATE_VEHICLES_IN_DB:
 			case UPDATE_PURCHASE_MODEL_IN_DB:
+			case GET_CREDIT_CARD_DETAILS_BY_ID:
+			case UPDATE_CREDIT_CARD_DETAILS:
+			case INSERT_CREDIT_CARD_DETAILS:
+			case GET_CUSTOMER_FUEL_TYPE:// OR 10.6.2020
 				messageFromServer = handleCustomerMessage(message);
 				break;
 			case GET_SALE_TEMPLATES:
@@ -118,30 +127,32 @@ public class ServerController extends AbstractServer {
 		default:
 			break;
 		}
-		messageFromServer = new Message(MessageType.SERVER_RESPONSE,responseJson.toString());
+		messageFromServer = new Message(MessageType.SERVER_RESPONSE, responseJson.toString());
 		return messageFromServer;
 	}
+
 	private Message handleSaleTemplateMessage(Message msg) {
 		Message messageFromServer = null;
 		JsonObject requestJson = msg.getMessageAsJsonObject();
 		JsonObject responseJson = new JsonObject();
 		switch (msg.getMessageType()) {
-		case GET_SALE_TEMPLATES: 
-				JsonArray saleTemplates = dbConnector.saleDBLOgic.getSaleTemplates();
-				responseJson.add("saleTemplates", saleTemplates);
+		case GET_SALE_TEMPLATES:
+			JsonArray saleTemplates = dbConnector.saleDBLOgic.getSaleTemplates();
+			responseJson.add("saleTemplates", saleTemplates);
 			break;
-		case UPDATE_RUNNING_SALE:{
-				String saleName = requestJson.get("saleTemplateName").getAsString();
-				int isRunning = requestJson.get("isRunning").getAsInt();
-				dbConnector.saleDBLOgic.updateRunningSale(saleName, isRunning);
-		}	break;
-		case GET_SALE_NAMES:{
+		case UPDATE_RUNNING_SALE: {
+			String saleName = requestJson.get("saleTemplateName").getAsString();
+			int isRunning = requestJson.get("isRunning").getAsInt();
+			dbConnector.saleDBLOgic.updateRunningSale(saleName, isRunning);
+		}
+			break;
+		case GET_SALE_NAMES: {
 			JsonArray saleName = dbConnector.saleDBLOgic.getSaleNames();
 			responseJson.add("saleNames", saleName);
-		}	break;
+		}
+			break;
 		case GET_CURRENT_SALE_TEMPLATE:
-			String saleTemplateName = dbConnector.saleDBLOgic.getCurrentRunningSaleName();
-			responseJson.addProperty("saleTemplateName", saleTemplateName);
+			responseJson = dbConnector.saleDBLOgic.getCurrentRunningSaleName();
 			break;
 		case ADD_NEW_SALE_TEMPLATE:
 			dbConnector.saleDBLOgic.addNewSaleTemplate(requestJson);
@@ -168,47 +179,59 @@ public class ServerController extends AbstractServer {
 		case GET_HOME_HEATING_FUEL_ORDERS: { // check with or haim , about changes here.
 			String userName = requestJson.get("userName").getAsString();
 			JsonArray HHFOrders = dbConnector.orderDBLogic.GetHomeHeatingFuelOrder(userName);
-			responseJson.add("HHFOrders", HHFOrders);	
-		}break;
+			responseJson.add("HHFOrders", HHFOrders);
+		}
+			break;
 
-		case GET_ORDERS_BY_STATIONID_AND_FUEL_TYPE:{
+		case GET_ORDERS_BY_STATIONID_AND_FUEL_TYPE: {
 			JsonArray orders;
-			String stationID=requestJson.get("stationID").getAsString();
-			String fuelType=requestJson.get("fuelType").getAsString();
+			String stationID = requestJson.get("stationID").getAsString();
+			String fuelType = requestJson.get("fuelType").getAsString();
 			orders = dbConnector.orderDBLogic.getOrdersDetailsByStationIdAndFuelType(stationID, fuelType);
 			responseJson.add("orders", orders);
 		}
-		break;
+			break;
 		case GET_ORDERS_BY_STATIONID_AND_QUARTER: {
 			JsonArray orders;
 			String stationID = requestJson.get("stationID").getAsString();
 			String quarter = requestJson.get("quarter").getAsString();
-			String year=requestJson.get("year").getAsString();
-			
+			String year = requestJson.get("year").getAsString();
+
 			orders = dbConnector.orderDBLogic.getFastFuelOrdersByStationIdAndQuarter(stationID, quarter, year);
 			responseJson.add("fastFuelOrders", orders);
-			
+
 			orders = dbConnector.orderDBLogic.getHomeHeatingFuelOrdersByStationIdAndQuarter(stationID, quarter, year);
 			responseJson.add("homeHeatingFuelOrders", orders);
-			
-		
+
 		}
 			break;
-		case GET_ORDERS_BY_STATIONID_AND_SALE_NAME:{
+		case GET_ORDERS_BY_STATIONID_AND_SALE_NAME: {
 			JsonArray orders;
 			String saleName = requestJson.get("saleName").getAsString();
-			
+
 			orders = dbConnector.orderDBLogic.getHomeHeatingFuelOrdersBySaleName(saleName);
 			responseJson.add("homeHeatingFuelOrders", orders);
-			
+
 			orders = dbConnector.orderDBLogic.getFastFuelOrdersBySaleName(saleName);
 			responseJson.add("fastFuelOrders", orders);
-		}break;
+		}
+			break;
 
 		case GET_ORDER_ID: {
 			String orderIdResponse = dbConnector.orderDBLogic.getOrderId(requestJson);
-			responseJson.addProperty("orderId",orderIdResponse);
-		}break;
+			responseJson.addProperty("orderId", orderIdResponse);
+		}
+			break;
+		case GET_ORDERS_FROM_DB:
+			JsonArray orders = dbConnector.orderDBLogic.getInvertoryOrdersFromDB(requestJson);
+			responseJson.add("orders", orders);
+			break;
+		case REMOVE_ORDER_FROM_DB:// or
+			dbConnector.orderDBLogic.removeOrderFromDB(requestJson);
+			break;
+		case UPDATE_ORDER_IN_DB:// or
+			responseJson = dbConnector.orderDBLogic.updateOrderDetails(requestJson);
+			break;
 		default:
 			break;
 		}
@@ -223,10 +246,9 @@ public class ServerController extends AbstractServer {
 
 		switch (msg.getMessageType()) {
 		case ADD_NEW_REPORT: {
-			boolean add= dbConnector.reportDBLogic.AddNewReport(requestJson
-					.get("reportData").getAsJsonObject(),
+			boolean add = dbConnector.reportDBLogic.AddNewReport(requestJson.get("reportData").getAsJsonObject(),
 					requestJson.get("reportType").getAsString());
-			responseJson.addProperty("Add new report", ""+add);
+			responseJson.addProperty("Add new report", "" + add);
 		}
 			break;
 		case GET_ALL_REPORT: {
@@ -237,10 +259,10 @@ public class ServerController extends AbstractServer {
 			break;
 		}
 
-		messageFromServer = new Message(MessageType.SERVER_RESPONSE,
-				responseJson.toString());
-		return messageFromServer;	
+		messageFromServer = new Message(MessageType.SERVER_RESPONSE, responseJson.toString());
+		return messageFromServer;
 	}
+
 	private Message handleFuelMessage(Message msg) {
 		Message messageFromServer = null;
 		JsonObject requestJson = msg.getMessageAsJsonObject();
@@ -273,58 +295,59 @@ public class ServerController extends AbstractServer {
 			break;
 		case GET_FUEL_INVENTORY_PER_STATION: {
 			JsonArray fuelInventory = dbConnector.fuelDBLogic
-					.getFuelInventoryPerStation(requestJson.get("stationID")
-							.getAsString());
+					.getFuelInventoryPerStation(requestJson.get("stationID").getAsString());
 			responseJson.add("fuelInventory", fuelInventory);
-		}break;
+		}
+			break;
 		case SEND_RATE_REQUEST: {
 			String fuelType = requestJson.get("fuelType").getAsString();
 			String newPrice = requestJson.get("pricePerLitter").getAsString();
 			Fuel fuel = dbConnector.fuelDBLogic.getFuelObjectByType(fuelType);
-			
+
 			String createTime;
-			SimpleDateFormat formatter= new SimpleDateFormat("dd-MM-yyyy ' ' HH:mm ");
+			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy ' ' HH:mm ");
 			Date date = new Date(System.currentTimeMillis());
-			createTime=formatter.format(date);
+			createTime = formatter.format(date);
 			System.out.println(createTime);
-			DeterminingRateRequests detRequest = new DeterminingRateRequests(-1 ,
-					 fuel.getPricePerLitter(), Float.parseFloat(newPrice),
-			 fuelType ,createTime);
+			DeterminingRateRequests detRequest = new DeterminingRateRequests(-1, fuel.getPricePerLitter(),
+					Float.parseFloat(newPrice), fuelType, createTime);
 			dbConnector.fuelDBLogic.SendRateRequest(detRequest, newPrice);
 
 		}
-		break;
-		case GET_RATES_REQUESTS:{
+			break;
+		case GET_RATES_REQUESTS: {
 			JsonArray RateRequests = dbConnector.fuelDBLogic.getRateRequests();
 			responseJson.add("RateRequests", RateRequests);
-			
+
 		}
-		break;
-		case UPDATE_DECISION:{
+			break;
+		case UPDATE_DECISION: {
 			String decline = requestJson.get("reasonOfDecline").getAsString();
-			boolean decision=requestJson.get("decision").getAsBoolean();
-			String ID=requestJson.get("requestID").getAsString();
-			dbConnector.fuelDBLogic.UpdateDecline(decline,decision,ID);
+			boolean decision = requestJson.get("decision").getAsBoolean();
+			String ID = requestJson.get("requestID").getAsString();
+			dbConnector.fuelDBLogic.UpdateDecline(decline, decision, ID);
 		}
-		break;
-		case GET_STATION_BY_MANAGERID:{
+			break;
+		case GET_STATION_BY_MANAGERID: {
 			String managerID = requestJson.get("employeNumber").getAsString();
-			String stationID= dbConnector.fuelDBLogic.getStationIDbyManagerID(managerID);
+			String stationID = dbConnector.fuelDBLogic.getStationIDbyManagerID(managerID);
 			responseJson.addProperty("stationID", stationID);
 
 		}
-		break;
-		case UPDATE_FUEL_STATION_INVENTORY:{
+			break;
+		case UPDATE_FUEL_STATION_INVENTORY: {
 			String threshold = requestJson.get("thresholdAmount").getAsString();
 			String maxAmount = requestJson.get("maxFuelAmount").getAsString();
 			String fuelType = requestJson.get("fuelType").getAsString();
-			dbConnector.fuelDBLogic.updateFuelInventory(threshold, maxAmount,fuelType);
+			dbConnector.fuelDBLogic.updateFuelInventory(threshold, maxAmount, fuelType);
 		}
-		break;
-		case GET_FUEL_INVENTORY_BY_USER_NAME:{
-			JsonArray array = dbConnector.fuelDBLogic.getFuelInventoryByUserName(requestJson.get("userName").getAsString());
+			break;
+		case GET_FUEL_INVENTORY_BY_USER_NAME: {
+			JsonArray array = dbConnector.fuelDBLogic
+					.getFuelInventoryByUserName(requestJson.get("userName").getAsString());
 			responseJson.add("fuelInventories", array);
-		}break;
+		}
+			break;
 
 		default:
 			break;
@@ -356,13 +379,14 @@ public class ServerController extends AbstractServer {
 		JsonObject responseJson = new JsonObject();
 		switch (msg.getMessageType()) {
 		case CHECK_IF_CUSTOMER_EXIST:
-			boolean isExist = dbConnector.customerDBLogic.checkIfCustomerExist(requestJson.get("customerID").getAsString());
+			boolean isExist = dbConnector.customerDBLogic
+					.checkIfCustomerExist(requestJson.get("customerID").getAsString());
 			responseJson.addProperty("isExist", isExist);
 			break;
-			
+
 		case GET_CUSTOMER_DETAILS_BY_USERNAME:
-			String customerDetails = dbConnector.customerDBLogic.getCustomerDetailsByUsername(requestJson.get("userName").getAsString());
-			responseJson.addProperty("customerDetails", customerDetails);
+			responseJson = dbConnector.customerDBLogic
+					.getCustomerDetailsByUsername(requestJson.get("userName").getAsString());
 			break;
 		case GET_SUBSCRIBE_TYPES:
 			JsonArray types = dbConnector.customerDBLogic.getSubscribeTypes();
@@ -373,28 +397,38 @@ public class ServerController extends AbstractServer {
 			responseJson.addProperty("isExist", vehicleIsExist);
 			break;
 		case REGISTER_CUSTOMER:
-				register(requestJson);
+			register(requestJson);
 			break;
 		case GET_CUSTOMER_DETAILS_BY_ID:
 			String customerID = requestJson.get("customerID").getAsString();
 			responseJson = dbConnector.customerDBLogic.getCustomerDetails(customerID);
 			break;
+		case GET_CREDIT_CARD_DETAILS_BY_ID:
+			String customerid = requestJson.get("customerID").getAsString();
+			responseJson = dbConnector.customerDBLogic.getCreditCardDetails(customerid);
+			break;
 		case UPDATE_CUSTOMER_DETAILS:
 			responseJson = dbConnector.customerDBLogic.updateCustomerDetails(requestJson);
+			break;
+		case UPDATE_CREDIT_CARD_DETAILS:
+			responseJson = dbConnector.customerDBLogic.updateCreditCardDetails(requestJson);
 			break;
 		case UPDATE_VEHICLES_IN_DB:
 			responseJson = dbConnector.customerDBLogic.updateVehicleInDB(requestJson);
 			break;
 		case GET_CUSTOMER_VEHICLES_BY_CUSTOMER_ID:
-			JsonArray vehicles = dbConnector.customerDBLogic.getVehiclesByCustomerID(requestJson.get("customerID").getAsString());
+			JsonArray vehicles = dbConnector.customerDBLogic
+					.getVehiclesByCustomerID(requestJson.get("customerID").getAsString());
 			responseJson.add("vehicles", vehicles);
 			break;
 		case GET_FUEL_COMPANIES_BY_CUSTOMER_ID:
-			String companies = dbConnector.customerDBLogic.getFuelCompaniesByCustomerID(requestJson.get("customerID").getAsString());
+			String companies = dbConnector.customerDBLogic
+					.getFuelCompaniesByCustomerID(requestJson.get("customerID").getAsString());
 			responseJson.addProperty("fuelCompanies", companies);
 			break;
 		case GET_STATION_NUMBERS_BY_FUEL_COMPANY:
-			JsonArray stations = dbConnector.customerDBLogic.getFuelStationsByCompanyName(requestJson.get("fuelCompany").getAsString());
+			JsonArray stations = dbConnector.customerDBLogic
+					.getFuelStationsByCompanyName(requestJson.get("fuelCompany").getAsString());
 			responseJson.add("stations", stations);
 			break;
 		case GET_DICOUNT_RATES_BY_TYPES:
@@ -407,7 +441,8 @@ public class ServerController extends AbstractServer {
 			responseJson.addProperty("purchaseModelRate", purchaseModelRate);
 			break;
 		case GET_PREVIOUS_AMOUNT_FAST_FUEL_ORDER:
-			float previosAmount = dbConnector.customerDBLogic.getPreviousFastFuelOrdersAmount(requestJson.get("customerID").getAsString());
+			float previosAmount = dbConnector.customerDBLogic
+					.getPreviousFastFuelOrdersAmount(requestJson.get("customerID").getAsString());
 			responseJson.addProperty("amount", previosAmount);
 
 			break;
@@ -416,6 +451,11 @@ public class ServerController extends AbstractServer {
 			break;
 		case UPDATE_PURCHASE_MODEL_IN_DB:
 			dbConnector.customerDBLogic.updatePurchaseModelByID(requestJson);
+			break;
+		case INSERT_CREDIT_CARD_DETAILS:
+			dbConnector.customerDBLogic.insertCreditCard(requestJson);
+		case GET_CUSTOMER_FUEL_TYPE:
+			responseJson = dbConnector.customerDBLogic.getFuelCompaniesByID(requestJson);
 			break;
 		default:
 			break;
@@ -428,20 +468,21 @@ public class ServerController extends AbstractServer {
 	public void register(JsonObject requestJson) {
 		dbConnector.userDBController.addUser(requestJson);
 		dbConnector.customerDBLogic.addCustomer(requestJson);
-		if(requestJson.get("creditCard") != null) {
+		if (requestJson.get("creditCard") != null) {
 			JsonObject creditCard = requestJson.get("creditCard").getAsJsonObject();
 			dbConnector.customerDBLogic.addCreditCard(creditCard);
 		}
-		JsonArray vehicles = requestJson.get("vehicles").getAsJsonArray(); 
-		for(int i = 0; i < vehicles.size(); i++) {
+		JsonArray vehicles = requestJson.get("vehicles").getAsJsonArray();
+		for (int i = 0; i < vehicles.size(); i++) {
 			JsonObject vehicle = vehicles.get(i).getAsJsonObject();
 			dbConnector.customerDBLogic.addVehicle(vehicle);
 		}
-		
-		JsonArray fuelCompanies = requestJson.get("purchaseModel").getAsJsonObject().get("fuelCompany").getAsJsonArray();
+
+		JsonArray fuelCompanies = requestJson.get("purchaseModel").getAsJsonObject().get("fuelCompany")
+				.getAsJsonArray();
 		dbConnector.customerDBLogic.addFuelCompanies(requestJson.get("customerID").getAsString(), fuelCompanies);
 	}
-	
+
 	public Message handleUserMessage(Message msg) {
 		Message messageFromServer = null;
 		JsonObject requestJson = msg.getMessageAsJsonObject();
@@ -450,25 +491,27 @@ public class ServerController extends AbstractServer {
 		case CHECK_LOGIN: {
 			String userName = requestJson.get("userName").getAsString();
 			String password = requestJson.get("password").getAsString();
-			
-			responseJson = dbConnector.userDBController.checkLogin(userName,password);
+
+			responseJson = dbConnector.userDBController.checkLogin(userName, password);
 		}
 			break;
-		case CHECK_IF_USER_EXIST: 
+		case CHECK_IF_USER_EXIST:
 			boolean isExist = dbConnector.userDBController
 					.checkIfUsernameExist(requestJson.get("userName").getAsString());
 			responseJson.addProperty("isExist", isExist);
 			break;
-		
+
 		case GET_USER_DETAILS:
 			responseJson = dbConnector.userDBController.getUserDetails(requestJson);
-			String employeeRole = dbConnector.employeeDBLogic.getEmployeeRoleByUsername(requestJson.get("userName").getAsString());
+			String employeeRole = dbConnector.employeeDBLogic
+					.getEmployeeRoleByUsername(requestJson.get("userName").getAsString());
 			responseJson.addProperty("employeeRole", employeeRole);
 			break;
 		case GET_USER_ID_BY_USERNAME:
-			String userName=requestJson.get("userName").getAsString();
+			String userName = requestJson.get("userName").getAsString();
 			String employeeID = dbConnector.employeeDBLogic.getEmployeeIDByUsername(userName);
-			//String employeeID = dbConnector.employeeDBLogic.getEmployeeRoleByUsername(requestJson.get("userName").getAsString());
+			// String employeeID =
+			// dbConnector.employeeDBLogic.getEmployeeRoleByUsername(requestJson.get("userName").getAsString());
 			responseJson.addProperty("employeNumber", employeeID);
 			break;
 		case LOGOUT:
@@ -483,5 +526,10 @@ public class ServerController extends AbstractServer {
 
 	protected void serverStarted() {
 		System.out.println("Server listening for connections on port " + getPort());
+	}
+
+	@Override
+	protected void clientConnected(ConnectionToClient client) {
+		super.clientConnected(client);
 	}
 }

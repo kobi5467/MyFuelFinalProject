@@ -24,7 +24,7 @@ public class FuelDBLogic {
 				query = "SELECT fuelType, currentFuelAmount, thresholdAmount, maxFuelAmount "
 					+   "FROM  fuel_inventorys, employees, fuel_stations "
 					+   "WHERE employees.userName = '"+userName +"' AND "
-							+ "employees.employeNumber = fuel_stations.managerID AND "
+							+ "employees.employeeNumber = fuel_stations.managerID AND "
 							+ "fuel_stations.stationID = fuel_inventorys.stationID;";
 				stmt = DBConnector.conn.createStatement();
 				ResultSet rs = stmt.executeQuery(query);
@@ -268,7 +268,6 @@ public class FuelDBLogic {
 					order.addProperty("currentFuelAmount", rs.getString("currentFuelAmount"));
 					order.addProperty("thresholdAmount", rs.getString("thresholdAmount"));
 					order.addProperty("maxFuelAmount", rs.getString("maxFuelAmount"));
-					System.out.println(order.toString());
 					fuelInventory.add(order);
 				}
 			}else {
@@ -284,7 +283,6 @@ public class FuelDBLogic {
 	}
 	public void updateFuelInventory(String threshold, String maxAmount,String fuelType) {
 
-		
 		String query = "";
 		Statement stmt = null;
 		try {
@@ -302,6 +300,35 @@ public class FuelDBLogic {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	public JsonArray getFullFuelInventory() {
+
+		JsonArray fuelInventory = new JsonArray();
+
+		String query = "";
+		Statement stmt = null;
+		try {
+			if(DBConnector.conn != null) {
+				query = "SELECT * FROM  fuel_inventorys;";
+				stmt = DBConnector.conn.createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				while(rs.next()) {
+					JsonObject order = new JsonObject();
+					order.addProperty("stationID", rs.getString("stationID"));
+					order.addProperty("fuelType", rs.getString("fuelType"));
+					order.addProperty("currentFuelAmount", rs.getFloat("currentFuelAmount"));
+					order.addProperty("thresholdAmount", rs.getFloat("thresholdAmount"));
+					order.addProperty("maxFuelAmount", rs.getFloat("maxFuelAmount"));
+					fuelInventory.add(order);
+				}
+			}else {
+				System.out.println("Conn is null");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+		return fuelInventory;
 	}
 
 }

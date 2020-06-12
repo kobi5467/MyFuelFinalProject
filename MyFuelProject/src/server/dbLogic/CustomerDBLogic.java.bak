@@ -62,7 +62,6 @@ public class CustomerDBLogic {
 					customer.addProperty("phoneNumber", rs.getString("phoneNumber"));
 					customer.addProperty("customerType", rs.getString("customerType"));
 					customer.addProperty("subscribeType", rs.getString("subscribeType"));
-					customer.addProperty("purchaseModelType", rs.getString("purchaseModelType"));
 					customer.addProperty("city", rs.getString("city"));
 					customer.addProperty("street", rs.getString("street"));
 					customer.addProperty("userPermission", rs.getString("userPermission"));
@@ -112,15 +111,15 @@ public class CustomerDBLogic {
 		String customerType = customer.get("customerType").getAsString();
 		String purchaseModelType = customer.get("purchaseModel").getAsJsonObject().get("purchaseModeltype").getAsString();
 		String subscribeType = customer.get("subscribeType").getAsJsonObject().get("subscribeType").getAsString();
-		String paymentMethod = customer.get("paymentMethod").getAsString();
+		
 		String query = "";
 
 		Statement stmt = null;
 		try {
 			if (DBConnector.conn != null) {
-				query = "INSERT INTO customer (customerID, userName, city, street, customerType, purchaseModelType, subscribeType, paymentMethod) " + 
+				query = "INSERT INTO customer (customerID, userName, city, street, customerType, purchaseModelType, subscribeType) " + 
 						"VALUES ('" + customerID + "','"+ userName + "','" + city + "','" + street 
-								+ "','" + customerType + "','" + purchaseModelType + "','" + subscribeType + "','" + paymentMethod + "');";
+								+ "','" + customerType + "','" + purchaseModelType + "','" + subscribeType + "');";
 				stmt = DBConnector.conn.createStatement();
 				stmt.execute(query);
 			} else {
@@ -284,6 +283,7 @@ public class CustomerDBLogic {
 		
 		String queryCustomer = "";
 		String queryUser = "";
+		String queryCreditCard = "";
 		Statement stmt = null;
 		try {
 			if(DBConnector.conn != null) {

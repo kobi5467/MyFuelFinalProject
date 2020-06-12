@@ -185,10 +185,6 @@ public class OrderTrackingController {
 	private void initUI() {
 		lblerrorMessage.setText("");
 		orders = getHHFOrders();
-		orders.add(orders.get(0));
-		orders.add(orders.get(0));
-		orders.add(orders.get(0));
-		orders.add(orders.get(0));
 		orderPanes = new ArrayList<>();
 		orderPaneControllers = new ArrayList<>();
 		for (int i = 0; i < orders.size(); i++) {

@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import client.controller.ClientUI;
@@ -15,6 +14,7 @@ import client.gui.customer.FastFuelController;
 import client.gui.customer.HomeHeatingFuelController;
 import client.gui.customer.OrderTrackingController;
 import client.gui.marketingmanager.DeterminingFuelRatesController;
+import client.gui.marketingmanager.InventoryOrdersController;
 import client.gui.marketingmanager.ReportController;
 import client.gui.marketingrepresentative.CustomerRegistrationController;
 import client.gui.marketingrepresentative.SaleTemplateController;
@@ -22,6 +22,8 @@ import client.gui.marketingrepresentative.UpdateCustomerController;
 import client.gui.stationmanager.InventoryController;
 import entitys.Customer;
 import entitys.Message;
+import entitys.PurchaseModel;
+import entitys.SubscribeType;
 import entitys.enums.MessageType;
 import entitys.enums.UserPermission;
 import javafx.animation.Animation;
@@ -226,7 +228,19 @@ public class MainFormController {
 		ClientUI.accept(msg);
 		
 		JsonObject customerJson = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
-		Customer customer = new Gson().fromJson(customerJson.get("customerDetails").getAsString(), Customer.class);
+		//Customer customer = new Gson().fromJson(customerJson.get("customerDetails").getAsString(), Customer.class);
+		Customer customer = new Customer();
+		customer.setCity(customerJson.get("city").getAsString());
+		customer.setCustomerId(customerJson.get("customerID").getAsString());
+		customer.setName(customerJson.get("name").getAsString());
+		customer.setUsername(customerJson.get("userName").getAsString());
+		customer.setEmail(customerJson.get("email").getAsString());
+		customer.setPhoneNumber(customerJson.get("phoneNumber").getAsString());
+		customer.setCustomerType(customerJson.get("customerType").getAsString());
+		customer.setSubscribeType(new SubscribeType(customerJson.get("subscribeType").getAsString(),0));
+		customer.setPurchaseModel(new PurchaseModel(customerJson.get("purchaseModelType").getAsString(), 0, null));
+		customer.setStreet(customerJson.get("street").getAsString());
+		customer.setUserPermission(UserPermission.stringToEnumVal(customerJson.get("userPermission").getAsString()));
 		return customer;
 	}
 
@@ -342,6 +356,13 @@ public class MainFormController {
 				ObjectContainer.ratesToApproveController = new RatesToApproveController();
 			}
 			ObjectContainer.ratesToApproveController.load(changePane);
+		}
+		/************************************ Station Manager ***************************/
+		if(title.equals("InventoryOrders")) {
+			if(ObjectContainer.inventoryOrdersController == null) {
+				ObjectContainer.inventoryOrdersController = new InventoryOrdersController();
+			}
+			ObjectContainer.inventoryOrdersController.load(changePane);
 		}
 	}
 	

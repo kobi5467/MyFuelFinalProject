@@ -20,6 +20,11 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.MouseDragEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -36,9 +41,24 @@ public class UpdateCustomerController {
 	@FXML
 	private Label lblErrorText;
 
+    @FXML
+    private Button btnCustomerDetails;
+
+    @FXML
+    private Button btnCreditCardDetails;
+
+    @FXML
+    private Button btnVehicledDetails;
+
+    @FXML
+    private Button btnPurchaseDetails;
+
 	/******************************* Details Pane ******************************/
 	@FXML
 	private Pane Pane2;
+	
+    @FXML
+    private Pane userPane;
 
 	@FXML
 	private Label lblCustomerDetails;
@@ -111,9 +131,6 @@ public class UpdateCustomerController {
 	private TextField txtCVV;
 
 	@FXML
-	private TextField txtDateValidation;
-
-	@FXML
 	private Label lblCreditCardNumber;
 
 	@FXML
@@ -127,10 +144,19 @@ public class UpdateCustomerController {
 
 	@FXML
 	private Button btnViewCreditCard;
+	
+    @FXML
+    private ChoiceBox<String> cbMounth;
+
+    @FXML
+    private ChoiceBox<String> cbYear;
 
 	/************************ Edit Vehicles *************************************/
 	@FXML
 	private Label lblVehicles;
+
+    @FXML
+    private Pane VehiclesPane;
 
 	@FXML
 	private ScrollPane VehicleScrollPane;
@@ -153,6 +179,9 @@ public class UpdateCustomerController {
 	/*********************** Purchase Model ************************************/
 	@FXML
 	private Label lblPurchaceModel;
+	
+    @FXML
+    private Pane PurchaseModelPane;
 
 	@FXML
 	private Label lblChoosePurchaseModel;
@@ -177,6 +206,15 @@ public class UpdateCustomerController {
 
 	@FXML
 	private ChoiceBox<String> cbCompanyName3;
+	
+    @FXML
+    private TextField txtFuelStation1;
+
+    @FXML
+    private TextField txtFuelStation2;
+
+    @FXML
+    private TextField txtFuelStation3;
 
 	@FXML
 	private ChoiceBox<String> cb2or3;
@@ -188,6 +226,8 @@ public class UpdateCustomerController {
 
 	private ArrayList<CustomerVehiclesController> customerVehicles = new ArrayList<>();
 	private JsonArray vehicles;
+	JsonObject customerDetails = new JsonObject();
+	private int flag = 0; //The flag will be 1 if customer want to insert credit card.
 
 	public void load(Pane changePane) {
 		FXMLLoader loader = new FXMLLoader();
@@ -204,6 +244,13 @@ public class UpdateCustomerController {
 	}
 
 	private void initUI() {
+		txtEnterYourCustomerID.requestFocus();
+		btnSubmitCustomerID.setDefaultButton(true);
+        btnCustomerDetails.setStyle("-fx-border-color: #00008B; -fx-border-width: 5;");
+        userPane.setVisible(true);
+		Pane3.setVisible(false);//creditcard pane
+		VehiclesPane.setVisible(false);
+		PurchaseModelPane.setVisible(false);
 		txtUserNameUpdate.setDisable(true);
 		txtCustomerNameUpdate.setDisable(true);
 		txtEmailUpdate.setDisable(true);
@@ -212,7 +259,6 @@ public class UpdateCustomerController {
 		txtCity.setDisable(true);
 		txtPurchaseModelType.setDisable(true);
 		txtCreditCard.setDisable(true);
-		txtDateValidation.setDisable(true);
 		txtCVV.setDisable(true);
 		lblErrorText.setText("");
 		lblAddress.setText("");
@@ -220,7 +266,6 @@ public class UpdateCustomerController {
 		lblEmail.setText("");
 		lblPhoneNumber.setText("");
 		txtCreditCard.setDisable(true);
-		txtDateValidation.setDisable(true);
 		txtCVV.setDisable(true);
 		lblCreditCardNumber.setText("");
 		lblCVV.setText("");
@@ -243,8 +288,61 @@ public class UpdateCustomerController {
 		btnUpdateCreditCard.setVisible(false);
 		btnUpdatePurchaseModel.setVisible(false);
 		btnAddVehicle.setDisable(true);
+		txtFuelStation1.setDisable(true);
+		txtFuelStation1.setVisible(true);
+		txtFuelStation2.setDisable(true);
+		txtFuelStation2.setVisible(false);
+		txtFuelStation3.setDisable(true);
+		txtFuelStation3.setVisible(false);
 
 	}
+	
+    @FXML
+    void onCustomerDetails(ActionEvent event) {
+    	userPane.setVisible(true);
+        btnCustomerDetails.setStyle("-fx-border-color: #00008B; -fx-border-width: 5;");
+		Pane3.setVisible(false);//creditcard pane
+		btnCreditCardDetails.setStyle("");
+		VehiclesPane.setVisible(false);
+		btnVehicledDetails.setStyle("");
+		PurchaseModelPane.setVisible(false);
+		btnPurchaseDetails.setStyle("");
+    }
+    
+    @FXML
+    void onCreditCardDetails(ActionEvent event) {
+    	userPane.setVisible(false);
+    	btnCustomerDetails.setStyle("");
+		Pane3.setVisible(true);//creditcard pane
+	    btnCreditCardDetails.setStyle("-fx-border-color: #00008B; -fx-border-width: 5;");
+		VehiclesPane.setVisible(false);
+		btnVehicledDetails.setStyle("");
+		PurchaseModelPane.setVisible(false);
+		btnPurchaseDetails.setStyle("");
+    }
+	
+    @FXML
+    void onVehiclesDetails(ActionEvent event) {
+    	userPane.setVisible(false);
+    	btnCustomerDetails.setStyle("");
+		Pane3.setVisible(false);//creditcard pane
+		btnCreditCardDetails.setStyle("");
+		VehiclesPane.setVisible(true);
+	    btnVehicledDetails.setStyle("-fx-border-color: #00008B; -fx-border-width: 5;");
+		PurchaseModelPane.setVisible(false);
+		btnPurchaseDetails.setStyle("");
+    }
+    
+    @FXML
+    void onPurchaseDetails(ActionEvent event) {
+    	userPane.setVisible(false);
+    	btnCustomerDetails.setStyle("");
+		Pane3.setVisible(false);//creditcard pane
+		VehiclesPane.setVisible(false);
+		 btnVehicledDetails.setStyle("");
+		PurchaseModelPane.setVisible(true);
+	    btnPurchaseDetails.setStyle("-fx-border-color: #00008B; -fx-border-width: 5;");
+    }
 
 	@FXML
 	void onSubmit(ActionEvent event) {
@@ -255,11 +353,47 @@ public class UpdateCustomerController {
 			takeDataFromDB(txtEnterYourCustomerID.getText());
 			btnAddVehicle.setDisable(false);
 			getVehicleData(txtEnterYourCustomerID.getText());
+			getPurchaseModelsFromData(txtEnterYourCustomerID.getText());
 			lblErrorText.setText("");
 		} else {
 			lblErrorText.setText("The Customer ID not exist!");
 
 		}
+	}
+
+	private void getPurchaseModelsFromData(String customerID) {
+		JsonObject customer = new JsonObject();
+		customer.addProperty("customerID", customerID);
+		Message msg = new Message(MessageType.GET_CUSTOMER_FUEL_TYPE, customer.toString());
+		ClientUI.accept(msg);
+		JsonObject customerFuelType = new JsonObject();
+		customerFuelType = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
+		System.out.println(customerFuelType.toString());
+		String[] res = customerFuelType.get("fuelCompanies").getAsString().split(",");
+		switch(res.length) {
+		case 1:
+			txtFuelStation1.setVisible(true);
+			txtFuelStation1.setText(res[0]);
+			txtFuelStation2.setVisible(false);
+			txtFuelStation3.setVisible(false);
+			break;
+		case 2:
+			txtFuelStation1.setVisible(true);
+			txtFuelStation1.setText(res[0]);
+			txtFuelStation2.setVisible(true);
+			txtFuelStation2.setText(res[1]);
+			txtFuelStation3.setVisible(false);
+			break;
+		case 3:
+			txtFuelStation1.setVisible(true);
+			txtFuelStation1.setText(res[0]);
+			txtFuelStation2.setVisible(true);
+			txtFuelStation2.setText(res[1]);
+			txtFuelStation3.setVisible(true);
+			txtFuelStation3.setText(res[2]);
+		}
+		
+		
 	}
 
 	private void takeDataFromDB(String customerID) {
@@ -268,17 +402,45 @@ public class UpdateCustomerController {
 		customer.addProperty("customerID", customerID);
 		Message msg = new Message(MessageType.GET_CUSTOMER_DETAILS_BY_ID, customer.toString());
 		ClientUI.accept(msg);
-		JsonObject customerDetails = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
+		customerDetails = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
 		txtUserNameUpdate.setText(customerDetails.get("userName").getAsString());
 		txtCustomerNameUpdate.setText(customerDetails.get("name").getAsString());
 		txtPhoneUpdate.setText(customerDetails.get("phoneNumber").getAsString());
 		txtCity.setText(customerDetails.get("city").getAsString());
 		txtAddressUpdate.setText(customerDetails.get("street").getAsString());
 		txtEmailUpdate.setText(customerDetails.get("email").getAsString());
-		txtCreditCard.setText(customerDetails.get("creditCardNumber").getAsString());
-		txtCVV.setText(customerDetails.get("cvv").getAsString());
-		txtDateValidation.setText(customerDetails.get("validationDate").getAsString());
 		txtPurchaseModelType.setText(customerDetails.get("purchaseModelType").getAsString());
+		System.out.println(customerDetails.toString());
+		if(customerDetails.get("paymentMethod").getAsString().equals("Credit Card")) {
+			Message msg2 = new Message(MessageType.GET_CREDIT_CARD_DETAILS_BY_ID, customer.toString());
+			ClientUI.accept(msg2);
+			JsonObject creditCardDetails = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
+			txtCreditCard.setText(creditCardDetails.get("creditCardNumber").getAsString());
+			txtCVV.setText(creditCardDetails.get("cvv").getAsString());
+			String[] res = creditCardDetails.get("validationDate").getAsString().split("/");
+			cbMounth.getItems().add(res[0]);
+			cbYear.getItems().add(res[1]);
+		}
+		else {
+			cbMounth.getItems().add("01");
+			cbYear.getItems().add("2020");
+		}
+		for (int i = 0; i < 12; i++) {
+			StringBuilder j = new StringBuilder();
+			if(i < 9) j.append("0");
+			j.append("" + (i + 1));
+			if (j.toString().equals(cbMounth.getItems().get(0))) continue;
+			cbMounth.getItems().add(j.toString());
+		}
+		for(int i = 2020; i<=2030; i++) {
+			StringBuilder k = new StringBuilder();
+			k.append("" + (i));
+			if (k.toString().equals(cbYear.getItems().get(0))) continue;
+			cbYear.getItems().add(k.toString());
+		}
+		
+		cbMounth.setValue(cbMounth.getItems().get(0));
+		cbYear.setValue(cbYear.getItems().get(0));
 	}
 
 	private boolean customerIsExist(String customerID) {
@@ -345,9 +507,7 @@ public class UpdateCustomerController {
 		json.addProperty("phoneNumber", txtPhoneUpdate.getText());
 		json.addProperty("street", txtAddressUpdate.getText());
 		json.addProperty("city", txtCity.getText());
-		json.addProperty("creditCard", txtCreditCard.getText());
-		json.addProperty("cvv", txtCVV.getText());
-		json.addProperty("dateValidation", txtDateValidation.getText());
+
 		Message msg = new Message(MessageType.UPDATE_CUSTOMER_DETAILS, json.toString());
 		ClientUI.accept(msg);
 		JsonObject customerUpdate = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
@@ -366,8 +526,8 @@ public class UpdateCustomerController {
 
 	@FXML
 	void onEditCreditCard(ActionEvent event) {
+		if(txtCreditCard.getText().equals("")) flag = 1;
 		txtCreditCard.setDisable(false);
-		txtDateValidation.setDisable(false);
 		txtCVV.setDisable(false);
 		btnViewCreditCard.setVisible(false);
 		btnUpdateCreditCard.setVisible(true);
@@ -375,17 +535,42 @@ public class UpdateCustomerController {
 
 	@FXML
 	void onUpdateCreditCard(ActionEvent event) {
-		if (checkCreditCardValues(txtCreditCard.getText(), txtCVV.getText(), txtDateValidation.getText())) {
+		StringBuilder dateChecker = new StringBuilder();
+		dateChecker.append(cbMounth.getValue());
+		dateChecker.append("/");
+		dateChecker.append(cbYear.getValue());
+		if (checkCreditCardValues(txtCreditCard.getText(), txtCVV.getText(), dateChecker.toString())) {
 			lblCreditCardNumber.setText("");
 			lblCVV.setText("");
 			lblDateValidition.setText("");
 			txtCreditCard.setDisable(true);
-			txtDateValidation.setDisable(true);
 			txtCVV.setDisable(true);
 			btnViewCreditCard.setVisible(true);
 			btnUpdateCreditCard.setVisible(false);
-			updateDetailsInDB(txtEnterYourCustomerID.getText());
+			updateCreditCardInDB(txtEnterYourCustomerID.getText());
 		}
+	}
+
+	private void updateCreditCardInDB(String customerID) {
+		JsonObject json = new JsonObject();
+		StringBuilder dateValidation = new StringBuilder();
+		dateValidation.append(cbMounth.getValue());
+		dateValidation.append("/");
+		dateValidation.append(cbYear.getValue());
+		json.addProperty("customerID", customerID);
+		json.addProperty("creditCard", txtCreditCard.getText());
+		json.addProperty("cvv", txtCVV.getText());
+		json.addProperty("dateValidation", dateValidation.toString());
+		if (flag == 0) {
+			Message msg = new Message(MessageType.UPDATE_CREDIT_CARD_DETAILS, json.toString());
+			ClientUI.accept(msg);
+		}
+		else {
+			Message msg = new Message(MessageType.INSERT_CREDIT_CARD_DETAILS, json.toString());
+			ClientUI.accept(msg);
+		}
+		JsonObject customerUpdate = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
+		
 	}
 
 	private boolean checkCreditCardValues(String creditCardNumber, String cvv, String dateValidation) {
@@ -462,7 +647,6 @@ public class UpdateCustomerController {
 
 	private void initVehcilesChoiseBox(JsonArray vehicles) {
 		this.vehicles = vehicles;
-		vbVehicleContainer.getChildren().clear();
 		for (int i = 0; i < vehicles.size(); i++) {
 			CustomerVehiclesController customerVehiclesController = new CustomerVehiclesController();
 			String color = i % 2 == 0 ? "#0240FF" : "#024079";
@@ -477,9 +661,11 @@ public class UpdateCustomerController {
 			if (vehicles.get(i).getAsJsonObject().get("vehicleNumber").getAsString().equals(vehicleNumber)) {
 				vehicles.remove(i);
 				customerVehicles.remove(i);
-			} else {
-				vbVehicleContainer.getChildren().add(customerVehicles.get(i).getVehiclePane());
-			}
+			} 
+		}
+		
+		for(int i = 0; i < vehicles.size(); i++) {
+			vbVehicleContainer.getChildren().add(customerVehicles.get(i).getVehiclePane());
 		}
 	}
 
@@ -497,6 +683,7 @@ public class UpdateCustomerController {
 		cbCompanyName3.setDisable(false);
 		cb2or3.setDisable(false);
 		cbNewPurchaseModel.setDisable(false);
+
 
 		if (!lblEroorPurchaseModel.getText().equals("Done")) {
 			// Init cbNewPurchaseModel:
@@ -558,9 +745,10 @@ public class UpdateCustomerController {
 			cbCompanyName1.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
 				@Override
 				public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
-					if (!cbCompanyName1.getValue().equals("Choose Company Name")) {
-						if (cbCompanyName1.getValue().equals(cbCompanyName2.getValue())
-								|| cbCompanyName1.getValue().equals(cbCompanyName3.getValue())) {
+					String value1 = cbCompanyName1.getItems().get((Integer)number2);
+					if (!value1.equals("Choose Company Name")) {
+						if (value1.equals(cbCompanyName2.getValue())
+								|| value1.equals(cbCompanyName3.getValue())) {
 							lblEroorPurchaseModel.setVisible(true);
 						} else
 							lblEroorPurchaseModel.setVisible(false);
@@ -588,9 +776,10 @@ public class UpdateCustomerController {
 			cbCompanyName2.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
 				@Override
 				public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
+					String value2 = cbCompanyName2.getItems().get((Integer)number2);
 					if (!cbCompanyName1.getValue().equals("Choose Company Name")) {
-						if (cbCompanyName2.getValue().equals(cbCompanyName1.getValue())
-								|| cbCompanyName2.getValue().equals(cbCompanyName3.getValue())) {
+						if (value2.equals(cbCompanyName1.getValue())
+								|| value2.equals(cbCompanyName3.getValue())) {
 							lblEroorPurchaseModel.setVisible(true);
 							lblEroorPurchaseModel.setText("You cant choose the same company name, try again!");
 						} else
@@ -602,8 +791,9 @@ public class UpdateCustomerController {
 			cbCompanyName3.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
 				@Override
 				public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
-					if (cbCompanyName3.getValue().equals(cbCompanyName1.getValue())
-							|| cbCompanyName3.getValue().equals(cbCompanyName2.getValue())) {
+					String value3 = cbCompanyName3.getItems().get((Integer)number2);
+					if (value3.equals(cbCompanyName1.getValue())
+							|| value3.equals(cbCompanyName2.getValue())) {
 						lblEroorPurchaseModel.setText("You cant choose the same company name, try again!");
 						lblEroorPurchaseModel.setVisible(true);
 					} else

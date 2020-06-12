@@ -335,6 +335,36 @@ public class OrderDBLogic {
 		return date;
 	}
 
+	public JsonArray getInvertoryOrdersFromDB(JsonObject requestJson) {
+		JsonArray orders = new JsonArray();
+		String query = "";
+		Statement stmt = null;
+		
+		try {
+			if (DBConnector.conn != null) {
+				query = "SELECT * FROM myfuel.fuel_inventory_orders;";
+				stmt = DBConnector.conn.createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				while (rs.next()) {
+					JsonObject order = new JsonObject();
+					order.addProperty("orderID", rs.getString("orderID"));
+					order.addProperty("fuelType", rs.getString("fuelType"));
+					order.addProperty("fuelAmount", rs.getString("fuelAmount"));
+					order.addProperty("supplierID", rs.getString("supplierID"));
+					orders.add(order);
+				}
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return orders;
+
+	}
+
 	public String getOrderId(JsonObject order) {
 		int orderID = 0;
 		String customerId = order.get("customerId").getAsString();
@@ -361,5 +391,51 @@ public class OrderDBLogic {
 		return orderID + "";
 	}
 
-	
+	public void removeOrderFromDB(JsonObject requestJson) {
+		String query = "";
+		Statement stmt = null;
+		try {
+			if (DBConnector.conn != null) {
+				query = "DELETE FROM fuel_inventory_orders " +
+						"WHERE orderID = '" + requestJson.get("orderID").getAsString() + "';";
+				stmt = DBConnector.conn.createStatement();
+				stmt.executeUpdate(query);
+			
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	public JsonObject updateOrderDetails(JsonObject orderStatus) {
+		String orderID = orderStatus.get("orderID").getAsString();
+		String status = orderStatus.get("orderStatus").getAsString();
+		String reason = orderStatus.get("reason").getAsString();
+		System.out.println(status);
+		
+		String query = "";
+		Statement stmt = null;
+		try {
+			if(DBConnector.conn != null) {
+				stmt = DBConnector.conn.createStatement();
+				query =  "UPDATE fuel_inventory_orders " + 
+						 "SET orderStatus = '" + status  + "'" + ", reason = '" + reason + "'" +
+						 " WHERE orderID = '" + orderID + "';";
+				stmt.executeUpdate(query);
+				
+				 
+			}else {
+				System.out.println("Conn is null");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return orderStatus;
+	}
 }

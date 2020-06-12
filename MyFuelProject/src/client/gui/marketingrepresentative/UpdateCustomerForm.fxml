@@ -14,72 +14,91 @@
    <children>
       <Pane fx:id="updateCustomer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="949.0">
          <children>
-            <Pane fx:id="Pane2" layoutY="56.0" prefHeight="518.0" prefWidth="956.0">
+            <Pane fx:id="Pane2" layoutX="14.0" layoutY="56.0" prefHeight="518.0" prefWidth="956.0">
                <children>
-                  <ChoiceBox fx:id="cbNewPurchaseModel" layoutX="190.0" layoutY="305.0" prefHeight="25.0" prefWidth="184.0" />
-                  <TextField fx:id="txtPurchaseModelType" layoutX="190.0" layoutY="266.0" prefHeight="25.0" prefWidth="184.0" />
                   <Text fx:id="lblCustomerName" layoutX="746.0" layoutY="-40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer Name" />
-                  <Text fill="WHITE" layoutX="20.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" />
-                  <Text fill="WHITE" layoutX="20.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Phone Number" />
-                  <Text fill="WHITE" layoutX="21.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Street" />
                   <TextField fx:id="txtCustomerNameUpdate" layoutX="709.0" layoutY="-28.0" prefHeight="25.0" prefWidth="168.0" />
-                  <TextField fx:id="txtEmailUpdate" layoutX="113.0" layoutY="27.0" prefHeight="25.0" prefWidth="177.0" />
-                  <TextField fx:id="txtPhoneUpdate" layoutX="113.0" layoutY="66.0" prefHeight="25.0" prefWidth="177.0" />
-                  <Pane fx:id="Pane3" layoutX="478.0" layoutY="10.0" prefHeight="145.0" prefWidth="438.0">
+                  <Text fx:id="lblCustomerUserName" layoutX="540.0" layoutY="-39.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" Customer User Name:" />
+                  <TextField fx:id="txtUserNameUpdate" layoutX="517.0" layoutY="-28.0" prefHeight="25.0" prefWidth="168.0" />
+                  <Pane fx:id="Pane3" layoutX="150.0" layoutY="100.0" prefHeight="370.0" prefWidth="650.0" visible="false">
                      <children>
-                        <Text fill="WHITE" layoutX="43.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Credit Card Number" />
-                        <Text fill="WHITE" layoutX="43.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CVV" />
-                        <Text fill="WHITE" layoutX="43.0" layoutY="92.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date Validation" />
-                        <Button fx:id="btnUpdateCreditCard" layoutX="266.0" layoutY="119.0" mnemonicParsing="false" onAction="#onUpdateCreditCard" text="Update" />
-                        <TextField fx:id="txtCreditCard" layoutX="172.0" layoutY="21.0" />
-                        <TextField fx:id="txtCVV" layoutX="172.0" layoutY="52.0" />
-                        <TextField fx:id="txtDateValidation" layoutX="172.0" layoutY="84.0" />
-                        <Label fx:id="lblCreditCardNumber" layoutX="331.0" layoutY="25.0" text="Label" />
-                        <Label fx:id="lblDateValidition" layoutX="331.0" layoutY="88.0" text="Label" />
-                        <Label fx:id="lblCVV" layoutX="331.0" layoutY="53.0" text="Label" />
-                        <Button fx:id="btnViewCreditCard" layoutX="172.0" layoutY="119.0" mnemonicParsing="false" onAction="#onEditCreditCard" text="Edit" />
-                        <Label fx:id="lblCreditCardDetails" layoutX="186.0" text="Credit Card Details:" />
+                        <Text fill="WHITE" layoutX="47.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Credit Card Number" />
+                        <Text fill="WHITE" layoutX="47.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CVV" />
+                        <Text fill="WHITE" layoutX="47.0" layoutY="134.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date Validation" />
+                        <Button fx:id="btnUpdateCreditCard" layoutX="286.0" layoutY="173.0" mnemonicParsing="false" onAction="#onUpdateCreditCard" text="Update" />
+                        <TextField fx:id="txtCreditCard" layoutX="193.0" layoutY="62.0" />
+                        <TextField fx:id="txtCVV" layoutX="193.0" layoutY="93.0" />
+                        <Label fx:id="lblCreditCardNumber" layoutX="404.0" layoutY="66.0" text="Label" />
+                        <Label fx:id="lblDateValidition" layoutX="404.0" layoutY="129.0" text="Label" />
+                        <Label fx:id="lblCVV" layoutX="404.0" layoutY="94.0" text="Label" />
+                        <Button fx:id="btnViewCreditCard" layoutX="194.0" layoutY="173.0" mnemonicParsing="false" onAction="#onEditCreditCard" text="Edit" />
+                        <Label fx:id="lblCreditCardDetails" layoutX="212.0" layoutY="36.0" text="Credit Card Details:" />
+                        <ChoiceBox fx:id="cbMounth" layoutX="193.0" layoutY="126.0" prefHeight="25.0" prefWidth="55.0" />
+                        <ChoiceBox fx:id="cbYear" layoutX="262.0" layoutY="125.0" prefHeight="25.0" prefWidth="81.0" />
                      </children>
                   </Pane>
-                  <Label fx:id="lblVehicles" layoutX="712.0" layoutY="244.0" text="Vehicles:" />
-                  <Button fx:id="btnEditDetails" layoutX="113.0" layoutY="181.0" mnemonicParsing="false" onAction="#onEditDetails" text="Edit" />
-                  <TextField fx:id="txtAddressUpdate" layoutX="113.0" layoutY="106.0" prefHeight="25.0" prefWidth="177.0" />
-                  <Label fx:id="lblEmail" layoutX="310.0" layoutY="35.0" text="Label" />
-                  <Label fx:id="lblPhoneNumber" layoutX="310.0" layoutY="70.0" text="Label" />
-                  <Label fx:id="lblAddress" layoutX="310.0" layoutY="118.0" text="Label" />
-                  <Button fx:id="btnSaveDetails" layoutX="235.0" layoutY="181.0" mnemonicParsing="false" onAction="#onSaveDetails" text="Update" />
-                  <ScrollPane fx:id="VehicleScrollPane" layoutX="502.0" layoutY="268.0" prefHeight="170.0" prefWidth="420.0">
-                     <content>
-                        <VBox fx:id="vbVehicleContainer" prefHeight="165.0" prefWidth="415.0" />
-                     </content>
-                  </ScrollPane>
-                  <Text fill="WHITE" layoutX="23.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" text="City" />
-                  <TextField fx:id="txtCity" layoutX="113.0" layoutY="145.0" prefHeight="25.0" prefWidth="177.0" />
-                  <Label fx:id="lblCity" layoutX="310.0" layoutY="149.0" text="Label" />
-                  <Text fx:id="lblCustomerUserName" layoutX="540.0" layoutY="-39.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" Customer User Name:" />
-                  <Label fx:id="lblCustomerDetails" layoutX="131.0" layoutY="2.0" text="Customer Details:" />
-                  <Label fx:id="lblPurchaceModel" layoutX="160.0" layoutY="244.0" text="Purchase Model:" />
-                  <TextField fx:id="txtUserNameUpdate" layoutX="517.0" layoutY="-28.0" prefHeight="25.0" prefWidth="168.0" />
-                  <Button fx:id="btnAddVehicle" layoutX="822.0" layoutY="466.0" mnemonicParsing="false" onAction="#onEditVehicle" text="Add New Vehicle" />
-                  <ChoiceBox fx:id="cbAddFuelType" layoutX="658.0" layoutY="466.0" prefWidth="150.0" />
-                  <TextField fx:id="txtVehicleNumber" layoutX="502.0" layoutY="467.0" />
-                  <Text fill="WHITE" layoutX="503.0" layoutY="460.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Vehicle Number:" />
-                  <Text fill="WHITE" layoutX="659.0" layoutY="460.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Fuel Type:" />
-                  <Label layoutX="23.0" layoutY="270.0" text="Current Purchase Model:" textFill="WHITE" />
-                  <Button fx:id="btnEditPurchaseModel" layoutX="388.0" layoutY="266.0" mnemonicParsing="false" onAction="#onEditPurchaseModel" text="Edit" />
-                  <Label fx:id="lblChoosePurchaseModel" layoutX="23.0" layoutY="309.0" text="Choose new Purchase Model:" textFill="WHITE" />
-                  <Label fx:id="lblFuelCompany" layoutX="23.0" layoutY="345.0" text="Fuel Company Names:" textFill="WHITE" />
-                  <ChoiceBox fx:id="cbCompanyName1" layoutX="190.0" layoutY="341.0" prefHeight="25.0" prefWidth="184.0" />
-                  <Button fx:id="btnUpdatePurchaseModel" layoutX="255.0" layoutY="479.0" mnemonicParsing="false" onAction="#onUpdatePurchaseModel" text="Update" />
-                  <ChoiceBox fx:id="cbCompanyName2" layoutX="190.0" layoutY="379.0" prefHeight="25.0" prefWidth="184.0" />
-                  <ChoiceBox fx:id="cbCompanyName3" layoutX="190.0" layoutY="417.0" prefHeight="25.0" prefWidth="184.0" />
-                  <ChoiceBox fx:id="cb2or3" layoutX="388.0" layoutY="379.0" prefHeight="25.0" prefWidth="36.0" />
-                  <Label fx:id="lblEroorPurchaseModel" layoutX="156.0" layoutY="455.0" text="You Cant choose the same fuel company, try again" textFill="#e02626" visible="false" />
+                  <Pane fx:id="userPane" layoutX="150.0" layoutY="100.0" prefHeight="370.0" prefWidth="650.0" visible="false">
+                     <children>
+                        <Text fill="WHITE" layoutX="62.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" />
+                        <Text fill="WHITE" layoutX="62.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Phone Number" />
+                        <Text fill="WHITE" layoutX="63.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Street" />
+                        <TextField fx:id="txtEmailUpdate" layoutX="192.0" layoutY="63.0" prefHeight="25.0" prefWidth="230.0" />
+                        <TextField fx:id="txtPhoneUpdate" layoutX="192.0" layoutY="102.0" prefHeight="25.0" prefWidth="230.0" />
+                        <Button fx:id="btnEditDetails" layoutX="192.0" layoutY="231.0" mnemonicParsing="false" onAction="#onEditDetails" text="Edit" />
+                        <TextField fx:id="txtAddressUpdate" layoutX="192.0" layoutY="142.0" prefHeight="25.0" prefWidth="230.0" />
+                        <Label fx:id="lblEmail" layoutX="427.0" layoutY="71.0" text="Label" />
+                        <Label fx:id="lblPhoneNumber" layoutX="427.0" layoutY="106.0" text="Label" />
+                        <Label fx:id="lblAddress" layoutX="427.0" layoutY="154.0" text="Label" />
+                        <Button fx:id="btnSaveDetails" layoutX="413.0" layoutY="231.0" mnemonicParsing="false" onAction="#onSaveDetails" text="Update" />
+                        <Text fill="WHITE" layoutX="65.0" layoutY="199.0" strokeType="OUTSIDE" strokeWidth="0.0" text="City" />
+                        <TextField fx:id="txtCity" layoutX="192.0" layoutY="181.0" prefHeight="25.0" prefWidth="230.0" />
+                        <Label fx:id="lblCity" layoutX="427.0" layoutY="185.0" text="Label" />
+                        <Label fx:id="lblCustomerDetails" layoutX="269.0" layoutY="24.0" text="Customer Details:" />
+                     </children>
+                  </Pane>
+                  <Pane fx:id="VehiclesPane" layoutX="90.0" layoutY="100.0" prefHeight="385.0" prefWidth="650.0" visible="false">
+                     <children>
+                        <ScrollPane fx:id="VehicleScrollPane" layoutX="116.0" layoutY="44.0" prefHeight="180.0" prefWidth="420.0">
+                           <content>
+                              <VBox fx:id="vbVehicleContainer" prefHeight="175.0" prefWidth="415.0" />
+                           </content>
+                        </ScrollPane>
+                        <Label fx:id="lblVehicles" layoutX="304.0" layoutY="17.0" text="Vehicles:" />
+                        <Button fx:id="btnAddVehicle" layoutX="469.0" layoutY="271.0" mnemonicParsing="false" onAction="#onEditVehicle" text="Add New Vehicle" />
+                        <ChoiceBox fx:id="cbAddFuelType" layoutX="301.0" layoutY="271.0" prefWidth="150.0" />
+                        <TextField fx:id="txtVehicleNumber" layoutX="115.0" layoutY="271.0" />
+                        <Text fill="WHITE" layoutX="116.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Vehicle Number:" />
+                        <Text fill="WHITE" layoutX="328.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Fuel Type:" />
+                     </children>
+                  </Pane>
+                  <Pane fx:id="PurchaseModelPane" layoutX="14.0" layoutY="127.0" prefHeight="370.0" prefWidth="890.0">
+                     <children>
+                        <Label fx:id="lblEroorPurchaseModel" layoutX="322.0" layoutY="273.0" text="You Cant choose the same fuel company, try again" textFill="#e02626" visible="false" />
+                        <Label fx:id="lblPurchaceModel" layoutX="401.0" layoutY="25.0" text="Purchase Model:" />
+                        <ChoiceBox fx:id="cbNewPurchaseModel" layoutX="235.0" layoutY="142.0" prefHeight="25.0" prefWidth="184.0" />
+                        <TextField fx:id="txtPurchaseModelType" layoutX="198.0" layoutY="62.0" prefHeight="25.0" prefWidth="140.0" />
+                        <Label layoutX="30.0" layoutY="66.0" text="Current Purchase Model:" textFill="WHITE" />
+                        <Label fx:id="lblChoosePurchaseModel" layoutX="30.0" layoutY="142.0" text="Choose new Purchase Model:" textFill="WHITE" />
+                        <Label fx:id="lblFuelCompany" layoutX="30.0" layoutY="178.0" text="Fuel Company Names:" textFill="WHITE" />
+                        <ChoiceBox fx:id="cbCompanyName1" layoutX="235.0" layoutY="187.0" prefHeight="25.0" prefWidth="184.0" />
+                        <Button fx:id="btnUpdatePurchaseModel" layoutX="421.0" layoutY="317.0" mnemonicParsing="false" onAction="#onUpdatePurchaseModel" text="Update" />
+                        <ChoiceBox fx:id="cbCompanyName2" layoutX="455.0" layoutY="186.0" prefHeight="25.0" prefWidth="184.0" />
+                        <ChoiceBox fx:id="cbCompanyName3" layoutX="673.0" layoutY="186.0" prefHeight="25.0" prefWidth="184.0" />
+                        <Button fx:id="btnEditPurchaseModel" layoutX="831.0" layoutY="62.0" mnemonicParsing="false" onAction="#onEditPurchaseModel" text="Edit" />
+                        <ChoiceBox fx:id="cb2or3" layoutX="456.0" layoutY="233.0" prefHeight="25.0" prefWidth="36.0" />
+                        <TextField fx:id="txtFuelStation1" layoutX="355.0" layoutY="62.0" prefHeight="25.0" prefWidth="140.0" />
+                        <TextField fx:id="txtFuelStation2" layoutX="516.0" layoutY="62.0" prefHeight="25.0" prefWidth="140.0" />
+                        <TextField fx:id="txtFuelStation3" layoutX="674.0" layoutY="62.0" prefHeight="25.0" prefWidth="140.0" />
+                     </children>
+                  </Pane>
+                  <Label fx:id="lblErrorText" layoutX="54.0" layoutY="-1.0" prefHeight="17.0" prefWidth="230.0" />
+                  <Button fx:id="btnCustomerDetails" layoutX="54.0" layoutY="50.0" mnemonicParsing="false" onAction="#onCustomerDetails" prefHeight="25.0" prefWidth="168.0" text="Customer Details" />
+                  <Button fx:id="btnCreditCardDetails" layoutX="275.0" layoutY="50.0" mnemonicParsing="false" onAction="#onCreditCardDetails" prefHeight="25.0" prefWidth="168.0" text="Credit Card Details" />
+                  <Button fx:id="btnVehicledDetails" layoutX="491.0" layoutY="50.0" mnemonicParsing="false" onAction="#onVehiclesDetails" prefHeight="25.0" prefWidth="168.0" text="Vehicles Details" />
+                  <Button fx:id="btnPurchaseDetails" layoutX="709.0" layoutY="50.0" mnemonicParsing="false" onAction="#onPurchaseDetails" prefHeight="25.0" prefWidth="168.0" text="Purchase Model Details" />
                </children>
             </Pane>
-            <Label fx:id="lblErrorText" layoutX="640.0" layoutY="60.0" />
             <Button fx:id="btnSubmitCustomerID" layoutX="295.0" layoutY="20.0" mnemonicParsing="false" onAction="#onSubmit" text="Search" />
-            <Label fx:id="lblErrorText" layoutX="361.0" layoutY="24.0" text="Label" />
             <TextField fx:id="txtEnterYourCustomerID" layoutX="65.0" layoutY="20.0" prefHeight="25.0" prefWidth="223.0" promptText="Enter Customer ID: " />
          </children>
       </Pane>

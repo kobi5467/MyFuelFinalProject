@@ -748,7 +748,7 @@ public class ReportController {
 	}
 
 	private void initUI() {
-
+		tblReport.setId("my-table");
 		lblErorrFields.setText("");
 		lblEmptyData.setText("");
 		lblAmountOfPayment.setText("");
