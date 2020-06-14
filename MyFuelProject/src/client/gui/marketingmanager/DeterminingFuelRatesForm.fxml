@@ -8,34 +8,34 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.marketingmanager.DeterminingFuelRatesController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.marketingmanager.DeterminingFuelRatesController">
    <children>
-      <Text fill="WHITE" layoutX="199.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fuel  type:" wrappingWidth="104.45291137695312">
+      <Text fill="WHITE" layoutX="242.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fuel  type:" wrappingWidth="140.34007263183594">
          <font>
-            <Font name="System Bold" size="18.0" />
+            <Font name="System Bold" size="26.0" />
          </font>
       </Text>
-      <Text fill="WHITE" layoutX="199.0" layoutY="223.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current price:" wrappingWidth="140.34007263183594">
+      <Text fill="WHITE" layoutX="242.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current price:" wrappingWidth="185.94004821777344">
          <font>
-            <Font name="System Bold" size="18.0" />
+            <Font name="System Bold" size="26.0" />
          </font>
       </Text>
-      <Text fill="WHITE" layoutX="199.0" layoutY="283.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Maximum price:" wrappingWidth="140.34007263183594">
+      <Text fill="WHITE" layoutX="242.0" layoutY="241.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Maximum price:" wrappingWidth="207.5400848388672">
          <font>
-            <Font name="System Bold" size="18.0" />
+            <Font name="System Bold" size="26.0" />
          </font>
       </Text>
-      <Text fill="WHITE" layoutX="199.0" layoutY="343.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New price:" wrappingWidth="140.34007263183594">
+      <Text fill="WHITE" layoutX="242.0" layoutY="321.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New price:" wrappingWidth="140.34007263183594">
          <font>
-            <Font name="System Bold" size="18.0" />
+            <Font name="System Bold" size="26.0" />
          </font>
       </Text>
-      <TextField fx:id="txtCurrPrice" layoutX="399.0" layoutY="203.0" />
-      <TextField fx:id="txtMaxPrice" layoutX="399.0" layoutY="263.0" />
-      <TextField fx:id="txtNewPrice" layoutX="399.0" layoutY="323.0" />
-      <Button fx:id="btnSubmit" layoutX="440.0" layoutY="384.0" mnemonicParsing="false" onAction="#onSubmit" prefHeight="43.0" prefWidth="104.0" text="Submit" />
-      <ChoiceBox fx:id="cbFuelType" layoutX="399.0" layoutY="143.0" prefHeight="31.0" prefWidth="186.0" />
-      <Label fx:id="lblErrorMessage" layoutX="637.0" layoutY="312.0" prefHeight="48.0" prefWidth="584.0" text="Please fill all fileds!" textFill="#f80000" textOverrun="WORD_ELLIPSIS" underline="true">
+      <TextField fx:id="txtCurrPrice" layoutX="472.0" layoutY="131.0" prefHeight="35.0" prefWidth="235.0" />
+      <TextField fx:id="txtMaxPrice" layoutX="472.0" layoutY="211.0" prefHeight="35.0" prefWidth="235.0" />
+      <TextField fx:id="txtNewPrice" layoutX="472.0" layoutY="291.0" prefHeight="35.0" prefWidth="235.0" />
+      <Button fx:id="btnSubmit" layoutX="386.0" layoutY="368.0" mnemonicParsing="false" onAction="#onSubmit" prefHeight="48.0" prefWidth="179.0" text="Submit" />
+      <ChoiceBox fx:id="cbFuelType" layoutX="472.0" layoutY="51.0" prefHeight="35.0" prefWidth="235.0" />
+      <Label fx:id="lblErrorMessage" alignment="CENTER" layoutY="443.0" prefHeight="48.0" prefWidth="949.0" text="Please fill all fileds!" textFill="#f80000" textOverrun="WORD_ELLIPSIS" underline="true">
          <font>
             <Font size="14.0" />
          </font>

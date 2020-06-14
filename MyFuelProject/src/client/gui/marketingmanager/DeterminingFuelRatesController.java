@@ -56,19 +56,30 @@ public class DeterminingFuelRatesController {
 				+ "-fx-font-size:14pt;"
 				);
 		if (newPrice.isEmpty() || cbFuelType.getValue().equals("Choose type")) {
-
 			errorMessage = "Please fill all fields";
 			lblErrorMessage.setText(errorMessage);
 			// check if all fields are filled
 		} else {
 			flag = checkFields(newPrice, errorMessage);
 			if (flag) {
+				lblErrorMessage.setText("");
 				sendRateRequest(newPrice);
+				ObjectContainer.showMessage("Error", "Request Successesful",
+						"Request sent to CEO\n" + cbFuelType.getValue() + "\nFrom " + txtCurrPrice.getText()
+						+ " -> To " + txtNewPrice.getText() +" ");
+				clearFields();
 				//updateFuel(newPrice);
 			}
 		}
 	}
 	
+	private void clearFields() {
+		txtCurrPrice.setText("");
+		txtMaxPrice.setText("");
+		txtNewPrice.setText("");
+		cbFuelType.setValue(cbFuelType.getItems().get(0));		
+	}
+
 	public void sendRateRequest(String newPrice) {
 		JsonObject json = new JsonObject();
 		String fuelType = FuelType.enumToString(currentFuel.getFuelType());
@@ -77,19 +88,6 @@ public class DeterminingFuelRatesController {
 		json.addProperty("pricePerLitter", newPrice);
 		Message msg = new Message(MessageType.SEND_RATE_REQUEST, json.toString());
 		ClientUI.accept(msg);
-		
-		lblErrorMessage.setText("Request to update sended succesfully");
-		lblErrorMessage.setStyle(""
-				+ "-fx-text-fill:#00ff00;" 
-				+ "-fx-font-weight: bold;"
-				+ "-fx-font-size:14pt;"
-				);
-		txtCurrPrice.setText("");
-		txtMaxPrice.setText("");
-		txtNewPrice.setText("");
-		cbFuelType.setValue(cbFuelType.getItems().get(0));
-		
-		
 	}
 	
 	public JsonArray getFuelTypes(){		
@@ -209,6 +207,7 @@ public class DeterminingFuelRatesController {
 	
 	private void initUI() {
 		btnSubmit.setId("dark-blue");
+		btnSubmit.setDefaultButton(true);
 		lblErrorMessage.setText("");
 		lblErrorMessage.setStyle(""
 				+ "-fx-text-fill:#ff0000;" 
