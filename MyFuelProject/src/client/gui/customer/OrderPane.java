@@ -83,6 +83,7 @@ public class OrderPane {
 	}
 
 	public void initUI(JsonObject HHFOrder, String color) {
+		btnView.setId("dark-blue");
 		mainOrderPane.setStyle("-fx-background-color:" + color + ";");
 		orderPane.setVisible(true);
 		viewPane.setVisible(false);
@@ -91,7 +92,6 @@ public class OrderPane {
 
 	private void fillData(JsonObject HHFOrder) {
 
-		System.out.println(HHFOrder);
 		txtOrderNumber.setText(HHFOrder.get("orderID").getAsString());
 		txtStatus.setText(HHFOrder.get("orderStatus").getAsString());
 		status = HHFOrder.get("orderStatus").getAsString();

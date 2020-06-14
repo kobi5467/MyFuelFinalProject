@@ -117,6 +117,7 @@ public class InventoryOrderPaneController {
 		lblDenyReason.setVisible(false);
 		txtReasonDeny.setVisible(false);
 		btnSubmitReason.setVisible(false);
+		btnSubmitReason.setId("dark-blue");
 		orderPane.setStyle("-fx-background-color:" + color + ";");
 		lblOrderID.setText(orders.get("orderID").getAsString());
 		lblFuelType.setText(orders.get("fuelType").getAsString());

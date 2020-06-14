@@ -2,9 +2,7 @@ package client.gui.customer;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 
 import com.google.gson.JsonObject;
 
@@ -12,7 +10,6 @@ import client.controller.ClientUI;
 import client.controller.ObjectContainer;
 import entitys.Customer;
 import entitys.Message;
-import entitys.enums.FuelType;
 import entitys.enums.MessageType;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -193,7 +190,7 @@ public class HomeHeatingFuelController { // extends ComboBox<LocalDate> {
 			this.paymentMethod = cbPaymentMethod.getValue().toString().trim();
 			this.dateSuplly = datePickerDateSupply.getValue().toString().trim();
 			this.totalPrice = calcTotalPrice(Float.parseFloat(txtAmount.getText().trim()));
-			this.orderDate = getCurrentDate();
+			this.orderDate = ObjectContainer.getCurrentDate();
 			Customer customer = (Customer) ObjectContainer.currentUserLogin;
 			this.customerId = customer.getCustomerId();
 
@@ -256,22 +253,11 @@ public class HomeHeatingFuelController { // extends ComboBox<LocalDate> {
 			this.discountrate = 0;// For urgent order
 			lblDiscountRate.setText(String.valueOf(this.discountrate) + "%");
 		}
-		String ans = calcTotalPrice(Float.parseFloat(txtAmount.getText().trim()));
+		calcTotalPrice(Float.parseFloat(txtAmount.getText().trim()));
 	}
-//
-//	@FXML
-//	void PaymentMethodIsSelected(RotateEvent event) {
-//		System.out.println(cbPaymentMethod.getValue().toString().trim());
-//		System.out.println("1111111111111");
-//	}
-//
-//	@FXML
-//	void PaymentMethodSelected(MouseEvent event) {
-//		System.out.println(cbPaymentMethod.getValue().toString().trim());
-//		System.out.println("22222");
-//	}
 
 	public void initUI() {
+		btnSubmit.setId("dark-blue");
 		initCreditCardFields();
 		setErorLablesToNull();
 		panePurchaseSuccessful.setVisible(false);
@@ -295,7 +281,6 @@ public class HomeHeatingFuelController { // extends ComboBox<LocalDate> {
 			flag = checkCVVField() && flag;
 			flag = checkDateValidationField() && flag;
 		}
-		System.out.println("homeHeatingFuelFormTest going to return:" + flag);
 		return flag;
 
 	}
@@ -303,7 +288,6 @@ public class HomeHeatingFuelController { // extends ComboBox<LocalDate> {
 	public Boolean checkAmountField() {
 		float fuelAmount = -1;
 		this.amount = txtAmount.getText().trim();
-		Boolean flag = true;
 		if (txtAmount.getText().toString() == null || txtAmount.getText().isEmpty()) {
 			lblAmountErrorMsg.setText("Please fill amount");
 			lblSubTotalPriceBeforeDiscount.setText("0.00 $");
@@ -317,7 +301,7 @@ public class HomeHeatingFuelController { // extends ComboBox<LocalDate> {
 		if (fuelAmount <= 0) {
 			lblAmountErrorMsg.setText("Invalide amount");
 			setErrorImage(imgAmountError, "../../../images/error_icon.png");
-			flag = false;
+			return false;
 		}
 		lblAmountErrorMsg.setText("");
 		setErrorImage(imgAmountError, "../../../images/v_icon.png");
@@ -337,13 +321,11 @@ public class HomeHeatingFuelController { // extends ComboBox<LocalDate> {
 	}
 
 	public Boolean checkCityField() {
-		System.out.println("checkCityField" + txtCity.getText());
 		if (txtCity.getText() == null || txtCity.getText().toString().isEmpty()) {
 			lblCityError.setText("Please fill city");
 			setErrorImage(imgCityError, "../../../images/error_icon.png");
 			return false;
 		}
-		System.out.println("orrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
 		setErrorImage(imgCityError, "../../../images/v_icon.png");
 		lblCityError.setText("");
 		return true;
@@ -391,7 +373,6 @@ public class HomeHeatingFuelController { // extends ComboBox<LocalDate> {
 	}
 
 	public Boolean checkCVVField() {
-		System.out.println("in checkCVV");
 		if (txtCVV.getText().toString() == null || txtCVV.getText().toString().isEmpty()) {
 			setErrorImage(imgCVVError, "../../../images/error_icon.png");
 			lblCVVErrorMsg.setText("Please fill CVV");
@@ -408,7 +389,6 @@ public class HomeHeatingFuelController { // extends ComboBox<LocalDate> {
 	}
 
 	public Boolean checkDateValidationField() {
-		System.out.println("in checkDateValidationField");
 		if (cbCreditCardMonthValidation.getValue().trim().equals(cbCreditCardMonthValidation.getItems().get(0))) {
 			dateValidationError.setText("Please fill month");
 			setErrorImage(imgDateValidationError, "../../../images/error_icon.png");
@@ -478,11 +458,9 @@ public class HomeHeatingFuelController { // extends ComboBox<LocalDate> {
 			@Override
 			public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
 				String value = cbPaymentMethod.getItems().get((Integer) number2);
-				System.out.println("we are in updatePaymentForm");
 				if (value.equals("Choose type") || value.equals("Cash"))
 					showCreditCardFields(false);
 				else if (value.equals("Credit Card")) {
-					System.out.println("open credit card field");
 					showCreditCardFields(true);
 
 				}
@@ -515,7 +493,6 @@ public class HomeHeatingFuelController { // extends ComboBox<LocalDate> {
 	// function**************************************************
 
 	public float getFuelObjectByType(String fuelType) {
-		System.out.println("in getFuelObjectByType");
 		JsonObject json = new JsonObject();
 		json.addProperty("fuelType", fuelType);
 		Message msg = new Message(MessageType.GET_FUEL_BY_TYPE, json.toString());
@@ -523,9 +500,8 @@ public class HomeHeatingFuelController { // extends ComboBox<LocalDate> {
 
 		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
 		fuelType = response.get("fuelType").getAsString();
-		FuelType fuelTypeResponse = FuelType.stringToEnumVal(fuelType);
+//		FuelType fuelTypeResponse = FuelType.stringToEnumVal(fuelType);
 		pricePerLitter = response.get("pricePerLitter").getAsFloat();
-		System.out.println("price is:" + pricePerLitter);
 		return pricePerLitter;
 	}
 
@@ -535,18 +511,10 @@ public class HomeHeatingFuelController { // extends ComboBox<LocalDate> {
 		ClientUI.accept(msg);
 		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
 		this.orderId = response.get("orderId").getAsString();
-		System.out.println("order id is::::::::::::" + this.orderId);
 		this.orderId = response.get("orderId").getAsString();
-		System.out.println("IN gentrateNewOrderId:" + response.toString());
 	}
 	// **************************************************End Initialize
 	// function**************************************************
-
-	public String getCurrentDate() {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		Date date = new Date(System.currentTimeMillis());
-		return formatter.format(date).toString();
-	}
 
 	@FXML
 	void updateOrderSummary(KeyEvent event) {

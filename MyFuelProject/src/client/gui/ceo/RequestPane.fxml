@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="mainRequestPane" minHeight="52.0" minWidth="910.0" prefHeight="52.0" prefWidth="910.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.ceo.RequestPane">
+   <children>
+      <Pane fx:id="viewPane" layoutX="1.0" layoutY="1.0" prefHeight="105.0" prefWidth="910.0">
+         <children>
+            <Label fx:id="lblReason" layoutX="16.0" layoutY="68.0" text="Reason of decline :" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font></Label>
+            <TextField fx:id="txtReason" layoutX="162.0" layoutY="66.0" prefHeight="25.0" prefWidth="606.0" />
+            <Button fx:id="btnSubmit" layoutX="790.0" layoutY="66.0" mnemonicParsing="false" onAction="#onSubmit" prefHeight="25.0" prefWidth="108.0" text="Submit" />
+         </children></Pane>
+      <Pane fx:id="requestPane" prefHeight="52.0" prefWidth="910.0">
+         <children>
+            <TextField fx:id="txtRequestID" alignment="CENTER" layoutX="33.0" layoutY="13.0" prefHeight="25.0" prefWidth="61.0" />
+            <TextField fx:id="txtCurrentPrice" alignment="CENTER" layoutX="153.0" layoutY="13.0" prefHeight="25.0" prefWidth="61.0" />
+            <TextField fx:id="txtNewPrice" alignment="CENTER" layoutX="273.0" layoutY="13.0" prefHeight="25.0" prefWidth="61.0" />
+            <TextField fx:id="txtFuelType" alignment="CENTER" layoutX="420.0" layoutY="13.0" prefHeight="25.0" prefWidth="146.0" />
+            <TextField fx:id="txtCreateTime" alignment="CENTER" layoutX="593.0" layoutY="13.0" prefHeight="25.0" prefWidth="178.0" />
+            <Button fx:id="btnApprove" layoutX="799.0" layoutY="11.0" mnemonicParsing="false" onAction="#onApprove" prefHeight="30.0" prefWidth="30.0" text="Approve" />
+            <Button fx:id="btnDecline" layoutX="851.0" layoutY="11.0" mnemonicParsing="false" onAction="#onDecline" prefHeight="30.0" prefWidth="30.0" text="Decline" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

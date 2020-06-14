@@ -19,7 +19,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 public class OrderTrackingController {
@@ -184,6 +183,7 @@ public class OrderTrackingController {
 
 	private void initUI() {
 		lblerrorMessage.setText("");
+		btnSearch.setId("dark-blue");
 		orders = getHHFOrders();
 		orderPanes = new ArrayList<>();
 		orderPaneControllers = new ArrayList<>();

@@ -1,7 +1,5 @@
 package entitys.enums;
 
-import java.util.ArrayList;
-
 public enum UserPermission {
 	CUSTOMER,
 	MARKETING_MANAGER,

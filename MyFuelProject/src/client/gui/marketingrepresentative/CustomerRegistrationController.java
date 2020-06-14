@@ -240,6 +240,9 @@ public class CustomerRegistrationController {
 	@FXML
 	private Button btnNext;
 
+    @FXML
+    private ImageView imgStage;
+	
 	/* Local variables */
 	
 	private int currentStage;
@@ -301,6 +304,7 @@ public class CustomerRegistrationController {
 		case 1:
 			// next1
 			isValid = checkInputValidationStageOne();
+			isValid = true;
 			if(isValid) {
 				updateCustomerObjectDetailsStage1();
 				changeStage(1);
@@ -309,6 +313,7 @@ public class CustomerRegistrationController {
 		case 2:
 			//next2
 			isValid = checkInputValidationStageTwo();
+			isValid = true;
 			if(isValid) {
 				updateCustomerObjectDetailsStage2();
 				changeStage(1);
@@ -332,7 +337,6 @@ public class CustomerRegistrationController {
 	
 	private void register() {
 		//register customer.
-		System.out.println("REGISTER !!");
 		String customerJsonString = new Gson().toJson(customer);
 		Message msg = new Message(MessageType.REGISTER_CUSTOMER, customerJsonString);
 		ClientUI.accept(msg);
@@ -343,7 +347,6 @@ public class CustomerRegistrationController {
 			CreditCard creditCard = new CreditCard(customer.getCustomerId(), 
 					txtCardNumber.getText(),cbMonth.getValue() + "/"+cbYear.getValue() , txtCVV.getText());
 			customer.setCreditCard(creditCard);	
-			System.out.println(creditCard);
 		}
 		ArrayList<FuelCompany> companies = new ArrayList<>();
 		switch(countFuelCompany) {
@@ -712,6 +715,7 @@ public class CustomerRegistrationController {
 	private void changeStage(int op) {
 		
 		currentStage = currentStage + op;
+		setErrorImage(imgStage, "../../../images/Stage"+currentStage + ".png");
 		switch (currentStage) {
 		case 1:
 			stageOne.setVisible(true);
@@ -795,10 +799,8 @@ public class CustomerRegistrationController {
 		ObjectContainer.setTextFieldLimit(txtStreet, 45);
 		ObjectContainer.setTextFieldLimit(txtCity, 30);
 		ObjectContainer.setTextFieldLimit(txtStreet, 30);
-		
 		ObjectContainer.setTextFieldLimit(txtCardNumber, 16);
 		ObjectContainer.setTextFieldLimit(txtCVV, 4);
-		
 		ObjectContainer.setTextFieldLimit(txtVehicleNumber, 10);
 	}
 	

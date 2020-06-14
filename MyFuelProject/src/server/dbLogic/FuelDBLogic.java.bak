@@ -132,9 +132,6 @@ public class FuelDBLogic {
 		try {
 			if (DBConnector.conn != null) {
 				stmt = DBConnector.conn.createStatement();
-				query="DELETE FROM determining_rate_requests WHERE fuelType = '" + fueltype + "';";
-				stmt.execute(query);
-
 				query = "INSERT INTO determining_rate_requests ( currentPrice, newPrice, requestStatus, fuelType, createTime) "
 						+ "VALUES ('" + currentPrice + "','" + PriceToUpdate + "','" + status + "','" + fueltype + "','"
 						+ createTime + "');";

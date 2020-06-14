@@ -91,6 +91,8 @@
     -fx-border-width: 0.083333em; /* 1 */
     -fx-cell-size: 2.0em; /* 24 */
     -fx-text-fill: -fx-text-inner-color;
+    -fx-font-size: 14pt;
+    
 }
 
 .table-row-cell:filled .table-cell {
@@ -103,6 +105,8 @@
 .table-row-cell:even {
 	-fx-background-color: #eeeeee;
 }
+
+
 
 /*****************************       ScrollPane Transparent Background      ********************************/
 .scroll-pane{

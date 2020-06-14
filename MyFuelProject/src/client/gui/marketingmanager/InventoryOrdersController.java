@@ -8,7 +8,6 @@ import com.google.gson.JsonObject;
 
 import client.controller.ClientUI;
 import client.controller.ObjectContainer;
-import client.gui.marketingrepresentative.CustomerVehiclesController;
 import entitys.Message;
 import entitys.enums.MessageType;
 import javafx.fxml.FXML;
@@ -17,8 +16,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 
 public class InventoryOrdersController {
 
@@ -67,6 +64,7 @@ public class InventoryOrdersController {
 	}
 
 	private void initUI() {
+		
 		lblOrderID.setText("Order ID");
 		lblOrderID.setStyle("-fx-text-fill: #F0FFFF; -fx-font-size:20px; -fx-font-weight:bold;");
 		lblFuelType.setText("Fuel Type");

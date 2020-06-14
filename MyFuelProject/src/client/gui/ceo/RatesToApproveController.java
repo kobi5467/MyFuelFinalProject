@@ -9,7 +9,6 @@ import com.google.gson.JsonObject;
 import client.controller.ClientUI;
 import client.controller.ObjectContainer;
 import entitys.Message;
-import entitys.User;
 import entitys.enums.MessageType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -60,15 +59,15 @@ public class RatesToApproveController {
 		}
 	}
 
-	private void initUI() {
-		// lblerrorMessage.setText("");
+	public void initUI() {
 		requests = getRatesRequests();
 		rateRequestsAnchorPanes = new ArrayList<>();
 		rateRequestsPanes= new ArrayList<>();
+		vbRequestsContainer.setSpacing(5);
 		for (int i = 0; i < requests.size(); i++) {
 			RequestPane reqPane = new RequestPane();
 			rateRequestsPanes.add(reqPane);
-			String color = i % 2 == 0 ? "#0240FF" : "#024079";
+			String color = i % 2 == 0 ? "#0277ad" : "#014b88";
 			AnchorPane pane = reqPane.load(requests.get(i).getAsJsonObject(), color);
 			rateRequestsAnchorPanes.add(pane);
 		}
@@ -76,16 +75,18 @@ public class RatesToApproveController {
 
 	}
 	
+	
+	
 	public void showAllRequests() {
 		vbRequestsContainer.getChildren().clear();
 		for (int i = 0; i < requests.size(); i++) {
-			System.out.println(requests.get(i).toString());
 			if(!rateRequestsPanes.get(i).tookDecision) {
 				vbRequestsContainer.getChildren().add(rateRequestsAnchorPanes.get(i));
 			}	
 			else {
 				rateRequestsPanes.remove(i);
 				rateRequestsAnchorPanes.remove(i);
+				requests.remove(i);
 			}
 		}
 	}

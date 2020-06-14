@@ -1,8 +1,6 @@
 package client.gui.stationmanager;
 
 import java.io.IOException;
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 
 import com.google.gson.JsonArray;
@@ -12,19 +10,10 @@ import client.controller.ClientUI;
 import client.controller.ObjectContainer;
 import entitys.Message;
 import entitys.enums.MessageType;
-import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.StackedBarChart;
-import javafx.scene.chart.XYChart;
-import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 public class InventoryController {
 

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane fx:id="orderPane" minHeight="50.0" prefHeight="50.0" prefWidth="840.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.supplier.SupllierOrderPane">
+   <children>
+      <Pane fx:id="resasonOfDeclinePane" minHeight="92.0" prefHeight="92.0" prefWidth="840.0">
+         <children>
+            <Button fx:id="btnSubmit" layoutX="783.0" layoutY="57.0" mnemonicParsing="false" onAction="#onSubmit" prefHeight="25.0" prefWidth="54.0" text="Submit" />
+            <Text fx:id="txtReasonOfDecline" fill="WHITE" layoutX="5.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reason of decline">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <TextField fx:id="tfReasonOfDecline" layoutX="153.0" layoutY="56.0" prefHeight="25.0" prefWidth="497.0" />
+         </children>
+      </Pane>
+      <Pane fx:id="paneOrder" minHeight="50.0" prefHeight="50.0" prefWidth="840.0">
+         <children>
+            <Text fx:id="txtOrderId" fill="WHITE" layoutX="126.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="OrderId">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Text fx:id="txtStationId" fill="WHITE" layoutX="221.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="StationId">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Text fx:id="txtFuelType" fill="WHITE" layoutX="327.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="FuelType">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Text fx:id="txtAmount" fill="WHITE" layoutX="424.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amount">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Text fx:id="TxtTotalPrice" fill="WHITE" layoutX="527.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TotalPrice">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Button fx:id="btnApprove" layoutX="716.0" layoutY="12.0" mnemonicParsing="false" onAction="#onApprove" prefHeight="25.0" prefWidth="64.0" text="Supllied" />
+            <Button fx:id="btnDecline" layoutX="783.0" layoutY="12.0" mnemonicParsing="false" onAction="#onDecline" prefHeight="25.0" prefWidth="54.0" text="Cancel" />
+            <Text fx:id="txtStatus" fill="WHITE" layoutX="630.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Text fx:id="txtDate" fill="WHITE" layoutX="10.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order date">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+   </children>
+</Pane>

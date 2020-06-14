@@ -3,8 +3,7 @@ package entitys.enums;
 public enum Status {
 
 	//for fuel inventory order
-	WATING_FOR_APPROVE,
-	SENDED_TO_CUSTOMER,
+	SENT_TO_CUSTOMER,
 	
 	//for home heating fuel order
 	WAITING,
@@ -21,11 +20,8 @@ public enum Status {
 		if (Stat == null || Stat.trim().equals("")) {
 			return null;
 		}
-		if (Stat.equals("Waiting For Approve") || Stat.equals("WATING FOR APPROVE")) {
-			return Status.WATING_FOR_APPROVE;
-		}
 		if (Stat.equals("Sended To Customer") || Stat.equals("SENDED TO CUSTOMER"))  {
-			return Status.SENDED_TO_CUSTOMER;
+			return Status.SENT_TO_CUSTOMER;
 		}
 		if (Stat.equals("Waiting") || Stat.equals("WAITING")) {
 			return Status.WAITING;
@@ -49,11 +45,8 @@ public enum Status {
 	public static String enumToString(Status stat) { // return to String ret the not CAPITAL version of the type
 		String ret = "";
 		switch (stat) {
-		case WATING_FOR_APPROVE:
-			ret = "Waiting For Approve";
-			break;
-		case SENDED_TO_CUSTOMER:
-			ret = "Sended To Customer";
+		case SENT_TO_CUSTOMER:
+			ret = "Sent To Customer";
 			break;
 		case WAITING:
 			ret = "Waiting";

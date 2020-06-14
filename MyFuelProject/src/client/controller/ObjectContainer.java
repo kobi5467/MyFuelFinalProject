@@ -1,5 +1,8 @@
 package client.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import com.google.gson.JsonArray;
 
 import client.gui.allusers.LoginController;
@@ -23,16 +26,9 @@ import entitys.User;
 import javafx.event.EventHandler;
 import javafx.event.WeakEventHandler;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
 
 public class ObjectContainer {
@@ -140,12 +136,20 @@ public class ObjectContainer {
 	public static void setChoiceOptionOfChoiceBox(ChoiceBox<String> choiceBox,
 			JsonArray choiceOption, String defualtValue) {
 		int i;
+		choiceBox.getItems().clear();
 		choiceBox.getItems().add(defualtValue);
 		for (i = 0; i < choiceOption.size(); i++) {
 			choiceBox.getItems().add(choiceOption.get(i).getAsString());
 		}
 		choiceBox.setValue(defualtValue);
 	}
+	
+	public static String getCurrentDate() {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		Date date = new Date(System.currentTimeMillis());
+		return formatter.format(date).toString();
+	}
+
 	
 	// **************************************** Allow to drag the window **************************************** 
 	

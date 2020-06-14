@@ -1,16 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-
-<Pane fx:id="RatesToApprovePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.ceo.RatesToApproveController">
+<Pane fx:id="RatesToApprovePane" prefHeight="563.0" prefWidth="945.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.ceo.RatesToApproveController">
    <children>
       <ScrollPane fx:id="spRequestsContainer" layoutX="9.0" layoutY="70.0" prefHeight="486.0" prefWidth="932.0">
          <content>
-            <VBox fx:id="vbRequestsContainer" prefHeight="473.0" prefWidth="921.0" />
+            <VBox fx:id="vbRequestsContainer" prefHeight="488.0" prefWidth="930.0" />
          </content>
       </ScrollPane>
+      <Label fx:id="lblRequestID" alignment="CENTER_RIGHT" layoutX="-50.0" layoutY="27.0" prefWidth="168.0" text="Request ID" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblCurrentPrice" alignment="CENTER_RIGHT" layoutX="70.0" layoutY="27.0" prefWidth="168.0" text="Current Price" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblNewPrice" alignment="CENTER_RIGHT" layoutX="190.0" layoutY="27.0" prefWidth="168.0" text="New Price" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblFuelType" alignment="CENTER" layoutX="421.0" layoutY="27.0" prefWidth="168.0" text="Fuel Type" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblCreateTime" alignment="CENTER" layoutX="597.0" layoutY="27.0" prefWidth="168.0" text="Create Time" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
    </children>
 </Pane>

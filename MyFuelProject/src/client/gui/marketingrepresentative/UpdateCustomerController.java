@@ -20,11 +20,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.input.ContextMenuEvent;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.MouseDragEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -246,6 +241,7 @@ public class UpdateCustomerController {
 	private void initUI() {
 		txtEnterYourCustomerID.requestFocus();
 		btnSubmitCustomerID.setDefaultButton(true);
+		btnSubmitCustomerID.setId("dark-blue");
         btnCustomerDetails.setStyle("-fx-border-color: #00008B; -fx-border-width: 5;");
         userPane.setVisible(true);
 		Pane3.setVisible(false);//creditcard pane
@@ -368,7 +364,6 @@ public class UpdateCustomerController {
 		ClientUI.accept(msg);
 		JsonObject customerFuelType = new JsonObject();
 		customerFuelType = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
-		System.out.println(customerFuelType.toString());
 		String[] res = customerFuelType.get("fuelCompanies").getAsString().split(",");
 		switch(res.length) {
 		case 1:
@@ -410,7 +405,6 @@ public class UpdateCustomerController {
 		txtAddressUpdate.setText(customerDetails.get("street").getAsString());
 		txtEmailUpdate.setText(customerDetails.get("email").getAsString());
 		txtPurchaseModelType.setText(customerDetails.get("purchaseModelType").getAsString());
-		System.out.println(customerDetails.toString());
 		if(customerDetails.get("paymentMethod").getAsString().equals("Credit Card")) {
 			Message msg2 = new Message(MessageType.GET_CREDIT_CARD_DETAILS_BY_ID, customer.toString());
 			ClientUI.accept(msg2);
@@ -624,7 +618,6 @@ public class UpdateCustomerController {
 		ClientUI.accept(msg);
 		JsonArray vehicles = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject().get("vehicles")
 				.getAsJsonArray();
-		System.out.println(vehicles.toString());
 		initVehcilesChoiseBox(vehicles);
 		initFuelTypes();
 	}

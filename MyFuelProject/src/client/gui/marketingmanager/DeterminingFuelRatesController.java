@@ -71,7 +71,6 @@ public class DeterminingFuelRatesController {
 	
 	public void sendRateRequest(String newPrice) {
 		JsonObject json = new JsonObject();
-		System.out.println(currentFuel.getFuelType());
 		String fuelType = FuelType.enumToString(currentFuel.getFuelType());
 
 		json.addProperty("fuelType", fuelType);
@@ -97,13 +96,11 @@ public class DeterminingFuelRatesController {
 		Message msg = new Message(MessageType.GET_FUEL_TYPES, "");
 		ClientUI.accept(msg);
 		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
-		System.out.println(response.toString());
 		return response.get("fuelTypes").getAsJsonArray();
 	}
 	
 	public void updateFuel(String newPrice) {
 		JsonObject json = new JsonObject();
-		System.out.println(currentFuel.getFuelType());
 		String fuelType = FuelType.enumToString(currentFuel.getFuelType());
 
 		json.addProperty("fuelType", fuelType);
@@ -147,13 +144,17 @@ public class DeterminingFuelRatesController {
 			newPriceint = Float.parseFloat(newPrice);
 			maxPriceint = currentFuel.getMaxPricePerLitter();
 			currPriceint = currentFuel.getPricePerLitter();
-			if (newPriceint > maxPriceint) {
+			if (newPriceint > maxPriceint ) {
 				lblErrorMessage.setText("New price higher than the maximum price");
-			} else {
+			}else if(newPriceint<=0) {
+				lblErrorMessage.setText("Only positive price!");
+
+			} else  {
 				errorMessage = "";
 				lblErrorMessage.setText(errorMessage);
 				return true;
 			}
+			
 		} catch (Exception e) {
 			lblErrorMessage.setText("Only digits!");
 			return false;
@@ -165,7 +166,6 @@ public class DeterminingFuelRatesController {
 	public void showOptionOfFuelTypeChoiseBox() {
 		JsonArray fuelTypes = getFuelTypes();
 		cbFuelType.getItems().add("Choose type");
-		int flag = 0;
 		for (int i = 0; i < fuelTypes.size(); i++) {
 			cbFuelType.getItems().add(fuelTypes.get(i).getAsString());
 		}
@@ -174,8 +174,6 @@ public class DeterminingFuelRatesController {
 
 
 	private void afterChooseType(String type) {
-		Fuel fuel;
-
 		if (!type.equals("Choose type")) {
 			getFuelObjectByType(type);
 			lblErrorMessage.setText("");
@@ -210,6 +208,7 @@ public class DeterminingFuelRatesController {
 	}
 	
 	private void initUI() {
+		btnSubmit.setId("dark-blue");
 		lblErrorMessage.setText("");
 		lblErrorMessage.setStyle(""
 				+ "-fx-text-fill:#ff0000;" 

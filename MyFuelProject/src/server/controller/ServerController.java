@@ -1,13 +1,12 @@
 package server.controller;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import client.controller.ObjectContainer;
 import entitys.DeterminingRateRequests;
 import entitys.Fuel;
 import entitys.Message;
@@ -20,7 +19,7 @@ public class ServerController extends AbstractServer {
 
 	public static DBConnector dbConnector;
 	public static SystemManager systemManager;
-	
+
 	public ServerController(int port) {
 		super(port);
 		dbConnector = new DBConnector();
@@ -55,6 +54,7 @@ public class ServerController extends AbstractServer {
 			case GET_STATION_BY_MANAGERID:
 			case UPDATE_FUEL_STATION_INVENTORY:
 			case GET_FUEL_INVENTORY_BY_USER_NAME:
+			case GET_CURRENT_FUEL_AMOUNT_BY_FUEL_TYPE:
 				messageFromServer = handleFuelMessage(message);
 				break;
 			case GET_PURCHASE_MODELS:
@@ -62,6 +62,7 @@ public class ServerController extends AbstractServer {
 				break;
 			case SUBMIT_HOME_HEATING_FUEL_ORDER:
 			case GET_HOME_HEATING_FUEL_ORDERS:
+			case GET_ORDERS_BY_SUPLLIER_ID:
 			case GET_ORDERS_BY_STATIONID_AND_FUEL_TYPE:
 			case GET_ORDERS_BY_STATIONID_AND_QUARTER:
 			case GET_ORDERS_BY_STATIONID_AND_SALE_NAME:
@@ -69,6 +70,8 @@ public class ServerController extends AbstractServer {
 			case GET_ORDERS_FROM_DB:
 			case REMOVE_ORDER_FROM_DB:
 			case UPDATE_ORDER_IN_DB:
+			case ADD_FAST_FUEL_ORDER:
+			case GET_ORDERS_BY_DATES:
 				messageFromServer = handleOrderMessage(message);
 				break;
 			case CHECK_IF_CUSTOMER_EXIST:
@@ -88,7 +91,8 @@ public class ServerController extends AbstractServer {
 			case GET_CREDIT_CARD_DETAILS_BY_ID:
 			case UPDATE_CREDIT_CARD_DETAILS:
 			case INSERT_CREDIT_CARD_DETAILS:
-			case GET_CUSTOMER_FUEL_TYPE:// OR 10.6.2020
+			case GET_CUSTOMER_FUEL_TYPE:
+			case GET_PREVIOUS_AMOUNT_FAST_FUEL_ORDER:
 				messageFromServer = handleCustomerMessage(message);
 				break;
 			case GET_SALE_TEMPLATES:
@@ -100,7 +104,11 @@ public class ServerController extends AbstractServer {
 				messageFromServer = handleSaleTemplateMessage(message);
 				break;
 			case ADD_NEW_REPORT:
-			case GET_STATION_ID:
+			case GET_STATION_ID_BY_REPORT_TYPE:
+			case GET_CREAT_DATES_BY_STATION_ID_AND_REPORT_TYPE:
+			case GET_CREAT_DATES_BY_REPORT_TYPE:
+			case GET_STATIONS_REPORTS:
+			case GET_MARKETING_MANAGER_REPORTS:
 				messageFromServer = handleReportMessage(message);
 				break;
 			default:
@@ -200,9 +208,6 @@ public class ServerController extends AbstractServer {
 			orders = dbConnector.orderDBLogic.getFastFuelOrdersByStationIdAndQuarter(stationID, quarter, year);
 			responseJson.add("fastFuelOrders", orders);
 
-			orders = dbConnector.orderDBLogic.getHomeHeatingFuelOrdersByStationIdAndQuarter(stationID, quarter, year);
-			responseJson.add("homeHeatingFuelOrders", orders);
-
 		}
 			break;
 		case GET_ORDERS_BY_STATIONID_AND_SALE_NAME: {
@@ -222,15 +227,31 @@ public class ServerController extends AbstractServer {
 			responseJson.addProperty("orderId", orderIdResponse);
 		}
 			break;
-		case GET_ORDERS_FROM_DB:
+		case GET_ORDERS_BY_SUPLLIER_ID:{
+			String supplierID = requestJson.get("supplierID").getAsString();
+			JsonArray orders = dbConnector.orderDBLogic.getInvertoryOrdersByID(supplierID);
+			responseJson.add("orders", orders);
+		}	break;
+		case GET_ORDERS_FROM_DB:{
 			JsonArray orders = dbConnector.orderDBLogic.getInvertoryOrdersFromDB(requestJson);
 			responseJson.add("orders", orders);
-			break;
-		case REMOVE_ORDER_FROM_DB:// or
+		}	break;
+		case REMOVE_ORDER_FROM_DB:
 			dbConnector.orderDBLogic.removeOrderFromDB(requestJson);
 			break;
-		case UPDATE_ORDER_IN_DB:// or
+		case UPDATE_ORDER_IN_DB:
 			responseJson = dbConnector.orderDBLogic.updateOrderDetails(requestJson);
+			break;
+		case ADD_FAST_FUEL_ORDER:
+			String stationID = requestJson.get("stationID").getAsString();
+			String fuelType = requestJson.get("fuelType").getAsString();
+			float amount = requestJson.get("amountOfLitters").getAsFloat();
+			dbConnector.orderDBLogic.addFastFuelOrder(requestJson);
+			dbConnector.fuelDBLogic.updateFuelAmountByStationIDFuelTypeAndAmount(fuelType, stationID, amount);
+			boolean createNewOrder = dbConnector.fuelDBLogic.checkIfNeedToCreateInventoryOrder(stationID, fuelType);
+			if(createNewOrder) {
+				dbConnector.fuelDBLogic.createInventoryOrderByFuelTypeAndStationID(stationID, fuelType);
+			}
 			break;
 		default:
 			break;
@@ -251,8 +272,34 @@ public class ServerController extends AbstractServer {
 			responseJson.addProperty("Add new report", "" + add);
 		}
 			break;
-		case GET_ALL_REPORT: {
-
+		case GET_STATION_ID_BY_REPORT_TYPE: {
+			JsonArray stationsID = new JsonArray();
+			stationsID = dbConnector.reportDBLogic.getStationsIDByReportType(requestJson.get("reportType").getAsString());
+			responseJson.add("stations", stationsID);
+		}
+			break;
+		case GET_CREAT_DATES_BY_STATION_ID_AND_REPORT_TYPE: {
+			JsonArray createDates = new JsonArray();
+			createDates = dbConnector.reportDBLogic.getCreateDatesByStationsIdAndReportType(
+					requestJson.get("reportType").getAsString(), requestJson.get("stationID").getAsString());
+			responseJson.add("createDates", createDates);
+		}
+			break;
+		case GET_CREAT_DATES_BY_REPORT_TYPE: {
+			JsonArray createDates = new JsonArray();
+			createDates = dbConnector.reportDBLogic
+					.getCreateDatesByReportType(requestJson.get("reportType").getAsString());
+			responseJson.add("createDates", createDates);
+		}
+			break;
+		case GET_STATIONS_REPORTS: {
+			responseJson = dbConnector.reportDBLogic.getStationReports(requestJson.get("reportType").getAsString(),
+							requestJson.get("stationId").getAsString(), requestJson.get("date").getAsString());
+		}
+			break;
+		case GET_MARKETING_MANAGER_REPORTS: {
+			responseJson = dbConnector.reportDBLogic.getMarketingManagerReports(
+					requestJson.get("reportType").getAsString(), requestJson.get("date").getAsString());
 		}
 			break;
 		default:
@@ -286,7 +333,6 @@ public class ServerController extends AbstractServer {
 		}
 			break;
 		case UPDATE_FUEL: {
-			System.out.println("UPDATE_FULE !!");
 			String fuelType = requestJson.get("fuelType").getAsString();
 			String newPrice = requestJson.get("pricePerLitter").getAsString();
 			Fuel fuel = dbConnector.fuelDBLogic.getFuelObjectByType(fuelType);
@@ -305,10 +351,7 @@ public class ServerController extends AbstractServer {
 			Fuel fuel = dbConnector.fuelDBLogic.getFuelObjectByType(fuelType);
 
 			String createTime;
-			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy ' ' HH:mm ");
-			Date date = new Date(System.currentTimeMillis());
-			createTime = formatter.format(date);
-			System.out.println(createTime);
+			createTime = ObjectContainer.getCurrentDate();
 			DeterminingRateRequests detRequest = new DeterminingRateRequests(-1, fuel.getPricePerLitter(),
 					Float.parseFloat(newPrice), fuelType, createTime);
 			dbConnector.fuelDBLogic.SendRateRequest(detRequest, newPrice);
@@ -347,6 +390,12 @@ public class ServerController extends AbstractServer {
 					.getFuelInventoryByUserName(requestJson.get("userName").getAsString());
 			responseJson.add("fuelInventories", array);
 		}
+			break;
+			
+		case GET_CURRENT_FUEL_AMOUNT_BY_FUEL_TYPE:
+			float available = dbConnector.fuelDBLogic.getAvailableAmountOfFuelByTypeAndStationID(
+					requestJson.get("fuelType").getAsString(), requestJson.get("stationID").getAsString());
+			responseJson.addProperty("availableAmount", available);;
 			break;
 
 		default:

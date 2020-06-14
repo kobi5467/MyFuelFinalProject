@@ -10,6 +10,7 @@ import com.google.gson.JsonObject;
 import client.controller.ClientUI;
 import client.controller.ObjectContainer;
 import client.gui.ceo.RatesToApproveController;
+import client.gui.ceo.ReportViewController;
 import client.gui.customer.FastFuelController;
 import client.gui.customer.HomeHeatingFuelController;
 import client.gui.customer.OrderTrackingController;
@@ -20,6 +21,7 @@ import client.gui.marketingrepresentative.CustomerRegistrationController;
 import client.gui.marketingrepresentative.SaleTemplateController;
 import client.gui.marketingrepresentative.UpdateCustomerController;
 import client.gui.stationmanager.InventoryController;
+import client.gui.supplier.SupplierController;
 import entitys.Customer;
 import entitys.Message;
 import entitys.PurchaseModel;
@@ -127,6 +129,7 @@ public class MainFormController {
 				break;
 			case CEO:
 				buttonNames.add("RatesRequests");
+				buttonNames.add("ViewReports");
 				break;
 			case SUPPLIER:
 				buttonNames.add("OrdersRecived");
@@ -215,7 +218,6 @@ public class MainFormController {
 		UserPermission userPermission = UserPermission.stringToEnumVal(response.get("userPermission").getAsString());
 		if(userPermission == UserPermission.CUSTOMER) {
 			ObjectContainer.currentUserLogin = getCustomerDetails(userName);
-			System.out.println(ObjectContainer.currentUserLogin.toString());
 		}else {
 			ObjectContainer.currentUserLogin.setUserPermission(userPermission);
 		}
@@ -271,6 +273,7 @@ public class MainFormController {
 			return;
 		}
 		changePane.getChildren().clear();
+		
 		/***************************** Marketing Representative **********************************/  
 		if(title.equals("CustomerRegistration")) {
 			if(ObjectContainer.customerRegistrationController == null) {
@@ -340,7 +343,29 @@ public class MainFormController {
 		}
 		
 		
-		/************************************* MARKETING MANAGER ****************************/
+		/************************************** CEO ***************************************/
+		
+		if (title.equals("RatesRequests")) {
+			if(ObjectContainer.ratesToApproveController == null) {
+				ObjectContainer.ratesToApproveController = new RatesToApproveController();
+			}
+			ObjectContainer.ratesToApproveController.load(changePane);
+		}
+		
+		if (title.equals("ViewReports")){
+			if(ObjectContainer.reportViewController == null) {
+				ObjectContainer.reportViewController = new ReportViewController();
+			}
+			ObjectContainer.reportViewController.load(changePane);
+		}
+		
+		/************************************ Station Manager ***************************/
+		if(title.equals("InventoryOrders")) {
+			if(ObjectContainer.inventoryOrdersController == null) {
+				ObjectContainer.inventoryOrdersController = new InventoryOrdersController();
+			}
+			ObjectContainer.inventoryOrdersController.load(changePane);
+		}
 		
 		if(title.equals("Inventory")) {
 			if(ObjectContainer.inventoryController == null) {
@@ -349,20 +374,13 @@ public class MainFormController {
 			ObjectContainer.inventoryController.load(changePane);
 		}
 		
-		/************************************** CEO ***************************************/
+		/********************************* Supplier ************************************/
 		
-		if(title.equals("RatesRequests")) {
-			if(ObjectContainer.ratesToApproveController == null) {
-				ObjectContainer.ratesToApproveController = new RatesToApproveController();
+		if(title.equals("OrdersRecived")) {
+			if(ObjectContainer.supplierController == null) {
+				ObjectContainer.supplierController = new SupplierController();
 			}
-			ObjectContainer.ratesToApproveController.load(changePane);
-		}
-		/************************************ Station Manager ***************************/
-		if(title.equals("InventoryOrders")) {
-			if(ObjectContainer.inventoryOrdersController == null) {
-				ObjectContainer.inventoryOrdersController = new InventoryOrdersController();
-			}
-			ObjectContainer.inventoryOrdersController.load(changePane);
+			ObjectContainer.supplierController.load(changePane);
 		}
 	}
 	

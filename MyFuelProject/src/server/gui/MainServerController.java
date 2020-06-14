@@ -2,7 +2,6 @@ package server.gui;
 
 import java.io.IOException;
 
-import client.controller.ClientUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,16 +31,16 @@ public class MainServerController {
     		if(portNumber.isEmpty()) {
 //    			lblTitle.setText("Please fill port number");
     		}else {
-//    			lblTitle.setText("Server is on !");
-//    			lblTitle.setStyle("-fx-text-fill:#00ff00;");
+    			lblServerTitle.setText("Server is on !");
+    			lblServerTitle.setStyle("-fx-text-fill:#00ff00;");
     			txtPort.setText("");
     			btnStart.setText("Stop");
     			ServerUI.runServer(portNumber);
     		}    		
     	}else { // here button is stop..
     		ServerUI.stopServer();
-//    		lblTitle.setText("Server is off");
-//    		lblTitle.setStyle("-fx-text-fill:#ff0000;");
+    		lblServerTitle.setText("Server is off");
+    		lblServerTitle.setStyle("-fx-text-fill:#ff0000;");
     		btnStart.setText("Start");
     	}
     }
@@ -61,6 +60,11 @@ public class MainServerController {
 		primaryStage.show();
 	}
 
+	
+	public void onClientConnected() {
+		
+	}
+	
 	private void initUI() {
 		txtPort.setText("5555");
 	}

@@ -43,7 +43,13 @@ public class ServerUI extends Application {
 	}
 
 	public static void stopServer() {
-		serverController.stopListening();
+		try {
+			serverController.stopListening();
+			serverController.close();
+			System.out.println("Server stop listening..");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

@@ -138,7 +138,6 @@ public class UserDBController {
 				query = "INSERT INTO users (userName, password, name, email, phoneNumber, userPermission, isLogin) " + 
 						"VALUES ('" + userName + "','"+ password + "','" + name + "','" + email 
 								+ "','" + phoneNumber + "','" + userPermission + "',0);";
-				System.out.println(query);
 				stmt = DBConnector.conn.createStatement();
 				stmt.execute(query);
 			} else {

@@ -4,7 +4,6 @@ import client.gui.allusers.LoginController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import server.controller.ServerUI;
 
 public class ClientUI extends Application{
 

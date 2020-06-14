@@ -3,15 +3,11 @@ package server.dbLogic;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.YearMonth;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
-import entitys.Customer;
-import entitys.PurchaseModel;
-import entitys.SubscribeType;
-import entitys.enums.UserPermission;
 
 public class CustomerDBLogic {
 
@@ -268,7 +264,6 @@ public class CustomerDBLogic {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println(customer.toString());
 		return customer;
 	}
 
@@ -279,8 +274,6 @@ public class CustomerDBLogic {
 		String email = customerUpdate.get("email").getAsString();
 		String userName = customerUpdate.get("userName").getAsString();
 		String customerID = customerUpdate.get("customerID").getAsString();
-		
-		System.out.println(customerUpdate.toString());
 		
 		String queryCustomer = "";
 		String queryUser = "";
@@ -416,7 +409,6 @@ public class CustomerDBLogic {
 
 	public void removeVehicleFromDB(JsonObject removeVehicle) {
 		String query = "";
-		System.out.println(removeVehicle.toString());
 		Statement stmt = null;
 		try {
 			if (DBConnector.conn != null) {
@@ -438,13 +430,21 @@ public class CustomerDBLogic {
 		float lastMonthPrice = 0;
 		String query = "";
 		Statement stmt = null;
+		
+		LocalDate now = LocalDate.now();
+		YearMonth yearMonth	= YearMonth.of(now.getYear(), now.getMonth().getValue() - 1);
+		LocalDate startDate = yearMonth.atDay(1);
+		LocalDate endDate = yearMonth.atEndOfMonth();
+		
 		try {
 			if (DBConnector.conn != null) {
-				query = "SELECT * FROM fast_fuel_orders;";
+				query = "SELECT * FROM fast_fuel_orders "
+					+   "WHERE customerID = '" + customerID + "' AND "
+							+ "orderDate between '" + startDate + "' and '" + endDate + "';";
 				stmt = DBConnector.conn.createStatement();
 				ResultSet rs = stmt.executeQuery(query);
 				while(rs.next()) {
-					System.out.println(rs);
+					lastMonthPrice += rs.getFloat("totalPrice");
 				}				
 			} else {
 				System.out.println("Conn is null");
@@ -489,7 +489,6 @@ public class CustomerDBLogic {
 		String customerID = purchaseModelJson.get("customerID").getAsString();
 		String purchaseModelType = purchaseModelJson.get("purchaseModelType").getAsString();
 		String fuelCompanies = purchaseModelJson.get("fuelCompanies").getAsString();
-		System.out.println(purchaseModelJson.toString());
 		String queryPurchase = "";
 		String queryfuelCompanies = "";
 		Statement stmt = null;
@@ -518,7 +517,6 @@ public JsonObject updateCreditCardDetails(JsonObject creditCardUpdate) {
 		String validationDate = creditCardUpdate.get("dateValidation").getAsString();
 		String cvv = creditCardUpdate.get("cvv").getAsString();
 		String customerID = creditCardUpdate.get("customerID").getAsString();
-		System.out.println(creditCardUpdate.toString());
 
 		String queryCreditCard = "";
 		Statement stmt = null;
