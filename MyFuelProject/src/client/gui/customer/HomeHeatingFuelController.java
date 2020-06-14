@@ -540,16 +540,16 @@ public class HomeHeatingFuelController { // extends ComboBox<LocalDate> {
 				this.discountrate = 0;
 				commissionForUrgentorder = 2;
 				discountFlag = true;
-				lblDiscountRate.setText(String.valueOf(this.discountrate) + " %");
+				lblDiscountRate.setText(this.discountrate + " %");
 			}
 			if (amountOfLitters >= 600 && amountOfLitters <= 800) {
 				this.discountrate = 3;
 				discountFlag = true;
-				lblDiscountRate.setText(String.valueOf(this.discountrate) + " %");
+				lblDiscountRate.setText(this.discountrate + " %");
 			} else if (amountOfLitters >= 800) {
 				this.discountrate = 4;
 				discountFlag = true;
-				lblDiscountRate.setText(String.valueOf(this.discountrate) + " %");
+				lblDiscountRate.setText(this.discountrate + " %");
 			}
 			// Calculate the price:
 			subTotalPriceBeforeDiscount = (double) amountOfLitters * (double) pricePerLitter

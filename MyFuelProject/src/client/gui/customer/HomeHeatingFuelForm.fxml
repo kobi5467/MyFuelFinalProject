@@ -13,7 +13,7 @@
 
 <Pane fx:id="mainPane" prefHeight="570.0" prefWidth="947.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.customer.HomeHeatingFuelController">
    <children>
-      <Pane fx:id="panePurchaseInputs" layoutX="39.0" layoutY="10.1015625">
+      <Pane fx:id="panePurchaseInputs" layoutX="-3.0" layoutY="-1.0" prefHeight="583.0" prefWidth="957.0">
          <children>
             <Text fill="WHITE" layoutX="2.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order Details" wrappingWidth="239.2802864909172">
                <font>
@@ -206,7 +206,7 @@
             </TextField>
          </children>
       </Pane>
-      <Pane fx:id="panePurchaseSuccessful" layoutX="-6.0" layoutY="29.0" prefHeight="540.0" prefWidth="947.0">
+      <Pane fx:id="panePurchaseSuccessful" layoutX="-6.0" layoutY="29.0" prefHeight="540.0" prefWidth="947.0" visible="false">
          <children>
             <Text fx:id="txtPurchaseSuccessful" layoutX="38.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Thank you for your purchase!" wrappingWidth="871.13671875">
                <font>

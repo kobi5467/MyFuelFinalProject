@@ -16,10 +16,9 @@ public class MailSender {
 	public static String password ="MyFuelTeam9";
 	
 	public static void main(String[] args) {
-		sendMail("Hey", "THIS IS MY MESSAGE", "kobi5467@gmail.com");
+		sendMail("Hey", "THIS IS MY MESSAGE", "oormaman@gmail.com");
 	}
 
-	
 	public static boolean sendMail(String subject, String msg, String recipient) {
 	      String host = "smtp.gmail.com"; 
 	  

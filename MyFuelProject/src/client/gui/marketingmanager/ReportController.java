@@ -462,6 +462,13 @@ public class ReportController {
 
 		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
 		JsonArray fuelTypes = response.get("fuelTypes").getAsJsonArray();
+		
+		for(int i = 0; i < fuelTypes.size(); i++) {
+			if(fuelTypes.get(i).getAsString().equals("Home Heating Fuel")) {
+				fuelTypes.remove(i);
+				break;
+			}
+		}
 		ObjectContainer.setChoiceOptionOfChoiceBox(cbFuelType, fuelTypes, "Choose fuel type");
 	}
 
