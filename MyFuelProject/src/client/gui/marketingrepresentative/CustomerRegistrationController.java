@@ -911,7 +911,6 @@ public class CustomerRegistrationController {
 	}
 
 	private JsonArray getAllFuelCompanies() {
-		
 		Message msg = new Message(MessageType.GET_FUEL_COMPANIES_NAMES,"");
 		ClientUI.accept(msg);
 		return ObjectContainer.currentMessageFromServer.getMessageAsJsonObject().get("fuelCompanies").getAsJsonArray();

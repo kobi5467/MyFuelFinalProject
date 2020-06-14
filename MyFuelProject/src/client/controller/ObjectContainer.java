@@ -124,12 +124,47 @@ public class ObjectContainer {
 		return true;
 	}
 	
-	
 	public static void setTextFieldLimit(TextField txt, int limit) {	// set length limit for textfields.
 		txt.textProperty().addListener((observable, oldValue, newValue) -> {
             if(txt.getText().length() > limit) {
-            	txt.setText(txt.getText().substring(0, limit - 1));
+            	txt.setText(txt.getText().substring(0, limit));
             }
+        });
+	}
+	
+	public static void setTextFieldToGetOnlyDigitsWithLimit(TextField txt, int limit) {
+		txt.textProperty().addListener((observable, oldValue, newValue) -> {
+			if(newValue.isEmpty()) {
+				return;
+			}
+			if(txt.getText().length() > limit || !Character.isDigit(newValue.charAt(newValue.length() - 1))){
+				txt.setText(txt.getText().substring(0, txt.getText().length() -1));
+			}
+        });
+	}
+	
+	public static void setTextFieldToGetOnlyCharacterWithLimit(TextField txt, int limit) {
+		txt.textProperty().addListener((observable, oldValue, newValue) -> {
+			if(newValue.isEmpty()) {
+				return;
+			}
+			
+			if(txt.getText().length() > limit || !Character.isAlphabetic(newValue.charAt(newValue.length() - 1))){
+//				txt.setText(txt.getText().substring(0, txt.getText().length() -1));
+				txt.setText(oldValue);
+			}
+        });
+	}
+	
+	public static void setTextFieldToGetFloat(TextField txt) {
+		txt.textProperty().addListener((observable, oldValue, newValue) -> {
+			try {
+				System.out.println("newValue = "+ newValue + ", oldValue = " + oldValue);
+				Float.parseFloat(newValue);
+				txt.setText(newValue);
+			}catch(NumberFormatException e) {
+				txt.setText(oldValue);
+			}
         });
 	}
 	
