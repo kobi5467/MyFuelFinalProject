@@ -159,7 +159,7 @@ public class SupplierController {
 	private void initSupplierOrdersVBox(JsonArray orders) {
 		for (int i = 0; i < orders.size(); i++) {
 			SupllierOrderPane supplierOrder = new SupllierOrderPane();
-			String color = i % 2 == 0 ? "#0277ad" : "#014b88";
+			String color = i % 2 == 0 ? ObjectContainer.rowColorBG1 : ObjectContainer.rowColorBG2;
 			order.add(supplierOrder.load(orders.get(i).getAsJsonObject(), color));
 			vbocOrdersPane.getChildren().add(order.get(i).getOrdersPane());
 		}
@@ -169,7 +169,7 @@ public class SupplierController {
 		for (int i = 0; i < orders.size(); i++) {
 			if (orders.get(i).getAsJsonObject().get("orderStatus").getAsString().equals("waiting")) {
 				SupllierOrderPane supplierOrder = new SupllierOrderPane();
-				String color = i % 2 == 0 ?"#0277ad" : "#014b88";
+				String color = i % 2 == 0 ? ObjectContainer.rowColorBG1 : ObjectContainer.rowColorBG2;
 				order.add(supplierOrder.load(orders.get(i).getAsJsonObject(), color));
 				vbocOrdersPane.getChildren().add(order.get(i).getOrdersPane());
 				openOrderExist=true;
@@ -184,7 +184,7 @@ public class SupplierController {
 		for (int i = 0; i < orders.size(); i++) {
 			if (orders.get(i).getAsJsonObject().get("orderID").getAsString().equals(orderId)&&!orderIdExist) {
 				SupllierOrderPane supplierOrder = new SupllierOrderPane();
-				String color = i % 2 == 0 ? "#0277ad" : "#014b88";
+				String color = i % 2 == 0 ? ObjectContainer.rowColorBG1 : ObjectContainer.rowColorBG2;
 				order.add(supplierOrder.load(orders.get(i).getAsJsonObject(), color));
 				vbocOrdersPane.getChildren().add(order.get(i).getOrdersPane());
 				orderIdExist=true;				

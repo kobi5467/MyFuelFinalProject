@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.google.gson.JsonArray;
 
+import client.gui.allusers.AboutController;
 import client.gui.allusers.LoginController;
 import client.gui.allusers.MainFormController;
 import client.gui.allusers.MessageController;
@@ -45,6 +46,7 @@ public class ObjectContainer {
 	
 	public static LoginController loginController;
 	public static MainFormController mainFormController;
+	public static AboutController aboutController;
 	
 	// **************************************** 	   pane controllers	****************************************
 	
@@ -74,13 +76,14 @@ public class ObjectContainer {
 	public static ReportViewController reportViewController;
 	public static MessageController messageController;
 	
-	
-	
 	// ****************************************     global variables 	****************************************
 	
 	public static Message currentMessageFromServer;
 	public static User currentUserLogin;
 	public static boolean yesNoMessageResult = false;
+	
+	public static String rowColorBG1 = "#0277ad";
+	public static String rowColorBG2 = "#014b88";
 	
 	// ****************************************     global methods  	****************************************
 		
@@ -180,7 +183,7 @@ public class ObjectContainer {
 	}
 	
 	public static String getCurrentDate() {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date date = new Date(System.currentTimeMillis());
 		return formatter.format(date).toString();
 	}

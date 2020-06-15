@@ -122,7 +122,7 @@ public class InventoryPane {
 		thresholdLine.setLayoutX(x);
 		txtThreshold.setDisable(true);
 		txtMaxAmount.setDisable(true);
-		
+		txtFuelType.setDisable(true);
 		BackgroundImage backgroundImage = new BackgroundImage(
 				new Image(getClass().getResource("../../../images/InventoryPaneBackround.png").toExternalForm()),
 				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,

@@ -67,15 +67,13 @@ public class RatesToApproveController {
 		for (int i = 0; i < requests.size(); i++) {
 			RequestPane reqPane = new RequestPane();
 			rateRequestsPanes.add(reqPane);
-			String color = i % 2 == 0 ? "#0277ad" : "#014b88";
+			String color = i % 2 == 0 ? ObjectContainer.rowColorBG1 : ObjectContainer.rowColorBG2;
 			AnchorPane pane = reqPane.load(requests.get(i).getAsJsonObject(), color);
 			rateRequestsAnchorPanes.add(pane);
 		}
 		showAllRequests();
 
 	}
-	
-	
 	
 	public void showAllRequests() {
 		vbRequestsContainer.getChildren().clear();

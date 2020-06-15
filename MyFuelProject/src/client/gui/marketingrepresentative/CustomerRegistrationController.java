@@ -207,6 +207,9 @@ public class CustomerRegistrationController {
 
     @FXML
     private Label lblFuelCompanyError;
+    
+    @FXML
+    private ImageView imgHelp;
 	
 	/******************************* STAGE 3 *******************************/
 	
@@ -304,7 +307,6 @@ public class CustomerRegistrationController {
 		case 1:
 			// next1
 			isValid = checkInputValidationStageOne();
-			isValid = true;
 			if(isValid) {
 				updateCustomerObjectDetailsStage1();
 				changeStage(1);
@@ -313,7 +315,6 @@ public class CustomerRegistrationController {
 		case 2:
 			//next2
 			isValid = checkInputValidationStageTwo();
-			isValid = true;
 			if(isValid) {
 				updateCustomerObjectDetailsStage2();
 				changeStage(1);
@@ -671,7 +672,7 @@ public class CustomerRegistrationController {
 		
 		vbVehicleContainer.getChildren().clear();
 		for(int i = 0; i < vehiclePanes.size(); i++) {
-			String color = i % 2 == 0 ? "#0240FF" : "#024079";
+			String color = i % 2 == 0 ? ObjectContainer.rowColorBG1 : ObjectContainer.rowColorBG2;
 			vehiclePanes.get(i).setBackgroundColor(color);
 			vbVehicleContainer.getChildren().add(vehiclePanes.get(i));
 		}
@@ -771,9 +772,10 @@ public class CustomerRegistrationController {
 	}
 
 	private void initUI() {
+		btnNext.setDefaultButton(true);
 		customer = new Customer();
 		vehiclePanes = new ArrayList<CustomerRegistrationController.VehiclePane>();
-		
+		vbVehicleContainer.setSpacing(5);
 		currentStage = 1;
 		creditCardPane.setVisible(false);
 		changeStage(0);
@@ -787,21 +789,35 @@ public class CustomerRegistrationController {
 		btnAddVehicle.setId("dark-blue");
 		btnBack.setId("dark-blue");
 		btnNext.setId("dark-blue");
+		imgHelp.setVisible(false);
+		setButtonsImages("../../../images/help_icon.png", btnHelp);
+		btnHelp.hoverProperty().addListener((ov, oldValue, newValue) -> {
+		    showHelp(newValue);
+		});
 	}	
 
+	public void showHelp(boolean isShow) {
+		if(isShow) {
+			lblCvvError.setText("");
+			lblDateError.setText("");
+			lblCardNumberError.setText("");
+		}
+		imgHelp.setVisible(isShow);
+	}
+	
 	private void limitTextFields() {
 		ObjectContainer.setTextFieldLimit(txtUsername, 20);
 		ObjectContainer.setTextFieldLimit(txtPassword, 20);
-		ObjectContainer.setTextFieldLimit(txtCustomerID, 10);
+		ObjectContainer.setTextFieldToGetOnlyDigitsWithLimit(txtCustomerID, 9);
 		ObjectContainer.setTextFieldLimit(txtCustomerName, 45);
-		ObjectContainer.setTextFieldLimit(txtPhoneNumber, 10);
+		ObjectContainer.setTextFieldToGetOnlyDigitsWithLimit(txtPhoneNumber, 10);
 		ObjectContainer.setTextFieldLimit(txtEmail, 45);
 		ObjectContainer.setTextFieldLimit(txtStreet, 45);
 		ObjectContainer.setTextFieldLimit(txtCity, 30);
 		ObjectContainer.setTextFieldLimit(txtStreet, 30);
-		ObjectContainer.setTextFieldLimit(txtCardNumber, 16);
-		ObjectContainer.setTextFieldLimit(txtCVV, 4);
-		ObjectContainer.setTextFieldLimit(txtVehicleNumber, 10);
+		ObjectContainer.setTextFieldToGetOnlyDigitsWithLimit(txtCardNumber, 16);
+		ObjectContainer.setTextFieldToGetOnlyDigitsWithLimit(txtCVV, 4);
+		ObjectContainer.setTextFieldToGetOnlyDigitsWithLimit(txtVehicleNumber, 8);
 	}
 	
 	private void setButtonsImages(String url, Button btn) {		
@@ -998,7 +1014,9 @@ public class CustomerRegistrationController {
 		}
 		
 		public void setBackgroundColor(String color) {
-			this.setStyle("-fx-background-color:" + color + ";");			
+			this.setStyle("-fx-background-color:" + color + ";"
+					+ "-fx-border-color:#77cde7;"
+					+ "-fx-border-width:2px;");			
 		}
 		
 		public void initPane() {

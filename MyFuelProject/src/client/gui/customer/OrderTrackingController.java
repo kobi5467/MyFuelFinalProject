@@ -189,7 +189,7 @@ public class OrderTrackingController {
 		orderPaneControllers = new ArrayList<>();
 		for (int i = 0; i < orders.size(); i++) {
 			OrderPane orderPane = new OrderPane();
-			String color = i % 2 == 0 ? "#0240FF" : "#024079";
+			String color = i % 2 == 0 ? ObjectContainer.rowColorBG1 : ObjectContainer.rowColorBG2;
 			orderPaneControllers.add(orderPane.load(orders.get(i).getAsJsonObject(), color));
 			AnchorPane pane = orderPaneControllers.get(i).getMainPane();
 			orderPanes.add(pane);

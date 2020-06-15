@@ -274,6 +274,14 @@ public class MainFormController {
 		}
 		changePane.getChildren().clear();
 		
+		if(title.equals("About")) {
+			if(ObjectContainer.aboutController == null) {
+				ObjectContainer.aboutController = new AboutController();
+			}
+			ObjectContainer.aboutController.load(changePane);
+		}
+		
+		
 		/***************************** Marketing Representative **********************************/  
 		if(title.equals("CustomerRegistration")) {
 			if(ObjectContainer.customerRegistrationController == null) {

@@ -6,6 +6,7 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
@@ -14,7 +15,7 @@
 
 <Pane fx:id="mainRegistrationPane" prefHeight="570.0" prefWidth="949.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.marketingrepresentative.CustomerRegistrationController">
 	<children>
-		<Pane fx:id="stageOne" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="949.0">
+		<Pane fx:id="stageOne" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="949.0" visible="false">
 			<children>
 				<Label layoutX="75.0" layoutY="-19.0" prefHeight="38.0" prefWidth="325.0" text="Customer Information :" textFill="WHITE" underline="true">
                <font>
@@ -46,7 +47,7 @@
                <font>
                   <Font name="System Bold" size="17.0" />
                </font></Text>
-				<Text fill="WHITE" layoutX="80.0" layoutY="187.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer Name :">
+				<Text fill="WHITE" layoutX="80.0" layoutY="187.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Full Name :">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font></Text>
@@ -205,7 +206,7 @@
                   </Text>
       				<TextField fx:id="txtCardNumber" layoutX="240.0" layoutY="18.0" prefHeight="35.0" prefWidth="200.0" />
       				<TextField fx:id="txtCVV" layoutX="240.0" layoutY="83.0" prefHeight="35.0" prefWidth="200.0" />
-      				<Button fx:id="btnHelp" layoutX="453.0" layoutY="85.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="?" />
+      				<Button fx:id="btnHelp" layoutX="453.0" layoutY="83.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="35.0" />
       				<Label fx:id="lblCvvError" layoutX="511.0" layoutY="86.0" prefHeight="28.0" prefWidth="253.0" text="Enter 3 digits numbers" textFill="#e41212">
                      <font>
                         <Font name="System Bold" size="15.0" />
@@ -221,6 +222,11 @@
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
+                  <ImageView fx:id="imgHelp" fitHeight="200.0" fitWidth="350.0" layoutX="500.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/cvvHelp.png" />
+                     </image>
+                  </ImageView>
                   <ChoiceBox fx:id="cbMonth" layoutX="240.0" layoutY="143.0" prefHeight="34.0" prefWidth="79.0" />
                   <ChoiceBox fx:id="cbYear" layoutX="343.0" layoutY="143.0" prefHeight="34.0" prefWidth="97.0" />
                   <Label layoutX="325.0" layoutY="140.0" text="/" textFill="WHITE">
@@ -251,7 +257,7 @@
             </Label>
 			</children>
 		</Pane>
-		<Pane fx:id="stageThree" prefHeight="570.0" prefWidth="949.0" visible="false">
+		<Pane fx:id="stageThree" prefHeight="570.0" prefWidth="949.0">
 			<children>
             <ScrollPane fx:id="spVehicleContainer" layoutX="116.0" layoutY="132.0" prefHeight="350.0" prefWidth="728.0">
                <content>
@@ -263,20 +269,20 @@
                   <Font name="System Bold" size="26.0" />
                </font>
             </Label>
-				<Button fx:id="btnAddVehicle" layoutX="661.0" layoutY="63.0" mnemonicParsing="false" onAction="#addVehicle" prefHeight="34.0" prefWidth="96.0" text="Add Vehicle" />
+				<Button fx:id="btnAddVehicle" layoutX="661.0" layoutY="63.0" mnemonicParsing="false" onAction="#addVehicle" prefHeight="34.0" prefWidth="146.0" text="Add Vehicle" />
             <TextField fx:id="txtVehicleNumber" layoutX="251.0" layoutY="66.0" prefHeight="25.0" prefWidth="129.0" />
             <Label layoutX="112.0" layoutY="66.0" text="Vehicle Number :" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <Label layoutX="410.0" layoutY="67.0" text="Fuel Type : " textFill="WHITE">
+            <Label layoutX="405.0" layoutY="71.0" text="Fuel Type : " textFill="WHITE">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
             <ChoiceBox fx:id="cbVehicleFuelType" layoutX="495.0" layoutY="63.0" prefWidth="150.0" />
-            <Label fx:id="lblVehicleError" layoutX="771.0" layoutY="68.0" text="Invalid input" textFill="RED">
+            <Label fx:id="lblVehicleError" layoutX="820.0" layoutY="68.0" text="Invalid input" textFill="RED">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>

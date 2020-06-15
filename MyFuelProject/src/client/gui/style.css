@@ -185,4 +185,40 @@
 #dark-blue Text {
     -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.9) , 1, 0.0 , 0 , 1 );
 }
+#selected{
+    -fx-background-color: 
+        #090a0c,
+        linear-gradient(#38424b 0%, #00BFFF 20%, #191d22 100%),
+        linear-gradient(#02b6de, #024079),
+        radial-gradient(center 50% 0%, radius 100%, rgba(12,131,255,0.9), rgba(255,255,255,0));
+    -fx-background-radius: 5,4,3,5;
+    -fx-background-insets: 0,1,2,0;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+    -fx-font-family: "Arial";
+    -fx-text-fill: linear-gradient(white, #d0d0d0);
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+#select Text {
+    -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.9) , 1, 0.0 , 0 , 1 );
+}
 
+#unselected{
+    -fx-background-color: 
+        #090a0c,
+        linear-gradient(#38424b 0%, #fffFFF 20%, #191d22 100%),
+        linear-gradient(#647ab0, #142c66),
+        radial-gradient(center 50% 0%, radius 100%, rgba(34, 64, 138,0.9), rgba(255,255,255,0));
+    -fx-background-radius: 5,4,3,5;
+    -fx-background-insets: 0,1,2,0;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+    -fx-font-family: "Arial";
+    -fx-text-fill: linear-gradient(white, #d0d0d0);
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+#unselect Text {
+    -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.9) , 1, 0.0 , 0 , 1 );
+}

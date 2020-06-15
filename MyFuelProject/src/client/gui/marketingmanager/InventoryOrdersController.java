@@ -96,7 +96,7 @@ public class InventoryOrdersController {
 		this.orders = orders;
 		for (int i = 0; i < orders.size(); i++) {
 			InventoryOrderPaneController invertoryOrder = new InventoryOrderPaneController();
-			String color = i % 2 == 0 ? "#0240FF" : "#024079";
+			String color = i % 2 == 0 ? ObjectContainer.rowColorBG1 : ObjectContainer.rowColorBG2;
 			order.add(invertoryOrder.load(orders.get(i).getAsJsonObject(), color));
 			vbOrderPane.getChildren().add(order.get(i).getOrderPane());
 		}

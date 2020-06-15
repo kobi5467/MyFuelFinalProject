@@ -62,9 +62,14 @@ public class CustomerVehiclesController {
 
 	private void initUI(JsonObject vehicle, String color) {
 		this.vehicle = vehicle;
-		vehiclePane.setStyle("-fx-background-color:" + color + ";");
+		setColor(color);
 		txtVehicle.setText(vehicle.get("vehicleNumber").getAsString());
 		txtFuelType.setText(vehicle.get("fuelType").getAsString());
+	}
+	public void setColor(String color) {
+		vehiclePane.setStyle("-fx-background-color:" + color + ";"
+				+ "-fx-border-color:#77cde7;"
+				+ "-fx-border-width:3px;");
 	}
 
 }
