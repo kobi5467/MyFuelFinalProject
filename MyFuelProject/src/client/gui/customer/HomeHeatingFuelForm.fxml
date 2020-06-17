@@ -11,79 +11,79 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane fx:id="mainPane" prefHeight="570.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.customer.HomeHeatingFuelController">
+<Pane fx:id="mainPane" prefHeight="570.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.customer.HomeHeatingFuelController">
    <children>
-      <Pane fx:id="panePurchaseSuccessful" prefHeight="570.0" prefWidth="949.0">
+      <Pane fx:id="panePurchaseSuccessful" prefHeight="570.0" prefWidth="949.0" style="-fx-background-color: #123456;">
          <children>
-            <Text fx:id="txtOrderNumber" fill="WHITE" layoutX="31.0" layoutY="303.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order number:">
+            <Text fx:id="txtOrderNumber" fill="WHITE" layoutX="313.0" layoutY="309.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order number :">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="22.0" />
                </font>
             </Text>
-            <Text fx:id="txtDateSupplyOnPurchaseDetails" fill="WHITE" layoutX="33.0" layoutY="356.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date supply:" wrappingWidth="110.9970687367022">
+            <Text fx:id="txtDateSupplyOnPurchaseDetails" fill="WHITE" layoutX="313.0" layoutY="378.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date supply :" wrappingWidth="167.8828196655959">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="22.0" />
                </font>
             </Text>
-            <Text fx:id="paymentMethodOnPurchaseDetails" fill="WHITE" layoutX="33.0" layoutY="384.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Payment method:">
+            <Text fx:id="paymentMethodOnPurchaseDetails" fill="WHITE" layoutX="313.0" layoutY="411.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Payment method :">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="22.0" />
                </font>
             </Text>
-            <Text fx:id="totalPriceOnPurchaseDetails" fill="WHITE" layoutX="33.0" layoutY="414.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total price:">
+            <Text fx:id="totalPriceOnPurchaseDetails" fill="WHITE" layoutX="314.0" layoutY="446.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total price :">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="22.0" />
                </font>
             </Text>
-            <Label fx:id="lblOrderNumberOnPurchasePain" layoutX="181.0" layoutY="283.0" prefHeight="27.0" prefWidth="85.0" text="orderId" textFill="WHITE">
+            <Label fx:id="lblOrderNumberOnPurchasePain" layoutX="513.0" layoutY="285.0" prefHeight="27.0" prefWidth="85.0" text="orderId" textFill="WHITE">
                <font>
-                  <Font size="18.0" />
+                  <Font size="22.0" />
                </font>
             </Label>
-            <Label fx:id="lblDateSupplyInPurchasePane" layoutX="180.0" layoutY="337.0" text="dateSupply" textFill="WHITE">
+            <Label fx:id="lblDateSupplyInPurchasePane" layoutX="513.0" layoutY="353.0" text="dateSupply" textFill="WHITE">
                <font>
-                  <Font size="18.0" />
+                  <Font size="22.0" />
                </font>
             </Label>
-            <Label fx:id="lblPaymentMethodOnPurchasePane" layoutX="181.0" layoutY="363.0" text="paymentMethod" textFill="WHITE">
+            <Label fx:id="lblPaymentMethodOnPurchasePane" layoutX="513.0" layoutY="386.0" text="paymentMethod" textFill="WHITE">
                <font>
-                  <Font size="18.0" />
+                  <Font size="22.0" />
                </font>
             </Label>
-            <Label fx:id="lblTotalPriceOnPurchasePane" layoutX="182.0" layoutY="396.0" text="totalPrice" textFill="WHITE">
+            <Label fx:id="lblTotalPriceOnPurchasePane" layoutX="513.0" layoutY="422.0" text="totalPrice" textFill="WHITE">
                <font>
-                  <Font size="18.0" />
+                  <Font size="22.0" />
                </font>
             </Label>
-            <Text fx:id="txtAdress" fill="WHITE" layoutX="33.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adrees:">
+            <Text fx:id="txtAdress" fill="WHITE" layoutX="313.0" layoutY="345.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adrees :">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="22.0" />
                </font>
             </Text>
-            <Label fx:id="lblAdress" layoutX="180.0" layoutY="309.0" text="adressForShiping" textFill="WHITE">
+            <Label fx:id="lblAdress" layoutX="513.0" layoutY="320.0" text="adressForShiping" textFill="WHITE">
                <font>
-                  <Font size="18.0" />
+                  <Font size="22.0" />
                </font>
             </Label>
-            <Text fx:id="txtPurchaseSuccessful" fill="WHITE" layoutX="144.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Thank you" wrappingWidth="337.13671875">
+            <Text fx:id="txtPurchaseSuccessful" fill="WHITE" layoutX="181.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Thank you" wrappingWidth="337.13671875">
                <font>
                   <Font size="64.0" />
                </font>
             </Text>
-            <Label fx:id="lblUserFirstName" layoutX="455.0" layoutY="86.0" text="userName" textFill="WHITE">
+            <Label fx:id="lblUserFirstName" layoutX="492.0" layoutY="81.0" text="userName" textFill="WHITE">
                <font>
                   <Font size="64.0" />
                </font>
             </Label>
-            <Text fx:id="txtPurchaseSuccessful2" fill="WHITE" layoutX="168.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sit back and relax, your order has been placed! " textAlignment="CENTER" wrappingWidth="561.787109375">
+            <Text fx:id="txtPurchaseSuccessful2" fill="WHITE" layoutX="205.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sit back and relax, your order has been placed! " textAlignment="CENTER" wrappingWidth="561.787109375">
                <font>
                   <Font size="24.0" />
                </font>
             </Text>
-            <ImageView fx:id="imgPurchaseSuccessful" fitHeight="93.0" fitWidth="162.0" layoutX="368.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
-            <Text fx:id="txtDeliveryDetails" fill="WHITE" layoutX="31.0" layoutY="279.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Delivery details:">
+            <ImageView fx:id="imgPurchaseSuccessful" fitHeight="93.0" fitWidth="162.0" layoutX="400.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+            <Text fx:id="txtDeliveryDetails" fill="WHITE" layoutX="313.0" layoutY="275.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Delivery details:">
                <font>
-                  <Font size="24.0" />
+                  <Font name="System Bold" size="36.0" />
                </font>
             </Text>
          </children>
@@ -92,205 +92,170 @@
          <children>
             <Text fx:id="txtOrderDetailsTitle" fill="WHITE" layoutX="25.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order Details" wrappingWidth="239.2802864909172">
                <font>
-                  <Font size="24.0" />
+                  <Font name="System Bold" size="24.0" />
                </font>
             </Text>
-            <Text fill="WHITE" layoutX="25.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amount:">
+            <Text fill="WHITE" layoutX="25.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amount :">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Text>
-            <Text fill="WHITE" layoutX="25.0" layoutY="92.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Street:">
+            <Text fill="WHITE" layoutX="24.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Street :">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Text>
-            <Text fill="WHITE" layoutX="25.0" layoutY="167.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date supply:">
+            <Text fill="WHITE" layoutX="25.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date supply :">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Text>
-            <Text fill="WHITE" layoutX="25.0" layoutY="248.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Payment method:">
+            <Text fill="WHITE" layoutX="25.0" layoutY="262.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Payment method :">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Text>
-            <TextField fx:id="txtAmount" layoutX="185.0" layoutY="33.8984375" onKeyReleased="#updateOrderSummary">
+            <TextField fx:id="txtAmount" layoutX="190.0" layoutY="35.0" onKeyReleased="#updateOrderSummary">
                <font>
                   <Font size="13.0" />
                </font>
             </TextField>
-            <TextField fx:id="txtStreet" layoutX="185.0" layoutY="70.8984375" prefHeight="29.0" prefWidth="162.0">
+            <TextField fx:id="txtStreet" layoutX="190.0" layoutY="75.0" prefHeight="29.0" prefWidth="162.0">
                <font>
                   <Font size="13.0" />
                </font>
             </TextField>
             <Button fx:id="btnSubmit" layoutX="857.0" layoutY="514.0" mnemonicParsing="false" onAction="#onSubmit" text="Submit" />
-            <Text fill="WHITE" layoutX="361.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Urgent order?">
+            <Text fill="WHITE" layoutX="384.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Urgent order">
                <font>
                   <Font size="18.0" />
                </font>
             </Text>
-            <CheckBox fx:id="boxUrgentOrder" layoutX="481.0" layoutY="151.0" mnemonicParsing="false" onAction="#checkBoxPressed" prefHeight="17.0" prefWidth="15.0">
+            <CheckBox fx:id="boxUrgentOrder" layoutX="360.0" layoutY="161.0" mnemonicParsing="false" onAction="#checkBoxPressed" prefHeight="17.0" prefWidth="15.0">
                <font>
                   <Font size="13.0" />
                </font>
             </CheckBox>
-            <ChoiceBox fx:id="cbPaymentMethod" layoutX="185.0" layoutY="224.8984375" prefHeight="29.0" prefWidth="162.0" />
-            <TextField fx:id="txtCVV" layoutX="185.0" layoutY="299.8984375" prefHeight="25.0" prefWidth="162.0">
+            <ChoiceBox fx:id="cbPaymentMethod" layoutX="190.0" layoutY="239.0" prefHeight="29.0" prefWidth="162.0" />
+            <TextField fx:id="txtCVV" layoutX="190.0" layoutY="323.0" prefHeight="25.0" prefWidth="162.0">
                <font>
                   <Font size="13.0" />
                </font>
             </TextField>
-            <Text fx:id="txtcvv" fill="WHITE" layoutX="25.0" layoutY="321.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CVV:">
+            <Text fx:id="txtcvv" fill="WHITE" layoutX="25.0" layoutY="348.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CVV :">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Text>
-            <Text fx:id="txtCardNum" fill="WHITE" layoutX="25.0" layoutY="288.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Card Number:">
+            <Text fx:id="txtCardNum" fill="WHITE" layoutX="25.0" layoutY="305.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Card Number:">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Text>
-            <Text fx:id="txtDateVal" fill="WHITE" layoutX="25.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date Validation:">
+            <Text fx:id="txtDateVal" fill="WHITE" layoutX="25.0" layoutY="384.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date Validation :">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Text>
-            <Label fx:id="lblAmountErrorMsg" layoutX="390.0" layoutY="35.8984375" prefHeight="27.0" prefWidth="205.0" text="AmountError" textFill="RED">
+            <DatePicker fx:id="datePickerDateSupply" layoutX="190.0" layoutY="155.0" prefHeight="29.0" prefWidth="162.0" />
+            <ChoiceBox fx:id="cbCreditCardMonthValidation" layoutX="190.0" layoutY="364.0" prefHeight="29.0" prefWidth="74.0" />
+            <ChoiceBox fx:id="cbCreditCardYearValidation" layoutX="281.0" layoutY="364.0" prefHeight="29.0" prefWidth="70.0" />
+            <Text fx:id="txtTotalPrice" fill="WHITE" layoutX="551.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total price:">
                <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblStreetErrorMsg" layoutX="390.0" layoutY="71.8984375" prefHeight="27.0" prefWidth="154.0" text="StreetError" textFill="RED">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblPaymentErrorMsg" layoutX="390.0" layoutY="225.0" prefHeight="27.0" prefWidth="230.0" text="PaymentError" textFill="RED">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblCardNumberErrorMsg" layoutX="390.0" layoutY="265.8984375" prefHeight="27.0" prefWidth="422.0" text="cardNuberError" textFill="RED">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblCVVErrorMsg" layoutX="390.0" layoutY="307.8984375" prefHeight="27.0" prefWidth="213.0" text="cvvNummerErrror" textFill="RED">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label fx:id="dateValidationError" layoutX="390.0" layoutY="345.8984375" prefHeight="27.0" prefWidth="213.0" text="dateValidationError" textFill="RED">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label fx:id="dateErrorMsg" layoutX="539.0" layoutY="148.0" prefHeight="27.0" prefWidth="288.0" text="dateErrorMsg" textFill="RED">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <DatePicker fx:id="datePickerDateSupply" layoutX="185.0" layoutY="145.8984375" prefHeight="29.0" prefWidth="162.0" />
-            <ChoiceBox fx:id="cbCreditCardMonthValidation" layoutX="185.0" layoutY="336.8984375" prefHeight="29.0" prefWidth="74.0" />
-            <ChoiceBox fx:id="cbCreditCardYearValidation" layoutX="278.0" layoutY="338.8984375" prefHeight="29.0" prefWidth="70.0" />
-            <Text fx:id="txtTotalPrice" fill="WHITE" layoutX="25.0" layoutY="544.474609375" strokeType="OUTSIDE" strokeWidth="0.0" text="Total price:">
-               <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Text>
-            <Label fx:id="lbltotalPriceAfterDiscount" layoutX="148.0" layoutY="527.0" text="totalPriceAfterDiscount" textFill="WHITE">
+            <Label fx:id="lbltotalPriceAfterDiscount" layoutX="684.0" layoutY="161.0" prefHeight="27.0" prefWidth="162.0" text="totalPriceAfterDiscount" textFill="WHITE">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Text fx:id="txtOrderSummaryTitle" fill="WHITE" layoutX="25.0" layoutY="411.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order Summary">
+            <Text fx:id="txtOrderSummaryTitle" fill="WHITE" layoutX="549.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order Summary">
                <font>
-                  <Font size="24.0" />
+                  <Font name="System Bold" size="24.0" />
                </font>
             </Text>
-            <Text fill="WHITE" layoutX="25.0" layoutY="520.474609375" strokeType="OUTSIDE" strokeWidth="0.0" text="Discount:">
+            <Text fill="WHITE" layoutX="550.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Discount:">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Text>
-            <Text fill="WHITE" layoutX="25.0" layoutY="493.474609375" strokeType="OUTSIDE" strokeWidth="0.0" text="Shipping:" wrappingWidth="85.27148384600878">
+            <Text fill="WHITE" layoutX="550.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Shipping:" wrappingWidth="85.27148384600878">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Text>
-            <Text fill="WHITE" layoutX="25.0" layoutY="467.474609375" strokeType="OUTSIDE" strokeWidth="0.0" text="Subtotal:">
+            <Text fill="WHITE" layoutX="550.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subtotal:">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Text>
-            <Label fx:id="lblSubTotalPriceBeforeDiscount" layoutX="147.0" layoutY="446.0" text="SubTotalPriceBeforeDiscount" textFill="WHITE">
+            <Label fx:id="lblSubTotalPriceBeforeDiscount" layoutX="684.0" layoutY="68.0" prefHeight="27.0" prefWidth="180.0" text="SubTotalPriceBeforeDiscount" textFill="WHITE">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label fx:id="lblShippingRate" layoutX="147.0" layoutY="472.0" text="shippingRate" textFill="WHITE">
+            <Label fx:id="lblShippingRate" layoutX="685.0" layoutY="99.0" prefHeight="27.0" prefWidth="170.0" text="shippingRate" textFill="WHITE">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label fx:id="lblDiscountRate" layoutX="148.0" layoutY="500.0" text="discountRate" textFill="WHITE">
+            <Label fx:id="lblDiscountRate" layoutX="684.0" layoutY="129.0" prefHeight="27.0" prefWidth="180.0" text="discountRate" textFill="WHITE">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Text fill="WHITE" layoutX="25.0" layoutY="442.474609375" strokeType="OUTSIDE" strokeWidth="0.0" text="Price per litter:">
+            <Text fill="WHITE" layoutX="550.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Price per litter:">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Text>
-            <Label fx:id="lblCurrentPricePerLitter" layoutX="149.0" layoutY="422.0" text="currentPricePerLitter" textFill="WHITE">
+            <Label fx:id="lblCurrentPricePerLitter" layoutX="685.0" layoutY="39.0" prefHeight="27.0" prefWidth="170.0" text="currentPricePerLitter" textFill="WHITE">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Text fill="WHITE" layoutX="25.0" layoutY="128.0" strokeType="OUTSIDE" strokeWidth="0.0" text="City:">
+            <Text fill="WHITE" layoutX="25.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="City :">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Text>
-            <TextField fx:id="txtCity" layoutX="185.0" layoutY="107.8984375">
+            <TextField fx:id="txtCity" layoutX="190.0" layoutY="115.0">
                <font>
                   <Font size="13.0" />
                </font>
             </TextField>
-            <Label fx:id="lblCityError" layoutX="390.0" layoutY="107.8984375" prefHeight="27.0" prefWidth="115.0" text="CityError" textFill="RED">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <ImageView fx:id="imgAmountError" fitHeight="32.0" fitWidth="35.0" layoutX="350.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="imgStreetError" fitHeight="32.0" fitWidth="34.0" layoutX="350.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="imgCityError" fitHeight="32.0" fitWidth="37.0" layoutX="350.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="imgDateSupllyError" fitHeight="27.0" fitWidth="24.0" layoutX="510.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fitHeight="32.0" fitWidth="37.0" layoutX="340.0" layoutY="219.8984375" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="imgPaymentMethodError" fitHeight="32.0" fitWidth="37.0" layoutX="350.0" layoutY="220.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="imgCVVError" fitHeight="32.0" fitWidth="37.0" layoutX="350.0" layoutY="295.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="imgCardNumberCVV" fitHeight="32.0" fitWidth="37.0" layoutX="350.0" layoutY="256.8984375" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="imgDateValidationError" fitHeight="32.0" fitWidth="37.0" layoutX="350.0" layoutY="333.0" pickOnBounds="true" preserveRatio="true" />
-            <TextField fx:id="txtCardNumber" layoutX="185.0" layoutY="262.8984375">
+            <ImageView fx:id="imgAmountError" fitHeight="29.0" fitWidth="34.0" layoutX="355.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imgStreetError" fitHeight="29.0" fitWidth="34.0" layoutX="355.0" layoutY="72.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imgCityError" fitHeight="29.0" fitWidth="34.0" layoutX="355.0" layoutY="112.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imgDateSupllyError" fitHeight="29.0" fitWidth="34.0" layoutX="492.0" layoutY="157.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imgPaymentMethodError" fitHeight="29.0" fitWidth="34.0" layoutX="356.0" layoutY="239.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imgCVVError" fitHeight="29.0" fitWidth="34.0" layoutX="355.0" layoutY="325.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imgCardNumberCVV" fitHeight="29.0" fitWidth="34.0" layoutX="355.0" layoutY="278.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imgDateValidationError" fitHeight="29.0" fitWidth="34.0" layoutX="355.0" layoutY="364.0" pickOnBounds="true" preserveRatio="true" />
+            <TextField fx:id="txtCardNumber" layoutX="190.0" layoutY="280.0">
                <font>
                   <Font size="13.0" />
                </font>
             </TextField>
-            <ChoiceBox fx:id="cbfuelCompany" layoutX="185.0" layoutY="184.0" prefHeight="29.0" prefWidth="162.0" />
-            <Text fx:id="txtFuelCompany" fill="WHITE" layoutX="25.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fuel company:" wrappingWidth="117.06152407824993">
+            <ChoiceBox fx:id="cbfuelCompany" layoutX="190.0" layoutY="195.0" prefHeight="29.0" prefWidth="162.0" />
+            <Text fx:id="txtFuelCompany" fill="WHITE" layoutX="25.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fuel company :" wrappingWidth="150.60937264561653">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Text>
-            <ImageView fx:id="imgfuelCompanyErrMsg" fitHeight="29.0" fitWidth="34.0" layoutX="350.0" layoutY="185.0" pickOnBounds="true" preserveRatio="true" />
-            <Label fx:id="lblfuelCompanyErrMsg" layoutX="394.0" layoutY="188.0" prefHeight="17.0" prefWidth="166.0" text="fuelCompanyErrMsg" textFill="RED">
+            <ImageView fx:id="imgfuelCompanyErrMsg" fitHeight="29.0" fitWidth="34.0" layoutX="355.0" layoutY="197.0" pickOnBounds="true" preserveRatio="true" />
+            <Text fx:id="txtRemeberCreditCard" fill="WHITE" layoutX="59.0" layoutY="422.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remember this card">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
-            </Label>
+            </Text>
+            <CheckBox fx:id="cbRemeberCreditCard" layoutX="27.0" layoutY="406.0" mnemonicParsing="false" onAction="#rememberCardPressed" />
+            <Text fx:id="txtSlash" fill="WHITE" layoutX="268.0" layoutY="382.0" strokeType="OUTSIDE" strokeWidth="0.0" text="/">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Text>
          </children>
       </Pane>
    </children>

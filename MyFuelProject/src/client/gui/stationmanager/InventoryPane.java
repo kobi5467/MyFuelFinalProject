@@ -151,6 +151,7 @@ public class InventoryPane {
 	public void initUI(JsonObject inventory) {
 		// fuelType, currentFuelAmount, thresholdAmount, maxFuelAmount
 		lblErrorMessage.setText("");
+		btnEdit.setId("dark-blue");
 		amount=inventory.get("currentFuelAmount").getAsString();
 		txtFuelType.setText(inventory.get("fuelType").getAsString());
 		txtThreshold.setText(inventory.get("thresholdAmount").getAsString());

@@ -18,6 +18,7 @@ import client.gui.customer.OrderTrackingController;
 import client.gui.marketingmanager.DeterminingFuelRatesController;
 import client.gui.marketingmanager.InventoryOrdersController;
 import client.gui.marketingmanager.ReportController;
+import client.gui.marketingrepresentative.AnalyticSystemController;
 import client.gui.marketingrepresentative.CustomerRegistrationController;
 import client.gui.marketingrepresentative.SaleTemplateController;
 import client.gui.marketingrepresentative.UpdateCustomerController;
@@ -55,6 +56,7 @@ public class ObjectContainer {
 	public static CustomerRegistrationController customerRegistrationController;
 	public static UpdateCustomerController updateCustomerController;
 	public static SaleTemplateController saleTemplateController;
+	public static AnalyticSystemController analyticSystemController;
 	
 	// MARKETING MANAGER
 	public static DeterminingFuelRatesController determiningFuelRatesController;

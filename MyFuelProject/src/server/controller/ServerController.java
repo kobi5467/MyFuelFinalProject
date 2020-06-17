@@ -27,14 +27,31 @@ import server.dbLogic.DBConnector;
 public class ServerController extends AbstractServer {
 
 	public static DBConnector dbConnector;
-	public static SystemManager systemManager;
 
+	public static long intervalForRankAnalysis = 24 * 60 * 60 * 1000;
 	public ServerController(int port) {
 		super(port);
 		dbConnector = new DBConnector();
-		systemManager = new SystemManager(dbConnector);
+		customerRanksAnalysis();
 	}
 
+	public void customerRanksAnalysis() {
+		new Thread() {
+			@Override
+			public void run() {
+				while(true) {
+					try {
+						System.out.println("Start generate ranks");
+						dbConnector.customerDBLogic.generateRanks();
+						sleep(intervalForRankAnalysis);						
+					}catch (Exception e) {
+						continue;
+					}
+				}
+			}
+		}.start();
+	}
+	
 	/**
 	 * this function handle the messages from the client, it gets a message from the client
 	 * and with the right case of message it sends the request to the appropriate handler.

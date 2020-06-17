@@ -7,8 +7,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<Pane fx:id="mainAnalyticPane" prefHeight="570.0" prefWidth="949.0" style="-fx-background-color: #123456;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.51" fx:controller="client.gui.marketingrepresentative.AnalyticSystemController">
+<Pane fx:id="mainAnalyticPane" prefHeight="570.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.marketingrepresentative.AnalyticSystemController">
    <children>
       <TableView fx:id="tblDataView" layoutX="34.0" layoutY="174.0" prefHeight="359.0" prefWidth="883.0" />
       <Label layoutX="33.0" layoutY="14.0" text="Filter By : " textFill="WHITE">
@@ -16,34 +15,34 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="btnShowAll" layoutX="125.0" layoutY="15.0" mnemonicParsing="false" onAction="#onShowAll" prefHeight="25.0" prefWidth="25.0" />
-      <Label layoutX="157.0" layoutY="14.0" text="Show All" textFill="WHITE">
+      <Button fx:id="btnShowRanks" layoutX="122.0" layoutY="12.0" mnemonicParsing="false" onAction="#onShowRanks" prefHeight="30.0" prefWidth="30.0" />
+      <Label layoutX="157.0" layoutY="14.0" text="Show Ranks" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="btnCustomerType" layoutX="246.0" layoutY="15.0" mnemonicParsing="false" onAction="#onCustomerType" prefHeight="25.0" prefWidth="25.0" />
-      <Label layoutX="278.0" layoutY="14.0" text="Customer Type" textFill="WHITE">
+      <Button fx:id="btnCustomerType" layoutX="269.0" layoutY="12.0" mnemonicParsing="false" onAction="#onCustomerType" prefHeight="30.0" prefWidth="30.0" />
+      <Label layoutX="304.0" layoutY="14.0" text="Customer Type" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="btnCertainHours" layoutX="444.0" layoutY="15.0" mnemonicParsing="false" onAction="#onCertainHours" prefHeight="25.0" prefWidth="25.0" />
-      <Label layoutX="476.0" layoutY="14.0" text="Certain Hours" textFill="WHITE">
+      <Button fx:id="btnCertainHours" layoutX="468.0" layoutY="12.0" mnemonicParsing="false" onAction="#onCertainHours" prefHeight="30.0" prefWidth="30.0" />
+      <Label layoutX="502.0" layoutY="14.0" text="Certain Hours" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="btnFuelType" layoutX="631.0" layoutY="15.0" mnemonicParsing="false" onAction="#onFuelType" prefHeight="25.0" prefWidth="25.0" />
-      <Label layoutX="665.0" layoutY="14.0" text="Fuel Type" textFill="WHITE">
+      <Button fx:id="btnFuelType" layoutX="657.0" layoutY="13.0" mnemonicParsing="false" onAction="#onFuelType" prefHeight="30.0" prefWidth="30.0" />
+      <Label layoutX="691.0" layoutY="14.0" text="Fuel Type" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <Button fx:id="btnSort" layoutX="813.0" layoutY="15.0" mnemonicParsing="false" onAction="#onSort" prefHeight="25.0" prefWidth="103.0" text="Sort" />
-      <ChoiceBox fx:id="cbCertainHours" layoutX="444.0" layoutY="62.0" prefHeight="25.0" prefWidth="168.0" />
-      <ChoiceBox fx:id="cbCustomerType" layoutX="246.0" layoutY="62.0" prefHeight="25.0" prefWidth="168.0" />
-      <ChoiceBox fx:id="cbFuelType" layoutX="631.0" layoutY="62.0" prefHeight="25.0" prefWidth="168.0" />
+      <ChoiceBox fx:id="cbCertainHours" layoutX="470.0" layoutY="62.0" prefHeight="25.0" prefWidth="168.0" />
+      <ChoiceBox fx:id="cbCustomerType" layoutX="272.0" layoutY="62.0" prefHeight="25.0" prefWidth="168.0" />
+      <ChoiceBox fx:id="cbFuelType" layoutX="657.0" layoutY="62.0" prefHeight="25.0" prefWidth="168.0" />
       <Label fx:id="lblTitleOfPane" alignment="CENTER" layoutX="34.0" layoutY="130.0" prefHeight="27.0" prefWidth="883.0" text="Label" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />

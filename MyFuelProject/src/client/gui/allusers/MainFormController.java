@@ -17,6 +17,7 @@ import client.gui.customer.OrderTrackingController;
 import client.gui.marketingmanager.DeterminingFuelRatesController;
 import client.gui.marketingmanager.InventoryOrdersController;
 import client.gui.marketingmanager.ReportController;
+import client.gui.marketingrepresentative.AnalyticSystemController;
 import client.gui.marketingrepresentative.CustomerRegistrationController;
 import client.gui.marketingrepresentative.SaleTemplateController;
 import client.gui.marketingrepresentative.UpdateCustomerController;
@@ -121,6 +122,7 @@ public class MainFormController {
 				buttonNames.add("CustomerRegistration");
 				buttonNames.add("UpdateCustomer");
 				buttonNames.add("SaleTemplates");
+				buttonNames.add("ActivityTracking");
 				break;
 			case STATION_MANAGER:
 				buttonNames.add("InventoryOrders");
@@ -318,6 +320,13 @@ public class MainFormController {
 				ObjectContainer.saleTemplateController = new SaleTemplateController();
 			}
 			ObjectContainer.saleTemplateController.load(changePane);
+		}
+		
+		if(title.equals("ActivityTracking")) {
+			if(ObjectContainer.analyticSystemController == null) {
+				ObjectContainer.analyticSystemController = new AnalyticSystemController();
+			}
+			ObjectContainer.analyticSystemController.load(changePane);
 		}
 		
 		/***************************** Marketing Manager **********************************/

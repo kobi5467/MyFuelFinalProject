@@ -307,7 +307,6 @@ public class CustomerRegistrationController {
 		case 1:
 			// next1
 			isValid = checkInputValidationStageOne();
-			isValid = true;
 			if(isValid) {
 				updateCustomerObjectDetailsStage1();
 				changeStage(1);
@@ -316,7 +315,6 @@ public class CustomerRegistrationController {
 		case 2:
 			//next2
 			isValid = checkInputValidationStageTwo();
-			isValid = true;
 			if(isValid) {
 				updateCustomerObjectDetailsStage2();
 				changeStage(1);

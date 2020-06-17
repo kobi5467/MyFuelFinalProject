@@ -750,4 +750,26 @@ public class CustomerDBLogic {
 		}
 		return customersId;
 	}
+	
+	
+	public void generateRanks() {
+		JsonArray customers = getAllCustomerId();
+		customers.toString();
+		
+		for(int i = 0; i < customers.size(); i++) {
+			JsonArray customerOrders = getCustomerOrders(customers.get(i).getAsString());
+			for(int j = 0; j < customerOrders.size(); j++) {
+				
+			}
+		}
+	}
+	
+	public float getRankByOrder(JsonObject order) {
+		return 0;
+	}
+	
+	private JsonArray getCustomerOrders(String customerID) {
+		
+		return null;
+	}
 }
