@@ -109,9 +109,9 @@ public class SupplierController {
 		txtAllOrdersSupplied.setVisible(false);
 		this.isPress = !this.isPress;
 		if (this.isPress)
-			setButtonImage("../../../images/checked.png", btnShowOpenOrder);
+			setButtonImage("/images/checked.png", btnShowOpenOrder);
 		else
-			setButtonImage("../../../images/unchecked.png", btnShowOpenOrder);
+			setButtonImage("/images/unchecked.png", btnShowOpenOrder);
 		this.orderid = null;
 		txtOrderId.setText("");
 		getDataBySupplierID(this.supplierId, this.isPress, this.orderid);
@@ -134,7 +134,7 @@ public class SupplierController {
 	@FXML
 	void OnSearch(ActionEvent event) {
 		this.isPress = false;
-		setButtonImage("../../../images/unchecked.png", btnShowOpenOrder);
+		setButtonImage("/images/unchecked.png", btnShowOpenOrder);
 		txtAllOrdersSupplied.setVisible(false);
 		if (checkOrderId()) {
 			this.orderid = tfOrderIdInput.getText();
@@ -149,7 +149,7 @@ public class SupplierController {
 	private void initUI() {
 		vbocOrdersPane.setSpacing(5);
 		btnSearch.setId("dark-blue");
-		setButtonImage("../../../images/unchecked.png", btnShowOpenOrder);
+		setButtonImage("/images/unchecked.png", btnShowOpenOrder);
 		String supplierID = "777";
 		txtAllOrdersSupplied.setVisible(false);
 		lblError.setText("");

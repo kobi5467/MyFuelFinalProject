@@ -9,7 +9,7 @@
    <children>
       <Label fx:id="lblMessageTitle" alignment="CENTER" layoutY="117.0" prefWidth="949.0" text="Good Morning Kobi Malka" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="62.0" />
+            <Font name="System Bold" size="47.0" />
          </font>
       </Label>
       <Label alignment="CENTER" layoutY="220.0" prefWidth="949.0" textFill="WHITE">

@@ -222,7 +222,7 @@ public class HomeHeatingFuelController {
 		lblPaymentMethodOnPurchasePane.setText(this.paymentMethod);
 		lblTotalPriceOnPurchasePane.setText(this.totalPrice);
 		lblUserFirstName.setText(this.customerName+",");
-		setErrorImage(imgPurchaseSuccessful, "../../../images/purchase_successful.png");
+		setErrorImage(imgPurchaseSuccessful, "/images/purchase_successful.png");
 	}
 
 	/**
@@ -429,21 +429,21 @@ public class HomeHeatingFuelController {
 			lblSubTotalPriceBeforeDiscount.setText("0.00 $");
 			lbltotalPriceAfterDiscount.setText("0.00 $");
 			if(showErrorMsg) {
-				setErrorImage(imgAmountError, "../../../images/error_icon.png");
+				setErrorImage(imgAmountError, "/images/error_icon.png");
 				}
 			return false;
 			}
 		if(!ObjectContainer.checkIfStringContainsOnlyNumbers(txtAmount.getText().toString())&&showErrorMsg){
-			setErrorImage(imgAmountError, "../../../images/error_icon.png");
+			setErrorImage(imgAmountError, "/images/error_icon.png");
 			return false;
 			}
 		float fuelAmount = Float.parseFloat(this.amount);
 		if (fuelAmount <= 0&&showErrorMsg) {
-			setErrorImage(imgAmountError, "../../../images/error_icon.png");
+			setErrorImage(imgAmountError, "/images/error_icon.png");
 			return false;
 			}
 		if(showErrorMsg) 
-			setErrorImage(imgAmountError, "../../../images/v_icon.png");
+			setErrorImage(imgAmountError, "/images/v_icon.png");
 		return true;
 	}
 	/**
@@ -452,10 +452,10 @@ public class HomeHeatingFuelController {
 	 */
 	public Boolean checkStreetField() {
 		if (txtStreet.getText().toString() == null || txtStreet.getText().toString().isEmpty()) {
-			setErrorImage(imgStreetError, "../../../images/error_icon.png");
+			setErrorImage(imgStreetError, "/images/error_icon.png");
 			return false;
 			}
-		setErrorImage(imgStreetError, "../../../images/v_icon.png");
+		setErrorImage(imgStreetError, "/images/v_icon.png");
 		return true;
 	}
 
@@ -466,10 +466,10 @@ public class HomeHeatingFuelController {
 	public Boolean checkCityField() {
 		System.out.println("checkCityField" + txtCity.getText());
 		if (txtCity.getText() == null || txtCity.getText().toString().isEmpty()) {
-			setErrorImage(imgCityError, "../../../images/error_icon.png");
+			setErrorImage(imgCityError, "/images/error_icon.png");
 			return false;
 		}
-		setErrorImage(imgCityError, "../../../images/v_icon.png");
+		setErrorImage(imgCityError, "/images/v_icon.png");
 		return true;
 
 	}
@@ -483,14 +483,14 @@ public class HomeHeatingFuelController {
 	 */
 	public Boolean checkDateSupplyField() {
 		if (datePickerDateSupply.getValue() == null || datePickerDateSupply.getValue().toString().trim().isEmpty()) {
-			setErrorImage(imgDateSupllyError, "../../../images/error_icon.png");
+			setErrorImage(imgDateSupllyError, "/images/error_icon.png");
 			return false;
 		}
 		if (datePickerDateSupply.getValue().isBefore(LocalDate.now())) {
-			setErrorImage(imgDateSupllyError, "../../../images/error_icon.png");
+			setErrorImage(imgDateSupllyError, "/images/error_icon.png");
 			return false;
 		}
-		setErrorImage(imgDateSupllyError, "../../../images/v_icon.png");
+		setErrorImage(imgDateSupllyError, "/images/v_icon.png");
 		return true;
 	}
 	
@@ -500,10 +500,10 @@ public class HomeHeatingFuelController {
 	 */
 	public Boolean checkPaymentMethodField() {
 		if (cbPaymentMethod.getValue().trim().equals(cbPaymentMethod.getItems().get(0))) {
-				setErrorImage(imgPaymentMethodError, "../../../images/error_icon.png");
+				setErrorImage(imgPaymentMethodError, "/images/error_icon.png");
 			return false;
 		}
-			setErrorImage(imgPaymentMethodError, "../../../images/v_icon.png");
+			setErrorImage(imgPaymentMethodError, "/images/v_icon.png");
 		return true;
 	}
 	
@@ -513,10 +513,10 @@ public class HomeHeatingFuelController {
 	 */
 	public Boolean checkFuelCompanyField() {
 		if (cbfuelCompany.getValue().trim().equals(cbfuelCompany.getItems().get(0))) {
-			setErrorImage(imgfuelCompanyErrMsg, "../../../images/error_icon.png");
+			setErrorImage(imgfuelCompanyErrMsg, "/images/error_icon.png");
 			return false;
 		}
-		setErrorImage(imgfuelCompanyErrMsg, "../../../images/v_icon.png");
+		setErrorImage(imgfuelCompanyErrMsg, "/images/v_icon.png");
 		return true;
 	}
 	
@@ -530,18 +530,18 @@ public class HomeHeatingFuelController {
 	 */
 	public Boolean checkCardNumberField() {
 		if (txtCardNumber.getText().trim() == null || txtCardNumber.getText().trim().isEmpty()) {
-			setErrorImage(imgCardNumberCVV, "../../../images/error_icon.png");
+			setErrorImage(imgCardNumberCVV, "/images/error_icon.png");
 			return false;
 		}
 		if(!ObjectContainer.checkIfStringContainsOnlyNumbers(txtCardNumber.getText().toString())){
-			setErrorImage(imgAmountError, "../../../images/error_icon.png");
+			setErrorImage(imgAmountError, "/images/error_icon.png");
 		}
 		System.out.println("lenght is:"+txtCardNumber.getText().trim().length());
  		if (txtCardNumber.getText().trim().length() > 16||txtCardNumber.getText().trim().length() < 8) {
-			setErrorImage(imgCardNumberCVV, "../../../images/error_icon.png");
+			setErrorImage(imgCardNumberCVV, "/images/error_icon.png");
 			return false;
 		}
-		setErrorImage(imgCardNumberCVV, "../../../images/v_icon.png");
+		setErrorImage(imgCardNumberCVV, "/images/v_icon.png");
 		return true;
 	}
 
@@ -556,18 +556,18 @@ public class HomeHeatingFuelController {
 	public Boolean checkCVVField() {
 		System.out.println("in checkCVV");
 		if (txtCVV.getText().toString() == null || txtCVV.getText().toString().isEmpty()) {
-			setErrorImage(imgCVVError, "../../../images/error_icon.png");
+			setErrorImage(imgCVVError, "/images/error_icon.png");
 			return false;
 		}
 		if (txtCVV.getText().trim().length()!=3) {
-			setErrorImage(imgCVVError, "../../../images/error_icon.png");
+			setErrorImage(imgCVVError, "/images/error_icon.png");
 			return false;
 		}
 		if(!ObjectContainer.checkIfStringContainsOnlyNumbers(txtCVV.getText().toString())){
-			setErrorImage(imgAmountError, "../../../images/error_icon.png");
+			setErrorImage(imgAmountError, "/images/error_icon.png");
 			return false;
 		}
-		setErrorImage(imgCVVError, "../../../images/v_icon.png");
+		setErrorImage(imgCVVError, "/images/v_icon.png");
 		return true;
 
 	}
@@ -581,18 +581,18 @@ public class HomeHeatingFuelController {
 	 */
 	public Boolean checkDateValidationField() {
 		if (cbCreditCardMonthValidation.getValue().trim().equals(cbCreditCardMonthValidation.getItems().get(0))) {
-			setErrorImage(imgDateValidationError, "../../../images/error_icon.png");
+			setErrorImage(imgDateValidationError, "/images/error_icon.png");
 			return false;
 			}
 		if(!ObjectContainer.checkIfStringContainsOnlyNumbers(cbCreditCardMonthValidation.getValue().toString())||
 				!ObjectContainer.checkIfStringContainsOnlyNumbers(cbCreditCardYearValidation.getValue().toString())){
-			setErrorImage(imgAmountError, "../../../images/error_icon.png");
+			setErrorImage(imgAmountError, "/images/error_icon.png");
 			}
 		if (cbCreditCardYearValidation.getValue().trim().equals(cbCreditCardYearValidation.getItems().get(0))) {
-			setErrorImage(imgDateValidationError, "../../../images/error_icon.png");
+			setErrorImage(imgDateValidationError, "/images/error_icon.png");
 			return false;
 			}
-		setErrorImage(imgDateValidationError, "../../../images/v_icon.png");
+		setErrorImage(imgDateValidationError, "/images/v_icon.png");
 		return true;
 	}
 	// **************************************************End test  function**********************************************
@@ -684,6 +684,9 @@ public class HomeHeatingFuelController {
 	 * @return the current percentage discount
 	 */
 	private float getDiscount(JsonObject response) {
+		if(response.get("saleData") == null) {
+			return 0;
+		}
 		JsonObject saleData = response.get("saleData").getAsJsonObject();
 		JsonArray saleTypes = saleData.get("saleTypes").getAsJsonArray();
 		float discountRate = 0;
@@ -728,9 +731,7 @@ public class HomeHeatingFuelController {
 		int currentTime = c.get(Calendar.HOUR_OF_DAY) * 60 + c.get(Calendar.MINUTE);
 		return start >= currentTime && currentTime <= end;
 	}
-	// **************************************************End sale function**************************************************
 
-	// **************************************************Generic function**************************************************
 	/**
 	 * This function create JsonObject with all the components of an home heating fuel order
 	 * @return JsonObect that include all the details an home heating fuel order.

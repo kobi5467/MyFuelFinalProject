@@ -169,7 +169,7 @@ public class InventoryPane {
 		txtFuelType.setDisable(true);
 		
 		BackgroundImage backgroundImage = new BackgroundImage(
-				new Image(getClass().getResource("../../../images/InventoryPaneBackround.png").toExternalForm()),
+				new Image(getClass().getResource("/images/InventoryPaneBackround.png").toExternalForm()),
 				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
 				BackgroundSize.DEFAULT);
 		Background background = new Background(backgroundImage);

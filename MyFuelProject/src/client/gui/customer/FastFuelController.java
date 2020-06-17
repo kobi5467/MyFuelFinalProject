@@ -144,45 +144,45 @@ public class FastFuelController {
 	private boolean checkValidOrder() {
 		boolean flag = true;
 		if (cbVehicleNumber.getValue().equals(cbVehicleNumber.getItems().get(0))) {
-			setErrorImage(imgVehicle, "../../../images/error_icon.png");
+			setErrorImage(imgVehicle, "/images/error_icon.png");
 			flag = false;
 		} else {
-			setErrorImage(imgVehicle, "../../../images/v_icon.png");
+			setErrorImage(imgVehicle, "/images/v_icon.png");
 		}
 
 		if (cbFuelCompany.getValue().equals(cbFuelCompany.getItems().get(0))) {
-			setErrorImage(imgCompany, "../../../images/error_icon.png");
+			setErrorImage(imgCompany, "/images/error_icon.png");
 			flag = false;
 		} else {
-			setErrorImage(imgCompany, "../../../images/v_icon.png");
+			setErrorImage(imgCompany, "/images/v_icon.png");
 		}
 
 		if (cbStationNumber.getValue().equals(cbStationNumber.getItems().get(0))) {
-			setErrorImage(imgStationNumber, "../../../images/error_icon.png");
+			setErrorImage(imgStationNumber, "/images/error_icon.png");
 			flag = false;
 		} else {
-			setErrorImage(imgStationNumber, "../../../images/v_icon.png");
+			setErrorImage(imgStationNumber, "/images/v_icon.png");
 		}
 
 		if (cbPaymentMethod.getValue().equals(cbPaymentMethod.getItems().get(0))) {
-			setErrorImage(imgPaymentMethod, "../../../images/error_icon.png");
+			setErrorImage(imgPaymentMethod, "/images/error_icon.png");
 			flag = false;
 		} else {
-			setErrorImage(imgPaymentMethod, "../../../images/v_icon.png");
+			setErrorImage(imgPaymentMethod, "/images/v_icon.png");
 		}
 
 		if (txtFuelAmount.getText().isEmpty()) {
-			setErrorImage(imgAmount, "../../../images/error_icon.png");
+			setErrorImage(imgAmount, "/images/error_icon.png");
 			flag = false;
 		} else {
-			setErrorImage(imgAmount, "../../../images/v_icon.png");
+			setErrorImage(imgAmount, "/images/v_icon.png");
 		}
 
 		try {
 			Float.parseFloat(txtFuelAmount.getText());
-			setErrorImage(imgAmount, "../../../images/v_icon.png");
+			setErrorImage(imgAmount, "/images/v_icon.png");
 		} catch (NumberFormatException e) {
-			setErrorImage(imgAmount, "../../../images/error_icon.png");
+			setErrorImage(imgAmount, "/images/error_icon.png");
 			flag = false;
 		}
 
@@ -191,26 +191,26 @@ public class FastFuelController {
 			if (txtCreditCardNumber.getText().isEmpty()
 					|| !ObjectContainer.checkIfStringContainsOnlyNumbers(txtCreditCardNumber.getText())
 					|| txtCreditCardNumber.getText().length() > 16 || txtCreditCardNumber.getText().length() < 8) {
-				setErrorImage(imgCreditCardNumber, "../../../images/error_icon.png");
+				setErrorImage(imgCreditCardNumber, "/images/error_icon.png");
 				flag = false;
 			} else {
-				setErrorImage(imgCreditCardNumber, "../../../images/v_icon.png");
+				setErrorImage(imgCreditCardNumber, "/images/v_icon.png");
 			}
 
 			if (txtCvv.getText().length() > 4 || txtCvv.getText().length() < 3
 					|| !ObjectContainer.checkIfStringContainsOnlyNumbers(txtCvv.getText())) {
-				setErrorImage(imgCVV, "../../../images/error_icon.png");
+				setErrorImage(imgCVV, "/images/error_icon.png");
 				flag = false;
 			} else {
-				setErrorImage(imgCVV, "../../../images/v_icon.png");
+				setErrorImage(imgCVV, "/images/v_icon.png");
 			}
 
 			if (cbYear.getValue().equals(cbYear.getItems().get(0))
 					|| cbMonth.getValue().equals(cbYear.getItems().get(0))) {
-				setErrorImage(imgDateValidation, "../../../images/error_icon.png");
+				setErrorImage(imgDateValidation, "/images/error_icon.png");
 				flag = false;
 			} else {
-				setErrorImage(imgDateValidation, "../../../images/v_icon.png");
+				setErrorImage(imgDateValidation, "/images/v_icon.png");
 			}
 		}
 		
@@ -293,10 +293,10 @@ public class FastFuelController {
 				lblTotalPrice.setText(String.format("%.2f$", totalPrice));
 				priceAfterDiscount = calcTotalPrice();
 				lblPriceAfterDiscount.setText(String.format("%.2f$", priceAfterDiscount));
-				setErrorImage(imgAmount, "../../../images/v_icon.png");
+				setErrorImage(imgAmount, "/images/v_icon.png");
 			}
 		} catch (Exception e) {
-			setErrorImage(imgAmount, "../../../images/error_icon.png");
+			setErrorImage(imgAmount, "/images/error_icon.png");
 		}
 
 	}
@@ -311,9 +311,9 @@ public class FastFuelController {
 				if (oldValue.equals(newValue))
 					return;
 				if ((Integer) newValue > 0) {
-					setErrorImage(imgStationNumber, "../../../images/v_icon.png");
+					setErrorImage(imgStationNumber, "/images/v_icon.png");
 				} else {
-					setErrorImage(imgStationNumber, "../../../images/error_icon.png");
+					setErrorImage(imgStationNumber, "/images/error_icon.png");
 				}
 			}
 		});
@@ -341,9 +341,9 @@ public class FastFuelController {
 			@Override
 			public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
 				if ((Integer) number2 > 0) {
-					setErrorImage(imgPaymentMethod, "../../../images/v_icon.png");
+					setErrorImage(imgPaymentMethod, "/images/v_icon.png");
 				} else {
-					setErrorImage(imgPaymentMethod, "../../../images/error_icon.png");
+					setErrorImage(imgPaymentMethod, "/images/error_icon.png");
 				}
 				if (cbPaymentMethod.getItems().get((Integer) number2).equals("Credit Card")) {
 					creditCardViewPane.setVisible(true);
@@ -395,9 +395,9 @@ public class FastFuelController {
 					getPricePerLitterByFuelType(fuelType);
 					lblPricePerLitter.setText(pricePerLitter + "");
 					calcPrice();
-					setErrorImage(imgVehicle, "../../../images/v_icon.png");
+					setErrorImage(imgVehicle, "/images/v_icon.png");
 				} else {
-					setErrorImage(imgVehicle, "../../../images/error_icon.png");
+					setErrorImage(imgVehicle, "/images/error_icon.png");
 					pricePerLitter = 0;
 				}
 			}
@@ -535,9 +535,9 @@ public class FastFuelController {
 			public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
 				if ((Integer) number2 > 0) {
 					getStationNumbersByFuelCompany(cbFuelCompany.getItems().get((Integer) number2));
-					setErrorImage(imgCompany, "../../../images/v_icon.png");
+					setErrorImage(imgCompany, "/images/v_icon.png");
 				} else {
-					setErrorImage(imgCompany, "../../../images/error_icon.png");
+					setErrorImage(imgCompany, "/images/error_icon.png");
 					cbStationNumber.getItems().clear();
 					cbStationNumber.getItems().add("Choose company first");
 					cbStationNumber.setValue(cbStationNumber.getItems().get(0));

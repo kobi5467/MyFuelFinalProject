@@ -69,9 +69,9 @@ public class AnalyticSystemController {
 		isCertainHours = !isCertainHours;
 		if(isCertainHours) {
 			isShowRanks = false;
-			setButtonsImages("../../../images/unchecked.png", btnShowRanks);
+			setButtonsImages("/images/unchecked.png", btnShowRanks);
 		}
-		String url = isCertainHours ? "../../../images/checked.png" : "../../../images/unchecked.png";
+		String url = isCertainHours ? "/images/checked.png" : "/images/unchecked.png";
 		setButtonsImages(url,btnCertainHours);
 		cbCertainHours.setVisible(isCertainHours);
 		if(cbCertainHours.isVisible()) cbCertainHours.setValue(cbCertainHours.getItems().get(0));
@@ -82,9 +82,9 @@ public class AnalyticSystemController {
 		isCustomerType = !isCustomerType;
 		if(isCustomerType) {
 			isShowRanks = false;
-			setButtonsImages("../../../images/unchecked.png", btnShowRanks);
+			setButtonsImages("/images/unchecked.png", btnShowRanks);
 		}
-		String url = isCustomerType ? "../../../images/checked.png" : "../../../images/unchecked.png";
+		String url = isCustomerType ? "/images/checked.png" : "/images/unchecked.png";
 		setButtonsImages(url,btnCustomerType);
 		cbCustomerType.setVisible(isCustomerType);
 		if(cbCustomerType.isVisible()) cbCustomerType.setValue(cbCustomerType.getItems().get(0));
@@ -95,9 +95,9 @@ public class AnalyticSystemController {
 		isFuelType = !isFuelType;
 		if(isFuelType) {
 			isShowRanks = false;
-			setButtonsImages("../../../images/unchecked.png", btnShowRanks);
+			setButtonsImages("/images/unchecked.png", btnShowRanks);
 		}
-		String url = isFuelType ? "../../../images/checked.png" : "../../../images/unchecked.png";
+		String url = isFuelType ? "/images/checked.png" : "/images/unchecked.png";
 		setButtonsImages(url,btnFuelType);
 		cbFuelType.setVisible(isFuelType);
 		if(cbFuelType.isVisible()) cbFuelType.setValue(cbFuelType.getItems().get(0));
@@ -106,10 +106,10 @@ public class AnalyticSystemController {
 	@FXML
 	void onShowRanks(ActionEvent event) {
 		isShowRanks = !isShowRanks;
-		String url = isShowRanks ? "../../../images/checked.png" : "../../../images/unchecked.png";
+		String url = isShowRanks ? "/images/checked.png" : "/images/unchecked.png";
 		setButtonsImages(url,btnShowRanks);
 		if(isShowRanks) {
-			url = "../../../images/unchecked.png";
+			url = "/images/unchecked.png";
 			isFuelType = false;
 			setButtonsImages(url, btnFuelType);
 			isCustomerType = false;
@@ -151,7 +151,7 @@ public class AnalyticSystemController {
 	public void initUI() {
 		initCB();
 		btnSort.setId("dark-blue");
-		String url = "../../../images/unchecked.png";
+		String url = "/images/unchecked.png";
 		setButtonsImages(url, btnCertainHours);
 		setButtonsImages(url, btnCustomerType);
 		setButtonsImages(url, btnFuelType);

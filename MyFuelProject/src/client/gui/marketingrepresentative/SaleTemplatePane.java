@@ -109,8 +109,8 @@ public class SaleTemplatePane {
 	private boolean isFuelTypeClicked;
 	private boolean isOpen;
 
-	private String checkedURL = "../../../images/checked.png";
-	private String uncheckedURL = "../../../images/unchecked.png";
+	private String checkedURL = "/images/checked.png";
+	private String uncheckedURL = "/images/unchecked.png";
 
 	private String to = "";
 	private String from = "";
@@ -126,7 +126,7 @@ public class SaleTemplatePane {
 				saleTemplate.addProperty("isRunning", 1);
 				Message msg = new Message(MessageType.UPDATE_RUNNING_SALE, saleTemplate.toString());
 				ClientUI.accept(msg);
-				setImageButton("../../../images/stop.png", btnRunStop);
+				setImageButton("/images/stop.png", btnRunStop);
 			}else {
 				ObjectContainer.showMessage("Error", "Run Sale", "Can't run two sales at the same time.\nPlease stop other sale before.");
 				return;
@@ -135,7 +135,7 @@ public class SaleTemplatePane {
 			saleTemplate.addProperty("isRunning", 0);
 			Message msg = new Message(MessageType.UPDATE_RUNNING_SALE, saleTemplate.toString());
 			ClientUI.accept(msg);
-			setImageButton("../../../images/run.png", btnRunStop);
+			setImageButton("/images/run.png", btnRunStop);
 		}
 		isRunning = 1 - isRunning;
 		changeCSS();
@@ -322,8 +322,8 @@ public class SaleTemplatePane {
 		if (saleTemplate == null) {
 			this.saleTemplate = new JsonObject();
 			isNew = true;
-			setImageButton("../../../images/minus_icon.png", btnOpen);
-			setImageButton("../../../images/remove.png", btnRemove);
+			setImageButton("/images/minus_icon.png", btnOpen);
+			setImageButton("/images/remove.png", btnRemove);
 			btnRunStop.setVisible(false);
 			btnEdit.setText("Save");
 			open();
@@ -336,12 +336,12 @@ public class SaleTemplatePane {
 				btnRemove.setVisible(false);
 				btnRunStop.setVisible(true);
 				btnEdit.setVisible(false);
-				String url = "../../../images/" + ((isRunning == 1) ? "stop" : "run") + ".png";
+				String url = "/images/" + ((isRunning == 1) ? "stop" : "run") + ".png";
 				setImageButton(url, btnRunStop);
 			}else {																 // MARKETING_REPRESENTATIVE
 				btnRemove.setVisible(true);
 				btnRunStop.setVisible(false);
-				setImageButton("../../../images/remove.png", btnRemove);
+				setImageButton("/images/remove.png", btnRemove);
 				btnEdit.setVisible(true);
 				btnEdit.setText("Edit");
 			}
@@ -407,7 +407,7 @@ public class SaleTemplatePane {
 	}
 
 	private void open() {
-		setImageButton("../../../images/minus_icon.png", btnOpen);
+		setImageButton("/images/minus_icon.png", btnOpen);
 		closePane.setVisible(false);
 		editPane.setVisible(true);
 		cbCustomerType.setVisible(isCustomerTypeClicked);
@@ -422,7 +422,7 @@ public class SaleTemplatePane {
 		isOpen = false;
 		closePane.setVisible(true);
 		editPane.setVisible(false);
-		setImageButton("../../../images/add_icon.png", btnOpen);
+		setImageButton("/images/add_icon.png", btnOpen);
 		mainSaleTemplatesPane.setPrefHeight(60);
 	}
 

@@ -9,6 +9,7 @@
 		</accessrules>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="external_jars"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/OCSF"/>
 	<classpathentry kind="lib" path="external_jars/gson-2.8.5.jar"/>
 	<classpathentry kind="lib" path="external_jars/mysql-connector-java-8.0.13.jar"/>

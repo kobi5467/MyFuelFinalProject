@@ -161,8 +161,8 @@ public class InventoryOrderPaneController {
 		
 		this.orders = orders;
 		btnSubmitReason.setId("dark-blue");
-		setButtonImage("../../../images/v_icon_30px.png", btnApprove);
-		setButtonImage("../../../images/error_icon_30px.png", btnDeny);
+		setButtonImage("/images/v_icon_30px.png", btnApprove);
+		setButtonImage("/images/error_icon_30px.png", btnDeny);
 		lblDenyReason.setVisible(false);
 		txtReasonDeny.setVisible(false);
 		btnSubmitReason.setVisible(false);

@@ -194,9 +194,9 @@ public class RequestPane {
 				+ "-fx-background-color:" + color + ";"
 				+ "-fx-border-color:#77cde7;"
 				+ "-fx-border-width:2px;");
-		setButtonImage("../../../images/v_icon_30px.png", btnApprove);
-		setButtonImage("../../../images/error_icon_30px.png", btnDecline);
-		//setButtonImage("../../../images/v_icon.png", btnSubmit);
+		setButtonImage("/images/v_icon_30px.png", btnApprove);
+		setButtonImage("/images/error_icon_30px.png", btnDecline);
+		//setButtonImage("/images/v_icon.png", btnSubmit);
 		btnApprove.setText("");
 		btnDecline.setText("");
 		

@@ -208,7 +208,7 @@ public class MainFormController {
 	}
 	
 	public void setBackgroundImage(String title) {
-		String url = title.equals("Home") ? "../../../images/HomeBG.jpg" : "../../../images/mainBG.jpg"; 
+		String url = title.equals("Home") ? "/images/HomeBG.jpg" : "/images/mainBG.jpg"; 
 		Image image = new Image(getClass().getResource(url).toString());
 		imgBackgroundMain.setImage(image);
 	}
@@ -435,7 +435,7 @@ public class MainFormController {
 	}
 
 	public void setButtonImage(String buttonName, int index, boolean isChecked) {
-		String url = "../../../images/menuButtons/"+buttonName;
+		String url = "/images/menuButtons/"+buttonName;
 		url += isChecked ? "Check.png" : "UnCheck.png";
 		BackgroundImage backgroundImage = new BackgroundImage(
 				new Image(getClass().getResource(url).toExternalForm()),

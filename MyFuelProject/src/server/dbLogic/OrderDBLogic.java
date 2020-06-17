@@ -75,10 +75,10 @@ public class OrderDBLogic {
 		String totalPrice = order.get("totalPrice").getAsString();
 		String orderDate = order.get("orderDate").getAsString();
 		String paymentMethod = order.get("paymentMethod").getAsString();
-		
+		String orderStatus = "WaitToApprove";
 		try {
 			if (DBConnector.conn != null) {
-				query = "INSERT INTO  home_heating_fuel_orders(customerID, amountOfLitters, city, street, dateSupply, urgentOrder, saleTemplateName, totalPrice, orderDate, paymentMethod, fuelCompany)"
+				query = "INSERT INTO  home_heating_fuel_orders(customerID, amountOfLitters, city, street, dateSupply, urgentOrder, saleTemplateName, totalPrice, orderStatus, orderDate, paymentMethod, fuelCompany)"
 						+ "VALUES('" + customerId + "','" + amount + "','" + city + "','"
 						+ Street + "','" + dateSupply + "','" + urgentOrder + "','"
 						+ saleTemplateName + "','" + totalPrice + "','" + orderDate + "','"
@@ -313,11 +313,12 @@ public class OrderDBLogic {
 					HHFOrder.addProperty("saleTemplateName", rs.getString("saleTemplateName"));
 					HHFOrder.addProperty("orderDate", rs.getString("orderDate"));
 					HHFOrder.addProperty("orderStatus", rs.getString("orderStatus"));
-					HHFOrder.addProperty("fuelAmount", rs.getString("fuelAmount"));
+					HHFOrder.addProperty("fuelAmount", rs.getString("amountOfLitters"));
 					HHFOrder.addProperty("totalPrice", rs.getString("totalPrice"));
 					HHFOrder.addProperty("paymentMethod", rs.getString("paymentMethod"));
 					HHFOrder.addProperty("dateSupply", rs.getString("dateSupply"));
-					HHFOrder.addProperty("address", rs.getString("address"));
+					HHFOrder.addProperty("city", rs.getString("city"));
+					HHFOrder.addProperty("street", rs.getString("street"));
 					HHFOrder.addProperty("urgentOrder", rs.getString("urgentOrder"));
 					HHFOrders.add(HHFOrder);
 				}

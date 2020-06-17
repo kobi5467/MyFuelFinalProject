@@ -282,7 +282,7 @@ public class CustomerRegistrationController {
 	}
 
 	private void setBackgroundImage(char c) {
-		String url = "../../../images/";
+		String url = "/images/";
 		switch(c) {
 		case '-':
 			url += "minus_icon.png";
@@ -398,40 +398,40 @@ public class CustomerRegistrationController {
 	private boolean checkCustomerType(String type) {
 		if(type.equals(cbCustomerType.getItems().get(0))) {
 			lblCustomerTypeError.setText("Please choose customer type");
-			setErrorImage(imgCustomerTypeError, "../../../images/error_icon.png");
+			setErrorImage(imgCustomerTypeError, "/images/error_icon.png");
 			return false;
 		}
-		setErrorImage(imgCustomerTypeError, "../../../images/v_icon.png");
+		setErrorImage(imgCustomerTypeError, "/images/v_icon.png");
 		return true; 
 	}
 
 	private boolean checkStreet(String street) {
 		if(street.isEmpty()) {
 			lblStreetError.setText("Please fill street name and number");
-			setErrorImage(imgStreetError, "../../../images/error_icon.png");
+			setErrorImage(imgStreetError, "/images/error_icon.png");
 			return false;
 		}
-		setErrorImage(imgStreetError, "../../../images/v_icon.png");
+		setErrorImage(imgStreetError, "/images/v_icon.png");
 		return true;
 	}
 
 	private boolean checkCity(String city) {
 		if(city.isEmpty()) {
 			lblCityError.setText("Please fill city name");
-			setErrorImage(imgCityError, "../../../images/error_icon.png");
+			setErrorImage(imgCityError, "/images/error_icon.png");
 			return false;
 		}
-		setErrorImage(imgCityError, "../../../images/v_icon.png");
+		setErrorImage(imgCityError, "/images/v_icon.png");
 		return true;
 	}
 
 	private boolean checkSubscribeType(String value) {
 		if(value.equals(cbSubscribeType.getItems().get(0))) {
 			lblSubscribeTypeError.setText("Please choose subsrcibe type");
-			setErrorImage(imgSubscribeType, "../../../images/error_icon.png");
+			setErrorImage(imgSubscribeType, "/images/error_icon.png");
 			return false;
 		}
-		setErrorImage(imgSubscribeType, "../../../images/v_icon.png");
+		setErrorImage(imgSubscribeType, "/images/v_icon.png");
 		return true; 
 	}
 
@@ -442,11 +442,11 @@ public class CustomerRegistrationController {
 		} else if (userIsAlreadyExist(userName)) {
 			errorMessage = "This user name is already exist";
 		} else {
-			setErrorImage(imgUsernameError, "../../../images/v_icon.png");
+			setErrorImage(imgUsernameError, "/images/v_icon.png");
 			return true;
 		}
 		lblUserNameError.setText(errorMessage);
-		setErrorImage(imgUsernameError, "../../../images/error_icon.png");
+		setErrorImage(imgUsernameError, "/images/error_icon.png");
 		return false;
 	}
 
@@ -466,11 +466,11 @@ public class CustomerRegistrationController {
 		} else if(password.length() < 6) {
 			errorMessage = "password must contain at least 6 letters";
 		}else {
-			setErrorImage(imgPasswordError, "../../../images/v_icon.png");
+			setErrorImage(imgPasswordError, "/images/v_icon.png");
 			return true;
 		}
 		lblPasswordError.setText(errorMessage);
-		setErrorImage(imgPasswordError, "../../../images/error_icon.png");
+		setErrorImage(imgPasswordError, "/images/error_icon.png");
 		return false;
 	}
 
@@ -483,11 +483,11 @@ public class CustomerRegistrationController {
 		} else if (customerIsExist(customerID)) {
 			errorMessage = "customer ID is already exist..";
 		} else {
-			setErrorImage(imgCustomerIDError, "../../../images/v_icon.png");
+			setErrorImage(imgCustomerIDError, "/images/v_icon.png");
 			return true;
 		}
 		lblIDError.setText(errorMessage);
-		setErrorImage(imgCustomerIDError, "../../../images/error_icon.png");
+		setErrorImage(imgCustomerIDError, "/images/error_icon.png");
 		return false;
 	}
 
@@ -505,11 +505,11 @@ public class CustomerRegistrationController {
 		if (customerName.isEmpty()) {
 			errorMessage = "please fill field..";
 		} else {
-			setErrorImage(imgCustomerNameError, "../../../images/v_icon.png");
+			setErrorImage(imgCustomerNameError, "/images/v_icon.png");
 			return true;
 		}
 		lblCustomerNameError.setText(errorMessage);
-		setErrorImage(imgCustomerNameError, "../../../images/error_icon.png");
+		setErrorImage(imgCustomerNameError, "/images/error_icon.png");
 		return false;
 	}
 
@@ -518,11 +518,11 @@ public class CustomerRegistrationController {
 		if (email.isEmpty()) {
 			errorMessage = "please fill field..";
 		} else {
-			setErrorImage(imgEmailError, "../../../images/v_icon.png");
+			setErrorImage(imgEmailError, "/images/v_icon.png");
 			return true;
 		}
 		lblEmailError.setText(errorMessage);
-		setErrorImage(imgEmailError, "../../../images/error_icon.png");
+		setErrorImage(imgEmailError, "/images/error_icon.png");
 		return false;
 	}
 
@@ -533,11 +533,11 @@ public class CustomerRegistrationController {
 		} else if ((phoneNumber.length() != 10 || !ObjectContainer.checkIfStringContainsOnlyNumbers(phoneNumber))) {
 			errorMessage = "Invalid input.. ";
 		} else {
-			setErrorImage(imgPhoneNumberError, "../../../images/v_icon.png");
+			setErrorImage(imgPhoneNumberError, "/images/v_icon.png");
 			return true;
 		}
 		lblPhoneError.setText(errorMessage);
-		setErrorImage(imgPhoneNumberError, "../../../images/error_icon.png");
+		setErrorImage(imgPhoneNumberError, "/images/error_icon.png");
 		return false;
 	}
 	
@@ -716,7 +716,7 @@ public class CustomerRegistrationController {
 	private void changeStage(int op) {
 		
 		currentStage = currentStage + op;
-		setErrorImage(imgStage, "../../../images/ScalaPart"+currentStage + ".png");
+		setErrorImage(imgStage, "/images/ScalaPart"+currentStage + ".png");
 		switch (currentStage) {
 		case 1:
 			stageOne.setVisible(true);
@@ -781,7 +781,7 @@ public class CustomerRegistrationController {
 		changeStage(0);
 		initErrorLabels();
 		initChoiceBoxes();
-		setButtonsImages("../../../images/eye_icon.png",btnShowPassword);
+		setButtonsImages("/images/eye_icon.png",btnShowPassword);
 		txtShowPassword.setVisible(false);
 		setBackgroundImage('+');
 		limitTextFields();
@@ -790,7 +790,7 @@ public class CustomerRegistrationController {
 		btnBack.setId("dark-blue");
 		btnNext.setId("dark-blue");
 		imgHelp.setVisible(false);
-		setButtonsImages("../../../images/help_icon.png", btnHelp);
+		setButtonsImages("/images/help_icon.png", btnHelp);
 		btnHelp.hoverProperty().addListener((ov, oldValue, newValue) -> {
 		    showHelp(newValue);
 		});
@@ -1065,7 +1065,7 @@ public class CustomerRegistrationController {
 			btnDeleteVehicle.setPrefSize(30, 30);
 			btnDeleteVehicle.relocate(690, 15);
 			btnDeleteVehicle.setText("");
-			setButtonsImages("../../../images/delete_icon.png", btnDeleteVehicle);
+			setButtonsImages("/images/delete_icon.png", btnDeleteVehicle);
 			btnDeleteVehicle.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {

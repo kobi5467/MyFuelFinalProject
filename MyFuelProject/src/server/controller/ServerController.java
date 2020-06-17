@@ -32,7 +32,7 @@ public class ServerController extends AbstractServer {
 	public ServerController(int port) {
 		super(port);
 		dbConnector = new DBConnector();
-		customerRanksAnalysis();
+//		customerRanksAnalysis();
 	}
 
 	public void customerRanksAnalysis() {
@@ -43,7 +43,7 @@ public class ServerController extends AbstractServer {
 					try {
 						System.out.println("Start generate ranks");
 						dbConnector.customerDBLogic.generateRanks();
-						sleep(intervalForRankAnalysis);						
+						Thread.sleep(intervalForRankAnalysis);						
 					}catch (Exception e) {
 						continue;
 					}
