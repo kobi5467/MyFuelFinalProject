@@ -8,9 +8,18 @@ import java.time.YearMonth;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
+/**
+ * This class responsible to rule on all the customer DB Logic with all the requests from the server.
+ * @author Or Yom Tov & Kobi Malka.
+ * @version - Final
+ */
 public class CustomerDBLogic {
-
+	/**
+	 * @author Kobi Malka
+	 * This method responsible to check if customer is already exist in the DB.
+	 * @param customerID - string value of customer id
+	 * @return - return boolean value - 'True' if exist, else 'False'
+	 */
 	public boolean checkIfCustomerExist(String customerID) {
 
 		boolean isExist = false;
@@ -37,7 +46,12 @@ public class CustomerDBLogic {
 
 		return isExist;
 	}
-	
+	/**
+	 * @author Kobi Malka
+	 * This method responsible to get all the customer details by user name.
+	 * @param userName - string value of user name
+	 * @return - return Json object of customer with all his details.
+	 */
 	public JsonObject getCustomerDetailsByUsername(String userName) {
 		JsonObject customer = new JsonObject();
 		String query = "";
@@ -73,7 +87,11 @@ public class CustomerDBLogic {
 		
 		return customer;
 	}
-	
+	/**
+	 * @author Kobi Malka
+	 * This method responsible to get all the subscribe types.
+	 * @return - return Json array of types.
+	 */
 	public JsonArray getSubscribeTypes() {
 		JsonArray types = new JsonArray();
 		
@@ -99,7 +117,11 @@ public class CustomerDBLogic {
 		return types;
 		
 	}
-
+	/**
+	 * @author Kobi Malka
+	 * This method responsible to add new customer in DB by all his data.
+	 * @param customer - Json object with all his details.
+	 */
 	public void addCustomer(JsonObject customer) {
 		String customerID = customer.get("customerID").getAsString();
 		String userName = customer.get("userName").getAsString();
@@ -127,7 +149,11 @@ public class CustomerDBLogic {
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * @author Kobi Malka
+	 * This method responsible to add new vehicle to DB.
+	 * @param vehicle - Json object with vehicle data.
+	 */
 	public void addVehicle(JsonObject vehicle) {
 		String vehicleNumber = vehicle.get("vehicleNumber").getAsString();
 		String fuelType = vehicle.get("fuelType").getAsString();
@@ -149,7 +175,12 @@ public class CustomerDBLogic {
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * @author Kobi Malka
+	 * This method responsible to check if the vehicle is already exists.
+	 * @param vehicle - Json object of vehicle data.
+	 * @return - return 'True' if exist, else 'False'.
+	 */
 	public boolean checkIfVehicleExist(JsonObject vehicle) {
 		String vehicleNumber = vehicle.get("vehicleNumber").getAsString();
 		boolean isExist = false;
@@ -175,7 +206,11 @@ public class CustomerDBLogic {
 		
 		return isExist;
 	}	
-	
+	/**
+	 * @author Kobi Malka
+	 * This method responsible to add new credit card to DB.
+	 * @param creditCard - Json object with credit card data.
+	 */
 	public void addCreditCard(JsonObject creditCard) {
 		String creditCardNumber = creditCard.get("cardNumber").getAsString();
 		String cvv = creditCard.get("cvvNumber").getAsString();
@@ -199,7 +234,12 @@ public class CustomerDBLogic {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * @author Kobi Malka
+	 * This method responsible to add the fuel companies to the DB.
+	 * @param customerID - string value of customer id
+	 * @param companies - Json array with the companies.
+	 */
 	public void addFuelCompanies(String customerID, JsonArray companies) {
 		String companyNames = "";
 		for(int i = 0; i < companies.size(); i++) {
@@ -227,7 +267,12 @@ public class CustomerDBLogic {
 		}
 		
 	}
-	
+	/**
+	 * @author Or Yom Tov
+	 * This method responsible to get all the data from 'customer', 'users' and 'credit_card' tables.
+	 * @param customerID - string value of customer ID
+	 * @return - return Json object with all the data of customer, user and credit card tables.
+	 */
 	public JsonObject getCustomerDetails(String customerID) {
 
 		JsonObject customer = new JsonObject();
@@ -266,7 +311,12 @@ public class CustomerDBLogic {
 		}
 		return customer;
 	}
-
+	/**
+	 * @author Or Yom Tov
+	 * This method responsible to update in the DB all the customer details in 'customer' and 'users' tables.
+	 * @param customerUpdate - Json object with customer details.
+	 * @return - return Json Object with all the customer data.
+	 */
 	public JsonObject updateCustomerDetails(JsonObject customerUpdate) {
 		String city = customerUpdate.get("city").getAsString();
 		String street = customerUpdate.get("street").getAsString();
@@ -300,7 +350,12 @@ public class CustomerDBLogic {
 		
 		return customerUpdate;
 	}
-
+	/**
+	 * @author Or Yom Tov
+	 * This method responsible to get all the vehicles data by customer id from the DB.
+	 * @param customerID - string value of cutsomerI id
+	 * @return - return Json array with all the vehicles.
+	 */
 	public JsonArray getVehiclesByCustomerID(String customerID) {
 		
 		JsonArray vehicles = new JsonArray();
@@ -330,7 +385,12 @@ public class CustomerDBLogic {
 		return vehicles;
 	}
 	
-	
+	/**
+	 * @author Or Yom Tov
+	 * This method responsible to get all the fuel station in the current company by company name
+	 * @param companyName - string value of companyName
+	 * @return - return Json array with all the fuel station.
+	 */
 	public static JsonArray getFuelStationsByCompanyName(String companyName) {
 		JsonArray stations = new JsonArray();
 		String query = "";
@@ -354,7 +414,12 @@ public class CustomerDBLogic {
 		return stations;
 	}
 	
-	
+	/**
+	 * @author Or Yom Tov
+	 * This method responsible to get all the fuel companies by customer ID.
+	 * @param customerID - string value of customer id
+	 * @return - return all the companies.
+	 */
 	public String getFuelCompaniesByCustomerID(String customerID) {
 		String companies = "";
 		
@@ -380,7 +445,11 @@ public class CustomerDBLogic {
 		
 		return companies;
 	}
-
+	/**
+	 * @author Kobi Malka
+	 * This method responsible to get all the subscribe types.
+	 * @return  - return Json array of subscribe types.
+	 */
 	public JsonArray getSubscribeTypeDiscount() {
 		JsonArray subscribeTypes = new JsonArray();
 		String query = "";
@@ -406,7 +475,11 @@ public class CustomerDBLogic {
 		
 		return subscribeTypes;
 	}
-
+	/**
+	 * @author Or Yom Tov
+	 * This method responsible to remove vehicle from the DB.
+	 * @param removeVehicle - Json object of vehicle to remove with all his data.
+	 */
 	public void removeVehicleFromDB(JsonObject removeVehicle) {
 		String query = "";
 		Statement stmt = null;
@@ -425,7 +498,12 @@ public class CustomerDBLogic {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * @author Kobi Malka
+	 * This method responsible to get previous fast fuel orders amount from DB.
+	 * @param customerID - string value of customer id
+	 * @return - return last mount price.
+	 */
 	public float getPreviousFastFuelOrdersAmount(String customerID) {
 		float lastMonthPrice = 0;
 		String query = "";
@@ -456,7 +534,12 @@ public class CustomerDBLogic {
 		
 		return lastMonthPrice;
 	}
-
+	/**
+	 * @author Or Yom Tov
+	 * This method responsible to update the current vehicle in DB
+	 * @param newVehicle - Json object of new vehicle
+	 * @return - return the Json object of the vehicle.
+	 */
 	public JsonObject updateVehicleInDB(JsonObject newVehicle) {
 		
 		String customerid = newVehicle.get("customerID").getAsString();
@@ -484,7 +567,11 @@ public class CustomerDBLogic {
 		return newVehicle;
 		
 	}
-
+	/**
+	 * @author Or Yom Tov
+	 * This method responsible to update all the purchase models in DB
+	 * @param purchaseModelJson - Json object of purchase model.
+	 */
 	public void updatePurchaseModelByID(JsonObject purchaseModelJson) {
 		String customerID = purchaseModelJson.get("customerID").getAsString();
 		String purchaseModelType = purchaseModelJson.get("purchaseModelType").getAsString();
@@ -512,7 +599,13 @@ public class CustomerDBLogic {
 			e.printStackTrace();
 		}
 	}
-public JsonObject updateCreditCardDetails(JsonObject creditCardUpdate) {
+	/**
+	 * @author Or Yom Tov
+	 * This method responsible to update the credit card details in the DB.
+	 * @param creditCardUpdate - Json object of credit card
+	 * @return - return credit card Json
+	 */
+	public JsonObject updateCreditCardDetails(JsonObject creditCardUpdate) {
 		String creditCard = creditCardUpdate.get("creditCard").getAsString();
 		String validationDate = creditCardUpdate.get("dateValidation").getAsString();
 		String cvv = creditCardUpdate.get("cvv").getAsString();
@@ -538,7 +631,11 @@ public JsonObject updateCreditCardDetails(JsonObject creditCardUpdate) {
 		
 		return creditCardUpdate;
 	}
-
+	/**
+	 * @author Or Yom Tov
+	 * This method responsible to insert new credit card in the DB.
+	 * @param creditCard - Json object with credit card details.
+	 */
 	public void insertCreditCard(JsonObject creditCard) {
 		
 		String customerID = creditCard.get("customerID").getAsString();
@@ -568,7 +665,12 @@ public JsonObject updateCreditCardDetails(JsonObject creditCardUpdate) {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * @author Or Yom Tov
+	 * This method is responsible to get the credit card details by customer id from the DB.
+	 * @param customerID - string value of customer id
+	 * @return - return Json object with credit card details.
+	 */
 	public JsonObject getCreditCardDetails(String customerID) {
 		JsonObject customer = new JsonObject();
 		String query = "";
@@ -595,7 +697,12 @@ public JsonObject updateCreditCardDetails(JsonObject creditCardUpdate) {
 		
 		return customer;
 	}
-
+	/**
+	 * @author Or Yom Tov
+	 * This method responsible to get all the fuel companis by customer id.
+	 * @param requestJson - Json object with customer details.
+	 * @return - return Json object with customer details.
+	 */
 	public JsonObject getFuelCompaniesByID(JsonObject requestJson) {
 		String customerID = requestJson.get("customerID").getAsString();
 		JsonObject customer = new JsonObject();
