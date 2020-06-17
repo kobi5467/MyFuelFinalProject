@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.51" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.marketingrepresentative.UpdateCustomerController">
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.marketingrepresentative.UpdateCustomerController">
    <children>
       <Pane fx:id="updateCustomer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="949.0">
          <children>
@@ -119,7 +119,7 @@
                            <font>
                               <Font name="System Bold" size="25.0" />
                            </font></Label>
-                        <Button fx:id="btnAddVehicle" layoutX="626.0" layoutY="271.0" mnemonicParsing="false" onAction="#onEditVehicle" prefHeight="25.0" prefWidth="138.0" text="Add New Vehicle" />
+                        <Button fx:id="btnAddVehicle" layoutX="590.0" layoutY="271.0" mnemonicParsing="false" onAction="#onEditVehicle" prefHeight="25.0" prefWidth="174.0" text="Add New Vehicle" />
                         <ChoiceBox fx:id="cbAddFuelType" layoutX="341.0" layoutY="271.0" prefHeight="25.0" prefWidth="200.0" />
                         <TextField fx:id="txtVehicleNumber" layoutX="63.0" layoutY="271.0" prefHeight="25.0" prefWidth="200.0" />
                         <Text fill="WHITE" layoutX="64.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vehicle Number ">
@@ -164,7 +164,10 @@
                         <TextField fx:id="txtFuelStation3" layoutX="557.0" layoutY="103.0" prefHeight="25.0" prefWidth="94.0" />
                      </children>
                   </Pane>
-                  <Label fx:id="lblErrorText" layoutX="54.0" layoutY="-1.0" prefHeight="17.0" prefWidth="230.0" />
+                  <Label fx:id="lblErrorText" layoutX="34.0" layoutY="1.0" prefHeight="27.0" prefWidth="256.0" text="test" textFill="RED">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font></Label>
                   <Button fx:id="btnCustomerDetails" layoutX="17.0" layoutY="50.0" mnemonicParsing="false" onAction="#onCustomerDetails" prefHeight="25.0" prefWidth="220.0" text="Customer Details" />
                   <Button fx:id="btnCreditCardDetails" layoutX="251.0" layoutY="50.0" mnemonicParsing="false" onAction="#onCreditCardDetails" prefHeight="25.0" prefWidth="220.0" text="Credit Card Details" />
                   <Button fx:id="btnVehicledDetails" layoutX="483.0" layoutY="50.0" mnemonicParsing="false" onAction="#onVehiclesDetails" prefHeight="25.0" prefWidth="220.0" text="Vehicles Details" />

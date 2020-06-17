@@ -259,7 +259,19 @@ public class UpdateCustomerController {
 	 * This method responsible to init all the buttons, texts, lables and etc.
 	 */
 	private void initUI() {
-		txtEnterYourCustomerID.requestFocus();
+		btnCustomerDetails.setId("selected");
+		btnCreditCardDetails.setId("unselected");
+		btnPurchaseDetails.setId("unselected");
+		btnVehicledDetails.setId("unselected");
+		
+		btnSubmitCustomerID.setId("dark-blue");
+		btnAddVehicle.setId("dark-blue");
+		btnEditDetails.setId("dark-blue");
+		btnSaveDetails.setId("dark-blue");
+		btnEditPurchaseModel.setId("dark-blue");
+		btnUpdateCreditCard.setId("dark-blue");
+		btnViewCreditCard.setId("dark-blue");
+		
 		btnSubmitCustomerID.setDefaultButton(true);
 		vbVehicleContainer.setSpacing(5);
         btnCustomerDetails.setId("selected");
@@ -310,10 +322,6 @@ public class UpdateCustomerController {
 		txtFuelStation3.setDisable(true);
 		txtFuelStation3.setVisible(false);
 		
-		btnCustomerDetails.setId("selected");
-		btnCreditCardDetails.setId("unselected");
-		btnPurchaseDetails.setId("unselected");
-		btnVehicledDetails.setId("unselected");
 	}
 	
 	/**
@@ -793,6 +801,9 @@ public class UpdateCustomerController {
 	 */
 	@FXML
 	void onEditPurchaseModel(ActionEvent event) {
+		
+		cbNewPurchaseModel.setVisible(true);
+		cbCompanyName1.setVisible(true);
 		btnEditPurchaseModel.setVisible(false);
 		btnUpdatePurchaseModel.setVisible(true);
 		lblChoosePurchaseModel.setVisible(true);

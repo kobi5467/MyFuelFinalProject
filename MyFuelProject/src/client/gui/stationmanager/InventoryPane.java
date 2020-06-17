@@ -285,7 +285,6 @@ public class InventoryPane {
 			errorMessage = "ERROR!: Threshold > Max amount!";
 			lblErrorMessage.setText(errorMessage);
 			flag = true;
-
 		}
 		if(amountF>maxF) {
 			errorMessage = "ERROR!: Current Amount > Max amount!";

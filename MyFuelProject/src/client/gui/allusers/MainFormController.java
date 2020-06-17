@@ -201,7 +201,14 @@ public class MainFormController {
 				}
 			});
 		}
-		lblMainTitle.setText(fixTitle("Home"));
+		setPane("Home");
+		setBackgroundImage("Home");
+	}
+	
+	public void setBackgroundImage(String title) {
+		String url = title.equals("Home") ? "../../../images/HomeBG.jpg" : "../../../images/mainBG.jpg"; 
+		Image image = new Image(getClass().getResource(url).toString());
+		imgBackgroundMain.setImage(image);
 	}
 	
 	private void updateUserDetails() {
@@ -220,6 +227,7 @@ public class MainFormController {
 			ObjectContainer.currentUserLogin = getCustomerDetails(userName);
 		}else {
 			ObjectContainer.currentUserLogin.setUserPermission(userPermission);
+			ObjectContainer.currentUserLogin.setName(response.get("name").getAsString());
 		}
 	}
 	
@@ -265,14 +273,15 @@ public class MainFormController {
 	}
 	
 	public void setPane(String title) {
-		
 		/***************************** ALL USERS **********************************/  
-		lblMainTitle.setText(fixTitle(title));
 		if(title.equals("Logout")) {
 			ObjectContainer.showMessage("yes_no","Logout","Are you sure \nyou want to logout?");
 			return;
 		}
+		
+		lblMainTitle.setText(fixTitle(title));
 		changePane.getChildren().clear();
+		setBackgroundImage(title);
 		
 		if(title.equals("About")) {
 			if(ObjectContainer.aboutController == null) {
@@ -281,6 +290,13 @@ public class MainFormController {
 			ObjectContainer.aboutController.load(changePane);
 		}
 		
+		if(title.equals("Home")) {
+			lblMainTitle.setText("");
+			if(ObjectContainer.homeController == null) {
+				ObjectContainer.homeController = new HomeController();
+			}
+			ObjectContainer.homeController.load(changePane);
+		}
 		
 		/***************************** Marketing Representative **********************************/  
 		if(title.equals("CustomerRegistration")) {

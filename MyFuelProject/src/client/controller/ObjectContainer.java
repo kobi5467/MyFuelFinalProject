@@ -6,6 +6,7 @@ import java.util.Date;
 import com.google.gson.JsonArray;
 
 import client.gui.allusers.AboutController;
+import client.gui.allusers.HomeController;
 import client.gui.allusers.LoginController;
 import client.gui.allusers.MainFormController;
 import client.gui.allusers.MessageController;
@@ -47,7 +48,7 @@ public class ObjectContainer {
 	public static LoginController loginController;
 	public static MainFormController mainFormController;
 	public static AboutController aboutController;
-	
+	public static HomeController homeController;
 	// **************************************** 	   pane controllers	****************************************
 	
 	// MARKETING REPRESENTATIVE

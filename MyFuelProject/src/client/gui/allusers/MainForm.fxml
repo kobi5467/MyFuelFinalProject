@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -10,13 +9,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8.0.51" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.allusers.MainFormController">
+<Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.allusers.MainFormController">
    <children>
-      <ImageView fx:id="imgBackgroundMain" fitHeight="800.0" fitWidth="1200.0" pickOnBounds="true">
-         <image>
-            <Image url="@../../../images/mainBG.jpg" />
-         </image>
-      </ImageView>
+      <ImageView fx:id="imgBackgroundMain" fitHeight="800.0" fitWidth="1200.0" pickOnBounds="true" />
       <GridPane layoutX="3.0" layoutY="5.0" prefHeight="789.0" prefWidth="1197.0">
         <columnConstraints>
           <ColumnConstraints maxWidth="250.0" minWidth="10.0" prefWidth="250.0" />
