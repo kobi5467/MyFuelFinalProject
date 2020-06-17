@@ -9,19 +9,19 @@
 
 <Pane fx:id="viewReportPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.ceo.ReportViewController">
    <children>
-      <Label fx:id="lblReportType" layoutX="131.0" layoutY="20.0" text="Report type" textFill="WHITE">
+      <Label fx:id="lblReportType" layoutX="52.0" layoutY="22.0" text="Report type" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <ChoiceBox fx:id="cbReportType" layoutX="52.0" layoutY="55.0" prefHeight="25.0" prefWidth="254.0" />
-      <Label fx:id="lblStationId" layoutX="395.0" layoutY="20.0" text="Station ID" textFill="WHITE">
+      <Label fx:id="lblStationId" layoutX="380.0" layoutY="22.0" text="Station ID" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <ChoiceBox fx:id="cbStationId" layoutX="380.0" layoutY="54.0" prefHeight="25.0" prefWidth="110.0" />
-      <Label fx:id="lblDate" layoutX="625.0" layoutY="20.0" text="Date" textFill="WHITE">
+      <Label fx:id="lblDate" layoutX="550.0" layoutY="24.0" text="Date" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>

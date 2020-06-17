@@ -29,6 +29,15 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
+	/**
+	 * This class responsible on update customer details and etc, the class consist of 4 screens:
+	 * Customer Details Pane - Update the details on 'customer' and 'users' tables.
+	 * Credit Card Pane - Update/Insert on 'credit_card' table.
+	 * Vehicle Pane - Update/Insert on 'vehicles' table.
+	 * Purchase model - Update on 'purchase_model' table.
+	 * @author Or Yom Tov
+	 * @version - Final.
+	 */
 public class UpdateCustomerController {
 
 	/******************************* Main Pane ********************************/
@@ -229,6 +238,10 @@ public class UpdateCustomerController {
 	JsonObject customerDetails = new JsonObject();
 	private int flag = 0; //The flag will be 1 if customer want to insert credit card.
 
+	/**
+	 * This method responsible to get the 'fxml' file and call to the method that init the UI.
+	 * @param changePane - This is the value that responsible to change the panes by the correct button.
+	 */
 	public void load(Pane changePane) {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("UpdateCustomerForm.fxml"));
@@ -242,12 +255,17 @@ public class UpdateCustomerController {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * This method responsible to init all the buttons, texts, lables and etc.
+	 */
 	private void initUI() {
 		txtEnterYourCustomerID.requestFocus();
 		btnSubmitCustomerID.setDefaultButton(true);
 		vbVehicleContainer.setSpacing(5);
         btnCustomerDetails.setId("selected");
+        btnEditDetails.setDisable(true);
+        btnViewCreditCard.setDisable(true);
+        btnEditPurchaseModel.setDisable(true);
         userPane.setVisible(true);
 		Pane3.setVisible(false);//creditcard pane
 		VehiclesPane.setVisible(false);
@@ -298,6 +316,10 @@ public class UpdateCustomerController {
 		btnVehicledDetails.setId("unselected");
 	}
 	
+	/**
+	 * When we press on customer details button, we visible only the customer details pane.
+	 * @param event - ActionEvent from the gui when we press on customer details button.
+	 */
     @FXML
     void onCustomerDetails(ActionEvent event) {
     	userPane.setVisible(true);
@@ -309,7 +331,10 @@ public class UpdateCustomerController {
 		PurchaseModelPane.setVisible(false);
 		btnPurchaseDetails.setId("unselected");
     }
-    
+    /**
+	 * When we press on credit card button, we visible only the credit card pane.
+	 * @param event - ActionEvent from the gui when we press on credit card button.
+	 */
     @FXML
     void onCreditCardDetails(ActionEvent event) {
     	userPane.setVisible(false);
@@ -321,7 +346,10 @@ public class UpdateCustomerController {
 		PurchaseModelPane.setVisible(false);
 		btnPurchaseDetails.setId("unselected");
     }
-	
+	/**
+	 * When we press on vehicles card button, we visible only the vehicles pane.
+	 * @param event - ActionEvent from the gui when we press on vehicles button.
+	 */
     @FXML
     void onVehiclesDetails(ActionEvent event) {
     	userPane.setVisible(false);
@@ -333,7 +361,10 @@ public class UpdateCustomerController {
 		PurchaseModelPane.setVisible(false);
 		btnPurchaseDetails.setId("unselected");
     }
-    
+    /**
+	 * When we press on purchase model button, we visible only the purcahse model pane.
+	 * @param event - ActionEvent from the gui when we press on purchase model button.
+	 */
     @FXML
     void onPurchaseDetails(ActionEvent event) {
     	userPane.setVisible(false);
@@ -346,6 +377,11 @@ public class UpdateCustomerController {
 	    btnPurchaseDetails.setId("selected");
     }
 
+	/**
+	 * When we press on search button, we check if the customer id is exist, after that
+	 * We get all the data of all the panes from the DB, and put the details to show it.
+	 * @param event - ActionEvent from the gui when we press on search button.
+	 */
 	@FXML
 	void onSubmit(ActionEvent event) {
 
@@ -354,6 +390,9 @@ public class UpdateCustomerController {
 		if (customerIsExist(txtEnterYourCustomerID.getText())) {
 			takeDataFromDB(txtEnterYourCustomerID.getText());
 			btnAddVehicle.setDisable(false);
+	        btnEditDetails.setDisable(false);
+	        btnViewCreditCard.setDisable(false);
+	        btnEditPurchaseModel.setDisable(false);
 			getVehicleData(txtEnterYourCustomerID.getText());
 			getPurchaseModelsFromData(txtEnterYourCustomerID.getText());
 			lblErrorText.setText("");
@@ -362,7 +401,11 @@ public class UpdateCustomerController {
 			lblErrorText.setText("The Customer ID not exist!");
 		}
 	}
-
+	/**
+	 * This method responsible to send request from the server to take the customer fuel types data.
+	 * After that, the method initializing the text fields in accordance to the data.
+	 * @param customerID - Customer ID to take data for this current ID.
+	 */
 	private void getPurchaseModelsFromData(String customerID) {
 		JsonObject customer = new JsonObject();
 		customer.addProperty("customerID", customerID);
@@ -398,6 +441,11 @@ public class UpdateCustomerController {
 		
 	}
 
+	/**
+	 * This method responsible to send request from the server to take the customer details from 'users', 'customer' and 'credit card' tables,.
+	 * After that, the method initializing the text fields, choices box and etc in accordance to the data.
+	 * @param customerID - Customer ID to take data for this current ID.
+	 */
 	private void takeDataFromDB(String customerID) {
 		txtUserNameUpdate.setText("");
 		JsonObject customer = new JsonObject();
@@ -444,7 +492,11 @@ public class UpdateCustomerController {
 		cbMounth.setValue(cbMounth.getItems().get(0));
 		cbYear.setValue(cbYear.getItems().get(0));
 	}
-
+	/**
+	 * This method responsible to check if the customer id is exists.
+	 * @param customerID - Customer ID to take data for this current ID.
+	 * @return - This method returns 'TRUE' or 'FALSE' if the customer ID is exists.
+	 */
 	private boolean customerIsExist(String customerID) {
 		JsonObject json = new JsonObject();
 		json.addProperty("customerID", customerID);
@@ -453,7 +505,10 @@ public class UpdateCustomerController {
 		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
 		return response.get("isExist").getAsBoolean();
 	}
-
+	/**
+	 * This method responsible to init the buttons and the text field for use.
+	 * @param event - ActionEvent from the gui when we press on edit customer details button.
+	 */
 	@FXML
 	void onEditDetails(ActionEvent event) {
 		txtEmailUpdate.setDisable(false);
@@ -463,7 +518,11 @@ public class UpdateCustomerController {
 		btnSaveDetails.setVisible(true);
 		btnEditDetails.setVisible(false);
 	}
-
+	/**
+	 * This method responsible to check that all the fields are correct, if not - show error label,
+	 * If correct - update all the buttons and the texts, and call to "updateDetailsInDB" method
+	 * @param event - ActionEvent from the gui when we press on update customer details button.
+	 */
 	@FXML
 	void onSaveDetails(ActionEvent event) {
 		int count = 4;
@@ -499,7 +558,11 @@ public class UpdateCustomerController {
 			updateDetailsInDB(txtEnterYourCustomerID.getText());
 		}
 	}
-
+	/**
+	 * This method resposible to update all the customer details on Json object and
+	 * Takes the data to the server for update the DB.
+	 * @param customerID - Customer ID to take data for this current ID.
+	 */
 	public void updateDetailsInDB(String customerID) {
 		JsonObject json = new JsonObject();
 		json.addProperty("customerID", customerID);
@@ -515,17 +578,28 @@ public class UpdateCustomerController {
 		JsonObject customerUpdate = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
 
 	}
-
+	/**
+	 * This method responsible to check if some string value is empty.
+	 * @param text - general string value.
+	 * @return - 'True' if string not empty, else return 'False'
+	 */
 	private boolean checkEmpty(String text) {
 		return (!text.isEmpty());
 	}
-
+	/**
+	 * This methos responsible to check if the phone number of the customer is legal.
+	 * @param phoneNumber - Phone number of customer.
+	 * @return - 'True' if phone number is legal, else return 'False'.
+	 */
 	private boolean checkPhoneNumber(String phoneNumber) {
 		if (phoneNumber.length() < 9 || phoneNumber.length() > 10 || phoneNumber.isEmpty())
 			return false;
 		return true;
 	}
-
+	/**
+	 * This method responsible to open for use the buttons, choices box and the texts on credit card pane.
+	 * @param event - ActionEvent from the gui when we press on edit credit card button.
+	 */
 	@FXML
 	void onEditCreditCard(ActionEvent event) {
 		if(txtCreditCard.getText().equals("")) flag = 1;
@@ -536,7 +610,11 @@ public class UpdateCustomerController {
 		cbMounth.setDisable(false);
 		cbYear.setDisable(false);
 	}
-
+	/**
+	 * This method responsible to check the data, if the data correct, 
+	 * we move on to the "updateCreditCardInDB" method.
+	 * @param event - ActionEvent from the gui when we press on update credit card button.
+	 */
 	@FXML
 	void onUpdateCreditCard(ActionEvent event) {
 		StringBuilder dateChecker = new StringBuilder();
@@ -556,7 +634,12 @@ public class UpdateCustomerController {
 			updateCreditCardInDB(txtEnterYourCustomerID.getText());
 		}
 	}
-
+	/**
+	 * This method responsible to set Json object with the new data of credit card,
+	 * Than check if the customer was with credit card, we are send request from the server to update the details,
+	 * else we are send request from the server to set new one.
+	 * @param customerID - Customer ID to take data for this current ID.
+	 */
 	private void updateCreditCardInDB(String customerID) {
 		JsonObject json = new JsonObject();
 		StringBuilder dateValidation = new StringBuilder();
@@ -578,6 +661,13 @@ public class UpdateCustomerController {
 		
 	}
 
+	/**
+	 * This method responsible the check if all the data of the credit card are legal.
+	 * @param creditCardNumber - creditCard string value
+	 * @param cvv - cvv string value
+	 * @param dateValidation - dateValidation string value
+	 * @return - 'True' if all the tests are passed, else return 'False'.
+	 */
 	private boolean checkCreditCardValues(String creditCardNumber, String cvv, String dateValidation) {
 		if (creditCardNumber.isEmpty() || creditCardNumber.length() < 8 || creditCardNumber.length() > 16) {
 			lblCreditCardNumber.setText("Please enter legal CreditCard Number");
@@ -593,7 +683,11 @@ public class UpdateCustomerController {
 		}
 		return true;
 	}
-
+	/**
+	 * This method responsible to take data of new vehicle to Json object, after that
+	 * call "updateVehicleInDB" method for update, and show the new vehicle in the pane.
+	 * @param event - ActionEvent from the gui when we press on edit vehicles button.
+	 */
 	@FXML
 	void onEditVehicle(ActionEvent event) {
 		String newVehicleNumber = txtVehicleNumber.getText();
@@ -615,13 +709,20 @@ public class UpdateCustomerController {
 		vbVehicleContainer.getChildren().add(customerVehicles.get(vehicles.size() - 1).getVehiclePane());
 		txtVehicleNumber.setText("");
 	}
-
+	/**
+	 * This method responsible to request from the server to update the vehicle in DB
+	 * @param newVehicle - Json Object with vehicle details.
+	 */
 	private void updateVehicleInDB(JsonObject newVehicle) {
 		Message msg = new Message(MessageType.UPDATE_VEHICLES_IN_DB, newVehicle.toString());
 		ClientUI.accept(msg);
 		JsonObject updateVehicle = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
 	}
-
+	/**
+	 * This method responsible to request from the server to get the vehicle details from the DB by customer id.
+	 * After that, call init methods.
+	 * @param customerID
+	 */
 	private void getVehicleData(String customerID) {
 		JsonObject vehicle = new JsonObject();
 		vehicle.addProperty("customerID", customerID);
@@ -633,7 +734,9 @@ public class UpdateCustomerController {
 		initVehcilesChoiseBox(vehicles);
 		initFuelTypes();
 	}
-
+	/**
+	 * This method responsible to init the fuel types on after the request from the server.
+	 */
 	private void initFuelTypes() {
 		Message msg = new Message(MessageType.GET_FUEL_TYPES, "");
 		ClientUI.accept(msg);
@@ -649,7 +752,10 @@ public class UpdateCustomerController {
 		}
 		cbAddFuelType.setValue(cbAddFuelType.getItems().get(0));
 	}
-
+	/**
+	 * This method responsible to init all the vehicles with dynamic pane on VBox.
+	 * @param vehicles - Json array with all the vehicles.
+	 */
 	private void initVehcilesChoiseBox(JsonArray vehicles) {
 		
 		this.vehicles = vehicles;
@@ -660,7 +766,10 @@ public class UpdateCustomerController {
 			vbVehicleContainer.getChildren().add(customerVehicles.get(i).getVehiclePane());
 		}
 	}
-
+	/**
+	 * This method responsible to update the vehicle on the gui after we decide to remove vehcile.
+	 * @param vehicleNumber - string value of vehicle number.
+	 */
 	public void updateVehicles(String vehicleNumber) {
 		vbVehicleContainer.getChildren().clear();
 		for (int i = 0; i < vehicles.size(); i++) {
@@ -676,7 +785,12 @@ public class UpdateCustomerController {
 			vbVehicleContainer.getChildren().add(customerVehicles.get(i).getVehiclePane());
 		}
 	}
-
+	/**
+	 * This method responsible the set all the buttons and the choices box in purchase model pane.
+	 * After that request from the server to get the purchase models and fuel companies.
+	 * In addition, init the choices box with the details and creates tests for few cases.
+	 * @param event - ActionEvent from the gui when we press on edit purchase model button.
+	 */
 	@FXML
 	void onEditPurchaseModel(ActionEvent event) {
 		btnEditPurchaseModel.setVisible(false);
@@ -812,7 +926,11 @@ public class UpdateCustomerController {
 		}
 
 	}
-
+	/**
+	 * This method responsible to update all the purchase model details by call to "updatePurchaseModelIn" method.
+	 * In addition, checks few cases, if all correct, set the buttons and the choices box by the instructions.
+	 * @param event - ActionEvent from the gui when we press on update purchase model button.
+	 */
 	@FXML
 	void onUpdatePurchaseModel(ActionEvent event) {
 		int flag = 0;
@@ -851,6 +969,13 @@ public class UpdateCustomerController {
 		}
 
 		if (flag != 0) {
+			lblChoosePurchaseModel.setVisible(false);
+			lblFuelCompany.setVisible(false);
+			cbNewPurchaseModel.setVisible(false);
+			cbCompanyName1.setVisible(false);
+			cbCompanyName2.setVisible(false);
+			cbCompanyName3.setVisible(false);
+			cb2or3.setVisible(false);
 			btnEditPurchaseModel.setVisible(true);
 			btnUpdatePurchaseModel.setVisible(false);
 			lblEroorPurchaseModel.setVisible(false);
@@ -861,10 +986,13 @@ public class UpdateCustomerController {
 			cbNewPurchaseModel.setDisable(true);
 			lblEroorPurchaseModel.setText("Done");
 			updatePurchaseModelInDB();
+			getPurchaseModelsFromData(txtEnterYourCustomerID.getText());
 		}
 
 	}
-
+	/**
+	 * This method responsible to take all the data to new Json Object and request from the server to update the data in DB.
+	 */
 	private void updatePurchaseModelInDB() {
 		JsonObject purchaseModelJson = new JsonObject();
 		purchaseModelJson.addProperty("customerID", txtEnterYourCustomerID.getText());

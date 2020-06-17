@@ -331,7 +331,7 @@ public class CustomerDBLogic {
 	}
 	
 	
-	public JsonArray getFuelStationsByCompanyName(String companyName) {
+	public static JsonArray getFuelStationsByCompanyName(String companyName) {
 		JsonArray stations = new JsonArray();
 		String query = "";
 		Statement stmt = null;
@@ -619,5 +619,28 @@ public JsonObject updateCreditCardDetails(JsonObject creditCardUpdate) {
 			e.printStackTrace();
 		}
 		return customer;
+	}
+	
+	public static JsonArray getAllCustomerId() {
+		JsonArray customersId = new JsonArray();
+		
+		String query = "";
+		Statement stmt = null;
+		try {
+			if (DBConnector.conn != null) {
+				query = "SELECT customerID FROM customer;";
+				stmt = DBConnector.conn.createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				while(rs.next()) {
+					customersId.add( rs.getString("customerID"));
+				}				
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return customersId;
 	}
 }

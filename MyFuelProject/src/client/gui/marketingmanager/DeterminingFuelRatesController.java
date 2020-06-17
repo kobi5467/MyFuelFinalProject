@@ -22,6 +22,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
+
+/**
+ * This class is the gui class of Determining fuel Rates controller.
+ * this class will show to the marketing manager the current and max fuel rates
+ * and will allow him/her to make a request to change new fuel rate,
+ * the request will be sended to the ceo of the company.
+ * @author Barak
+ * @version final
+ */
+
 public class DeterminingFuelRatesController {
 
 	@FXML
@@ -44,6 +54,14 @@ public class DeterminingFuelRatesController {
 	
 	private Fuel currentFuel;
 	
+	
+	/**
+	 * This function will be activated when the user clicks on submit after he insert new
+	 * fuel rate request. it will check the correctness of the fields and if all good
+	 * it will send the message to the server to send the request.
+	 * else, it will display an error message.
+	 * @param event
+	 */
 	@FXML
 	void onSubmit(ActionEvent event) {
 		boolean flag = true;
@@ -72,7 +90,9 @@ public class DeterminingFuelRatesController {
 			}
 		}
 	}
-	
+	/**
+	 * this function clear the fields of the text boxes
+	 */
 	private void clearFields() {
 		txtCurrPrice.setText("");
 		txtMaxPrice.setText("");
@@ -80,6 +100,10 @@ public class DeterminingFuelRatesController {
 		cbFuelType.setValue(cbFuelType.getItems().get(0));		
 	}
 
+	/*
+	 * this function gets the new Price rate and send a request to the server to handle
+	 * the message about the will to send new rate request
+	 */
 	public void sendRateRequest(String newPrice) {
 		JsonObject json = new JsonObject();
 		String fuelType = FuelType.enumToString(currentFuel.getFuelType());
@@ -90,12 +114,23 @@ public class DeterminingFuelRatesController {
 		ClientUI.accept(msg);
 	}
 	
+	/**
+	 * this function send a request to the server with message to get 
+	 * all of the fuel types we work with.
+	 * @return JsonArray of fuel types.
+	 */
+	
 	public JsonArray getFuelTypes(){		
 		Message msg = new Message(MessageType.GET_FUEL_TYPES, "");
 		ClientUI.accept(msg);
 		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
 		return response.get("fuelTypes").getAsJsonArray();
 	}
+	/**
+	 * this function get the new price to be updated and send a request to the server
+	 * for update the fuel rate.
+	 * @param newPrice - the new price to update
+	 */
 	
 	public void updateFuel(String newPrice) {
 		JsonObject json = new JsonObject();
@@ -117,7 +152,12 @@ public class DeterminingFuelRatesController {
 		txtNewPrice.setText("");
 		cbFuelType.setValue(cbFuelType.getItems().get(0));
 	}
-
+	
+	/**
+	 * this function get the name of the fuel type and send a request to the server to 
+	 * create and get the Fuel object by the type with all the details.
+	 * @param fuelType - the fuel type object.
+	 */
 	public void getFuelObjectByType(String fuelType) {
 		JsonObject json = new JsonObject();
 		json.addProperty("fuelType", fuelType);
@@ -134,6 +174,13 @@ public class DeterminingFuelRatesController {
 		currentFuel = new Fuel(fuelTypeResponse, pricePerLitter, maxPricePerLitter);
 	}
 
+	/**
+	 * this function check the fields that the user inserted, and make
+	 * some input validity tests.
+	 * @param newPrice - the new price to be updated
+	 * @param errorMessage - error message to display if bad input
+	 * @return boolean true/false if tests passed or not.
+	 */
 	public Boolean checkFields(String newPrice, String errorMessage) {
 		Float newPriceint = -1f;
 		Float maxPriceint = -1f;
@@ -161,6 +208,10 @@ public class DeterminingFuelRatesController {
 		return false;
 	}
 
+	/**
+	 * this function display the options of fuel types to choose in the choice box
+	 * it uses the method "getFuelTypes" that i explained up above
+	 */
 	public void showOptionOfFuelTypeChoiseBox() {
 		JsonArray fuelTypes = getFuelTypes();
 		cbFuelType.getItems().add("Choose type");
@@ -170,6 +221,11 @@ public class DeterminingFuelRatesController {
 		cbFuelType.setValue(cbFuelType.getItems().get(0));
 	}
 
+	/**
+	 * this function set the correct details in the text fields by 
+	 * the type of fuel the user chose. 
+	 * @param type
+	 */
 
 	private void afterChooseType(String type) {
 		if (!type.equals("Choose type")) {
@@ -190,7 +246,11 @@ public class DeterminingFuelRatesController {
 		}
 
 	}
-
+	
+	/**
+	 *this function load the page 
+	 * @param changePane 
+	 */
 	public void load(Pane changePane) {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("DeterminingFuelRatesForm.fxml"));
@@ -205,6 +265,9 @@ public class DeterminingFuelRatesController {
 		}
 	}
 	
+	/**
+	 * this function Initialize the page when the user gets into this page
+	 */
 	private void initUI() {
 		btnSubmit.setId("dark-blue");
 		btnSubmit.setDefaultButton(true);

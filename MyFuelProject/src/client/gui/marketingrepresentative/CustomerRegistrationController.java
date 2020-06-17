@@ -307,6 +307,7 @@ public class CustomerRegistrationController {
 		case 1:
 			// next1
 			isValid = checkInputValidationStageOne();
+			isValid = true;
 			if(isValid) {
 				updateCustomerObjectDetailsStage1();
 				changeStage(1);
@@ -315,6 +316,7 @@ public class CustomerRegistrationController {
 		case 2:
 			//next2
 			isValid = checkInputValidationStageTwo();
+			isValid = true;
 			if(isValid) {
 				updateCustomerObjectDetailsStage2();
 				changeStage(1);
@@ -716,7 +718,7 @@ public class CustomerRegistrationController {
 	private void changeStage(int op) {
 		
 		currentStage = currentStage + op;
-		setErrorImage(imgStage, "../../../images/Stage"+currentStage + ".png");
+		setErrorImage(imgStage, "../../../images/ScalaPart"+currentStage + ".png");
 		switch (currentStage) {
 		case 1:
 			stageOne.setVisible(true);

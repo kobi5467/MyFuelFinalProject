@@ -23,7 +23,13 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
-
+/**
+ * This class is for only one sub-request pane that will be loaded in the main RatesToApprove form
+ * every pane and its actions that we enable for the user to do will be handled in here
+ * and how we want to present every single sub pane will handled in this class
+ * @author Barak
+ * @version final
+ */
 public class RequestPane {
 
 	@FXML
@@ -82,6 +88,14 @@ public class RequestPane {
     public boolean  tookDecision=false;
     public boolean clickedDecline = false;
     
+    
+    /**
+     * this function will be activated when the user will click on approve
+     * the decision about the request will be send to the server as a message,
+     * and request to update the decision in the DB. after that a message with request 
+     * to update the fuel rate will be sent to the DB as well.
+     * @param event
+     */
     @FXML
     void onApprove(ActionEvent event) {
     	JsonObject json = new JsonObject();
@@ -94,17 +108,24 @@ public class RequestPane {
     	json.addProperty("reasonOfDecline", "");
     	json.addProperty("decision", true);	
     	json.addProperty("requestID", txtRequestID.getText());
-    	
-    	Message msg = new Message(MessageType.UPDATE_DECISION, json.toString());
-		ClientUI.accept(msg);
-		msg = new Message(MessageType.UPDATE_FUEL, json2.toString());
-		ClientUI.accept(msg);
-		
-		tookDecision=true;
-		ObjectContainer.ratesToApproveController.initUI();
+    	ObjectContainer.showMessage("yes_no", "Deny Order", "Are you sure you want to approve request?\n request number " + txtRequestID.getText());
 
+    	if(ObjectContainer.yesNoMessageResult) {
+	    	Message msg = new Message(MessageType.UPDATE_DECISION, json.toString());
+			ClientUI.accept(msg);
+			msg = new Message(MessageType.UPDATE_FUEL, json2.toString());
+			ClientUI.accept(msg);
+			
+			tookDecision=true;
+			ObjectContainer.ratesToApproveController.initUI();
+    	}
     }
 
+    /**
+     * this function will be activated after the user will click on decline.
+     * the pane will increase its height and a decline reason text field will appear
+     * @param event
+     */
     @FXML
     void onDecline(ActionEvent event) {
     	clickedDecline = !clickedDecline;
@@ -117,23 +138,36 @@ public class RequestPane {
     	}
     }
 
+    /**
+     * this function will be activated after the user will click on submit, to submit his 
+     * decline decision. the pane will disapear and a message with a request
+     * to update the decision about the request will be sent to the Server controller.
+     * @param event
+     */
     @FXML
     void onSubmit(ActionEvent event) {
     	JsonObject json = new JsonObject();
     	json.addProperty("reasonOfDecline", txtReason.getText());
     	json.addProperty("decision", false);	
     	json.addProperty("requestID", txtRequestID.getText());
-    	Message msg = new Message(MessageType.UPDATE_DECISION, json.toString());
-		ClientUI.accept(msg);
-		//mainRequestPane.setVisible(false);
-		tookDecision=true;
-		ObjectContainer.ratesToApproveController.showAllRequests();		
-		ObjectContainer.ratesToApproveController.initUI();
-		
+    	ObjectContainer.showMessage("yes_no", "Deny Order", "Are you sure you want to submit request decline?\n request number " + txtRequestID.getText());
+    	if(ObjectContainer.yesNoMessageResult) {
+	    	Message msg = new Message(MessageType.UPDATE_DECISION, json.toString());
+			ClientUI.accept(msg);
+			//mainRequestPane.setVisible(false);
+			tookDecision=true;
+			ObjectContainer.ratesToApproveController.showAllRequests();		
+			ObjectContainer.ratesToApproveController.initUI();
+    	}
 
     }
 
-    
+    /**
+     * this function will load the pane and colors to the screen.
+     * @param request - the request as a JsonObject with the details
+     * @param color - the color of the pain.
+     * @return mainRequestPane
+     */
     public AnchorPane load(JsonObject request, String color) {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("RequestPane.fxml"));
@@ -148,7 +182,12 @@ public class RequestPane {
 		}
 		return mainRequestPane;
 	}
-    
+    /**
+     * this function will initialize the sub-request pane with all the details and design 
+     * to the screen as it looks when we enter to the screen.
+     * @param request - the request as a JsonObject with the details
+     * @param color - the color of the pain.
+     */
     public void initUI(JsonObject request, String color) {
 		//mainRequestPane.setStyle("-fx-background-color:" + color + ";");
 		mainRequestPane.setStyle(""
@@ -168,7 +207,12 @@ public class RequestPane {
 		mainRequestPane.setPrefHeight(52);
 		fillData(request);
 	}
-    
+    /**
+     * this function gets the request as a JsonObject and fill the data in the
+     * pane fields, such as request ID , Current price, new price, fuel type,
+     * and create time.
+     * @param request - JsonObject with the data about the request
+     */
     private void fillData(JsonObject request) {
 
 		txtRequestID.setText(request.get("requestID").getAsString());
@@ -185,7 +229,11 @@ public class RequestPane {
 		txtCreateTime.setEditable(false);
 		
 	}
-    
+    /**
+     * this function set image to the button in the pane
+     * @param url - the path
+     * @param btn - the button
+     */
     public void setButtonImage(String url, Button btn) {
 		BackgroundImage backgroundImage = new BackgroundImage(
 				new Image(getClass().getResource(url).toExternalForm()),

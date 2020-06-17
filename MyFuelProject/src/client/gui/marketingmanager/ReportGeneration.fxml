@@ -13,75 +13,75 @@
    <children>
       <Text fx:id="txtReportType" fill="WHITE" layoutX="109.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Report type :">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Text>
       <ChoiceBox fx:id="cbReportType" layoutX="220.0" layoutY="21.0" prefHeight="25.0" prefWidth="248.0" />
-      <Button fx:id="btnGenerate" layoutX="483.0" layoutY="14.0" mnemonicParsing="false" onAction="#generateReport" prefHeight="40.0" prefWidth="86.0" text="Generate">
+      <Button fx:id="btnGenerate" layoutX="483.0" layoutY="17.0" mnemonicParsing="false" onAction="#generateReport" prefHeight="40.0" prefWidth="117.0" text="Generate">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <Text fx:id="txtStartDate" fill="WHITE" layoutX="127.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start date :" visible="false">
+      <Text fx:id="txtStartDate" fill="WHITE" layoutX="109.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start date :" visible="false">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Text>
-      <DatePicker fx:id="dpStartDate" layoutX="253.0" layoutY="79.0" visible="false" />
-      <Text fx:id="txtEndDate" fill="WHITE" layoutX="129.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="End date :" visible="false">
+      <DatePicker fx:id="dpStartDate" layoutX="218.0" layoutY="80.0" prefHeight="25.0" prefWidth="126.0" visible="false" />
+      <Text fx:id="txtEndDate" fill="WHITE" layoutX="372.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="End date :" visible="false">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Text>
-      <DatePicker fx:id="dpEndDate" layoutX="251.0" layoutY="130.0" visible="false" />
+      <DatePicker fx:id="dpEndDate" layoutX="471.0" layoutY="80.0" prefHeight="25.0" prefWidth="126.0" visible="false" />
       <Text fx:id="txtSaleName" fill="WHITE" layoutX="128.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sale name" visible="false">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Text>
       <ChoiceBox fx:id="cbSaleName" layoutX="250.0" layoutY="78.0" prefHeight="25.0" prefWidth="176.0" visible="false" />
       <Text fx:id="txtQuarterly" fill="WHITE" layoutX="127.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Quarterly :" visible="false">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Text>
       <ChoiceBox fx:id="cbQuarterly" layoutX="250.0" layoutY="79.0" prefHeight="25.0" prefWidth="176.0" visible="false" />
       <Text fx:id="txtYear" fill="WHITE" layoutX="164.0" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Year :" visible="false">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Text>
       <ChoiceBox fx:id="cbYear" layoutX="253.0" layoutY="130.0" prefHeight="25.0" prefWidth="64.0" visible="false" />
       <Text fx:id="txtFuelType" fill="WHITE" layoutX="129.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fuel type :" visible="false">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Text>
       <ChoiceBox fx:id="cbFuelType" layoutX="250.0" layoutY="79.0" prefHeight="25.0" prefWidth="176.0" visible="false" />
       <Label fx:id="lblErorrFields" layoutX="585.0" layoutY="24.0" text="Please fill all fields !" textFill="#da0707" visible="false">
          <font>
-            <Font size="14.0" />
+            <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="lblEmptyData" layoutX="94.0" layoutY="168.0" text="Label" textFill="#a40202">
+      <Label fx:id="lblEmptyData" layoutX="94.0" layoutY="176.0" text="Label" textFill="#da0707">
          <font>
-            <Font size="16.0" />
+            <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <TableView fx:id="tblReport" layoutX="91.0" layoutY="198.0" prefHeight="301.0" prefWidth="744.0" />
+      <TableView fx:id="tblReport" layoutX="91.0" layoutY="202.0" prefHeight="323.0" prefWidth="771.0" />
       <Label fx:id="lblCountCustomer" layoutX="132.0" layoutY="522.0" textFill="WHITE" visible="false">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <Label fx:id="lblAmountOfPurchases" layoutX="411.0" layoutY="522.0" textFill="WHITE" visible="false">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <Label fx:id="lblAmountOfPayment" layoutX="649.0" layoutY="522.0" textFill="WHITE" visible="false">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
    </children>

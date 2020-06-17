@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainRequestPane" minHeight="52.0" minWidth="910.0" prefHeight="52.0" prefWidth="910.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.ceo.RequestPane">
+<AnchorPane fx:id="mainRequestPane" minHeight="52.0" minWidth="910.0" prefHeight="52.0" prefWidth="910.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.ceo.RequestPane">
    <children>
       <Pane fx:id="viewPane" layoutX="1.0" layoutY="1.0" prefHeight="105.0" prefWidth="910.0">
          <children>
@@ -20,13 +20,13 @@
          </children></Pane>
       <Pane fx:id="requestPane" prefHeight="52.0" prefWidth="910.0">
          <children>
-            <TextField fx:id="txtRequestID" alignment="CENTER" layoutX="33.0" layoutY="13.0" prefHeight="25.0" prefWidth="61.0" />
-            <TextField fx:id="txtCurrentPrice" alignment="CENTER" layoutX="153.0" layoutY="13.0" prefHeight="25.0" prefWidth="61.0" />
-            <TextField fx:id="txtNewPrice" alignment="CENTER" layoutX="273.0" layoutY="13.0" prefHeight="25.0" prefWidth="61.0" />
-            <TextField fx:id="txtFuelType" alignment="CENTER" layoutX="420.0" layoutY="13.0" prefHeight="25.0" prefWidth="146.0" />
-            <TextField fx:id="txtCreateTime" alignment="CENTER" layoutX="593.0" layoutY="13.0" prefHeight="25.0" prefWidth="178.0" />
-            <Button fx:id="btnApprove" layoutX="799.0" layoutY="11.0" mnemonicParsing="false" onAction="#onApprove" prefHeight="30.0" prefWidth="30.0" text="Approve" />
-            <Button fx:id="btnDecline" layoutX="851.0" layoutY="11.0" mnemonicParsing="false" onAction="#onDecline" prefHeight="30.0" prefWidth="30.0" text="Decline" />
+            <TextField fx:id="txtRequestID" alignment="CENTER" layoutX="10.0" layoutY="13.0" prefHeight="25.0" prefWidth="61.0" />
+            <TextField fx:id="txtCurrentPrice" alignment="CENTER" layoutX="174.0" layoutY="11.0" prefHeight="25.0" prefWidth="61.0" />
+            <TextField fx:id="txtNewPrice" alignment="CENTER" layoutX="348.0" layoutY="11.0" prefHeight="25.0" prefWidth="61.0" />
+            <TextField fx:id="txtFuelType" alignment="CENTER" layoutX="491.0" layoutY="11.0" prefHeight="25.0" prefWidth="146.0" />
+            <TextField fx:id="txtCreateTime" alignment="CENTER" layoutX="665.0" layoutY="11.0" prefHeight="31.0" prefWidth="146.0" />
+            <Button fx:id="btnApprove" layoutX="839.0" layoutY="11.0" mnemonicParsing="false" onAction="#onApprove" prefHeight="30.0" prefWidth="30.0" text="Approve" />
+            <Button fx:id="btnDecline" layoutX="877.0" layoutY="11.0" mnemonicParsing="false" onAction="#onDecline" prefHeight="30.0" prefWidth="30.0" text="Decline" />
          </children>
       </Pane>
    </children>

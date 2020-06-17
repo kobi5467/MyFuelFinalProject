@@ -90,8 +90,7 @@
     -fx-border-color: transparent -fx-table-cell-border-color transparent transparent;
     -fx-border-width: 0.083333em; /* 1 */
     -fx-cell-size: 2.0em; /* 24 */
-    -fx-text-fill: -fx-text-inner-color;
-    -fx-font-size: 14pt;
+    -fx-font-weight: bold;
     
 }
 
@@ -100,10 +99,10 @@
 }
 
 .table-row-cell:odd {
-	-fx-background-color: #cccccc;
+	-fx-background-color: #9fc4c6;
 }
 .table-row-cell:even {
-	-fx-background-color: #eeeeee;
+	-fx-background-color: #FFFAF0;
 }
 
 

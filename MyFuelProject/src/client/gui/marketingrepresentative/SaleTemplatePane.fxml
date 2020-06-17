@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="mainSaleTemplatesPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="270.0" prefWidth="800.0" style="-fx-background-color: #123456; -fx-border-color: #ffffff; -fx-border-width: 3;" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.marketingrepresentative.SaleTemplatePane">
+<Pane fx:id="mainSaleTemplatesPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="270.0" prefWidth="800.0" style="-fx-background-color: #123456; -fx-border-color: #ffffff; -fx-border-width: 3;" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8.0.51" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.marketingrepresentative.SaleTemplatePane">
    <children>
       <Pane fx:id="editPane" prefHeight="270.0" prefWidth="800.0" visible="false">
          <children>

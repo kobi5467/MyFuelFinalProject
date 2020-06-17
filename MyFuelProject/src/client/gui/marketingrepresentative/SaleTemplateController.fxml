@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<Pane fx:id="mainSalePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.marketingrepresentative.SaleTemplateController">
+<Pane fx:id="mainSalePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/8.0.51" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.marketingrepresentative.SaleTemplateController">
    <children>
       <ScrollPane fx:id="spSaleContainer" layoutX="67.0" layoutY="14.0" prefHeight="504.0" prefWidth="825.0">
          <content>

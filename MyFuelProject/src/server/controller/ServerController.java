@@ -15,6 +15,15 @@ import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 import server.dbLogic.DBConnector;
 
+
+/**
+ * this class is the server controller class, the class connects between the client controllers
+ * to the DB logic classes and to the DB.
+ * there's many handlers functions each with its purpose.
+ * @author MyFuel Team
+ * @version Final
+ *
+ */
 public class ServerController extends AbstractServer {
 
 	public static DBConnector dbConnector;
@@ -26,6 +35,10 @@ public class ServerController extends AbstractServer {
 		systemManager = new SystemManager(dbConnector);
 	}
 
+	/**
+	 * this function handle the messages from the client, it gets a message from the client
+	 * and with the right case of message it sends the request to the appropriate handler.
+	 */
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 
@@ -63,6 +76,7 @@ public class ServerController extends AbstractServer {
 			case SUBMIT_HOME_HEATING_FUEL_ORDER:
 			case GET_HOME_HEATING_FUEL_ORDERS:
 			case GET_ORDERS_BY_SUPLLIER_ID:
+			case UPDATE_FUEL_AMOUNT_INVENTORY:
 			case GET_ORDERS_BY_STATIONID_AND_FUEL_TYPE:
 			case GET_ORDERS_BY_STATIONID_AND_QUARTER:
 			case GET_ORDERS_BY_STATIONID_AND_SALE_NAME:
@@ -122,6 +136,12 @@ public class ServerController extends AbstractServer {
 		}
 	}
 
+	/**
+	 * this function handle messages from the client that related to employees methods.
+	 * it goes to the right case and activate the right function of DBLogic.
+	 * @param msg - the message from the client
+	 * @return - response message from the server to the client
+	 */
 	private Message handleEmployeeMessage(Message msg) {
 		Message messageFromServer = null;
 		JsonObject requestJson = msg.getMessageAsJsonObject();
@@ -139,6 +159,12 @@ public class ServerController extends AbstractServer {
 		return messageFromServer;
 	}
 
+	/**
+	 * this function handle messages from the client that related to Sale Templates methods.
+	 * it goes to the right case and activate the right function of DBLogic.
+	 * @param msg - the message from the client
+	 * @return - response message from the server to the client
+	 */
 	private Message handleSaleTemplateMessage(Message msg) {
 		Message messageFromServer = null;
 		JsonObject requestJson = msg.getMessageAsJsonObject();
@@ -175,6 +201,12 @@ public class ServerController extends AbstractServer {
 		return messageFromServer;
 	}
 
+	/**
+	 * this function handle messages from the client that related to Orders methods.
+	 * it goes to the right case and activate the right function of DBLogic.
+	 * @param msg - the message from the client
+	 * @return - response message from the server to the client
+	 */
 	private Message handleOrderMessage(Message msg) {
 		Message messageFromServer = null;
 		JsonObject requestJson = msg.getMessageAsJsonObject();
@@ -221,7 +253,14 @@ public class ServerController extends AbstractServer {
 			responseJson.add("fastFuelOrders", orders);
 		}
 			break;
-
+		case GET_ORDERS_BY_DATES: {
+			JsonArray customerDetails;
+			String startDate = requestJson.get("startDate").getAsString();
+			String endDate = requestJson.get("endDate").getAsString();
+			customerDetails = dbConnector.orderDBLogic.getTotalPriceForAllCustomers(startDate, endDate);
+			responseJson.add("customerDetails", customerDetails);
+		}
+			break;
 		case GET_ORDER_ID: {
 			String orderIdResponse = dbConnector.orderDBLogic.getOrderId(requestJson);
 			responseJson.addProperty("orderId", orderIdResponse);
@@ -253,6 +292,10 @@ public class ServerController extends AbstractServer {
 				dbConnector.fuelDBLogic.createInventoryOrderByFuelTypeAndStationID(stationID, fuelType);
 			}
 			break;
+		case UPDATE_FUEL_AMOUNT_INVENTORY:
+			dbConnector.fuelDBLogic.updateFuelAmountByStationIDFuelTypeAndAmount(requestJson.get("fuelType").getAsString(),
+					requestJson.get("stationID").getAsString(), (-1) * requestJson.get("fuelAmount").getAsFloat());
+			break;
 		default:
 			break;
 		}
@@ -260,6 +303,12 @@ public class ServerController extends AbstractServer {
 		return messageFromServer;
 	}
 
+	/**
+	 * this function handle messages from the client that related to Reports methods.
+	 * it goes to the right case and activate the right function of DBLogic.
+	 * @param msg - the message from the client
+	 * @return - response message from the server to the client
+	 */
 	private Message handleReportMessage(Message msg) {
 		Message messageFromServer = null;
 		JsonObject requestJson = msg.getMessageAsJsonObject();
@@ -309,6 +358,12 @@ public class ServerController extends AbstractServer {
 		messageFromServer = new Message(MessageType.SERVER_RESPONSE, responseJson.toString());
 		return messageFromServer;
 	}
+	/**
+	 * this function handle messages from the client that related to Fuel methods.
+	 * it goes to the right case and activate the right function of DBLogic.
+	 * @param msg - the message from the client
+	 * @return - response message from the server to the client
+	 */
 
 	private Message handleFuelMessage(Message msg) {
 		Message messageFromServer = null;
@@ -379,10 +434,11 @@ public class ServerController extends AbstractServer {
 		}
 			break;
 		case UPDATE_FUEL_STATION_INVENTORY: {
+			String userName=requestJson.get("userName").getAsString();
 			String threshold = requestJson.get("thresholdAmount").getAsString();
 			String maxAmount = requestJson.get("maxFuelAmount").getAsString();
 			String fuelType = requestJson.get("fuelType").getAsString();
-			dbConnector.fuelDBLogic.updateFuelInventory(threshold, maxAmount, fuelType);
+			dbConnector.fuelDBLogic.updateFuelInventory(threshold, maxAmount, fuelType,userName);
 		}
 			break;
 		case GET_FUEL_INVENTORY_BY_USER_NAME: {
@@ -405,6 +461,12 @@ public class ServerController extends AbstractServer {
 		return messageFromServer;
 	}
 
+	/**
+	 * this function handle messages from the client that related to Purchase Models methods.
+	 * it goes to the right case and activate the right function of DBLogic.
+	 * @param msg - the message from the client
+	 * @return - response message from the server to the client
+	 */
 	private Message handlePurchaseModelsMessage(Message msg) {
 		Message messageFromServer = null;
 		JsonObject requestJson = msg.getMessageAsJsonObject();
@@ -422,6 +484,12 @@ public class ServerController extends AbstractServer {
 		return messageFromServer;
 	}
 
+	/**
+	 * this function handle messages from the client that related to Customer methods.
+	 * it goes to the right case and activate the right function of DBLogic.
+	 * @param msg - the message from the client
+	 * @return - response message from the server to the client
+	 */
 	private Message handleCustomerMessage(Message msg) {
 		Message messageFromServer = null;
 		JsonObject requestJson = msg.getMessageAsJsonObject();
@@ -513,7 +581,11 @@ public class ServerController extends AbstractServer {
 		return messageFromServer;
 
 	}
-
+	/**
+	 * this function handle request to register a customer to the system
+	 * it gets the request JsonObject with the details and calls to the customerDBLogic methods
+	 * @param requestJson - the request as JsonObject with all the data
+	 */
 	public void register(JsonObject requestJson) {
 		dbConnector.userDBController.addUser(requestJson);
 		dbConnector.customerDBLogic.addCustomer(requestJson);
@@ -532,6 +604,12 @@ public class ServerController extends AbstractServer {
 		dbConnector.customerDBLogic.addFuelCompanies(requestJson.get("customerID").getAsString(), fuelCompanies);
 	}
 
+	/**
+	 * this function handle messages from the client that related to User methods.
+	 * it goes to the right case and activate the right function of DBLogic.
+	 * @param msg - the message from the client
+	 * @return - response message from the server to the client
+	 */
 	public Message handleUserMessage(Message msg) {
 		Message messageFromServer = null;
 		JsonObject requestJson = msg.getMessageAsJsonObject();
@@ -573,10 +651,14 @@ public class ServerController extends AbstractServer {
 		return messageFromServer;
 	}
 
+	/**
+	 * this function prints that the server is started and listening for connections
+	 */
 	protected void serverStarted() {
 		System.out.println("Server listening for connections on port " + getPort());
 	}
 
+	
 	@Override
 	protected void clientConnected(ConnectionToClient client) {
 		super.clientConnected(client);

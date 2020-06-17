@@ -8,15 +8,31 @@ import com.google.gson.JsonObject;
 
 import client.controller.ClientUI;
 import client.controller.ObjectContainer;
+import client.gui.marketingrepresentative.CustomerVehiclesController;
 import entitys.Message;
 import entitys.enums.MessageType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
+/**
+ * This class responsible to show all the inventory orders to the station manager.
+ * Than, the station manager choose if approve or deny the orders before they send to supplier.
+ * @author Or Yom Tov
+ * @version - Final
+ */
 public class InventoryOrdersController {
 
     @FXML
@@ -44,11 +60,18 @@ public class InventoryOrdersController {
     private Label lblDeny;
 
     @FXML
+    private Label lblNoOrders;
+    
+    @FXML
     private VBox vbOrderPane;
     
     private ArrayList<InventoryOrderPaneController> order = new ArrayList<>();
     private JsonArray orders;
     
+    /**
+	 * This method responsible to get the 'fxml' file and call to the method that init the UI.
+	 * @param changePane - This is the value that responsible to change the panes by the correct button.
+	 */
 	public void load(Pane changePane) {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("InventoryOrders.fxml"));
@@ -62,26 +85,19 @@ public class InventoryOrdersController {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * This method responsible to init all the buttons, texts, lables and etc.
+	 * Than call "getInventoryOrdersFromDB" method.
+	 */
 	private void initUI() {
-		
-		lblOrderID.setText("Order ID");
-		lblOrderID.setStyle("-fx-text-fill: #F0FFFF; -fx-font-size:20px; -fx-font-weight:bold;");
-		lblFuelType.setText("Fuel Type");
-		lblFuelType.setStyle("-fx-text-fill: #F0FFFF; -fx-font-size:20px; -fx-font-weight:bold;");
-		lblAmount.setText("Amount");
-		lblAmount.setStyle("-fx-text-fill: #F0FFFF; -fx-font-size:20px; -fx-font-weight:bold;");
-		lblSupplierName.setText("Supplier ID");
-		lblSupplierName.setStyle("-fx-text-fill: #F0FFFF; -fx-font-size:20px; -fx-font-weight:bold;");
-		lblApprove.setText("Approve/");
-		lblApprove.setStyle("-fx-text-fill: green; -fx-font-size:20px; -fx-font-weight:bold;");
-		lblDeny.setText("Deny");
-		lblDeny.setStyle("-fx-text-fill: red; -fx-font-size:20px; -fx-font-weight:bold;");
-		
+		vbOrderPane.setSpacing(5);
 		getInvertoryOrdersFromDB();
 		
 	}
-
+	/**
+	 * This method responsible to request from the server to get the orders data.
+	 * After that, init Json Array with the data and call "initOrderVbox" method.
+	 */
 	private void getInvertoryOrdersFromDB() {
 		JsonObject order = new JsonObject();
 		order.addProperty("orders", "orders2");
@@ -91,18 +107,33 @@ public class InventoryOrdersController {
 		JsonArray ordersArray = orders.get("orders").getAsJsonArray();
 		initOrderVBox(ordersArray);
 	}
-
+	/**
+	 * This method responsible to init the VBox with the dynamic panes from the other controller.
+	 * @param orders - Json Array with all the orders data.
+	 */
 	private void initOrderVBox(JsonArray orders) {
 		this.orders = orders;
+		
+		if(orders.size() == 0) {
+			lblNoOrders.setVisible(true);
+			vbOrderPane.setVisible(false);
+			return;
+		}else {
+			lblNoOrders.setVisible(false);
+			vbOrderPane.setVisible(true);
+		}
+		
 		for (int i = 0; i < orders.size(); i++) {
 			InventoryOrderPaneController invertoryOrder = new InventoryOrderPaneController();
 			String color = i % 2 == 0 ? ObjectContainer.rowColorBG1 : ObjectContainer.rowColorBG2;
 			order.add(invertoryOrder.load(orders.get(i).getAsJsonObject(), color));
 			vbOrderPane.getChildren().add(order.get(i).getOrderPane());
 		}
-		
 	}
-
+	/**
+	 * This method responsible to update the GUI with the current orders after deny or approve.
+	 * @param orderID - Order ID string value.
+	 */
 	public void updateOrder(String orderID) {
 		vbOrderPane.getChildren().clear();
 		for (int i = 0; i < orders.size(); i++) {
@@ -111,10 +142,19 @@ public class InventoryOrdersController {
 				order.remove(i);
 			} 
 		}
-		
-		for(int i = 0; i < orders.size(); i++) {
-			vbOrderPane.getChildren().add(order.get(i).getOrderPane());
+		if(orders.size() == 0) {
+			lblNoOrders.setVisible(true);
+			vbOrderPane.setVisible(false);
+			return;
+		}else {
+			lblNoOrders.setVisible(false);
+			vbOrderPane.setVisible(true);
 		}
+		
+		for(int i = 0; i < orders.size(); i++)
+			vbOrderPane.getChildren().add(order.get(i).getOrderPane());
+		
+		
 		
 	}
 

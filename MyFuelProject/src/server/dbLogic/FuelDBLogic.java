@@ -12,8 +12,24 @@ import entitys.DeterminingRateRequests;
 import entitys.Fuel;
 import entitys.enums.FuelType;
 
+
+/**
+ * This class is responsible on send querys to the DB and get/insert/update/delete
+ * Data from the data base and send it back to the server controller with the 
+ * answer about the request that has been sent.
+ * @author Barak
+ *@version Final
+ */
 public class FuelDBLogic {
 
+	
+	/**
+	 * this function will get from the DB the fuel types inventory by the user name
+	 * of the station manager and will insert every fuel type inventory status and details
+	 * into an array, and then returns it.
+	 * @param  userName - the user name of the client in the system
+	 * @return  array - Json array of the fuel inventory
+	 */
 	public JsonArray getFuelInventoryByUserName(String userName) {
 		JsonArray array = new JsonArray();
 		
@@ -46,6 +62,12 @@ public class FuelDBLogic {
 		
 		return array;
 	}
+	
+	/**
+	 * This function get all of the fuel types in the DB and insert them into 
+	 * JsonArray, and then returns it.
+	 * @return JsonArray fuelTypes
+	 */
 	public JsonArray getFuelTypes() {
 		JsonArray fuelTypes = new JsonArray();
 
@@ -69,7 +91,15 @@ public class FuelDBLogic {
 		return fuelTypes;
 
 	}
-
+	
+	
+	/**
+	 * this function get a Fuel Type name than go to the DB and gets from the Fuel table
+	 * the data of the fuel type, like current price and max price.
+	 * then it insert it into Fuel object and returns it.
+	 * @param  fuelType name
+	 * @return  fuel object
+	 */
 	public Fuel getFuelObjectByType(String fuelType) {
 		Fuel fuel = null;
 
@@ -96,6 +126,13 @@ public class FuelDBLogic {
 		return fuel;
 	}
 
+	
+	/**
+	 * this function gets fuel object and a new price and then update the new price in the DB
+	 * by the fuel type.
+	 * @param  fuel (exact fuel object of some type)
+	 * @param  newPrice - the new price that we want to update
+	 */
 	public void updateFuel(Fuel fuel, String newPrice) {
 
 		float PriceToUpdate = 0;
@@ -118,6 +155,13 @@ public class FuelDBLogic {
 		}
 	}
 
+	
+	/**
+	 * this function get a request to determine rate of the fuel type price and the new price to be updated.
+	 * then it insert to the DB in the "determining_rate_requests" table the most updated rate request.
+	 * @param request - a request that contains the fuel type, current price, status and create time
+	 * @param newPrice - new price to be updated as a new rate request.
+	 */
 	public void SendRateRequest(DeterminingRateRequests request, String newPrice) {
 
 		float PriceToUpdate = 0;
@@ -149,7 +193,14 @@ public class FuelDBLogic {
 		}
 	}
 
-	public JsonArray getFuelCompanyNames() {
+	/**
+	 * this functon go to the DB and get from the table
+	 * all of the Company names we work with.
+	 * it insert it into an Json array and returns it
+	 * @return JsonArray CompanyNames -  all of the Companies in the DB
+	 */
+	
+	public static JsonArray getFuelCompanyNames() {
 		JsonArray companyNames = new JsonArray();
 
 		String query = "";
@@ -172,6 +223,13 @@ public class FuelDBLogic {
 		return companyNames;
 	}
 
+	/**
+	 * this function get all of the current rate requests from the DB and insert it
+	 * into an Json Array.
+	 * it gets only the requests that their current status is waiting to approve.
+	 * @return rateRequests - JsonArray of the current waiting to approve requests.
+	 */
+	
 	public JsonArray getRateRequests() {
 		JsonArray rateRequests = new JsonArray();
 
@@ -202,6 +260,15 @@ public class FuelDBLogic {
 		return rateRequests;
 	}
 
+	
+	/**
+	 * this function update the decision about the rate request if it gets declined.
+	 * the function will insert the reason of decline and the new status by its decision
+	 * for the specific request ID.
+	 * @param decline - the string of the reason to decline the request.
+	 * @param decision - boolean variable, true for approve, or false for decline.
+	 * @param ID  - the specific request ID.
+	 */
 	public void UpdateDecline(String decline, boolean decision, String ID) {
 
 		String query = "";
@@ -231,6 +298,14 @@ public class FuelDBLogic {
 		}
 	}
 	
+	/**
+	 * this function gets the manager ID and go to the DB and find the station ID
+	 * by the manager id that is logged in.
+	 * it returns the station ID number.
+	 * @param managerID - the number of ID of the manager logged in
+	 * @return Station ID - the station ID number in string form.
+	 */
+	
 	public String getStationIDbyManagerID(String managerID) {
 		String query = "";
 		Statement stmt = null;
@@ -254,6 +329,14 @@ public class FuelDBLogic {
 		}		
 		return stationID;
 	}
+	
+	/**
+	 * this function get the fuel inventory of specific station.
+	 * it gets the station ID and then return a JsonArray that contains 
+	 * fuel type, current fuel amount, threshold and Max fuel amount.
+	 * @param stationID - specific Station id number
+	 * @return fuelInventories - JsonArray the contains the data of the inventory
+	 */
 	public JsonArray getFuelInventoryPerStation(String stationID){
 		JsonArray fuelInventories = new JsonArray();
 
@@ -284,7 +367,13 @@ public class FuelDBLogic {
 		
 		return fuelInventories;
 	}
-	
+	/**
+	 * this function get the fuel inventory of specific fuel type and station ID number 
+	 * and return specific JsonObject  of specific fuel type in station.
+	 * @param stationID - the specific statiod id number
+	 * @param fuelType - specific fuel type
+	 * @return JsonObject inventory - current inventory of specific fuel type in the station given.
+	 */
 	public JsonObject getFuelInventoryByStationIDAndFuelType(String stationID, String fuelType) {
 
 		JsonObject inventory = new JsonObject();
@@ -313,18 +402,30 @@ public class FuelDBLogic {
 		
 		return inventory;
 	}
-	// TODO - FIX IT !! NEED TO GET STATIONID 
-	public void updateFuelInventory(String threshold, String maxAmount,String fuelType) {
+	
+	
+	/**
+	 * This function update in the DB the new threshold and/or max amount 
+	 * of the fuel type in the station inventory of the station manager logged in
+	 * @param threshold - the threshold of specific fuel type inventory
+	 * @param maxAmount - the max amount of fuel type in the inventory
+	 * @param fuelType - the specific fuel type we want to change its inventory
+	 * @param userName - the user name of the user logged in, so we can find his/her ID
+	 * and then the station ID by the query
+	 */
+	public void updateFuelInventory(String threshold, String maxAmount,String fuelType ,String userName) {
 
 		String query = "";
 		Statement stmt = null;
 		try {
 			if (DBConnector.conn != null) {
 				stmt = DBConnector.conn.createStatement();
-				query = "UPDATE fuel_inventorys " + "SET thresholdAmount = '" + threshold +
-						"', maxFuelAmount = '"+ maxAmount+"' "
-						+	" WHERE fuelType = '" + fuelType
-						+ "';";
+				query = "UPDATE fuel_inventorys, employees, fuel_stations " + "SET fuel_inventorys.thresholdAmount = '" + threshold +
+						"', fuel_inventorys.maxFuelAmount = '"+ maxAmount+"' "
+						+	"WHERE employees.userName = '" +userName + "' AND " + 
+						"employees.employeeNumber = fuel_stations.managerID AND " + 
+						" fuel_inventorys.fuelType = '" + fuelType + "' AND" + 
+						" fuel_stations.stationID = fuel_inventorys.stationID;";
 				stmt.executeUpdate(query);
 			} else {
 				System.out.println("Conn is null");
@@ -334,6 +435,9 @@ public class FuelDBLogic {
 			e.printStackTrace();
 		}
 	}
+
+
+	//TODO - MAYBE TO DELETE!!! I CANT SEE ANY USE IN IT (THIS IS NOT BY STATION)
 	public JsonArray getFullFuelInventory() {
 
 		JsonArray fuelInventory = new JsonArray();
@@ -363,6 +467,14 @@ public class FuelDBLogic {
 		}		
 		return fuelInventory;
 	}
+	
+	/**
+	 * this function get the fuel type, and the station ID number and bring
+	 * from the DB the current amount of fuel available.
+	 * @param fuelType - specific fuel type to search
+	 * @param stationID - specific ID number of station
+	 * @return the float number that represent the amount available
+	 */
 	public float getAvailableAmountOfFuelByTypeAndStationID(String fuelType, String stationID) {
 		float availableAmount = 0;
 		
@@ -388,6 +500,15 @@ public class FuelDBLogic {
 		return availableAmount;
 	}
 
+	/**
+	 * This function update the CURRENT fuel amount of specific fuel type
+	 * by the station id. this function will go to the DB and update 
+	 * the data in it.
+	 * @param fuelType - the specific fuel type
+	 * @param stationID - the specific station ID
+	 * @param amount - the amount we want to update
+	 */
+	
 	public void updateFuelAmountByStationIDFuelTypeAndAmount(String fuelType, String stationID, float amount) {
 		float newAmount = getAvailableAmountOfFuelByTypeAndStationID(fuelType, stationID) - amount;
 		String query = "";
@@ -409,10 +530,23 @@ public class FuelDBLogic {
 		}		
 	}
 	
+	
+	/**
+	 * just get the supplier ID for all the stations
+	 * @return the ID number
+	 */
 	public String getSupplierID() {
 		return "777";
 	}
 	
+	/**
+	 * this function check if we need to create new inventory order
+	 * if the current fuel amount is smaller than threshold , we have to create an order
+	 * it gets the station ID and the fuel type we have to check
+	 * @param stationID - the specific station ID
+	 * @param fuelType - the specific fuel type
+	 * @return boolean variable true - to create, false to not create
+	 */
 	public boolean checkIfNeedToCreateInventoryOrder(String stationID, String fuelType) {
 		// return true if need to create inventory order.
 		boolean isValid = false;
@@ -446,7 +580,17 @@ public class FuelDBLogic {
 		isValid = isValid && checkIfInventoryOrderAlreadyCreatedForNewOrders(stationID, fuelType);
 		return isValid;
 	}
-
+	
+	
+	/**
+	 * check if there's an order that already created for some 
+	 * fuel type and station ID. we use this to check it in the function up above
+	 * we don't want to create multiple orders for the same fuel type so this
+	 * function help us to prevent this situation  
+	 * @param stationID - the specific station ID number
+	 * @param fuelType - the specific fuel type we want to check
+	 * @return - boolean variable that tell us the answer
+	 */
 	public boolean checkIfInventoryOrderAlreadyCreatedForNewOrders(String stationID, String fuelType) {
 		boolean isValid = true;
 		
@@ -472,6 +616,14 @@ public class FuelDBLogic {
 		return isValid;
 	}
 	
+	
+	/**
+	 * this function create new inventory order and insert it to the the table in the DB
+	 * it send an order for specific fuel type  and specific station ID
+	 * the amount of the fuel calculate by MAX FUEL AMOUNT - CURRENT FUEL AMOUNT
+	 * @param stationID - specific station ID we want to send the order
+	 * @param fuelType - specific fuel type
+	 */
 	public void createInventoryOrderByFuelTypeAndStationID(String stationID, String fuelType) {
 		JsonObject json = getFuelInventoryByStationIDAndFuelType(stationID, fuelType);
 		//stationID, fuelType, currentFuelAmount, thresholdAmount, maxFuelAmount

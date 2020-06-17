@@ -25,6 +25,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
 
+/**
+ * This class is the GUI class of report view form. This class will allow to the
+ * CEO to watch about all reports were created by station manager and marketing
+ * manager
+ * 
+ * @author Or Haim
+ * @version final
+ */
 public class ReportViewController {
 
 	@FXML
@@ -53,7 +61,7 @@ public class ReportViewController {
 	
     @FXML
     private Label lblDetails;
-    
+
     @FXML
     private Label lblBottomDetails;
 
@@ -62,6 +70,14 @@ public class ReportViewController {
 	
 	private JsonArray currentColumns;
 
+	/**
+	 * This function is called while the user clicking the "Open" button for
+	 * display reports. He calls custom functions according to the type of
+	 * report the user has selected.
+	 * 
+	 * @param event
+	 *            - this parameter contains value of click event.
+	 */
 	@FXML
 	void openReport(ActionEvent event) {
 		if(checkInput()){
@@ -74,11 +90,13 @@ public class ReportViewController {
 				getMarketingManagerReports();
 			}
 		}
-
-			
 	}
-	
-	public void getMarketingManagerReports(){
+
+	/**
+	 * This function sends a request to the server to get from database report
+	 * of marketing manager by report type and report creation date.
+	 */
+	public void getMarketingManagerReports() {
 		JsonObject response = new JsonObject();
 		JsonObject request = new JsonObject();
 		request.addProperty("reportType", cbReportType.getValue());
@@ -91,6 +109,10 @@ public class ReportViewController {
 		setReport(response);
 	}
 
+	/**
+	 * This function sends a request to the server to get from database report
+	 * of station manager by report type, station id and report creation date.
+	 */
 	public void getStationsReports() {
 		JsonObject response = new JsonObject();
 		JsonObject request = new JsonObject();
@@ -105,6 +127,13 @@ public class ReportViewController {
 		setReport(response);
 	}
 
+	/**
+	 * This function prepares all the required data for the report that came
+	 * from the database to view the report.
+	 * 
+	 * @param response
+	 *            - contains all data of the report that came from database
+	 */
 	public void setReport(JsonObject response) {
 		String[] details = response.get("labelText").getAsString().split("_");
 		lblDetails.setText(details[0]);
@@ -118,6 +147,14 @@ public class ReportViewController {
 		fillTable(columns, rows);
 	}
 
+	/**
+	 * This function that creates an arrayList that will contain all the
+	 * relevant columns of the report.
+	 * 
+	 * @param jsonColumns
+	 *            - JsonArray containing the columns of the report.
+	 * @return - arrayList that contains the required columns.
+	 */
 	public ArrayList<String> setColumns(JsonArray jsonColumns) {
 		ArrayList<String> columns = new ArrayList<>();
 		for (int i = 0; i < jsonColumns.size(); i++) {
@@ -126,6 +163,17 @@ public class ReportViewController {
 		return columns;
 	}
 
+	/**
+	 * Function that creates an arrayList containing all the relevant data by
+	 * report type. Puts the data(parameter "jsonRows") into rows to display in
+	 * the table.
+	 * 
+	 * @param reportType
+	 * @param jsonRows
+	 *            - the type of report that is required to display the data
+	 *            about him.
+	 * @return - arrayList of rows that contains the required data.
+	 */
 	public ArrayList<ArrayList<String>> setRows(String reportType,
 			JsonArray jsonRows) {
 		ArrayList<ArrayList<String>> rows = new ArrayList<>();
@@ -178,7 +226,29 @@ public class ReportViewController {
 				rows.add(orderAsString);
 			}
 		} else if (reportType.equals("Periodic characterization of clients")) {
-
+			for (int j = 0; j < jsonRows.size(); j++) {
+				JsonObject order = new JsonObject();
+				ArrayList<String> orderAsString = new ArrayList<>();
+				order = jsonRows.get(j).getAsJsonObject();
+				System.out.println(order.toString());
+				orderAsString.add(order.get("customerID").getAsString());
+				Message msg = new Message(MessageType.GET_FUEL_COMPANIES_NAMES,
+						"");
+				ClientUI.accept(msg);
+				JsonArray fuelCompanies = ObjectContainer.currentMessageFromServer
+						.getMessageAsJsonObject().get("fuelCompanies")
+						.getAsJsonArray();
+				for (int i = 0; i < fuelCompanies.size(); i++) {
+					String price = order
+							.get(fuelCompanies.get(i).getAsString())
+							.getAsFloat() > 0 ? order.get(
+							fuelCompanies.get(i).getAsString()).getAsString()
+							: "-";
+					orderAsString.add(price);
+				}
+				orderAsString.add(order.get("total").getAsString());
+				rows.add(orderAsString);
+			}
 		} else { // Comments report
 			for (int j = 0; j < jsonRows.size(); j++) {
 				JsonObject order = new JsonObject();
@@ -193,7 +263,15 @@ public class ReportViewController {
 		}
 		return rows;
 	}
-	
+
+	/**
+	 * This function fills all the data of report in the display table.
+	 * 
+	 * @param columns
+	 *            - contains list of the columns names.
+	 * @param rows
+	 *            - contains list of rows(report data).
+	 */
 	public void fillTable(ArrayList<String> columns,
 			ArrayList<ArrayList<String>> rows) {
 		tblViewReport.getColumns().clear();
@@ -215,6 +293,13 @@ public class ReportViewController {
 		}
 	}
 
+	/**
+	 * This function checks whether all the information needed to display the
+	 * report has been entered by the user.
+	 * 
+	 * @return - boolean response, true - if all fields are filled correctly,
+	 *         false - if something wrong.
+	 */
 	public boolean checkInput() {
 		boolean flag=false;
 		if (cbReportType.getValue().equals("Choose report type")) {
@@ -232,6 +317,12 @@ public class ReportViewController {
 		return flag;
 	}
 
+	/**
+	 * This function initializes all choice options to the choice box by type of
+	 * report for all reports. In addition, is responsible for loading the stations ID and creation dates of existing reports in a
+	 * database into a choice boxes by the report type.
+	 * This is done by a listener that when the user changes the report type it loads the choice options.
+	 */
 	public void setOptionOfReportsType() {
 		cbReportType.getItems().add("Choose report type");
 		cbReportType.getItems().add("Periodic characterization of clients");
@@ -291,6 +382,14 @@ public class ReportViewController {
 
 	}
 
+	/**
+	 * This function makes the components of the reports visible\invisible by
+	 * the type of report.
+	 * 
+	 * @param reportType
+	 *            - contains the type of report by which the components need to
+	 *            be changed to visible\invisible.
+	 */
 	protected void setVisibleChoiceBox(String reportType) {
 		if (reportType.equals("Quarterly Revenue")
 				|| reportType.equals("Purchases By Type")
@@ -299,7 +398,7 @@ public class ReportViewController {
 			cbStationId.setVisible(true);
 			lblDate.setVisible(true);
 			cbDate.setVisible(true);
-			lblDate.setLayoutX(625.0);
+			lblDate.setLayoutX(550.0);
 			cbDate.setLayoutX(550.0);
 		} else if ((reportType.equals("Periodic characterization of clients") || reportType
 				.equals("Comments report"))) {
@@ -307,7 +406,7 @@ public class ReportViewController {
 			cbStationId.setVisible(false);
 			lblDate.setVisible(true);
 			cbDate.setVisible(true);
-			lblDate.setLayoutX(455.0);
+			lblDate.setLayoutX(380.0);
 			cbDate.setLayoutX(380.0);
 		} else {
 			lblStationId.setVisible(false);
@@ -317,6 +416,13 @@ public class ReportViewController {
 		}
 	}
 
+	/**
+	 * This function is responsible for loading the creation dates of the existing reports in a
+	 * database by station ID and report type.
+	 * This is done by sending a request to the server to receive all required stations ID and dates.
+	 * This is done by a listener that when the user changes the station id it loads the choice options.
+	 * @param stations - contains  all stations ID that match the same report type that exists in a database. 
+	 */
 	protected void setStationIDChoiceBox(JsonArray stations) {
 		ObjectContainer.setChoiceOptionOfChoiceBox(cbStationId, stations,
 				"Choose:");
@@ -367,6 +473,11 @@ public class ReportViewController {
 		});
 	}
 
+	/**
+	 * This function sends a request to a server that requests all stations ID by report type.
+	 * @param request - contains the type of report for which the request is being made.
+	 * @return
+	 */
 	public JsonArray getStationIDByReportType(JsonObject request) {
 		Message msg = new Message(MessageType.GET_STATION_ID_BY_REPORT_TYPE,
 				request.toString());
@@ -377,10 +488,12 @@ public class ReportViewController {
 		return response.get("stations").getAsJsonArray();
 	}
 
-	public void setStationID() {
-
-	}
-
+	/**
+	 * Function responsible to get the 'fxml' file and call to the function that
+	 * init the UI.
+	 * @param paneChange  - this is the value that responsible to change the panes by
+	 *            the correct button.
+	 */
 	public void load(Pane paneChange) {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("ViewReports.fxml"));
@@ -396,6 +509,10 @@ public class ReportViewController {
 
 	}
 
+	/**
+	 * Function responsible to init all buttons,text, labels and initial
+	 * functions.
+	 */
 	private void initUI() {
 		btnOpen.setId("dark-blue");
 		tblViewReport.setId("my-table");

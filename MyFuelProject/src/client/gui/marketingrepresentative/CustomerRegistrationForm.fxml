@@ -259,37 +259,37 @@
 		</Pane>
 		<Pane fx:id="stageThree" prefHeight="570.0" prefWidth="949.0">
 			<children>
-            <ScrollPane fx:id="spVehicleContainer" layoutX="116.0" layoutY="132.0" prefHeight="350.0" prefWidth="728.0">
+            <ScrollPane fx:id="spVehicleContainer" layoutX="79.0" layoutY="128.0" prefHeight="350.0" prefWidth="728.0">
                <content>
                   <VBox fx:id="vbVehicleContainer" alignment="TOP_CENTER" prefHeight="348.0" prefWidth="725.0" />
                </content>
             </ScrollPane>
-            <Label layoutX="108.0" layoutY="14.0" prefHeight="38.0" prefWidth="325.0" text="Vehicle Information : " textFill="WHITE" underline="true">
+            <Label layoutX="79.0" layoutY="14.0" prefHeight="38.0" prefWidth="325.0" text="Vehicle Information : " textFill="WHITE" underline="true">
                <font>
                   <Font name="System Bold" size="26.0" />
                </font>
             </Label>
-				<Button fx:id="btnAddVehicle" layoutX="661.0" layoutY="63.0" mnemonicParsing="false" onAction="#addVehicle" prefHeight="34.0" prefWidth="146.0" text="Add Vehicle" />
-            <TextField fx:id="txtVehicleNumber" layoutX="251.0" layoutY="66.0" prefHeight="25.0" prefWidth="129.0" />
-            <Label layoutX="112.0" layoutY="66.0" text="Vehicle Number :" textFill="WHITE">
+				<Button fx:id="btnAddVehicle" layoutX="627.0" layoutY="69.0" mnemonicParsing="false" onAction="#addVehicle" prefHeight="34.0" prefWidth="146.0" text="Add Vehicle" />
+            <TextField fx:id="txtVehicleNumber" layoutX="217.0" layoutY="70.0" prefHeight="25.0" prefWidth="129.0" />
+            <Label layoutX="78.0" layoutY="70.0" text="Vehicle Number :" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <Label layoutX="405.0" layoutY="71.0" text="Fuel Type : " textFill="WHITE">
+            <Label layoutX="371.0" layoutY="70.0" text="Fuel Type : " textFill="WHITE">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <ChoiceBox fx:id="cbVehicleFuelType" layoutX="495.0" layoutY="63.0" prefWidth="150.0" />
-            <Label fx:id="lblVehicleError" layoutX="820.0" layoutY="68.0" text="Invalid input" textFill="RED">
+            <ChoiceBox fx:id="cbVehicleFuelType" layoutX="461.0" layoutY="68.0" prefWidth="150.0" />
+            <Label fx:id="lblVehicleError" layoutX="786.0" layoutY="74.0" text="Invalid input" textFill="RED">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
 			</children>
 		</Pane>
-      <ImageView fx:id="imgStage" fitHeight="58.0" fitWidth="555.0" layoutX="200.0" layoutY="510.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgStage" fitHeight="60.0" fitWidth="555.0" layoutX="216.0" layoutY="498.0" pickOnBounds="true" preserveRatio="true" />
 				<Button fx:id="btnBack" layoutX="50.0" layoutY="516.0" mnemonicParsing="false" onAction="#onBack" prefHeight="40.0" prefWidth="100.0" text="Back" visible="false" />
 				<Button fx:id="btnNext" layoutX="799.0" layoutY="516.0" mnemonicParsing="false" onAction="#onNext" prefHeight="40.0" prefWidth="100.0" text="Next" />
 	</children>

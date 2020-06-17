@@ -19,11 +19,30 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * This class is the gui controller class of Rates to Approve form.
+ * this class will display the request of the Marketing manager to determine new rates.
+ * it will allow him to approve or decline the new rates request, if approve it will send a 
+ * request to the server to update the new rate, if the CEO decline the request,
+ * he will have to insert a reason why he declined, 
+ * all of the details will be saved in the DB. 
+ * @author Barak
+ * @version final
+ */
+
 public class RatesToApproveController {
-
+	/**
+	 * Array List of the rate Request anchor panes to display
+	 */
 	public static ArrayList<AnchorPane> rateRequestsAnchorPanes;
+	/**
+	 * Array list of the Rates request panes separated
+	 */
 	public static ArrayList<RequestPane> rateRequestsPanes;
-
+	
+	/*
+	 * static Json array of the requests.
+	 */
 	public static JsonArray requests;
 
 	@FXML
@@ -35,6 +54,12 @@ public class RatesToApproveController {
     @FXML
     private VBox vbRequestsContainer;
 
+    
+    /**
+     * This function send a message to the server with the request to get the rates request from the
+     * DB. the response from the server inserted into the ratesRequest JsonArray
+     * @return JsonArray of the Rates Requests
+     */
 	public JsonArray getRatesRequests() {
 		Message msg = new Message(MessageType.GET_RATES_REQUESTS, "");
 		ClientUI.accept(msg);
@@ -44,6 +69,10 @@ public class RatesToApproveController {
 		return ratesRequests;
 	}
 
+	/**
+	 * this function loads the form with all of the panes in it, and the detailes.
+	 * @param paneChange
+	 */
 	public void load(Pane paneChange) {
 
 		FXMLLoader loader = new FXMLLoader();
@@ -59,6 +88,11 @@ public class RatesToApproveController {
 		}
 	}
 
+	/**
+	 * this function Initialize the screen in its first, set the colors and the panes in it
+	 * when clicked and get into the page.
+	 * it shows all the requests.
+	 */
 	public void initUI() {
 		requests = getRatesRequests();
 		rateRequestsAnchorPanes = new ArrayList<>();
@@ -67,13 +101,18 @@ public class RatesToApproveController {
 		for (int i = 0; i < requests.size(); i++) {
 			RequestPane reqPane = new RequestPane();
 			rateRequestsPanes.add(reqPane);
-			String color = i % 2 == 0 ? ObjectContainer.rowColorBG1 : ObjectContainer.rowColorBG2;
+			String color = i % 2 == 0 ? "#0277ad" : "#014b88";
 			AnchorPane pane = reqPane.load(requests.get(i).getAsJsonObject(), color);
 			rateRequestsAnchorPanes.add(pane);
 		}
 		showAllRequests();
 
 	}
+	
+	/**
+	 * this function insert to the VBOX the current rates and remove the other rates
+	 * that maybe been initialized and got declined so they have to be removed.
+	 */
 	
 	public void showAllRequests() {
 		vbRequestsContainer.getChildren().clear();
@@ -88,6 +127,11 @@ public class RatesToApproveController {
 			}
 		}
 	}
+	/**
+	 * this function start the primary stage.
+	 * @param primaryStage
+	 * @throws IOException
+	 */
 	public void start(Stage primaryStage) throws IOException {
 		FXMLLoader loader = new  FXMLLoader();
     	loader.setLocation(getClass().getResource("RatesToApproveForm.fxml"));

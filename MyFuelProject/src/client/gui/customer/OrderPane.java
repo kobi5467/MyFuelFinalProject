@@ -18,6 +18,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
+/**
+ * This class is for only one sub-Order pane that will be loaded in the main OrderTrackingForm
+ * every pane and its actions that we enable for the user to do will be handled in here
+ * and how we want to present every single sub pane will handled in this class
+ * @author Barak
+ * @version final
+ */
+
 public class OrderPane {
 
 	@FXML
@@ -57,6 +65,12 @@ public class OrderPane {
 
 	public String status;
 	
+	/**
+	 * This function will be activated when the user click on "+" to extend details about the order.
+	 * it will extend the order pane clicked and close the extended form of former opened order Pane.
+	 * @param event
+	 */
+	
 	@FXML
 	void onView(ActionEvent event) {
 		if (viewPane.isVisible()) {
@@ -67,6 +81,14 @@ public class OrderPane {
 		
 	}
 
+	/**
+	 * This function gets an Home Heating Fuel order and load it to the main order Tracking Form.
+	 * also gets the color of the pane. 
+	 * @param JsonObject HHFOrder
+	 * @param String color
+	 * @return
+	 */
+	
 	public OrderPane load(JsonObject HHFOrder, String color) {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("OrderPane.fxml"));
@@ -81,6 +103,12 @@ public class OrderPane {
 		}
 		return pane;
 	}
+	
+	/**
+	 *This function gets an Home Heating Fuel order and Initialize it.
+	 * also gets the color of the pane. 	 * @param JsonObject HHFOrder
+	 * @param String color
+	 */
 
 	public void initUI(JsonObject HHFOrder, String color) {
 		btnView.setId("dark-blue");
@@ -90,6 +118,13 @@ public class OrderPane {
 		fillData(HHFOrder);
 	}
 
+	
+	/**
+	 * This function get Home heating fuel order and fill the data of the order
+	 * in the pane fields.
+	 * also makes it UnEditable.
+	 * @param JsonObject HHFOrder
+	 */
 	private void fillData(JsonObject HHFOrder) {
 
 		txtOrderNumber.setText(HHFOrder.get("orderID").getAsString());
@@ -113,6 +148,13 @@ public class OrderPane {
 		txtSupplyDate.setEditable(false);
 
 	}
+	
+	/**
+	 * This function gets fuel type (Home Heating Fuel) and insert the current Fuel object of this specific order
+	 * into to "currentFuel" variable of this specific pane.
+	 * Some of the other functions in the class use this current fuel object to fill the data in the pane fields.
+	 * @param String fuelType
+	 */
 
 	public void getFuelObjectByType(String fuelType) {
 		JsonObject json = new JsonObject();
@@ -131,10 +173,17 @@ public class OrderPane {
 	}
 
 	
+	
+	
 	public AnchorPane getMainPane() {
 		return mainOrderPane;
 	}
 
+	
+	/**
+	 * this function extend the pane for its extended details view.
+	 * it change the size of the pain, and get used in the "onView" function.
+	 */
 	public void showView() {
 		btnView.setVisible(true);
 		viewPane.setVisible(true);
@@ -142,6 +191,12 @@ public class OrderPane {
 		mainOrderPane.setPrefSize(viewPane.getPrefWidth(), viewPane.getPrefHeight());
 	}
 
+	/**
+	 * this function shorten the pane for its shorted details view.
+	 * it change the size of the pain, and get used in the "openOrderByIndex" function to hide extended form
+	 * of other panes (not current) that opened already.
+	 */
+	
 	public void hideView() {
 		btnView.setVisible(true);
 		viewPane.setVisible(false);

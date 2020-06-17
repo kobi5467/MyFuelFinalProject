@@ -10,32 +10,32 @@
    <children>
       <ScrollPane fx:id="spRequestsContainer" layoutX="9.0" layoutY="70.0" prefHeight="486.0" prefWidth="932.0">
          <content>
-            <VBox fx:id="vbRequestsContainer" prefHeight="488.0" prefWidth="930.0" />
+            <VBox fx:id="vbRequestsContainer" prefHeight="488.0" prefWidth="910.0" />
          </content>
       </ScrollPane>
-      <Label fx:id="lblRequestID" alignment="CENTER_RIGHT" layoutX="-50.0" layoutY="27.0" prefWidth="168.0" text="Request ID" textFill="WHITE">
+      <Label fx:id="lblRequestID" alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="10.0" layoutY="27.0" prefHeight="32.0" prefWidth="116.0" text="Request ID" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="15.0" />
+            <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <Label fx:id="lblCurrentPrice" alignment="CENTER_RIGHT" layoutX="70.0" layoutY="27.0" prefWidth="168.0" text="Current Price" textFill="WHITE">
+      <Label fx:id="lblCurrentPrice" alignment="CENTER" layoutX="174.0" layoutY="27.0" prefHeight="32.0" prefWidth="143.0" text="Current Price" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="15.0" />
+            <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <Label fx:id="lblNewPrice" alignment="CENTER_RIGHT" layoutX="190.0" layoutY="27.0" prefWidth="168.0" text="New Price" textFill="WHITE">
+      <Label fx:id="lblNewPrice" alignment="CENTER" layoutX="352.0" layoutY="27.0" prefHeight="25.0" prefWidth="108.0" text="New Price" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="15.0" />
+            <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <Label fx:id="lblFuelType" alignment="CENTER" layoutX="421.0" layoutY="27.0" prefWidth="168.0" text="Fuel Type" textFill="WHITE">
+      <Label fx:id="lblFuelType" alignment="CENTER" layoutX="496.0" layoutY="27.0" prefHeight="32.0" prefWidth="108.0" text="Fuel Type" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="15.0" />
+            <Font name="System Bold" size="22.0" />
          </font>
       </Label>
-      <Label fx:id="lblCreateTime" alignment="CENTER" layoutX="597.0" layoutY="27.0" prefWidth="168.0" text="Create Time" textFill="WHITE">
+      <Label fx:id="lblCreateTime" alignment="CENTER" layoutX="674.0" layoutY="27.0" prefHeight="32.0" prefWidth="127.0" text="Create Time" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="15.0" />
+            <Font name="System Bold" size="22.0" />
          </font>
       </Label>
    </children>

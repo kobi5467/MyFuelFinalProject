@@ -4,18 +4,34 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane fx:id="orderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="610.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.marketingmanager.InventoryOrderPaneController">
+<Pane fx:id="orderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="845.0" style="-fx-background-color: #123456;" xmlns="http://javafx.com/javafx/8.0.51" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.marketingmanager.InventoryOrderPaneController">
    <children>
-      <Text fx:id="lblOrderID" fill="WHITE" layoutX="25.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-      <Text fx:id="lblFuelType" fill="WHITE" layoutX="137.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-      <Text fx:id="lblAmount" fill="WHITE" layoutX="248.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-      <Text fx:id="lblSupplierName" fill="WHITE" layoutX="358.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-      <Button fx:id="btnDeny" layoutX="572.0" layoutY="13.0" mnemonicParsing="false" onAction="#onDeny" text="X" />
-      <Button fx:id="btnApprove" layoutX="526.0" layoutY="13.0" mnemonicParsing="false" onAction="#onApprove" text="V" />
-      <Label fx:id="lblDenyReason" layoutX="22.0" layoutY="49.0" text="Reason of Deny:" textFill="WHITE" />
-      <TextField fx:id="txtReasonDeny" layoutX="126.0" layoutY="45.0" prefHeight="25.0" prefWidth="386.0" />
-      <Button fx:id="btnSubmitReason" layoutX="524.0" layoutY="45.0" mnemonicParsing="false" onAction="#onSubmitReason" prefHeight="25.0" prefWidth="71.0" text="Submit" />
+      <Text fx:id="lblOrderID" fill="WHITE" layoutX="17.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="55.7366943359375">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></Text>
+      <Text fx:id="lblFuelType" fill="WHITE" layoutX="163.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></Text>
+      <Text fx:id="lblAmount" fill="WHITE" layoutX="326.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></Text>
+      <Text fx:id="lblSupplierName" fill="WHITE" layoutX="492.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></Text>
+      <Button fx:id="btnDeny" layoutX="804.0" layoutY="10.0" mnemonicParsing="false" onAction="#onDeny" prefHeight="30.0" prefWidth="30.0" />
+      <Button fx:id="btnApprove" layoutX="758.0" layoutY="10.0" mnemonicParsing="false" onAction="#onApprove" prefHeight="30.0" prefWidth="30.0" />
+      <Label fx:id="lblDenyReason" layoutX="14.0" layoutY="50.0" prefHeight="27.0" prefWidth="155.0" text="Reason of Deny :" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></Label>
+      <TextField fx:id="txtReasonDeny" layoutX="181.0" layoutY="51.0" prefHeight="25.0" prefWidth="528.0" />
+      <Button fx:id="btnSubmitReason" layoutX="739.0" layoutY="51.0" mnemonicParsing="false" onAction="#onSubmitReason" prefHeight="25.0" prefWidth="92.0" text="Submit" />
    </children>
 </Pane>

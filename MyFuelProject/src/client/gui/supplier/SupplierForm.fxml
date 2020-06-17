@@ -9,74 +9,69 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane fx:id="paneSupplier" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/8.0.51" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.supplier.SupplierController">
+<Pane fx:id="paneSupplier" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.supplier.SupplierController">
    <children>
-      <Text fx:id="txtAllOrdersSupplied" layoutX="93.0" layoutY="276.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All the orders already supplied!" wrappingWidth="733.13671875">
+      <Text fx:id="txtAllOrdersSupplied" fill="WHITE" layoutX="93.0" layoutY="300.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All the orders already supplied!" wrappingWidth="733.13671875">
          <font>
-            <Font size="48.0" />
+            <Font name="System Bold" size="49.0" />
          </font>
       </Text>
-      <Label fx:id="lblOrderId" layoutX="31.0" layoutY="13.0" text="Order ID :" textFill="WHITE">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <TextField fx:id="tfOrderIdInput" layoutX="115.0" layoutY="11.0" prefHeight="29.0" prefWidth="149.0" />
-      <Button fx:id="btnSearch" layoutX="269.0" layoutY="11.0" mnemonicParsing="false" onAction="#OnSearch" prefHeight="0.0" prefWidth="76.0" text="Search">
+      <TextField fx:id="tfOrderIdInput" layoutX="17.0" layoutY="11.0" prefHeight="29.0" prefWidth="285.0" promptText="Enter order id" />
+      <Button fx:id="btnSearch" layoutX="317.0" layoutY="11.0" mnemonicParsing="false" onAction="#OnSearch" prefHeight="29.0" prefWidth="94.0" text="Search">
          <font>
             <Font size="13.0" />
          </font>
       </Button>
-      <Label fx:id="lblError" layoutX="31.0" layoutY="46.0" prefHeight="21.0" prefWidth="219.0" textFill="#e30b0b">
+      <Label fx:id="lblError" layoutX="23.0" layoutY="46.0" prefHeight="21.0" prefWidth="219.0" text="Error Message Here" textFill="#e30b0b">
          <font>
-            <Font size="15.0" />
+            <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <Label fx:id="lblShowOnlyOpenOrder" layoutX="470.0" layoutY="13.0" text="Show only open order" textFill="WHITE">
+      <Label fx:id="lblShowOnlyOpenOrder" layoutX="473.0" layoutY="13.0" text="Show only open order" textFill="WHITE">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <ScrollPane fx:id="spOrders" layoutX="14.0" layoutY="97.0" prefHeight="465.0" prefWidth="866.0">
+      <ScrollPane fx:id="spOrders" layoutX="18.0" layoutY="125.0" prefHeight="405.0" prefWidth="900.0">
          <content>
-            <VBox fx:id="vbocOrdersPane" prefHeight="457.0" prefWidth="850.0" />
+            <VBox fx:id="vbocOrdersPane" prefHeight="400.0" prefWidth="897.0" />
          </content></ScrollPane>
-      <Text fx:id="txtOrderId" fill="WHITE" layoutX="140.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order id">
+      <Text fx:id="txtOrderId" fill="WHITE" layoutX="140.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order id">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font></Text>
-      <Text fx:id="txtFuelType" fill="WHITE" layoutX="340.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fuel type">
+      <Text fx:id="txtFuelType" fill="WHITE" layoutX="340.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fuel type">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font></Text>
-      <Text fx:id="txtAmount" fill="WHITE" layoutX="440.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amount">
+      <Text fx:id="txtAmount" fill="WHITE" layoutX="446.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amount">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font></Text>
-      <Text fx:id="txtStatus" fill="WHITE" layoutX="645.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status">
+      <Text fx:id="txtStatus" fill="WHITE" layoutX="666.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font></Text>
-      <Text fx:id="txtStationId" fill="WHITE" layoutX="235.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Station Id">
+      <Text fx:id="txtStationId" fill="WHITE" layoutX="235.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Station Id">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font></Text>
-      <Text fx:id="txtTotalPrice" fill="WHITE" layoutX="540.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total price">
+      <Text fx:id="txtTotalPrice" fill="WHITE" layoutX="541.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total price">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font></Text>
-      <Button fx:id="btnShowOpenOrder" layoutX="349.0" layoutY="11.0" mnemonicParsing="false" onAction="#onPressShowOpenOrder" text="showOpenOrder">
+      <Button fx:id="btnShowOpenOrder" layoutX="433.0" layoutY="11.0" mnemonicParsing="false" onAction="#onPressShowOpenOrder" prefHeight="30.0" prefWidth="30.0">
          <font>
             <Font size="13.0" />
          </font></Button>
-      <Text fx:id="txtDate" fill="WHITE" layoutX="24.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order Date">
+      <Text fx:id="txtDate" fill="WHITE" layoutX="24.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order Date">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Text>
-      <Text fx:id="txtApproveDecline" fill="WHITE" layoutX="723.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Supplied/Cancel" wrappingWidth="141.234375">
+      <Text fx:id="txtApproveDecline" fill="WHITE" layoutX="770.0" layoutY="111.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Supply / Deny" wrappingWidth="141.234375">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Text>
    </children>

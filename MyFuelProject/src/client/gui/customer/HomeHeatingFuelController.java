@@ -32,7 +32,7 @@ import javafx.scene.input.MouseDragEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
-public class HomeHeatingFuelController { // extends ComboBox<LocalDate> {
+public class HomeHeatingFuelController { 
 
     @FXML
     private Text txtFuelCompany;

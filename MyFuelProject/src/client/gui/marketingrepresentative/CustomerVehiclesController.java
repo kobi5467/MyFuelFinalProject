@@ -14,7 +14,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
-
+/**
+ * This class create a new pane for dynamic vehicles to show them on the gui in "UpdateCustomerController" class.
+ * @author Or Yom Tov
+ * @version - Final
+ */
 public class CustomerVehiclesController {
 
     @FXML
@@ -30,6 +34,11 @@ public class CustomerVehiclesController {
     private Button btnRemoveVehicle;
 
     private JsonObject vehicle;
+    
+    /**
+     * This method responsible to remove the vehicle from the DB by request that from the server.
+     * @param event - ActionEvent from the gui when we press on remove vehicle button.
+     */
     @FXML
     void onRemoveVehicle(ActionEvent event) {
     	String vehicleNumber = vehicle.get("vehicleNumber").getAsString();
@@ -42,10 +51,21 @@ public class CustomerVehiclesController {
     		ObjectContainer.updateCustomerController.updateVehicles(vehicleNumber);
     	}
     }
+    /**
+     * This method responsible to return the main pane of this controller for show it on the GUI.
+     * @return - Return pane.
+     */
     public Pane getVehiclePane(){
     	return vehiclePane;
     }
-    
+    /**
+     * This method responsible to load all the data from the other controller,
+     * Include the json of the vehicle and the current color to show it,
+     * After that call "initUI" method.
+     * @param vehicle - Json of vehicle with all the details.
+     * @param color - color for the background.
+     * @return - Return this current vehicle.
+     */
 	public CustomerVehiclesController load(JsonObject vehicle, String color) {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("CustomerVehicles.fxml"));
@@ -59,13 +79,21 @@ public class CustomerVehiclesController {
 		}
 		return this;
 	}
-
+	/**
+	 * This method responsible to init the vehicle details on the pane and call "setColor" method.
+	 * @param vehicle - vehicle Json with all the details.
+	 * @param color - color for the background.
+	 */
 	private void initUI(JsonObject vehicle, String color) {
 		this.vehicle = vehicle;
 		setColor(color);
 		txtVehicle.setText(vehicle.get("vehicleNumber").getAsString());
 		txtFuelType.setText(vehicle.get("fuelType").getAsString());
 	}
+	/**
+	 * This method responsible to set the currenct color on the pane background.
+	 * @param color - color for the backgroung
+	 */
 	public void setColor(String color) {
 		vehiclePane.setStyle("-fx-background-color:" + color + ";"
 				+ "-fx-border-color:#77cde7;"

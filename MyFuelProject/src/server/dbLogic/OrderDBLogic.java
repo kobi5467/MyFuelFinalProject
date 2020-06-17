@@ -4,12 +4,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
+/**
+ * This class is responsible on send query to the DB and get/insert/update/delete order
+ * data from the data base and send it back to the server controller with the 
+ * answer about the request that has been sent.
+ * @author Or Maman
+ *@version Final
+ */
 public class OrderDBLogic {
-
+	/**
+	 * This function get all fuel inventory orders by specific supplier .
+	 * @param supplierID is the supplier that need to place orders.
+	 * @return all the fuel inventory orders by supplierId.
+	 */
 	public JsonArray getFuelInventoryOrders(String supplierID) {
 		JsonArray fuelInventoryOrders = new JsonArray();
 
@@ -42,6 +54,12 @@ public class OrderDBLogic {
 
 	}
 
+	
+	/**
+	 * This function get single home heating fuel order from the user 
+	 * and insert him into home_heating_fuel_orders table.
+	 * @param order is the data of a single order that made by the user.
+	 */
 	public void insertHomeHeatingFuelOrder(JsonObject order) {
 
 		String query = " ";
@@ -74,7 +92,10 @@ public class OrderDBLogic {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * This function get fast fuel orders by station id.
+	 * @param stationID is the station id for fast fuel orders station.
+	 */
 	public JsonArray getFastFuelOrdersByStationID(String stationID) {
 		JsonArray fastFuelOrders = new JsonArray();
 
@@ -105,8 +126,13 @@ public class OrderDBLogic {
 		return fastFuelOrders;
 
 	}
-
-	//	get orders details for purchases report
+	/**
+	 * This function get home heating fuel orders details for purchases report.
+	 * @param stationID is the station from which to take the purchase details.
+	 * @param fuelType is the fuel type that we want for the purchases report.
+	 * @return the orders details
+ 	 */
+	
 	public JsonArray getOrdersDetailsByStationIdAndFuelType(String stationID, String fuelType) {
 		JsonArray orders = new JsonArray();
 		String query;
@@ -140,11 +166,18 @@ public class OrderDBLogic {
 
 		return orders;
 	}
-
+	/**
+	 * This function get fast fuel orders from DB for station quarterly income report.
+	 * @param stationID is the station that the user want to take the orders details.
+	 * @quarter is the time in the year that we want to generate the report.
+	 * @param year is when the fuel orders were made.
+ 	 */
+	
 	public JsonArray getFastFuelOrdersByStationIdAndQuarter(String stationID, String quarter, String year) {
 		JsonArray fastFuelOrders = new JsonArray();
 		ArrayList<String> date = new ArrayList<>();
 		date = createDate(quarter, year);
+		String totalPriceOfFuel="";
 		String query = "";
 		Statement stmt = null;
 		try {
@@ -157,8 +190,11 @@ public class OrderDBLogic {
 				while (rs.next()) {
 					JsonObject order = new JsonObject();
 					order.addProperty("fuelType", rs.getString("fuelType"));
-					order.addProperty("totalAmountOfFuel", rs.getString("totalAmountOfFuel"));
-					order.addProperty("totalPriceOfFuel", rs.getString("totalPriceOfFuel"));
+					order.addProperty("totalAmountOfFuel",
+							rs.getString("totalAmountOfFuel"));
+					totalPriceOfFuel=String.format("%.3f",Double.parseDouble(rs.getString("totalPriceOfFuel")));
+					order.addProperty("totalPriceOfFuel",
+							totalPriceOfFuel);
 					fastFuelOrders.add(order);
 				}
 			} else {
@@ -172,6 +208,13 @@ public class OrderDBLogic {
 		return fastFuelOrders;
 
 	}
+	/**
+	 * This function get home heating fuel orders from DB for station quarterly income report.
+	 * @param stationID is the station that the user want to take the orders details.
+	 * @quarter is the time of year  that we want to take orders for generate the report.
+	 * @param year is when the fuel orders were made.
+ 	 */
+	
 
 	public JsonArray getHomeHeatingFuelOrdersByStationIdAndQuarter(String stationID, String quarter, String year) {
 		JsonArray homeHeatingFuelOrders = new JsonArray();
@@ -204,7 +247,11 @@ public class OrderDBLogic {
 		return homeHeatingFuelOrders;
 
 	}
-
+	/**
+	 * This function get home heating fuel orders from DB for comments report for sale Campaign.
+	 * @param saleName is the parameter that we want to generate the report on him.
+	 * @return home heating fuel orders that participate in the sale.
+	 */
 	public JsonArray getHomeHeatingFuelOrdersBySaleName(String saleName){
 		JsonArray homeHeatingFuelOrders = new JsonArray();
 		String query = "";
@@ -236,6 +283,14 @@ public class OrderDBLogic {
 		
 	}
 
+	
+	/**
+	 * This function get from the DB all of the Home Heating Fuel Orders
+	 * of the given userName. it used the result of the query and insert 
+	 * it to an jsonObject and then insert it into JsonArray and returns it.
+	 * @param String username
+	 * @return JsonArray HHFOrders
+	 */
 	public JsonArray GetHomeHeatingFuelOrder(String username) {
 		JsonArray HHFOrders = new JsonArray();
 
@@ -274,7 +329,12 @@ public class OrderDBLogic {
 		}
 		return HHFOrders;
 	}
-
+	/**
+	 * This function get fast fuel orders from DB for comments report for sale Campaign.
+	 * @param saleName is the parameter that we want to generate the report on him.
+	 * @return fast fuel orders that participate in the sale.
+	 */
+ 
 	public JsonArray getFastFuelOrdersBySaleName(String saleName){
 		JsonArray fastFuelOrders = new JsonArray();
 		String query = "";
@@ -305,7 +365,12 @@ public class OrderDBLogic {
 		return fastFuelOrders;
 		
 	}
-
+	/**
+	 * This function generate date range for quarterly income report.
+	 * @param quarter is the quarter that the user chosen for generate this report.
+	 * @param year  is the year that the user chosen for generate this report.
+	 * @return All the dates that participant in the sale.
+	 */
 	public ArrayList<String> createDate(String quarter, String year) {
 		ArrayList<String> date = new ArrayList<>();
 		String startDate = "";
@@ -327,7 +392,10 @@ public class OrderDBLogic {
 		date.add(endDate);
 		return date;
 	}
-
+	/**
+	 * This function get inventory order from DB.
+	 * @return all the inventory orders.
+	 */
 	public JsonArray getInvertoryOrdersFromDB(JsonObject requestJson) {
 		JsonArray orders = new JsonArray();
 		String query = "";
@@ -335,7 +403,9 @@ public class OrderDBLogic {
 		
 		try {
 			if (DBConnector.conn != null) {
-				query = "SELECT * FROM myfuel.fuel_inventory_orders;";
+				query = "SELECT * FROM fuel_inventory_orders "
+						+ "WHERE orderStatus = 'SENT_TO_SUPPLIER' AND orderStatus != 'DeniedByStationManager'"
+						+ " AND orderStatus != 'Supplied' AND orderStatus != 'DeniedBySupplier';";
 				stmt = DBConnector.conn.createStatement();
 				ResultSet rs = stmt.executeQuery(query);
 				while (rs.next()) {
@@ -357,6 +427,13 @@ public class OrderDBLogic {
 		return orders;
 
 	}
+	
+/**
+ * this function gets Json Object of order(with the Customer ID) and
+ * then go to the DB and find the Order ID number and returns it	
+ * @param order - JsonObect with the details about the customer ID
+ * @return Order ID number
+ */
 
 	public String getOrderId(JsonObject order) {
 		int orderID = 0;
@@ -381,7 +458,10 @@ public class OrderDBLogic {
 		}
 		return orderID + "";
 	}
-
+	/**
+	 * This function get inventory order by specific supplier from DB.
+	 * @return all the inventory orders.
+	 */
 	public JsonArray getInvertoryOrdersByID(String supplierID) {
 		JsonArray orders = new JsonArray();
 		String query = "";
@@ -390,7 +470,8 @@ public class OrderDBLogic {
 		try {
 			if (DBConnector.conn != null) {
 				query = "SELECT * FROM fuel_inventory_orders"
-						+ " WHERE supplierID = '" + supplierID + "';";
+						+ " WHERE supplierID = '" + supplierID + "' AND orderStatus != 'DeniedByStationManager'"
+								+ " AND orderStatus != '';";
 				stmt = DBConnector.conn.createStatement();
 				stmt.executeQuery(query);
 				ResultSet rs = stmt.executeQuery(query);
@@ -405,7 +486,6 @@ public class OrderDBLogic {
 					order.addProperty("reason", rs.getString("reason"));
 					order.addProperty("totalPrice", rs.getString("totalPrice"));
 					order.addProperty("orderDate", rs.getString("orderDate"));
-
 					orders.add(order);
 				}
 			} else {
@@ -437,7 +517,11 @@ public class OrderDBLogic {
 		}
 		
 	}
-
+	/**
+	 * This function update the status of fuel order details from 'Send to supplier' until 'Order supplied'.
+	 * @param orderStatus is the data of the order that we want to update.
+	 * @return the updated order.
+	 */
 	public JsonObject updateOrderDetails(JsonObject orderStatus) {
 		String orderID = orderStatus.get("orderID").getAsString();
 		String status = orderStatus.get("orderStatus").getAsString();
@@ -464,7 +548,10 @@ public class OrderDBLogic {
 		
 		return orderStatus;
 	}
-
+	/**
+	 * This function get fast heating fuel order and insert him into fast_fuel_orders table.
+	 * @param order is the data of a single fast fuel order.
+	 */
 	public void addFastFuelOrder(JsonObject order) {
 		String query = " ";
 		Statement stmt = null;
@@ -495,5 +582,140 @@ public class OrderDBLogic {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public float getTotalPriceByCustomerIdAndStationIdFromFastFuelOrders(String customerId,
+			String stationId, String startDate, String endDate) {
+
+		float totalPrice = 0;
+		String query = "";
+		Statement stmt = null;
+		try {
+			if (DBConnector.conn != null) {
+				query = "SELECT SUM(totalPrice) as totalPrice from fast_fuel_orders"
+						+ " WHERE customerID ='"
+						+ customerId
+						+ "' AND stationID='" + stationId + "' AND orderDate between '"+startDate+"' AND '"+endDate+"' ;";
+				stmt = DBConnector.conn.createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				if (rs.next()) {
+					totalPrice += rs.getInt("totalPrice");
+				}
+			} else {
+				System.out.println("Conn is null");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		}
+		return totalPrice;
+	}
+	
+	public float getTotalPriceByCustomerIdAndStationIdFromHomeHeatingFuelOrders(String customerId,
+			String companyName, String startDate, String endDate) {
+
+		float totalPrice = 0;
+		String query = "";
+		Statement stmt = null;
+		try {
+			if (DBConnector.conn != null) {
+				query = "SELECT SUM(totalPrice) as totalPrice from home_heating_fuel_orders"
+						+ " WHERE customerID ='"
+						+ customerId
+						+ "' AND fuelCompany='" + companyName + "' AND orderDate between '"+startDate+"' AND '"+endDate+"' ;";
+				stmt = DBConnector.conn.createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				if (rs.next()) {
+					totalPrice += rs.getInt("totalPrice");
+				}
+			} else {
+				System.out.println("Conn is null");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		}
+		return totalPrice;
+	}
+
+	public float getTotalPriceByCustomerIdAndStaions(String customerId,
+			JsonArray stations, String startDate, String endDate) {
+		float totalPrice = 0;
+		for (int i = 0; i < stations.size(); i++) {
+			totalPrice += getTotalPriceByCustomerIdAndStationIdFromFastFuelOrders(customerId,
+					stations.get(i).getAsString(), startDate, endDate);
+		}
+		return totalPrice;
+	}
+
+	public JsonObject getTotalPriceByCustomerId(String customerId,
+			String startDate, String endDate) {
+		float total=0;
+		JsonObject totalOfCustomer = new JsonObject();
+		float totalPrice = 0;
+		totalOfCustomer.addProperty("customerID", customerId);
+		JsonArray companies = FuelDBLogic.getFuelCompanyNames();
+		for (int i = 0; i < companies.size(); i++) {
+			JsonArray stations = CustomerDBLogic
+					.getFuelStationsByCompanyName(companies.get(i)
+							.getAsString());
+			totalPrice = getTotalPriceByCustomerIdAndStaions(customerId,
+					stations, startDate, endDate);
+			//add the total price of home heating fuel by fuelCompany
+			totalPrice += getTotalPriceByCustomerIdAndStationIdFromHomeHeatingFuelOrders(customerId,
+					companies.get(i).getAsString(), startDate, endDate);;
+			
+			totalOfCustomer.addProperty(companies.get(i).getAsString(),totalPrice);
+			total+=totalPrice;
+			
+		}
+		totalOfCustomer.addProperty("total", total);
+		return totalOfCustomer;
+	}
+
+	public JsonArray getTotalPriceForAllCustomers(String startDate,
+			String endDate) {
+		JsonArray customers = new JsonArray();
+		JsonArray arrayCustomer = new JsonArray();
+		customers = CustomerDBLogic.getAllCustomerId();
+		for (int i = 0; i < customers.size(); i++) {
+			arrayCustomer.add(getTotalPriceByCustomerId(customers.get(i)
+					.getAsString(), startDate, endDate));
+		}
+		arrayCustomer=sortReportDetails(arrayCustomer);
+		return arrayCustomer;
+	}
+	
+	private JsonArray sortReportDetails(JsonArray jsonArray)  {
+		ArrayList<JsonObject> list = new ArrayList<>();
+		JsonArray sortedJsonArray = new JsonArray();
+		  for(int i = 0; i < jsonArray.size() ;i++) {
+		         list.add(jsonArray.get(i).getAsJsonObject());
+		      }
+		  Collections.sort(list, new Comparator<JsonObject>() {
+			  @Override
+			  public int compare(JsonObject a, JsonObject b) {
+				  try {
+		            float num1 = a.get("total").getAsFloat();
+		            float num2 = b.get("total").getAsFloat();
+		            System.out.println(num1+"  "+num2);
+		            if(num1 > num2){
+						  return -1;
+					  }else if(num1 == num2){
+						  return 0;
+					  }
+					  return 1;
+		            } catch(NumberFormatException e) {
+		            	return 0;
+		            }
+		         }
+	      });
+	      for(int i = 0; i < jsonArray.size(); i++) {
+	          sortedJsonArray.add(list.get(i));
+	       }
+	      for(int i=0;i<sortedJsonArray.size();i++){
+	    	  System.out.println(sortedJsonArray.get(i).toString());
+	      }
+	      return sortedJsonArray;
 	}
 }
