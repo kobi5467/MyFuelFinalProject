@@ -25,7 +25,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-
+/**
+ * This class responsible to manage the fast fuel orders.
+ * @author Kobi Malka
+ * @version - Final
+ */
 public class FastFuelController {
 
 	@FXML
@@ -128,7 +132,9 @@ public class FastFuelController {
 			ObjectContainer.mainFormController.setPane("Home");
 		}
 	}
-
+	/**
+	 * This method responsible to request the data from DB.
+	 */
 	private void createOrder() {
 		JsonObject json = new JsonObject();
 		json.addProperty("customerID", ((Customer) ObjectContainer.currentUserLogin).getCustomerId());
@@ -147,7 +153,10 @@ public class FastFuelController {
 		ClientUI.accept(msg);
 
 	}
-
+	/**
+	 * This method responsible to check for valid order.
+	 * @return - return boolean value.
+	 */
 	private boolean checkValidOrder() {
 		boolean flag = true;
 		if (cbVehicleNumber.getValue().equals(cbVehicleNumber.getItems().get(0))) {
@@ -240,7 +249,11 @@ public class FastFuelController {
 
 		return flag;
 	}
-
+	/**
+	 * This method responsible to check if the fuel amount is available.
+	 * @param fuelType - string value of fuel type.
+	 * @return - boolean value.
+	 */
 	public boolean checkIfFuelAmountAvailable(String fuelType) {
 		
 		boolean isValid = true;
@@ -255,12 +268,19 @@ public class FastFuelController {
 		if(amount > availableAmount) isValid = false;
 		return isValid;
 	}
-	
+	/**
+	 * This method responsible to set error image.
+	 * @param img - the node to set image.
+	 * @param url - string value of path image.
+	 */
 	public void setErrorImage(ImageView img, String url) {
 		Image image = new Image(getClass().getResource(url).toString());
 		img.setImage(image);
 	}
-
+	/**
+	 * This method responsible to load the 'xml' class and go to init.
+	 * @param changePane
+	 */
 	public void load(Pane changePane) {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("FastFuelForm.fxml"));
@@ -273,7 +293,9 @@ public class FastFuelController {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * This method is responsible to init the lbl, text and etc.
+	 */
 	private void initUI() {
 		lblFuelType.setText("");
 		lblPricePerLitter.setText("");
@@ -299,7 +321,9 @@ public class FastFuelController {
 			calcPrice();
 		});
 	}
-
+	/**
+	 * This method responsible to calculation the price.
+	 */
 	public void calcPrice() {
 		String stringAmount = txtFuelAmount.getText();
 		try {
@@ -319,7 +343,9 @@ public class FastFuelController {
 		}
 
 	}
-
+	/**
+	 * This method is responsible to init all the choice boxes.
+	 */
 	private void initCB() {
 		cbStationNumber.getItems().clear();
 		cbStationNumber.getItems().add("Choose company first");
@@ -395,7 +421,10 @@ public class FastFuelController {
 			}
 		});
 	}
-
+	/**
+	 * This method is responsible to request from the server the credit card details by id
+	 * @return - return The object with the details.
+	 */
 	private JsonObject getCreditCardByCustomerID() {
 		JsonObject json = new JsonObject();
 		Customer customer = (Customer) ObjectContainer.currentUserLogin;
@@ -406,7 +435,9 @@ public class FastFuelController {
 
 		return ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
 	}
-
+	/**
+	 * This method is responsible to request from the server the vehicles by customer id
+	 */
 	private void getVehicleNumbersByCustomerID() {
 		String customerID = ((Customer) ObjectContainer.currentUserLogin).getCustomerId();
 
@@ -439,7 +470,9 @@ public class FastFuelController {
 			}
 		});
 	}
-
+	/**
+	 * This method is responsible to request from the server the discount rates.
+	 */
 	private void getDiscountRate() {
 		String subscribeType = ((Customer) ObjectContainer.currentUserLogin).getSubscribeType().getSubscribeType();
 		String purchaseModel = ((Customer) ObjectContainer.currentUserLogin).getPurchaseModel().getPurchaseModeltype();
@@ -456,7 +489,10 @@ public class FastFuelController {
 		purchaseModelRate = response.get("purchaseModelRate").getAsFloat();
 		subscribeTypes = response.get("subscribeTypes").getAsJsonArray();
 	}
-
+	/**
+	 * This method is responsible to calculate the total price.
+	 * @return - return the price.
+	 */
 	private float calcTotalPrice() {
 		Customer customer = (Customer) ObjectContainer.currentUserLogin;
 		String subscribeType = customer.getSubscribeType().getSubscribeType();
@@ -479,7 +515,10 @@ public class FastFuelController {
 		price = totalPrice * ((100 - totalDiscount) / 100);
 		return price;
 	}
-
+	/**
+	 * This method is responsible to request from the server the current sale template.
+	 * @return - return the discount with the object details.
+	 */
 	private float getCurrentSaleDiscount() {
 		Message msg = new Message(MessageType.GET_CURRENT_SALE_TEMPLATE, "");
 		ClientUI.accept(msg);
@@ -523,7 +562,11 @@ public class FastFuelController {
 		}
 		return discountRate;
 	}
-
+	/**
+	 * This method is responsible to check the times.
+	 * @param saleData - Json Object value
+	 * @return - return boolean value.
+	 */
 	private boolean checkTimes(JsonObject saleData) {
 		String from = saleData.get("from").getAsString();
 		String to = saleData.get("to").getAsString();
@@ -534,7 +577,10 @@ public class FastFuelController {
 		int currentTime = c.get(Calendar.HOUR_OF_DAY) * 60 + c.get(Calendar.MINUTE);
 		return start >= currentTime && currentTime <= end;
 	}
-
+	/**
+	 * This method is responsible to request from the server to get previous amount fast fuel order.
+	 * @return - return amount.
+	 */
 	private float getPreviousMonthFuelAmount() {
 		JsonObject json = new JsonObject();
 		String customerID = ((Customer) (ObjectContainer.currentUserLogin)).getCustomerId();
@@ -545,7 +591,11 @@ public class FastFuelController {
 		float amount = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject().get("amount").getAsFloat();
 		return amount;
 	}
-
+	/**
+	 * This method is responsible to get discount by subscribe type.
+	 * @param type - string value of type.
+	 * @return - return the discount number or 0 if not exist.
+	 */
 	private float getDiscountBySubscribeType(String type) {
 		for (int i = 0; i < subscribeTypes.size(); i++) {
 			JsonObject json = subscribeTypes.get(i).getAsJsonObject();
@@ -555,7 +605,9 @@ public class FastFuelController {
 		}
 		return 0;
 	}
-
+	/**
+	 * This method is responsible to request from the server the fuel companies by customer id.
+	 */
 	private void getFuelCompaniesByCustomerID() {
 		String customerID = ((Customer) ObjectContainer.currentUserLogin).getCustomerId();
 		JsonObject json = new JsonObject();
@@ -588,7 +640,10 @@ public class FastFuelController {
 			}
 		});
 	}
-
+	/**
+	 * This method is responsible to get price per litter by fuel type.
+	 * @param fuelType - string value of fuel type.
+	 */
 	public void getPricePerLitterByFuelType(String fuelType) {
 		JsonObject json = new JsonObject();
 		json.addProperty("fuelType", fuelType);
@@ -598,7 +653,10 @@ public class FastFuelController {
 		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
 		pricePerLitter = response.get("pricePerLitter").getAsFloat();
 	}
-
+	/**
+	 * This method is responsible to get station number by fuel company.
+	 * @param fuelCompany - string value of fuel company.
+	 */
 	public void getStationNumbersByFuelCompany(String fuelCompany) {
 		JsonObject json = new JsonObject();
 		json.addProperty("fuelCompany", fuelCompany);

@@ -79,12 +79,13 @@ public class OrderDBLogic {
 		String orderDate = order.get("orderDate").getAsString();
 		String paymentMethod = order.get("paymentMethod").getAsString();
 		String orderStatus = "WaitToApprove";
+		String customerType = CustomerDBLogic.getCustomerTypeByCustomerID(customerId);
 		try {
 			if (DBConnector.conn != null) {
-				query = "INSERT INTO  home_heating_fuel_orders(customerID, amountOfLitters, city, street, dateSupply, urgentOrder, saleTemplateName, totalPrice, orderStatus, orderDate, paymentMethod, fuelCompany)"
+				query = "INSERT INTO  home_heating_fuel_orders(customerID, amountOfLitters, city, street, dateSupply, urgentOrder, saleTemplateName, totalPrice, orderStatus, orderDate, paymentMethod, fuelCompany, customerType)"
 						+ "VALUES('" + customerId + "','" + amount + "','" + city + "','" + Street + "','" + dateSupply
 						+ "','" + urgentOrder + "','" + saleTemplateName + "','" + totalPrice + "','" + orderStatus + "','" + orderDate
-						+ "','" + paymentMethod + "','" + fuelCompany + "');";
+						+ "','" + paymentMethod + "','" + fuelCompany + "','" + customerType + "');";
 				stmt = DBConnector.conn.createStatement();
 				stmt.execute(query);
 			} else {
@@ -593,14 +594,15 @@ public class OrderDBLogic {
 		float totalPrice = order.get("totalPrice").getAsFloat();
 		String paymentMethod = order.get("paymentMethod").getAsString();
 		String pumpNumber = order.get("pumpNumber").getAsString();
+		String customerType = CustomerDBLogic.getCustomerTypeByCustomerID(customerID);
 		
 		try {
 			if (DBConnector.conn != null) {
 				query = "INSERT INTO  fast_fuel_orders(customerID, vehicleNumber, saleTemplateName, stationID, orderDate, "
-						+ "orderStatus, fuelType, amountOfLitters, totalPrice, paymentMethod, pumpNumber) " + "VALUES('"
+						+ "orderStatus, fuelType, amountOfLitters, totalPrice, paymentMethod, pumpNumber, customerType) " + "VALUES('"
 						+ customerID + "','" + vehicleNumber + "','" + saleTemplateName + "','" + stationID + "','"
 						+ orderDate + "','" + orderStatus + "','" + fuelType + "'," + amountOfLitters + "," + totalPrice
-						+ ",'" + paymentMethod + "','" + pumpNumber + "');";
+						+ ",'" + paymentMethod + "','" + pumpNumber + "','"+ customerType + "');";
 				stmt = DBConnector.conn.createStatement();
 				stmt.execute(query);
 			} else {

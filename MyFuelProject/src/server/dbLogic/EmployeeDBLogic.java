@@ -3,9 +3,21 @@ package server.dbLogic;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+/**
+ * This class is responsible on send querys to the DB and get/insert/update/delete
+ * Data from the data base and send it back to the server controller with the 
+ * answer about the request that has been sent.
+ * @author MyFuel Team
+ *@version Final
+ */
 public class EmployeeDBLogic {
 
+	/**
+	 * this function get the string user name and send query to the DB to get the 
+	 * employee role by the user name, and returns it as string
+	 * @param userName - the string value of the username
+	 * @return - employee role as string
+	 */
 	public String getEmployeeRoleByUsername(String userName) {
 		String employeeRole = "";
 		
@@ -29,6 +41,13 @@ public class EmployeeDBLogic {
 		}
 		return employeeRole;
 	}
+	/**
+	 * this function get the string username and send query to the DB
+	 * and find the emloyee ID by the username and then returns the string value of
+	 * the Employee ID
+	 * @param userName - the string value of username
+	 * @return employee ID- as a string
+	 */
 	public String getEmployeeIDByUsername(String userName) {
 		String employeeID = "";
 		
@@ -52,6 +71,13 @@ public class EmployeeDBLogic {
 		}
 		return employeeID;
 	}
+	/**
+	 * this function get the string username and send query to the DB
+	 * and find the station ID number by the username, then it returns
+	 * it as a string value
+	 * @param userName - the string value of username 
+	 * @return Station ID- as the string value of it
+	 */
 	public String getStationIDByUserName(String username){
 		String stationID = "";
 		

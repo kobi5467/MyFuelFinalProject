@@ -1,5 +1,9 @@
 package entitys.enums;
-
+/**
+ * This class is for User permission enums objects and methods 
+ * @author Barak
+ *
+ */
 public enum UserPermission {
 	CUSTOMER,
 	MARKETING_MANAGER,
@@ -7,7 +11,11 @@ public enum UserPermission {
 	STATION_MANAGER,
 	SUPPLIER,
 	CEO;
-	
+	/**
+	 * *this method get string and return the corresponding String to the Enum
+	 * @param permission - the string value of the permission
+	 * @return the enum of permission
+	 */
 	public static UserPermission stringToEnumVal(String permission) {
 		if(permission == null || permission.trim().equals("")) {
 			return null;

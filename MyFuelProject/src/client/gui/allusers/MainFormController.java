@@ -11,6 +11,7 @@ import client.controller.ClientUI;
 import client.controller.ObjectContainer;
 import client.gui.ceo.RatesToApproveController;
 import client.gui.ceo.ReportViewController;
+import client.gui.ceo.SubscribeRateRequestController;
 import client.gui.customer.FastFuelController;
 import client.gui.customer.HomeHeatingFuelController;
 import client.gui.customer.OrderTrackingController;
@@ -50,7 +51,11 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
-
+/**
+ * This class responsible to init the main Pane to all users.
+ * @author oyomtov
+ * @version - Final
+ */
 public class MainFormController {
 
 	@FXML
@@ -115,7 +120,7 @@ public class MainFormController {
 				buttonNames.add("OrderTracking");
 				break;
 			case MARKETING_MANAGER: 
-				buttonNames.add("DeterminingFuelRates");
+				buttonNames.add("DeterminingRates");
 				buttonNames.add("RunningSales");
 				buttonNames.add("ReportGeneration");
 				break;
@@ -131,11 +136,12 @@ public class MainFormController {
 				buttonNames.add("ReportGeneration");
 				break;
 			case CEO:
-				buttonNames.add("RatesRequests");
+				buttonNames.add("FuelRatesRequest");
+				buttonNames.add("DiscountRequests");
 				buttonNames.add("ViewReports");
 				break;
 			case SUPPLIER:
-				buttonNames.add("OrdersRecived");
+				buttonNames.add("OrdersReceived");
 				break;
 		}
 
@@ -144,7 +150,9 @@ public class MainFormController {
 
 		return buttonNames;
 	}
-
+	/**
+	 * This methid responsible to init the clock.
+	 */
 	@FXML
 	public void initialize() {
 	    Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {        
@@ -181,7 +189,9 @@ public class MainFormController {
 		ObjectContainer.loginStage.hide();
 		ObjectContainer.mainStage.show();
 	}
-
+	/**
+	 * This method responsible to init the data.
+	 */
 	public void initUI() {
 		updateUserDetails();
 		ArrayList<String> buttonNames = getButtonNames(ObjectContainer.currentUserLogin.getUserPermission());
@@ -207,7 +217,10 @@ public class MainFormController {
 		setPane("Home");
 		setBackgroundImage("Home");
 	}
-	
+	/**
+	 * This method responsible to set background.
+	 * @param title - string value of title.
+	 */
 	public void setBackgroundImage(String title) {
 		String url = title.equals("Home") ? "/images/HomeBG.jpg" : "/images/mainBG.jpg"; 
 		Image image = new Image(getClass().getResource(url).toString());
@@ -233,7 +246,11 @@ public class MainFormController {
 			ObjectContainer.currentUserLogin.setName(response.get("name").getAsString());
 		}
 	}
-	
+	/**
+	 * This method responsible to request from the server to take the customer deatils by user name.
+	 * @param userName - string value of user name.
+	 * @return - return Json object with customer details.
+	 */
 	private Customer getCustomerDetails(String userName) {
 		JsonObject json = new JsonObject();
 		json.addProperty("userName", userName);
@@ -256,7 +273,11 @@ public class MainFormController {
 		customer.setUserPermission(UserPermission.stringToEnumVal(customerJson.get("userPermission").getAsString()));
 		return customer;
 	}
-
+	/**
+	 * This method responsible to set inner pane by current click.
+	 * @param btnCurrent - button value.
+	 * @param buttonNames - array list of buttons name.
+	 */
 	protected void setInnerPaneByButtonClicked(Button btnCurrent, ArrayList<String> buttonNames) {
 		String title = "";
 		for(int i = 0; i < menuButtons.length;i++) {
@@ -285,6 +306,10 @@ public class MainFormController {
 		}
 	}
 	
+	/**
+	 * This method responsible set pane by the current title.
+	 * @param title - string value of title.
+	 */
 	public void setPane(String title) {
 		/***************************** ALL USERS **********************************/  
 		if(title.equals("Logout")) {
@@ -343,7 +368,7 @@ public class MainFormController {
 		
 		/***************************** Marketing Manager **********************************/
 		
-		if(title.equals("DeterminingFuelRates")) {
+		if(title.equals("DeterminingRates")) {
 			if(ObjectContainer.determiningFuelRatesController == null) {
 				ObjectContainer.determiningFuelRatesController = new DeterminingFuelRatesController();
 			}
@@ -390,11 +415,18 @@ public class MainFormController {
 		
 		/************************************** CEO ***************************************/
 		
-		if (title.equals("RatesRequests")) {
+		if (title.equals("FuelRatesRequest")) {
 			if(ObjectContainer.ratesToApproveController == null) {
 				ObjectContainer.ratesToApproveController = new RatesToApproveController();
 			}
 			ObjectContainer.ratesToApproveController.load(changePane);
+		}
+		
+		if (title.equals("DiscountRequests")) {
+			if(ObjectContainer.subscribeRateRequestController == null) {
+				ObjectContainer.subscribeRateRequestController = new SubscribeRateRequestController();
+			}
+			ObjectContainer.subscribeRateRequestController.load(changePane);
 		}
 		
 		if (title.equals("ViewReports")){
@@ -428,7 +460,9 @@ public class MainFormController {
 			ObjectContainer.supplierController.load(changePane);
 		}
 	}
-	
+	/**
+	 * This method responsible to log out from the server.
+	 */
 	public void logout() {
 		JsonObject json = new JsonObject();
 		json.addProperty("userName", ObjectContainer.currentUserLogin.getUsername());
@@ -445,10 +479,16 @@ public class MainFormController {
 		}
 		return fixedTitle;
 	}
-
+	/**
+	 * This method responsible to set images on the buttons.
+	 * @param buttonName - string value of button name.
+	 * @param index - current index.
+	 * @param isChecked - boolean value.
+	 */
 	public void setButtonImage(String buttonName, int index, boolean isChecked) {
 		String url = "/images/menuButtons/"+buttonName;
 		url += isChecked ? "Check.png" : "UnCheck.png";
+		System.out.println(url);
 		BackgroundImage backgroundImage = new BackgroundImage(
 				new Image(getClass().getResource(url).toExternalForm()),
 				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,

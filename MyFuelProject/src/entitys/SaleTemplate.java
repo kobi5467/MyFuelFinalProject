@@ -2,7 +2,11 @@ package entitys;
 
 import entitys.enums.FuelType;
 import entitys.enums.SaleTemplateType;
-
+/**
+ * This class is for Sale Template objects, constructor setters, getters, and variables
+ * @author MyFuel Team
+ *
+ */
 public class SaleTemplate {
 
 	private String saleTemplateName;

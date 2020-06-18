@@ -20,7 +20,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
+/**
+ * This class responsible to manage the LogIn in all the pane.
+ * @author oyomtov
+ * @version - Final
+ */
 public class LoginController {
 
     @FXML

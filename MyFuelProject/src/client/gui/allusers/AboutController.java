@@ -6,7 +6,11 @@ import client.controller.ObjectContainer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
-
+/**
+ * This class responsible to load the 'About' Controller
+ * @author oyomtov
+ * @version - Final
+ */
 public class AboutController {
 
     @FXML

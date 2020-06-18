@@ -1,7 +1,11 @@
 package entitys;
 
 import entitys.enums.Status;
-
+/**
+ * This class is for Determining Rate Requests objects, constructor setters, getters, and variables
+ * @author MyFuel Team
+ *
+ */
 public class DeterminingRateRequests {
 
 	private int requestID;

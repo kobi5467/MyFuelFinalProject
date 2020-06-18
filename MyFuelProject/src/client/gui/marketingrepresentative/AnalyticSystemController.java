@@ -1,6 +1,8 @@
 package client.gui.marketingrepresentative;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -9,12 +11,16 @@ import client.controller.ClientUI;
 import client.controller.ObjectContainer;
 import entitys.Message;
 import entitys.enums.MessageType;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
@@ -30,7 +36,7 @@ public class AnalyticSystemController {
 	private Pane mainAnalyticPane;
 
 	@FXML
-	private TableView<String> tblDataView;
+	private TableView<ObservableList<String>> tblDataView;
 
 	@FXML
 	private Button btnShowRanks;
@@ -63,52 +69,57 @@ public class AnalyticSystemController {
 	private boolean isCustomerType = false;
 	private boolean isFuelType = false;
 	private boolean isShowRanks = false;
-	
+
+	private JsonArray currentColumns;
+
 	@FXML
 	void onCertainHours(ActionEvent event) {
 		isCertainHours = !isCertainHours;
-		if(isCertainHours) {
+		if (isCertainHours) {
 			isShowRanks = false;
 			setButtonsImages("/images/unchecked.png", btnShowRanks);
 		}
 		String url = isCertainHours ? "/images/checked.png" : "/images/unchecked.png";
-		setButtonsImages(url,btnCertainHours);
+		setButtonsImages(url, btnCertainHours);
 		cbCertainHours.setVisible(isCertainHours);
-		if(cbCertainHours.isVisible()) cbCertainHours.setValue(cbCertainHours.getItems().get(0));
+		if (cbCertainHours.isVisible())
+			cbCertainHours.setValue(cbCertainHours.getItems().get(0));
 	}
 
 	@FXML
 	void onCustomerType(ActionEvent event) {
 		isCustomerType = !isCustomerType;
-		if(isCustomerType) {
+		if (isCustomerType) {
 			isShowRanks = false;
 			setButtonsImages("/images/unchecked.png", btnShowRanks);
 		}
 		String url = isCustomerType ? "/images/checked.png" : "/images/unchecked.png";
-		setButtonsImages(url,btnCustomerType);
+		setButtonsImages(url, btnCustomerType);
 		cbCustomerType.setVisible(isCustomerType);
-		if(cbCustomerType.isVisible()) cbCustomerType.setValue(cbCustomerType.getItems().get(0));
+		if (cbCustomerType.isVisible())
+			cbCustomerType.setValue(cbCustomerType.getItems().get(0));
 	}
 
 	@FXML
 	void onFuelType(ActionEvent event) {
 		isFuelType = !isFuelType;
-		if(isFuelType) {
+		if (isFuelType) {
 			isShowRanks = false;
 			setButtonsImages("/images/unchecked.png", btnShowRanks);
 		}
 		String url = isFuelType ? "/images/checked.png" : "/images/unchecked.png";
-		setButtonsImages(url,btnFuelType);
+		setButtonsImages(url, btnFuelType);
 		cbFuelType.setVisible(isFuelType);
-		if(cbFuelType.isVisible()) cbFuelType.setValue(cbFuelType.getItems().get(0));
+		if (cbFuelType.isVisible())
+			cbFuelType.setValue(cbFuelType.getItems().get(0));
 	}
 
 	@FXML
 	void onShowRanks(ActionEvent event) {
 		isShowRanks = !isShowRanks;
 		String url = isShowRanks ? "/images/checked.png" : "/images/unchecked.png";
-		setButtonsImages(url,btnShowRanks);
-		if(isShowRanks) {
+		setButtonsImages(url, btnShowRanks);
+		if (isShowRanks) {
 			url = "/images/unchecked.png";
 			isFuelType = false;
 			setButtonsImages(url, btnFuelType);
@@ -124,14 +135,115 @@ public class AnalyticSystemController {
 
 	@FXML
 	void onSort(ActionEvent event) {
-		String fuelType = cbFuelType.getValue();
-		String customerType = cbCustomerType.getValue();
-		String certainHours = cbCertainHours.getValue();
-		
+		if (isShowRanks) {
+			getCustomerRanks();
+		} else {
+			getDataFromDB();
+		}
+	}
+
+	public ArrayList<String> convertJsonArrayToArrayListString(JsonArray jsonArray) {
+		System.out.println("Columns:");
+		ArrayList<String> result = new ArrayList<>();
+		for (int i = 0; i < jsonArray.size(); i++) {
+			result.add(jsonArray.get(i).getAsString());
+			System.out.println(jsonArray.get(i).getAsString());
+		}
+
+		return result;
+	}
+
+	public ArrayList<ArrayList<String>> convertJsonObjectToArrayList(JsonObject jsonObject) {
+		System.out.println("Rows:");
+		ArrayList<ArrayList<String>> result = new ArrayList<>();
+		JsonArray columns = jsonObject.get("columns").getAsJsonArray();
+		JsonArray rows = jsonObject.get("rows").getAsJsonArray();
+		for (int j = 0; j < rows.size(); j++) {
+			ArrayList<String> arrayList = new ArrayList<>();
+			JsonObject json = new JsonObject();
+			json = rows.get(j).getAsJsonObject();
+			for (int i = 0; i < columns.size(); i++) {
+				arrayList.add(json.get(columns.get(i).getAsString()).getAsString());
+			}
+			System.out.println(arrayList.toString());
+			result.add(arrayList);
+		}
+		return result;
+	}
+
+	public void fillDataView(ArrayList<String> columns, ArrayList<ArrayList<String>> rows) {
+		tblDataView.getColumns().clear();
+		tblDataView.getItems().clear();
+		tblDataView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+		currentColumns = new JsonArray();
+		for (int i = 0; i < columns.size(); i++) {
+			final int index = i;
+			TableColumn<ObservableList<String>, String> column = new TableColumn<>(columns.get(index));
+			column.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().get(index)));
+			tblDataView.getColumns().add(column);
+			currentColumns.add(columns.get(i));
+		}
+		for (int i = 0; i < rows.size(); i++) {
+			tblDataView.getItems().add(FXCollections.observableArrayList(rows.get(i)));
+		}
+	}
+
+	public void getCustomerRanks() {
+		Message msg = new Message(MessageType.GET_CUSTOMER_RANKS, "");
+		ClientUI.accept(msg);
+
+		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
+		ArrayList<String> columns = convertJsonArrayToArrayListString(response.get("columns").getAsJsonArray());
+		ArrayList<ArrayList<String>> rows = convertJsonObjectToArrayList(response);
+
+		fillDataView(columns, rows);
+		lblTitleOfPane.setText("");
+	}
+
+	public void getDataFromDB() {
+		String fuelType = cbFuelType.getValue().equals(cbFuelType.getItems().get(0)) ? "" : cbFuelType.getValue();
+		String customerType = cbCustomerType.getValue().equals(cbCustomerType.getItems().get(0)) ? ""
+				: cbCustomerType.getValue();
+		String certainHours = cbCertainHours.getValue().equals(cbCertainHours.getItems().get(0)) ? "00:00:00 - 23:59:59"
+				: cbCertainHours.getValue();
+
 		JsonObject json = new JsonObject();
-		json.addProperty("fuelType", fuelType);
-		json.addProperty("customerType", customerType);
-		json.addProperty("certainHours", certainHours);
+		json.addProperty("code", getCodeByCombination());
+
+		Message msg = new Message(MessageType.GET_ACTIVITY_TRACKING_DATA, json.toString());
+		ClientUI.accept(msg);
+
+		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
+		ArrayList<String> columns = convertJsonArrayToArrayListString(response.get("columns").getAsJsonArray());
+		ArrayList<ArrayList<String>> rows = convertJsonObjectToArrayList(response);
+
+		fillDataView(columns, rows);
+
+		String text = "";
+		text += fuelType.isEmpty() ? "" : " Fuel Type : " + fuelType + "\t";
+		text += customerType.isEmpty() ? "" : " Customer Type : " + customerType + "\t";
+		text += certainHours.isEmpty() ? "" : " Certain Hours : " + certainHours + "\t";
+		lblTitleOfPane.setText(text);
+	}
+
+	public String getCodeByCombination() {
+		String code = "";
+		for (int i = 0; i < cbCustomerType.getItems().size(); i++) {
+			if (cbCustomerType.getValue().equals(cbCustomerType.getItems().get(i)))
+				code += i;
+		}
+		
+		for (int i = 0; i < cbCertainHours.getItems().size(); i++) {
+			if (cbCertainHours.getValue().equals(cbCertainHours.getItems().get(i)))
+				code += i;
+		}
+		
+		for (int i = 0; i < cbFuelType.getItems().size(); i++) {
+			if (cbFuelType.getValue().equals(cbFuelType.getItems().get(i)))
+				code += i;
+		}
+
+		return code;
 	}
 
 	public void load(Pane changePane) {
@@ -155,8 +267,9 @@ public class AnalyticSystemController {
 		setButtonsImages(url, btnCertainHours);
 		setButtonsImages(url, btnCustomerType);
 		setButtonsImages(url, btnFuelType);
-		setButtonsImages(url, btnShowRanks);
-		
+		setButtonsImages("/images/checked.png", btnShowRanks);
+		isShowRanks = true;
+		getCustomerRanks();
 	}
 
 	private void initCB() {
@@ -168,24 +281,23 @@ public class AnalyticSystemController {
 		ObjectContainer.setChoiceOptionOfChoiceBox(cbFuelType, fuelTypes, "Choose:");
 
 		JsonArray hours = new JsonArray();
-		hours.add("7:00 - 12:00");
-		hours.add("12:00 - 20:00");
-		hours.add("20:00 - 7:00");
+		hours.add("00:00:00 - 11:59:59");
+		hours.add("12:00:00 - 16:59:59");
+		hours.add("17:00:00 - 23:59:59");
 		ObjectContainer.setChoiceOptionOfChoiceBox(cbCertainHours, hours, "Choose");
 
 		JsonArray customerTypes = new JsonArray();
 		customerTypes.add("Private");
 		customerTypes.add("Company");
 		ObjectContainer.setChoiceOptionOfChoiceBox(cbCustomerType, customerTypes, "Choose");
-		
+
 		cbFuelType.setVisible(false);
 		cbCustomerType.setVisible(false);
 		cbCertainHours.setVisible(false);
 	}
-	
-	private void setButtonsImages(String url, Button btn) {		
-		BackgroundImage backgroundImage = new BackgroundImage(
-				new Image(getClass().getResource(url).toExternalForm()),
+
+	private void setButtonsImages(String url, Button btn) {
+		BackgroundImage backgroundImage = new BackgroundImage(new Image(getClass().getResource(url).toExternalForm()),
 				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
 				BackgroundSize.DEFAULT);
 		Background background = new Background(backgroundImage);

@@ -1,5 +1,10 @@
 package entitys;
 
+/**
+ * This class is for Fuel Inventory objects, constructor setters, getters, and variables
+ * @author MyFuel Team
+ *
+ */
 public class FuelInventory {
 
 	private FuelStation fuelStation;

@@ -1,9 +1,18 @@
 package entitys.enums;
-
+/**
+ * This class is for Fuel types enums objects and methods
+ * @author MyFuel Team
+ *
+ */
 public enum FuelType {
 
 	GASOLINE, DIESEL, SCOOTER_FUEL, HOME_HEATING_FUEL;
 
+	/**
+	 * this method get string and return the corresponding enum to the string
+	 * @param FuelType2
+	 * @return  fuelType
+	 */
 	public static FuelType stringToEnumVal(String FuelType2) {
 		if (FuelType2 == null || FuelType2.trim().equals("")) {
 			return null;
@@ -24,6 +33,11 @@ public enum FuelType {
 		return null;
 	}
 
+	/**
+	 * this method get enum, and return the corresponding string of it
+	 * @param fuelType
+	 * @return ret - the corresponding string
+	 */
 	public static String enumToString(FuelType fuelType) { // return to String ret the not CAPITAL version of the type
 		String ret = "";
 		switch (fuelType) {

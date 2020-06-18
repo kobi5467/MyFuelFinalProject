@@ -1,5 +1,9 @@
 package entitys;
-
+/**
+ * This class is for Report objects, constructor setters, getters, and variables
+ * @author MyFuel Team
+ *
+ */
 public class Report {
 
 	private String reportType;

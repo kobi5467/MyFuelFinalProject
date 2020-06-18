@@ -68,7 +68,7 @@ public class FuelDBLogic {
 	 * JsonArray, and then returns it.
 	 * @return JsonArray fuelTypes
 	 */
-	public JsonArray getFuelTypes() {
+	public static JsonArray getFuelTypes() {
 		JsonArray fuelTypes = new JsonArray();
 
 		String query = "";
@@ -125,6 +125,60 @@ public class FuelDBLogic {
 
 		return fuel;
 	}
+	/**
+	 * This function send query to the DB and get the subscribe discount rate from the table.
+	 * @param subscribeType - as string type.
+	 * @return
+	 */
+	public String getSubscribeRate(String subscribeType) {
+		
+		String rate="";
+		String query = "";
+		Statement stmt = null;
+		try {
+			if (DBConnector.conn != null) {
+				query = "SELECT * FROM  subscribe_type " + "WHERE subscribeType ='" + subscribeType + "';";
+				stmt = DBConnector.conn.createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				if (rs.next()) {
+					
+					rate = rs.getString("discountRate");
+				}
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return rate;
+	}
+	/**
+	 * This method is responsible to update the subscribe rates on the DB.
+	 * @param subscribeType - String value of subscribe type.
+	 * @param newRate - String value of new rate.
+	 */
+	public void updateSubscribeRate(String subscribeType, String newRate) {
+		float rateToUpdate = 0;
+		rateToUpdate = Float.parseFloat(newRate);
+		String query = "";
+		Statement stmt = null;
+		try {
+			if (DBConnector.conn != null) {
+				stmt = DBConnector.conn.createStatement();
+				query = "UPDATE subscribe_type " + "SET discountRate = " + rateToUpdate + " WHERE subscribeType = '" + subscribeType
+						+ "';";
+				stmt.executeUpdate(query);
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 
 	
 	/**
@@ -137,7 +191,8 @@ public class FuelDBLogic {
 
 		float PriceToUpdate = 0;
 		PriceToUpdate = Float.parseFloat(newPrice);
-		String fueltype = fuel.getFuelType().toString();
+		//String fueltype = fuel.getFuelType().toString();
+		String fueltype = fuel.getFuelType().enumToString(fuel.getFuelType());
 		String query = "";
 		Statement stmt = null;
 		try {
@@ -181,6 +236,44 @@ public class FuelDBLogic {
 
 				query = "INSERT INTO determining_rate_requests ( currentPrice, newPrice, requestStatus, fuelType, createTime) "
 						+ "VALUES ('" + currentPrice + "','" + PriceToUpdate + "','" + status + "','" + fueltype + "','"
+						+ createTime + "');";
+				stmt = DBConnector.conn.createStatement();
+				stmt.execute(query);
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * this function get a request to determine rate of the Subscribe type discount and the new discount to be updated.
+	 * then it insert to the DB in the "discounts_requests" table the most updated rate request.
+	 * @param request - a request that contains the subscribe type, current discount, status and create time
+	 * @param newDiscount - new discount to be updated as a new rate request.
+	 */
+	
+	public void SendSubscribeRequest(DeterminingRateRequests request, Float newDiscount) {
+
+		//float DiscountToUpdate = 0;
+		//PriceToUpdate = Float.parseFloat(newPrice);
+		float currentDiscount = request.getCurrentPrice();
+		String subscribetype = request.getFuelType();
+		String status = request.getRequestStatus().enumToString(request.getRequestStatus());
+		String createTime = request.getCreateTime();
+		String query = "";
+		Statement stmt = null;
+
+		try {
+			if (DBConnector.conn != null) {
+				stmt = DBConnector.conn.createStatement();
+				query="DELETE FROM discounts_requests WHERE SubscribeType = '" + subscribetype + "';";
+				stmt.execute(query);
+
+				query = "INSERT INTO discounts_requests ( currentDiscount, newDiscount, requestStatus, SubscribeType, createTime) "
+						+ "VALUES ('" + currentDiscount + "','" + newDiscount + "','" + status + "','" + subscribetype + "','"
 						+ createTime + "');";
 				stmt = DBConnector.conn.createStatement();
 				stmt.execute(query);
@@ -259,7 +352,42 @@ public class FuelDBLogic {
 		}
 		return rateRequests;
 	}
+	
+	/**
+	 * this function get all of the current discount requests from the DB and insert it
+	 * into an Json Array.
+	 * it gets only the requests that their current status is waiting to approve.
+	 * @return rateRequests - JsonArray of the current waiting to approve requests.
+	 */
+	
+	public JsonArray getDiscountRequests() {
+		JsonArray discountRequests = new JsonArray();
+		String query = "";
+		Statement stmt = null;
+		try {
+			if (DBConnector.conn != null) {
+				query = "SELECT * FROM  discounts_requests " + " WHERE requestStatus ='Waiting To Approve';";
+				stmt = DBConnector.conn.createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				while (rs.next()) {
+					JsonObject discountRequest = new JsonObject();
+					discountRequest.addProperty("requestID", rs.getString("requestID"));
+					discountRequest.addProperty("currentDiscount", rs.getString("currentDiscount"));
+					discountRequest.addProperty("newDiscount", rs.getString("newDiscount"));
+					discountRequest.addProperty("requestStatus", rs.getString("requestStatus"));
+					discountRequest.addProperty("SubscribeType", rs.getString("SubscribeType"));
+					discountRequest.addProperty("createTime", rs.getString("createTime"));
 
+					discountRequests.add(discountRequest);
+				}
+			} else {
+				System.out.println("Conn is null");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return discountRequests;
+	}
 	
 	/**
 	 * this function update the decision about the rate request if it gets declined.
@@ -278,13 +406,50 @@ public class FuelDBLogic {
 			if (DBConnector.conn != null) {
 				if (decision == false) {
 					stmt = DBConnector.conn.createStatement();
-					query = "UPDATE  determining_rate_requests " + "SET reasonOfDecline = '" + decline
+					query = "UPDATE determining_rate_requests " + "SET reasonOfDecline = '" + decline
 							+ "', requestStatus = 'Not Approved' " + " WHERE requestID = '" + ID + "';";
 
 					stmt.executeUpdate(query);
 				} else if (decision == true) {
 					stmt = DBConnector.conn.createStatement();
-					query = "UPDATE  determining_rate_requests SET requestStatus = 'Approved' " + " WHERE requestID = '"
+					query = "UPDATE determining_rate_requests SET requestStatus = 'Approved' " + " WHERE requestID = '"
+							+ ID + "';";
+
+					stmt.executeUpdate(query);
+				}
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * this function update the decision about the rate request if it gets declined.
+	 * the function will insert the reason of decline and the new status by its decision
+	 * for the specific request ID.
+	 * @param decline - the string of the reason to decline the request.
+	 * @param decision - boolean variable, true for approve, or false for decline.
+	 * @param ID  - the specific request ID.
+	 */
+	public void UpdateDiscountDecline(String decline, boolean decision, String ID) {
+
+		String query = "";
+		Statement stmt = null;
+		try {
+
+			if (DBConnector.conn != null) {
+				if (decision == false) {
+					stmt = DBConnector.conn.createStatement();
+					query = "UPDATE  discounts_requests " + "SET reasonOfDecline = '" + decline
+							+ "', requestStatus = 'Not Approved' " + " WHERE requestID = '" + ID + "';";
+
+					stmt.executeUpdate(query);
+				} else if (decision == true) {
+					stmt = DBConnector.conn.createStatement();
+					query = "UPDATE  discounts_requests SET requestStatus = 'Approved' " + " WHERE requestID = '"
 							+ ID + "';";
 
 					stmt.executeUpdate(query);

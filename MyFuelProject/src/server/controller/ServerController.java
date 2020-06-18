@@ -41,7 +41,6 @@ public class ServerController extends AbstractServer {
 			public void run() {
 				while(true) {
 					try {
-						System.out.println("Start generate ranks");
 						dbConnector.customerDBLogic.generateRanks();
 						Thread.sleep(intervalForRankAnalysis);						
 					}catch (Exception e) {
@@ -85,6 +84,11 @@ public class ServerController extends AbstractServer {
 			case UPDATE_FUEL_STATION_INVENTORY:
 			case GET_FUEL_INVENTORY_BY_USER_NAME:
 			case GET_CURRENT_FUEL_AMOUNT_BY_FUEL_TYPE:
+			case GET_SUBSCRIBE_RATE:	
+			case SEND_SUBSCRIBE_RATE_REQUEST:
+			case UPDATE_DISCOUNT_RATE:	
+			case GET_DISCOUNT_REQUESTS:
+			case UPDATE_DISCOUNT_DECISION:
 				messageFromServer = handleFuelMessage(message);
 				break;
 			case GET_PURCHASE_MODELS:
@@ -124,6 +128,8 @@ public class ServerController extends AbstractServer {
 			case INSERT_CREDIT_CARD_DETAILS:
 			case GET_CUSTOMER_FUEL_TYPE:
 			case GET_PREVIOUS_AMOUNT_FAST_FUEL_ORDER:
+			case GET_CUSTOMER_RANKS:
+			case GET_ACTIVITY_TRACKING_DATA:
 				messageFromServer = handleCustomerMessage(message);
 				break;
 			case GET_SALE_TEMPLATES:
@@ -470,7 +476,38 @@ public class ServerController extends AbstractServer {
 					requestJson.get("fuelType").getAsString(), requestJson.get("stationID").getAsString());
 			responseJson.addProperty("availableAmount", available);;
 			break;
-
+		case GET_SUBSCRIBE_RATE:{
+			String subscribeType = requestJson.get("subscribeType").getAsString();
+			String subscribeRate = dbConnector.fuelDBLogic.getSubscribeRate(subscribeType);
+			responseJson.addProperty("subscribeRate", subscribeRate);
+		}
+		break;
+		case SEND_SUBSCRIBE_RATE_REQUEST: {
+			String subscribeType = requestJson.get("subscribeType").getAsString();
+			float newDiscount = requestJson.get("newDiscount").getAsFloat();
+			float currentDiscount = requestJson.get("currentDiscount").getAsFloat();
+			String createTime = ObjectContainer.getCurrentDate();
+			DeterminingRateRequests detRequest = new DeterminingRateRequests(-1, currentDiscount,
+					newDiscount, subscribeType, createTime);
+			dbConnector.fuelDBLogic.SendSubscribeRequest(detRequest, newDiscount);
+		}
+			break;
+		case UPDATE_DISCOUNT_RATE:{
+			String subscribeType = requestJson.get("SubscribeType").getAsString();
+			String newRate = requestJson.get("newDiscount").getAsString();
+			dbConnector.fuelDBLogic.updateSubscribeRate(subscribeType, newRate);
+		}
+		break;
+		case GET_DISCOUNT_REQUESTS:
+			JsonArray RateRequests = dbConnector.fuelDBLogic.getDiscountRequests();
+			responseJson.add("RateRequests", RateRequests);
+			break;
+		case UPDATE_DISCOUNT_DECISION:
+			String decline = requestJson.get("reasonOfDecline").getAsString();
+			boolean decision = requestJson.get("decision").getAsBoolean();
+			String ID = requestJson.get("requestID").getAsString();
+			dbConnector.fuelDBLogic.UpdateDiscountDecline(decline, decision, ID);
+			break;
 		default:
 			break;
 		}
@@ -591,6 +628,13 @@ public class ServerController extends AbstractServer {
 		case GET_CUSTOMER_FUEL_TYPE:
 			responseJson = dbConnector.customerDBLogic.getFuelCompaniesByID(requestJson);
 			break;
+		case GET_CUSTOMER_RANKS:
+			responseJson = dbConnector.customerDBLogic.getCustomerRanksForTable();
+			break;
+		case GET_ACTIVITY_TRACKING_DATA:
+			responseJson = dbConnector.customerDBLogic.getDataByCode(requestJson.get("code").getAsString());
+			break;
+		
 		default:
 			break;
 		}

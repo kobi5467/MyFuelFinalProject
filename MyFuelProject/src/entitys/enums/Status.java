@@ -1,5 +1,9 @@
 package entitys.enums;
-
+/**
+ * This class is for Status enums objects and methods
+ * @author MyFuel Team
+ *
+ */
 public enum Status {
 
 	//for fuel inventory order
@@ -16,6 +20,11 @@ public enum Status {
 	//for all order
 	DONE;
 	
+	/**
+	 *this method get string and return the corresponding String to the Enum
+	 * @param Stat - the string status
+	 * @return - status enum
+	 */
 	public static Status stringToEnumVal(String Stat) {
 		if (Stat == null || Stat.trim().equals("")) {
 			return null;
@@ -42,6 +51,11 @@ public enum Status {
 		return null;
 	}
 	
+	/**
+	 * this method get string and return the corresponding enum to the string
+	 * @param stat - the enum status
+	 * @return return- the string status
+	 */
 	public static String enumToString(Status stat) { // return to String ret the not CAPITAL version of the type
 		String ret = "";
 		switch (stat) {

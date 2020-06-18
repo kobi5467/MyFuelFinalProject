@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<Pane fx:id="requestPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="563.0" prefWidth="945.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.ceo.SubscribeRateRequestController">
+   <children>
+      <ScrollPane layoutX="7.0" layoutY="77.0" prefHeight="486.0" prefWidth="932.0">
+         <content>
+            <VBox fx:id="vbSubscribeRate" prefHeight="488.0" prefWidth="910.0" />
+         </content>
+      </ScrollPane>
+      <Label layoutX="42.0" layoutY="33.0" text="Request ID" textFill="WHITE" />
+      <Label layoutX="175.0" layoutY="34.0" text="Current Discount" textFill="WHITE" />
+      <Label layoutX="336.0" layoutY="34.0" text="New Discount" textFill="WHITE" />
+      <Label layoutX="468.0" layoutY="34.0" text="Subscribe Type" textFill="WHITE" />
+      <Label layoutX="600.0" layoutY="34.0" text="Create Time" textFill="WHITE" />
+   </children>
+</Pane>

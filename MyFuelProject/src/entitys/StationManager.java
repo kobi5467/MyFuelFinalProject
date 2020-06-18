@@ -2,7 +2,11 @@ package entitys;
 
 import entitys.enums.OrganizationAffiliation;
 import entitys.enums.UserPermission;
-
+/**
+ * This class is for Station Manager objects, constructor setters, getters, and variables
+ * @author MyFuel Team
+ *
+ */
 public class StationManager extends Employee {
 
 	private String managerId;

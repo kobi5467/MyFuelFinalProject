@@ -12,7 +12,6 @@ import client.gui.allusers.MainFormController;
 import client.gui.allusers.MessageController;
 import client.gui.ceo.RatesToApproveController;
 import client.gui.ceo.ReportViewController;
-import client.gui.ceo.SubscribeRateRequestController;
 import client.gui.customer.FastFuelController;
 import client.gui.customer.HomeHeatingFuelController;
 import client.gui.customer.OrderTrackingController;
@@ -77,9 +76,7 @@ public class ObjectContainer {
 	
 	//CEO
 	public static RatesToApproveController ratesToApproveController;
-	public static SubscribeRateRequestController subscribeRateRequestController;
-	public static ReportViewController reportViewController;	
-	
+	public static ReportViewController reportViewController;
 	public static MessageController messageController;
 	
 	// ****************************************     global variables 	****************************************

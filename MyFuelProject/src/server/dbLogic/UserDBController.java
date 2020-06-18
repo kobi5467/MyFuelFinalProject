@@ -5,14 +5,22 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.google.gson.JsonObject;
-
+/**
+ * This class responsible to rule on all the user DB Logic with all the requests from the server.
+ * @author oyomtov
+ * @version - Final
+ */
 public class UserDBController {
 
 	// User Table structure
 	// (userName, password, userPermisson, name , email , phoneNumber ,
 	// lastLoginTime, isLogin)
 	// (varChar , varChar , varChar , varChar , varChar , varChar , long , boolean)
-
+	/**
+	 * This method is responsible to check if the user name is exist in the DB.
+	 * @param userName - string value of user name.
+	 * @return - return boolean value.
+	 */
 	public boolean checkIfUsernameExist(String userName) {
 		boolean isExist = false;
 
@@ -37,8 +45,13 @@ public class UserDBController {
 
 		return isExist;
 	}
-
-	// get json object that contains the username and the password.
+	/**
+	 * This method is responsible to get Json object that contains the user name and the password.
+	 * After that check his login.
+	 * @param userName - string value of user name.
+	 * @param password - string value of password.
+	 * @return - return Json object with the data.
+	 */
 	public JsonObject checkLogin(String userName, String password) {
 		JsonObject response = new JsonObject();
 		String errorMessage = "";
@@ -75,7 +88,11 @@ public class UserDBController {
 		response.addProperty("errorMessage", errorMessage);
 		return response;
 	}
-
+	/**
+	 * This method is responsible to get the user details from the DB.
+	 * @param json - Json object with user name details.
+	 * @return - return Json object with all the data.
+	 */
 	public JsonObject getUserDetails(JsonObject json) {
 		String query = "";
 
@@ -103,8 +120,11 @@ public class UserDBController {
 
 		return user;
 	}
-
-	// isLoginValue - 1 for login , 0 for logout.
+	/**
+	 * This method is update the login flag by take the data from DB.
+	 * @param userName - string value of user name.
+	 * @param isLoginValue - int value - isLoginValue - 1 for login , 0 for logout.
+	 */
 	public void updateLoginFlag(String userName, int isLoginValue) {
 		String query = "";
 		Statement stmt = null;
@@ -121,7 +141,10 @@ public class UserDBController {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * This method is responsible to add new user in the DB.
+	 * @param user - JsonObject with the user details.
+	 */
 	public void addUser(JsonObject user) {
 		String userName = user.get("userName").getAsString();
 		String password = user.get("password").getAsString();

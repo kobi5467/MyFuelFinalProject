@@ -3,7 +3,11 @@ package entitys;
 import java.util.ArrayList;
 
 import entitys.enums.UserPermission;
-
+/**
+ * This class is for Customers objects, constructor setters, getters, and variables
+ * @author MyFuel Team
+ *
+ */
 public class Customer extends User {
 
 	private String customerID;

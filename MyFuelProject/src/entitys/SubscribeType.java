@@ -1,5 +1,9 @@
 package entitys;
-
+/**
+ * This class is for Subscribe Type objects, constructor setters, getters, and variables
+ * @author MyFuel Team
+ *
+ */
 public class SubscribeType { 
 	
 	private String subscribeType;

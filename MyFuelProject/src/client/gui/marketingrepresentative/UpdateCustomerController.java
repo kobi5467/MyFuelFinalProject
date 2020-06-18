@@ -321,6 +321,7 @@ public class UpdateCustomerController {
 		txtFuelStation2.setVisible(false);
 		txtFuelStation3.setDisable(true);
 		txtFuelStation3.setVisible(false);
+		ObjectContainer.setTextFieldToGetOnlyDigitsWithLimit(txtVehicleNumber, 8);
 		
 	}
 	
@@ -698,24 +699,28 @@ public class UpdateCustomerController {
 	 */
 	@FXML
 	void onEditVehicle(ActionEvent event) {
-		String newVehicleNumber = txtVehicleNumber.getText();
-		String newFuelType = cbAddFuelType.getSelectionModel().getSelectedItem();
-		String vehicleToID = txtEnterYourCustomerID.getText();
-		
-		JsonObject newVehicle = new JsonObject();
-		newVehicle.addProperty("customerID", vehicleToID);
-		newVehicle.addProperty("fuelType", newFuelType);
-		newVehicle.addProperty("vehicleNumber", newVehicleNumber);
-		updateVehicleInDB(newVehicle);
-
-		// Update new Vehicle in GUI
-		vehicles.add(newVehicle);
-		CustomerVehiclesController customerVehiclesController = new CustomerVehiclesController();
-		String color = (vehicles.size()-1) % 2 == 0 ? "#0277ad" : "#014b88";
-		customerVehicles
-				.add(customerVehiclesController.load(vehicles.get(vehicles.size() - 1).getAsJsonObject(), color));
-		vbVehicleContainer.getChildren().add(customerVehicles.get(vehicles.size() - 1).getVehiclePane());
-		txtVehicleNumber.setText("");
+		if(!txtVehicleNumber.getText().isEmpty() && txtVehicleNumber.getText().length() > 5
+				&& txtVehicleNumber.getText().length() < 9) {
+			String newVehicleNumber = txtVehicleNumber.getText();
+			String newFuelType = cbAddFuelType.getSelectionModel().getSelectedItem();
+			String vehicleToID = txtEnterYourCustomerID.getText();
+			
+			JsonObject newVehicle = new JsonObject();
+			newVehicle.addProperty("customerID", vehicleToID);
+			newVehicle.addProperty("fuelType", newFuelType);
+			newVehicle.addProperty("vehicleNumber", newVehicleNumber);
+			updateVehicleInDB(newVehicle);
+			
+			// Update new Vehicle in GUI
+			vehicles.add(newVehicle);
+			CustomerVehiclesController customerVehiclesController = new CustomerVehiclesController();
+			String color = (vehicles.size()-1) % 2 == 0 ? "#0277ad" : "#014b88";
+			customerVehicles
+			.add(customerVehiclesController.load(vehicles.get(vehicles.size() - 1).getAsJsonObject(), color));
+			vbVehicleContainer.getChildren().add(customerVehicles.get(vehicles.size() - 1).getVehiclePane());
+			txtVehicleNumber.setText("");
+			
+		}
 	}
 	/**
 	 * This method responsible to request from the server to update the vehicle in DB

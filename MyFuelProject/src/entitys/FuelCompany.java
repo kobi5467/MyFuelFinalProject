@@ -1,5 +1,9 @@
 package entitys;
-
+/**
+ * This class is for Fuel Company objects, constructor setters, getters, and variables
+ * @author MyFuel Team
+ *
+ */
 public class FuelCompany {
 
 	private String companyName;

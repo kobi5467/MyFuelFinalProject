@@ -12,7 +12,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import server.controller.ServerUI;
-
+/**
+ * This class is the main server controller.
+ * @author Kobi Malka
+ * @version - Final
+ */
 public class MainServerController {
 
     @FXML
@@ -23,7 +27,10 @@ public class MainServerController {
 
     @FXML
     private TextField txtPort;
-
+    /**
+     * This method is responsible to start the server by click on 'Start'.
+     * @param event - when we press on start button.
+     */
     @FXML
     void onStartServer(ActionEvent event) {
     	if(btnStart.getText().equals("Start")) {
@@ -44,7 +51,12 @@ public class MainServerController {
     		btnStart.setText("Start");
     	}
     }
-
+    /**
+     * This method is responsible to start the current stage.
+     * After that load the 'xml' class and call to 'initUI' method.
+     * @param primaryStage - current stage to show.
+     * @throws IOException - Throw exception if their is no stage to show.
+     */
 	public void start(Stage primaryStage) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("../gui/ServerForm.fxml"));
@@ -64,7 +76,9 @@ public class MainServerController {
 	public void onClientConnected() {
 		
 	}
-	
+	/**
+	 * This method is responsible to init the port to "5555".
+	 */
 	private void initUI() {
 		txtPort.setText("5555");
 	}

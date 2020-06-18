@@ -1,7 +1,11 @@
 package entitys;
 
 import entitys.enums.Status;
-
+/**
+ * This class is for Fast Fuel order objects, constructor setters, getters, and variables
+ * @author MyFuel Team
+ *
+ */
 public class FastFuelOrder extends Order{
 
 	private String paymentMethod;

@@ -6,6 +6,7 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.YearMonth;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -754,7 +755,7 @@ public class CustomerDBLogic {
 	}
 	
 	
-	public String getCustomerTypeByCustomerID(String customerID) {
+	public static String getCustomerTypeByCustomerID(String customerID) {
 		String customerType = "";
 		
 		String query = "";
@@ -802,7 +803,6 @@ public class CustomerDBLogic {
 		
 		String query = "";
 		Statement stmt = null;
-		String customerType = getCustomerTypeByCustomerID(customerID);
 		try {
 			if (DBConnector.conn != null) {
 				query = "SELECT * FROM fast_fuel_orders "
@@ -814,7 +814,7 @@ public class CustomerDBLogic {
 					order.addProperty("totalPrice", rs.getString("totalPrice"));
 					order.addProperty("fuelType", rs.getString("fuelType"));
 					order.addProperty("orderHour", rs.getString("orderDate").split(" ")[1]);
-					order.addProperty("customerType", customerType);
+					order.addProperty("customerType", rs.getString("customerType"));
 					orders.add(order);
 				}
 				
@@ -827,7 +827,7 @@ public class CustomerDBLogic {
 					order.addProperty("totalPrice", rs.getString("totalPrice"));
 					order.addProperty("fuelType", "Home Heating Fuel");
 					order.addProperty("orderHour", rs.getString("orderDate").split(" ")[1]);
-					order.addProperty("customerType", customerType);
+					order.addProperty("customerType", rs.getString("customerType"));
 					orders.add(order);
 				}
 				
@@ -853,8 +853,8 @@ public class CustomerDBLogic {
 				ResultSet rs = stmt.executeQuery(query);
 				while(rs.next()) {
 					JsonObject customer = new JsonObject();
-					customer.addProperty("customerID", rs.getString("customerID"));
-					customer.addProperty("customerRank", rs.getString("customerRank"));
+					customer.addProperty("Customer ID", rs.getString("customerID"));
+					customer.addProperty("Rank", rs.getString("customerRank"));
 					rates.add(customer);
 				}
 			} else {
@@ -867,42 +867,173 @@ public class CustomerDBLogic {
 		return rates;
 	}
 	
-	public JsonArray getTotalPriceForAnalyticSystem(String fuelType, String customerType , String certainHours) {
-		String[] hours = certainHours.split("-");
-		String startHour = hours[0];
-		String endHour = hours[1];
+	public JsonObject getCustomerRanksForTable() {
+		JsonObject json = new JsonObject();
+		json.add("rows", getCustomerRanks());
 		
+		JsonArray columns = new JsonArray();
+		columns.add("Customer ID");
+		columns.add("Rank");
+		
+		json.add("columns", columns);
+		return json;
+	}
+	
+	public JsonObject getDataByCode(String code) {
+		JsonObject data = new JsonObject();
 		String query = "";
 		Statement stmt = null;
-		
-		JsonArray array = new JsonArray();
-		
 		try {
 			if (DBConnector.conn != null) {
-				query = "SELECT * FROM fast_fuel_orders "
-						+ "WHERE 1 = 1";
-				query += fuelType.isEmpty() ? "" : " AND fuelType = '" + fuelType + "' ";
-				query += customerType.isEmpty() ? "" : " AND customerType = '" + customerType + "' ";
-				System.out.println(query);
+				query = "SELECT * FROM analytic_data " + 
+						"WHERE code = '" + code + "';";
 				stmt = DBConnector.conn.createStatement();
 				ResultSet rs = stmt.executeQuery(query);
-				while(rs.next()) {
-					JsonObject json = new JsonObject();
-					json.addProperty("fuelType", rs.getString("fuelType"));
-					json.addProperty("customerType", rs.getString("customerType"));
-					json.addProperty("totalPrice", rs.getString("totalPrice"));
-					array.add(json);
+				if(rs.next()) {
+					data = new Gson().fromJson(rs.getString("data"),JsonObject.class);
 				}
 			} else {
 				System.out.println("Conn is null");
 			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		return array;
+		return data;
 	}
 	
+	public void saveAnalyticData() {
+		JsonArray fuelTypes = FuelDBLogic.getFuelTypes();
+		JsonArray fuelTypesWithNullOnStart = new JsonArray();
+		
+		fuelTypesWithNullOnStart.add("");
+		for (int i = 0; i < fuelTypes.size(); i++) {
+			fuelTypesWithNullOnStart.add(fuelTypes.get(i).getAsString());
+		}
+		JsonArray customerTypes = new JsonArray();
+		customerTypes.add("");
+		customerTypes.add("Private");
+		customerTypes.add("Company");
+		
+		JsonArray hours = new JsonArray();
+		hours.add("00:00:00 - 23:59:59");
+		hours.add("00:00:00 - 11:59:59");
+		hours.add("12:00:00 - 16:59:59");
+		hours.add("17:00:00 - 23:59:59");
+		
+		clearAnalyticData();
+		
+		for(int i = 0; i < customerTypes.size(); i++) {
+			for (int j = 0; j < hours.size(); j++) {
+				for (int k = 0; k < fuelTypesWithNullOnStart.size(); k++) {
+					String code = i + "" + j + "" + k;
+					JsonObject data = getTotalPriceForAnalyticSystem(
+							fuelTypesWithNullOnStart.get(k).getAsString(), 
+							customerTypes.get(i).getAsString(), 
+							hours.get(j).getAsString());
+					addDataToDB(code,data);
+				}
+			}
+		}
+	}
+	
+	public void clearAnalyticData() {
+		String query = "";
+		Statement stmt = null;
+		try {
+			if (DBConnector.conn != null) {
+				query = "DELETE FROM analytic_data; ";
+				stmt = DBConnector.conn.createStatement();
+				stmt.execute(query);
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void addDataToDB(String code, JsonObject data) {
+		String query = "";
+		Statement stmt = null;
+		try {
+			if (DBConnector.conn != null) {
+				query = "INSERT INTO analytic_data (code, data) " + 
+						"VALUES ('" + code + "','"+ data + "');";
+				stmt = DBConnector.conn.createStatement();
+				stmt.execute(query);
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public JsonObject getTotalPriceForAnalyticSystem(String fuelType, String customerType , String certainHours) {
+		String[] hours = certainHours.split(" - ");
+		String startHour = hours[0];
+		String endHour = hours[1];
+
+		JsonObject result = new JsonObject();
+		JsonArray rows = new JsonArray();
+		JsonArray columns = new JsonArray();
+		columns.add("Customer ID");
+		JsonArray customers = getAllCustomerId();
+		
+		if (DBConnector.conn == null) {
+			System.out.println("conn is null");
+			return null;
+		}
+		for(int i = 0; i < customers.size(); i++) {
+			String customerID = customers.get(i).getAsString();
+			JsonArray orders = getCustomerOrders(customerID);
+			JsonObject currentCustomer = new JsonObject();
+			currentCustomer.addProperty("Customer ID", customerID);
+			float totalPrice = 0;
+			for (int j = 0; j < orders.size(); j++) {
+				JsonObject order = orders.get(i).getAsJsonObject();
+				String orderHour = order.get("orderHour").getAsString();
+				if((fuelType.isEmpty() || fuelType.equals(order.get("fuelType").getAsString())) && 
+						(customerType.isEmpty() || customerType.equals(order.get("customerType").getAsString())) && 
+							(startHour.compareTo(orderHour) <= 0 &&	endHour.compareTo(orderHour) >= 0))
+				totalPrice += orders.get(i).getAsJsonObject().get("totalPrice").getAsFloat();
+			}
+			if(!fuelType.isEmpty()) {
+				currentCustomer.addProperty("Fuel Type", fuelType);
+			}
+			if(!customerType.isEmpty()) {
+				currentCustomer.addProperty("Customer Type", customerType);
+			}
+			if(!(startHour.equals("00:00:00") && endHour.equals("23:59:59"))) {
+				currentCustomer.addProperty("Certain Hours", certainHours);
+			}
+			currentCustomer.addProperty("Total Price", totalPrice);
+			rows.add(currentCustomer);
+		}
+		
+		if(!fuelType.isEmpty()) columns.add("Fuel Type");
+		if(!customerType.isEmpty())	columns.add("Customer Type");
+		if(!(startHour.equals("00:00:00") && endHour.equals("23:59:59")))columns.add("Certain Hours");
+		columns.add("Total Price");
+		result.add("columns", columns);
+		result.add("rows", rows);
+		
+		return result;
+	}
+	
+	
+	private int getCustomerRank(String customerID) {
+		JsonArray customers = getCustomerRanks();
+		for(int i = 0; i < customers.size(); i++) {
+			if(customers.get(i).getAsJsonObject().get("Customer ID").getAsString().equals(customerID)) {
+				return customers.get(i).getAsJsonObject().get("Rank").getAsInt();
+			}
+		}
+		return 0;
+	}
 	public void generateRanks() {
 		JsonArray customers = getAllCustomerId();
 		
@@ -915,6 +1046,8 @@ public class CustomerDBLogic {
 			int avg = Math.round(totalRank / customerOrders.size());
 			setCustomerRank(customers.get(i).getAsString() , avg);
 		}
+		
+		saveAnalyticData();
 	}
 	
 	public int getRankByOrder(JsonObject order) {

@@ -42,7 +42,11 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-
+/**
+ * This class responsible to registration a new customer.
+ * @author Kobi Malka
+ * @version - Final
+ */
 public class CustomerRegistrationController {
 
 	@FXML
@@ -255,7 +259,10 @@ public class CustomerRegistrationController {
 	
 	private int countFuelCompany = 1;
 	
-	
+	/**
+	 * This method is responsible to init the choices box.
+	 * @param event - when we press on add fuel company
+	 */
 	@FXML
 	void addFuelCompanyCB(ActionEvent event) {
 		if(btnAddFuelCompany.getLayoutX() == 600) {
@@ -269,7 +276,10 @@ public class CustomerRegistrationController {
 			setBackgroundImage('+');
 		}
 	}
-	
+	/**
+	 * This method is responsible to delete vehicle from the list.
+	 * @param vehicle - vehicle Object
+	 */
 	public void deleteVehicleFromList(Vehicle vehicle) {
 		for(int i =0; i < vehiclePanes.size(); i++) {
 			if(vehiclePanes.get(i).vehicle.equals(vehicle)) {
@@ -280,7 +290,10 @@ public class CustomerRegistrationController {
 		}
 		updateVbChildren();
 	}
-
+	/**
+	 * This method is responsible to set back ground image
+	 * @param c - value of icon
+	 */
 	private void setBackgroundImage(char c) {
 		String url = "/images/";
 		switch(c) {
@@ -293,13 +306,19 @@ public class CustomerRegistrationController {
 		}
 		setButtonsImages(url, btnAddFuelCompany);
 	}
-
+	/**
+	 * This method is responsible to move to previous pane.
+	 * @param event - when we pressed on back button.
+	 */
 	@FXML
 	void onBack(ActionEvent event) {
 		//
 		changeStage(-1);
 	}
-
+	/**
+	 * This method is responsible to move on next pane.
+	 * @param event - when we pressed on next button.
+	 */
 	@FXML
 	void onNext(ActionEvent event) {
 		boolean isValid = false;
@@ -335,14 +354,18 @@ public class CustomerRegistrationController {
 			break;
 		}
 	}
-	
+	/**
+	 * This method is responsible to request from the server to register customer.
+	 */
 	private void register() {
 		//register customer.
 		String customerJsonString = new Gson().toJson(customer);
 		Message msg = new Message(MessageType.REGISTER_CUSTOMER, customerJsonString);
 		ClientUI.accept(msg);
 	}
-
+	/**
+	 * This method is responsible to update customer in pane 2
+	 */
 	private void updateCustomerObjectDetailsStage2() {
 		if(cbPaymentMethod.getValue().equals("Credit Card")) {
 			CreditCard creditCard = new CreditCard(customer.getCustomerId(), 
@@ -359,7 +382,9 @@ public class CustomerRegistrationController {
 		customer.setPurchaseModel(purchaseModel);
 		customer.setPaymentMethod(cbPaymentMethod.getValue());
 	}
-
+	/**
+	 * This method is responsible to update customer details in pane 1
+	 */
 	private void updateCustomerObjectDetailsStage1() {
 		//stage 1 values
 		customer.setUsername(txtUsername.getText());
@@ -377,7 +402,10 @@ public class CustomerRegistrationController {
 	}
 
 	/************************************** Check validation of stage 1 **************************************/
-	
+	/**
+	 * This method is responsible to check input validation
+	 * @return - return boolean value
+	 */
 	private boolean checkInputValidationStageOne() {
 		initErrorLabels();
 		boolean isValid = true;
@@ -394,7 +422,11 @@ public class CustomerRegistrationController {
 		
 		return isValid;
 	}
-
+	/**
+	 * This method is responsible to chec customre type.
+	 * @param type - string value of type
+	 * @return - return boolean value.
+	 */
 	private boolean checkCustomerType(String type) {
 		if(type.equals(cbCustomerType.getItems().get(0))) {
 			lblCustomerTypeError.setText("Please choose customer type");
@@ -404,7 +436,11 @@ public class CustomerRegistrationController {
 		setErrorImage(imgCustomerTypeError, "/images/v_icon.png");
 		return true; 
 	}
-
+	/**
+	 * This method is responsible to check street value.
+	 * @param street - string value of street.
+	 * @return - return boolean value.
+	 */
 	private boolean checkStreet(String street) {
 		if(street.isEmpty()) {
 			lblStreetError.setText("Please fill street name and number");
@@ -414,7 +450,11 @@ public class CustomerRegistrationController {
 		setErrorImage(imgStreetError, "/images/v_icon.png");
 		return true;
 	}
-
+	/**
+	 * This method is responsible to check city value.
+	 * @param city - string value of city.
+	 * @return - return boolean value.
+	 */
 	private boolean checkCity(String city) {
 		if(city.isEmpty()) {
 			lblCityError.setText("Please fill city name");
@@ -424,7 +464,11 @@ public class CustomerRegistrationController {
 		setErrorImage(imgCityError, "/images/v_icon.png");
 		return true;
 	}
-
+	/**
+	 * This method is responsible to check subscribe types by general value.
+	 * @param value - string value.
+	 * @return - return boolean value.
+	 */
 	private boolean checkSubscribeType(String value) {
 		if(value.equals(cbSubscribeType.getItems().get(0))) {
 			lblSubscribeTypeError.setText("Please choose subsrcibe type");
@@ -434,7 +478,11 @@ public class CustomerRegistrationController {
 		setErrorImage(imgSubscribeType, "/images/v_icon.png");
 		return true; 
 	}
-
+	/**
+	 * This method is responsible to check user name.
+	 * @param userName - string value of user name.
+	 * @return - return boolean value.
+	 */
 	private boolean checkUserName(String userName) {
 		String errorMessage = "";
 		if (userName.isEmpty()) {
@@ -449,7 +497,11 @@ public class CustomerRegistrationController {
 		setErrorImage(imgUsernameError, "/images/error_icon.png");
 		return false;
 	}
-
+	/**
+	 * This method is responsible to check if the user is exist.
+	 * @param userName - string value of user name.
+	 * @return - return boolean value.
+	 */
 	private boolean userIsAlreadyExist(String userName) {
 		JsonObject json = new JsonObject();
 		json.addProperty("userName", userName);
@@ -458,7 +510,11 @@ public class CustomerRegistrationController {
 		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
 		return response.get("isExist").getAsBoolean();
 	}
-
+	/**
+	 * This method is responsible to check is the password is legal.
+	 * @param password - string value of password.
+	 * @return - return boolean value.
+	 */
 	private boolean checkPassword(String password) {
 		String errorMessage = "";
 		if (password.isEmpty()) {
@@ -473,7 +529,11 @@ public class CustomerRegistrationController {
 		setErrorImage(imgPasswordError, "/images/error_icon.png");
 		return false;
 	}
-
+	/**
+	 * This method is responsible to check customer id value.
+	 * @param customerID - string value of customer id.
+	 * @return - return boolean value.
+	 */
 	private boolean checkCustomerID(String customerID) {
 		String errorMessage = "";
 		if (customerID.isEmpty()) {
@@ -490,7 +550,11 @@ public class CustomerRegistrationController {
 		setErrorImage(imgCustomerIDError, "/images/error_icon.png");
 		return false;
 	}
-
+	/**
+	 * This method is responsible to check if customer is exist.
+	 * @param customerID - string value of customer id.
+	 * @return - return boolean value.
+	 */
 	private boolean customerIsExist(String customerID) {
 		JsonObject json = new JsonObject();
 		json.addProperty("customerID", customerID);
@@ -499,7 +563,11 @@ public class CustomerRegistrationController {
 		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
 		return response.get("isExist").getAsBoolean();
 	}
-
+	/**
+	 * This method responsible to check the customer name.
+	 * @param customerName - string value of customer name.
+	 * @return - return boolean value.
+	 */
 	private boolean checkCustomerName(String customerName) {
 		String errorMessage = "";
 		if (customerName.isEmpty()) {
@@ -512,7 +580,11 @@ public class CustomerRegistrationController {
 		setErrorImage(imgCustomerNameError, "/images/error_icon.png");
 		return false;
 	}
-
+	/**
+	 * This method is responsible to check if the email is legal.
+	 * @param email - string value of email.
+	 * @return - return boolean value.
+	 */
 	private boolean checkEmail(String email) {
 		String errorMessage = "";
 		if (email.isEmpty()) {
@@ -525,7 +597,11 @@ public class CustomerRegistrationController {
 		setErrorImage(imgEmailError, "/images/error_icon.png");
 		return false;
 	}
-
+	/**
+	 * This method is responsible to check phone number.
+	 * @param phoneNumber - string value of phone number.
+	 * @return - return boolean value.
+	 */
 	private boolean checkPhoneNumber(String phoneNumber) {
 		String errorMessage = "";
 		if (phoneNumber.isEmpty()) {
@@ -542,7 +618,10 @@ public class CustomerRegistrationController {
 	}
 	
 	/****************************************** Check validation of stage 2 ***************************************/
-	
+	/**
+	 * This method is responsible to check the credit card values.
+	 * @return - return boolean value.
+	 */
 	private boolean checkInputValidationStageTwo() {
 		initErrorLabels();
 		boolean isValid = true;
@@ -551,7 +630,11 @@ public class CustomerRegistrationController {
 		isValid = checkPaymentMethod(cbPaymentMethod.getValue().trim()) && isValid;
 		return isValid;
 	}
-	
+	/**
+	 * This method is responsible to check the payment method.
+	 * @param paymentMethod - string value of payment method.
+	 * @return - return boolean value.
+	 */
 	private boolean checkPaymentMethod(String paymentMethod) {
 		if(paymentMethod.equals(cbPaymentMethod.getItems().get(0))) {
 			lblPaymentMethodError.setText("Please choose payment method...");
@@ -568,7 +651,14 @@ public class CustomerRegistrationController {
 		String year = cbYear.getValue();
 		return checkCreditCardValues(creditCardNumber,cvv,month,year);
 	}
-
+	/**
+	 * This method is responsible to check credit card values.
+	 * @param creditCardNumber - string value of credit card number.
+	 * @param cvv - string value of cvv number.
+	 * @param month - string value of month number.
+	 * @param year - string value of year number.
+	 * @return - return boolean value.
+	 */
 	private boolean checkCreditCardValues(String creditCardNumber, String cvv, String month,String year) {
 		boolean isValid = true;
 		if(creditCardNumber.isEmpty() || creditCardNumber.length() < 8 || creditCardNumber.length() > 16) {
@@ -585,7 +675,10 @@ public class CustomerRegistrationController {
 		}
 		return isValid;
 	}
-
+	/**
+	 * This method is responsible to check companies name.
+	 * @return - return boolean value.
+	 */
 	private boolean checkCompanyNames() {
 		String comp1 = cbFuelCompany.getValue();
 		String comp2 = cbFuelCompany2.getValue();
@@ -624,7 +717,11 @@ public class CustomerRegistrationController {
 			return true;
 		}
 	}
-
+	/**
+	 * This method is responsible to check purchase model.
+	 * @param purchaseModel - string value of purchase model.
+	 * @return - return boolean value.
+	 */
 	private boolean checkPurchaseModel(String purchaseModel) {
 		if(purchaseModel.equals(cbPurchaseModel.getItems().get(0))) {
 			lblPurchaseModelError.setText("Please choose purchase model..");
@@ -634,7 +731,10 @@ public class CustomerRegistrationController {
 	}
 	
 	/******************************************* Check validation of stage 3 **************************************/
-	
+	/**
+	 * This method is responsible to check the input validation on pane 3.
+	 * @return - return boolean value.
+	 */
 	private boolean checkInputValidationStageThree() {
 		boolean isValid = true;
 		if(customer.getVehicles().size() == 0) {
@@ -652,7 +752,10 @@ public class CustomerRegistrationController {
 		}
 		return isValid;
 	}
-	
+	/**
+	 * This method is responsible to add new vehicle by dynamic pane.
+	 * @param event - when we press on add vehicle.
+	 */
 	@FXML
 	void addVehicle(ActionEvent event) {
 		if(checkAddVehicleFields()) {
@@ -667,7 +770,9 @@ public class CustomerRegistrationController {
 			txtVehicleNumber.setText("");
 		}
 	}
-
+	/**
+	 * This method is responsible to show in the gui the vehicle VBox.
+	 */
 	private void updateVbChildren() {
 		
 		vbVehicleContainer.getChildren().clear();
@@ -677,7 +782,10 @@ public class CustomerRegistrationController {
 			vbVehicleContainer.getChildren().add(vehiclePanes.get(i));
 		}
 	}
-	
+	/**
+	 * This method is responsible to check the fields of the vehicle.
+	 * @return - return boolean value.
+	 */
 	public boolean checkAddVehicleFields() {
 		String vehicleNumber = txtVehicleNumber.getText().trim();
 		String fuelType = cbVehicleFuelType.getValue().trim();
@@ -727,7 +835,10 @@ public class CustomerRegistrationController {
 	}
 
 	/************************************** LOGIC *******************************************/
-	
+	/**
+	 * This method is responsible to change the stage.
+	 * @param op - int value of operand, -1 for preview, 1 for next.
+	 */
 	private void changeStage(int op) {
 		
 		currentStage = currentStage + op;
@@ -758,7 +869,10 @@ public class CustomerRegistrationController {
 			break;
 		}
 	}
-
+	/**
+	 * This method is responsible to show the password.
+	 * @param event - when we pressed on show password.
+	 */
 	@FXML
 	void onShowPassword(ActionEvent event) {
 		if(txtPassword.isVisible()) {
@@ -771,7 +885,10 @@ public class CustomerRegistrationController {
 			txtShowPassword.setVisible(false);
 		}
 	}
-
+	/**
+	 * This method is responsible to load the 'xml' class and call 'initUI'
+	 * @param changePane - Pane value with the current pane.
+	 */
 	public void load(Pane changePane) { // load pane to change pane.
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("CustomerRegistrationForm.fxml"));
@@ -785,7 +902,9 @@ public class CustomerRegistrationController {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * This method is responsible to init buttons, texts and etc.
+	 */
 	private void initUI() {
 		btnNext.setDefaultButton(true);
 		customer = new Customer();
@@ -810,7 +929,10 @@ public class CustomerRegistrationController {
 		    showHelp(newValue);
 		});
 	}	
-
+	/**
+	 * This method is responsible to show help to the user.
+	 * @param isShow - boolaen value.
+	 */
 	public void showHelp(boolean isShow) {
 		if(isShow) {
 			lblCvvError.setText("");
@@ -819,7 +941,9 @@ public class CustomerRegistrationController {
 		}
 		imgHelp.setVisible(isShow);
 	}
-	
+	/**
+	 * This method responsible to limit the text fields.
+	 */
 	private void limitTextFields() {
 		ObjectContainer.setTextFieldLimit(txtUsername, 20);
 		ObjectContainer.setTextFieldLimit(txtPassword, 20);
@@ -834,7 +958,11 @@ public class CustomerRegistrationController {
 		ObjectContainer.setTextFieldToGetOnlyDigitsWithLimit(txtCVV, 4);
 		ObjectContainer.setTextFieldToGetOnlyDigitsWithLimit(txtVehicleNumber, 8);
 	}
-	
+	/**
+	 * This method is responsible to set buttones with images.
+	 * @param url - string value of the path image.
+	 * @param btn - current button to set the icon.
+	 */
 	private void setButtonsImages(String url, Button btn) {		
 		BackgroundImage backgroundImage = new BackgroundImage(
 				new Image(getClass().getResource(url).toExternalForm()),
@@ -843,7 +971,9 @@ public class CustomerRegistrationController {
 		Background background = new Background(backgroundImage);
 		btn.setBackground(background);
 	}
-	
+	/**
+	 * This method is responsible to init choices box.
+	 */
 	private void initChoiceBoxes() {
 		initPurchaseModels();
 		initFuelCompaniesCB();
@@ -883,7 +1013,9 @@ public class CustomerRegistrationController {
 		      }
 		    });
 	}
-
+	/**
+	 * This method is responsible to init the fuel types on the choices box.
+	 */
 	private void initFuelTypes() {
 		Message msg = new Message(MessageType.GET_FUEL_TYPES,"");
 		ClientUI.accept(msg);
@@ -899,12 +1031,19 @@ public class CustomerRegistrationController {
 		}
 		cbVehicleFuelType.setValue(cbVehicleFuelType.getItems().get(0));
 	}
-
+	/**
+	 * This method is responsible to set an error icon.
+	 * @param img - current image.
+	 * @param url - string value path of the image.
+	 */
 	public void setErrorImage(ImageView img, String url) {
 		Image image = new Image(getClass().getResource(url).toString());
 		img.setImage(image);
 	}
-	
+	/**
+	 * This method is responsible to request from the server to get subscribe types.
+	 * After that init the Json Array with the details and init the choices box.
+	 */
 	private void initCustomerTypes() {
 		Message msg = new Message(MessageType.GET_SUBSCRIBE_TYPES, "");
 		ClientUI.accept(msg);
@@ -918,7 +1057,9 @@ public class CustomerRegistrationController {
 		}
 		cbSubscribeType.setValue(cbSubscribeType.getItems().get(0));
 	}
-
+	/**
+	 * This method is responsible to init fuel companies in the choices box.
+	 */
 	private void initFuelCompaniesCB() {
 		JsonArray fuelCompanies = getAllFuelCompanies();
 		
@@ -940,13 +1081,19 @@ public class CustomerRegistrationController {
 		cbFuelCompany3.setVisible(false);
 		btnAddFuelCompany.setVisible(false);
 	}
-
+	/**
+	 * This method is responsible to request from the server to get fuel companies names.
+	 * @return - return Json array with the data.
+	 */
 	private JsonArray getAllFuelCompanies() {
 		Message msg = new Message(MessageType.GET_FUEL_COMPANIES_NAMES,"");
 		ClientUI.accept(msg);
 		return ObjectContainer.currentMessageFromServer.getMessageAsJsonObject().get("fuelCompanies").getAsJsonArray();
 	}
-
+	/**
+	 * This method is responsible to request from the server to get purchase models.
+	 * After that init Json array with the data and init the choices box with the current details.
+	 */
 	private void initPurchaseModels() {
 		Message msg = new Message(MessageType.GET_PURCHASE_MODELS, "");
 		ClientUI.accept(msg);
@@ -986,7 +1133,9 @@ public class CustomerRegistrationController {
 		      }
 		    });
 	}
-
+	/**
+	 * This method is responsible to init the error labels.
+	 */
 	private void initErrorLabels() {
 		//stage 1
 		lblUserNameError.setText("");
@@ -1011,7 +1160,11 @@ public class CustomerRegistrationController {
 		//stage 3
 		lblVehicleError.setText("");
 	}
-	
+	/**
+	 * This class is responsible to create by dynamic pane new vehicle.
+	 * @author oyomtov
+	 * @version - Final
+	 */
 	class VehiclePane extends AnchorPane {
 		public AnchorPane pane;
 		public Button btnDeleteVehicle;

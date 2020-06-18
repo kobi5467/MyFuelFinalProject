@@ -1,5 +1,9 @@
 package entitys;
-
+/**
+ * This class is for credit cards objects, setters, getters, and variables
+ * @author MyFuel Team
+ *
+ */
 public class CreditCard {
 
 	private String customerID;

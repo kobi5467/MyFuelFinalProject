@@ -1,7 +1,11 @@
 package entitys;
 
 import java.util.ArrayList;
-
+/**
+ * This class is for Purchase model objects, constructor setters, getters, and variables
+ * @author MyFuel Team
+ *
+ */
 public class PurchaseModel {
 
 	private String purchaseModeltype;

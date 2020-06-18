@@ -1,5 +1,9 @@
 package entitys.enums;
-
+/**
+ * This class is for message enums objects
+ * @author MyFuel Team
+ *
+ */
 public enum MessageType {
 
 	// ************************** client messages **************************
@@ -80,6 +84,11 @@ public enum MessageType {
 	GET_FUEL_COMPANIES_NAMES,
 	GET_STATION_BY_MANAGERID,
 	UPDATE_FUEL_STATION_INVENTORY,
+	GET_SUBSCRIBE_RATE,
+	SEND_SUBSCRIBE_RATE_REQUEST,
+	UPDATE_DISCOUNT_RATE,
+	UPDATE_DISCOUNT_DECISION,
+	GET_DISCOUNT_REQUESTS,
 	
 	// DetermineRates
 	GET_RATES_REQUESTS,
@@ -108,6 +117,9 @@ public enum MessageType {
 	
 	LOGOUT, // LOGOUT Message
 	
+	// activity tracking
+	GET_ACTIVITY_TRACKING_DATA, 
+	GET_CUSTOMER_RANKS,
 	// ************************** server messages **************************
 	//LOGIN
 	SERVER_RESPONSE

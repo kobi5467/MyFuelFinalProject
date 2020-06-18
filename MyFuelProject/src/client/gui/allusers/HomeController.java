@@ -8,7 +8,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
-
+/**
+ * This class responsible to init Home pane.
+ * @author oyomtov
+ * @version - Final
+ */
 public class HomeController {
 
 	@FXML

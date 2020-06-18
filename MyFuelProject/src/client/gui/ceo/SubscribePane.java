@@ -1,6 +1,5 @@
 package client.gui.ceo;
 
-
 import java.io.IOException;
 
 import com.google.gson.JsonObject;
@@ -13,7 +12,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
@@ -24,72 +22,53 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 /**
- * This class is for only one sub-request pane that will be loaded in the main RatesToApprove form
+ * This class is for only one sub-request pane that will be loaded in the main Subscribe to approve form
  * every pane and its actions that we enable for the user to do will be handled in here
- * and how we want to present every single sub pane will handled in this class
- * @author Barak
- * @version final
+ * and how we want to present every single sub pane will handled in this class 
+ * @author Or Yom Tov
+ * @version - Final
  */
-public class RequestPane {
-
-	@FXML
+public class SubscribePane {
+	
+    @FXML
     private AnchorPane mainRequestPane;
 
     @FXML
-    private Pane requestPane;
-
-    @FXML
-    private Label lblRequestID;
-
-    @FXML
-    private TextField txtRequestID;
-
-    @FXML
-    private Label lblCurrentPrice;
-
-    @FXML
-    private TextField txtCurrentPrice;
-
-    @FXML
-    private Label lblNewPrice;
-
-    @FXML
-    private TextField txtNewPrice;
-
-    @FXML
-    private Label lblFuelType;
-
-    @FXML
-    private TextField txtFuelType;
-
-    @FXML
-    private Label lblCreateTime;
-
-    @FXML
-    private TextField txtCreateTime;
-
-    @FXML
-    private Button btnApprove;
-
-    @FXML
-    private Button btnDecline;
-
-    @FXML 
     private Pane viewPane;
 
     @FXML
-    private Label lblReason;
+    private Button btnSubmit;
 
     @FXML
     private TextField txtReason;
 
     @FXML
-    private Button btnSubmit;
+    private Pane requestPane;
+
+    @FXML
+    private TextField txtRequestID;
+
+    @FXML
+    private TextField txtCurrentDiscount;
+
+    @FXML
+    private TextField txtNewDiscount;
+
+    @FXML
+    private TextField txtSubscribeType;
+
+    @FXML
+    private TextField txtCreateTime;
+
+    @FXML
+    private Button btnDeny;
+
+    @FXML
+    private Button btnApprove;
     
-    public boolean  tookDecision=false;
+    public boolean tookDecision = false;
     public boolean clickedDecline = false;
-    
-    
+
     /**
      * this function will be activated when the user will click on approve
      * the decision about the request will be send to the server as a message,
@@ -103,8 +82,9 @@ public class RequestPane {
     	JsonObject json2= new JsonObject();
     	
 
-		json2.addProperty("fuelType", txtFuelType.getText());
-		json2.addProperty("pricePerLitter", txtNewPrice.getText());
+		json2.addProperty("CreateTime", txtCreateTime.getText());
+		json2.addProperty("SubscribeType", txtSubscribeType.getText());
+    	json2.addProperty("newDiscount", txtNewDiscount.getText());
     	
     	json.addProperty("reasonOfDecline", "");
     	json.addProperty("decision", true);	
@@ -112,13 +92,13 @@ public class RequestPane {
     	ObjectContainer.showMessage("yes_no", "Deny Order", "Are you sure you want to approve request?\n request number " + txtRequestID.getText());
 
     	if(ObjectContainer.yesNoMessageResult) {
-	    	Message msg = new Message(MessageType.UPDATE_DECISION, json.toString());
+	    	Message msg = new Message(MessageType.UPDATE_DISCOUNT_DECISION, json.toString());
 			ClientUI.accept(msg);
-			msg = new Message(MessageType.UPDATE_FUEL, json2.toString());
+			msg = new Message(MessageType.UPDATE_DISCOUNT_RATE, json2.toString());
 			ClientUI.accept(msg);
 			
 			tookDecision=true;
-			ObjectContainer.ratesToApproveController.initUI();
+			ObjectContainer.subscribeRateRequestController.initUI();
     	}
     }
 
@@ -128,7 +108,7 @@ public class RequestPane {
      * @param event
      */
     @FXML
-    void onDecline(ActionEvent event) {
+    void onDeny(ActionEvent event) {
     	clickedDecline = !clickedDecline;
     	if(clickedDecline) {
     		viewPane.setVisible(true);
@@ -153,12 +133,12 @@ public class RequestPane {
     	json.addProperty("requestID", txtRequestID.getText());
     	ObjectContainer.showMessage("yes_no", "Deny Order", "Are you sure you want to submit request decline?\n request number " + txtRequestID.getText());
     	if(ObjectContainer.yesNoMessageResult) {
-	    	Message msg = new Message(MessageType.UPDATE_DECISION, json.toString());
+	    	Message msg = new Message(MessageType.UPDATE_DISCOUNT_DECISION, json.toString());
 			ClientUI.accept(msg);
 			//mainRequestPane.setVisible(false);
 			tookDecision=true;
-			ObjectContainer.ratesToApproveController.showAllRequests();		
-			ObjectContainer.ratesToApproveController.initUI();
+			ObjectContainer.subscribeRateRequestController.showAllRequests();		
+			ObjectContainer.subscribeRateRequestController.initUI();
     	}
 
     }
@@ -171,9 +151,8 @@ public class RequestPane {
      */
     public AnchorPane load(JsonObject request, String color) {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("RequestPane.fxml"));
-
-		RequestPane pane = null;
+		loader.setLocation(getClass().getResource("SubscribePane.fxml"));
+		SubscribePane pane = null;
 		try {
 			mainRequestPane = loader.load();
 			pane = loader.getController();
@@ -195,11 +174,11 @@ public class RequestPane {
 				+ "-fx-background-color:" + color + ";"
 				+ "-fx-border-color:#77cde7;"
 				+ "-fx-border-width:2px;");
-		setButtonImage("/images/v_icon_30px.png", btnApprove);
-		setButtonImage("/images/error_icon_30px.png", btnDecline);
-		//setButtonImage("/images/v_icon.png", btnSubmit);
+		setButtonImage("../../../images/v_icon_30px.png", btnApprove);
+		setButtonImage("../../../images/error_icon_30px.png", btnDeny);
+		//setButtonImage("../../../images/v_icon.png", btnSubmit);
 		btnApprove.setText("");
-		btnDecline.setText("");
+		btnDeny.setText("");
 		
 		btnSubmit.setId("dark-blue");
 
@@ -210,24 +189,25 @@ public class RequestPane {
 	}
     /**
      * this function gets the request as a JsonObject and fill the data in the
-     * pane fields, such as request ID , Current price, new price, fuel type,
+     * pane fields, such as request ID , Current discount, new discount, subscribe type,
      * and create time.
      * @param request - JsonObject with the data about the request
      */
     private void fillData(JsonObject request) {
 
 		txtRequestID.setText(request.get("requestID").getAsString());
-		txtCurrentPrice.setText(request.get("currentPrice").getAsString());
+		txtCurrentDiscount.setText(request.get("currentDiscount").getAsString());
 		
-		txtNewPrice.setText(request.get("newPrice").getAsString());
-		txtFuelType.setText(request.get("fuelType").getAsString());
+		txtNewDiscount.setText(request.get("newDiscount").getAsString());
+		txtSubscribeType.setText(request.get("SubscribeType").getAsString());
 		txtCreateTime.setText(request.get("createTime").getAsString());
 
 		txtRequestID.setEditable(false);
-		txtCurrentPrice.setEditable(false);
-		txtNewPrice.setEditable(false);
-		txtFuelType.setEditable(false);
+		txtCurrentDiscount.setEditable(false);
+		txtNewDiscount.setEditable(false);
+		txtSubscribeType.setEditable(false);
 		txtCreateTime.setEditable(false);
+		
 	}
     /**
      * this function set image to the button in the pane
@@ -242,6 +222,5 @@ public class RequestPane {
 		Background background = new Background(backgroundImage);
 		btn.setBackground(background);
 	}	
-    
-}
 
+}

@@ -1,7 +1,11 @@
 package entitys;
 
 import entitys.enums.Status;
-
+/**
+ * This class is for Fuel inventory order objects, constructor setters, getters, and variables
+ * @author MyFuel Team
+ *
+ */
 public class FuelInventoryOrder extends Order{
 
 	private Supplier supplier;

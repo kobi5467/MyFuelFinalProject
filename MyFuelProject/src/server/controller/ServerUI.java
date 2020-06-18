@@ -5,7 +5,11 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import server.gui.MainServerController;
-
+/**
+ * This method is responsible to run/stop the server.
+ * @author oyomtov
+ * @version - Final
+ */
 public class ServerUI extends Application {
 
 	public static ServerController serverController;
@@ -14,14 +18,19 @@ public class ServerUI extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
-
+	/**
+	 * This method is responsible to start the process.
+	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 //		mainServerController = new MainServerController();
 //		mainServerController.start(primaryStage);
 		runServer("5555");
 	}
-	
+	/**
+	 * This method is responsible to run the server with the current port number.
+	 * @param portNumber - string value of port number
+	 */
 	public static void runServer(String portNumber) {
 		int port = 0;
 		
@@ -41,7 +50,9 @@ public class ServerUI extends Application {
 		}
 		
 	}
-
+	/**
+	 * This method is responsible to stop the server.
+	 */
 	public static void stopServer() {
 		try {
 			serverController.stopListening();

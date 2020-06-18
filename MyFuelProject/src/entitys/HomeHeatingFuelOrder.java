@@ -1,7 +1,11 @@
 package entitys;
 
 import entitys.enums.Status;
-
+/**
+ * This class is for Home Heating fuel order objects, constructor setters, getters, and variables
+ * @author MyFuel Team
+ *
+ */
 public class HomeHeatingFuelOrder extends Order {
 
 	private String paymentMethod;

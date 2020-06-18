@@ -6,7 +6,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import entitys.enums.MessageType;
-
+/**
+ * This class is for message objects, constructor setters, getters, and variables
+ * @author MyFuel Team
+ *
+ */
 public class Message implements Serializable{
 
 	/**

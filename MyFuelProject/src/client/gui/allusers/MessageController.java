@@ -14,7 +14,11 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
+/**
+ * This class responsible to show the message to the user.
+ * @author oyomtov
+ * @version - Final
+ */
 public class MessageController {
 
     @FXML

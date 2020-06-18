@@ -8,34 +8,57 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/8.0.51" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.marketingmanager.DeterminingFuelRatesController">
+<Pane fx:id="MainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.marketingmanager.DeterminingFuelRatesController">
    <children>
-      <Text fill="WHITE" layoutX="242.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fuel  type:" wrappingWidth="140.34007263183594">
-         <font>
-            <Font name="System Bold" size="26.0" />
-         </font>
-      </Text>
-      <Text fill="WHITE" layoutX="242.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current price:" wrappingWidth="185.94004821777344">
-         <font>
-            <Font name="System Bold" size="26.0" />
-         </font>
-      </Text>
-      <Text fill="WHITE" layoutX="242.0" layoutY="241.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Maximum price:" wrappingWidth="207.5400848388672">
-         <font>
-            <Font name="System Bold" size="26.0" />
-         </font>
-      </Text>
-      <Text fill="WHITE" layoutX="242.0" layoutY="321.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New price:" wrappingWidth="140.34007263183594">
-         <font>
-            <Font name="System Bold" size="26.0" />
-         </font>
-      </Text>
-      <TextField fx:id="txtCurrPrice" layoutX="472.0" layoutY="131.0" prefHeight="35.0" prefWidth="235.0" />
-      <TextField fx:id="txtMaxPrice" layoutX="472.0" layoutY="211.0" prefHeight="35.0" prefWidth="235.0" />
-      <TextField fx:id="txtNewPrice" layoutX="472.0" layoutY="291.0" prefHeight="35.0" prefWidth="235.0" />
-      <Button fx:id="btnSubmit" layoutX="386.0" layoutY="368.0" mnemonicParsing="false" onAction="#onSubmit" prefHeight="48.0" prefWidth="179.0" text="Submit" />
-      <ChoiceBox fx:id="cbFuelType" layoutX="472.0" layoutY="51.0" prefHeight="35.0" prefWidth="235.0" />
-      <Label fx:id="lblErrorMessage" alignment="CENTER" layoutY="443.0" prefHeight="48.0" prefWidth="949.0" text="Please fill all fileds!" textFill="#f80000" textOverrun="WORD_ELLIPSIS" underline="true">
+      <Pane fx:id="PurchaseModelRatePane" prefHeight="570.0" prefWidth="947.0" visible="false">
+         <children>
+            <Text fill="WHITE" layoutX="238.0" layoutY="227.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subscribe Type:">
+               <font>
+                  <Font name="System Bold" size="26.0" />
+               </font>
+            </Text>
+            <Text fill="WHITE" layoutX="238.0" layoutY="299.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Discount Rate:">
+               <font>
+                  <Font name="System Bold" size="26.0" />
+               </font>
+            </Text>
+            <ChoiceBox fx:id="cbSubscribesType" layoutX="509.0" layoutY="199.0" prefHeight="35.0" prefWidth="235.0" />
+            <TextField fx:id="txtDiscountRate" layoutX="509.0" layoutY="271.0" prefHeight="35.0" prefWidth="235.0" />
+            <Button fx:id="btnSubmitDiscount" layoutX="388.0" layoutY="421.0" mnemonicParsing="false" onAction="#onSubmitDiscount" prefHeight="48.0" prefWidth="172.0" text="Submit" />
+         </children>
+      </Pane>
+      <Pane fx:id="FuelRatePane" prefHeight="570.0" prefWidth="947.0">
+         <children>
+            <Text fill="WHITE" layoutX="244.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fuel  type:" wrappingWidth="140.34007263183594">
+               <font>
+                  <Font name="System Bold" size="26.0" />
+               </font>
+            </Text>
+            <Text fill="WHITE" layoutX="244.0" layoutY="228.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current price:" wrappingWidth="185.94004821777344">
+               <font>
+                  <Font name="System Bold" size="26.0" />
+               </font>
+            </Text>
+            <Text fill="WHITE" layoutX="244.0" layoutY="298.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Maximum price:" wrappingWidth="207.5400848388672">
+               <font>
+                  <Font name="System Bold" size="26.0" />
+               </font>
+            </Text>
+            <Text fill="WHITE" layoutX="244.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New price:" wrappingWidth="140.34007263183594">
+               <font>
+                  <Font name="System Bold" size="26.0" />
+               </font>
+            </Text>
+            <TextField fx:id="txtCurrPrice" layoutX="510.0" layoutY="200.0" prefHeight="35.0" prefWidth="235.0" />
+            <TextField fx:id="txtMaxPrice" layoutX="510.0" layoutY="270.0" prefHeight="35.0" prefWidth="235.0" />
+            <TextField fx:id="txtNewPrice" layoutX="510.0" layoutY="332.0" prefHeight="35.0" prefWidth="235.0" />
+            <Button fx:id="btnSubmit" layoutX="384.0" layoutY="421.0" mnemonicParsing="false" onAction="#onSubmit" prefHeight="48.0" prefWidth="179.0" text="Submit" />
+            <ChoiceBox fx:id="cbFuelType" layoutX="510.0" layoutY="145.0" prefHeight="35.0" prefWidth="235.0" />
+         </children>
+      </Pane>
+      <Button fx:id="btnFuelRates" layoutX="158.0" layoutY="40.0" mnemonicParsing="false" onAction="#onFuelRates" prefHeight="42.0" prefWidth="235.0" text="Determining Fuel Rates" />
+      <Button fx:id="btnDiscountRate" layoutX="557.0" layoutY="40.0" mnemonicParsing="false" onAction="#onDiscountRates" prefHeight="42.0" prefWidth="235.0" text="Subscribes Discount Rates" />
+      <Label fx:id="lblErrorMessage" alignment="CENTER" layoutY="477.0" prefHeight="48.0" prefWidth="949.0" text="Please fill all fileds!" textFill="#f80000" textOverrun="WORD_ELLIPSIS" underline="true">
          <font>
             <Font size="14.0" />
          </font>

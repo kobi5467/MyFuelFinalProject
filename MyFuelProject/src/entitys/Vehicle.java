@@ -1,7 +1,11 @@
 package entitys;
 
 import entitys.enums.FuelType;
-
+/**
+ * This class is for vehicle objects, constructor setters, getters, and variables
+ * @author MyFuel Team
+ *
+ */
 public class Vehicle {
 
 	private String vehicleNumber;

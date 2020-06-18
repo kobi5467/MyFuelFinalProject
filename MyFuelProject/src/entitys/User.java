@@ -1,7 +1,11 @@
 package entitys;
 
 import entitys.enums.UserPermission;
-
+/**
+ * This class is for User objects, constructor setters, getters, and variables
+ * @author MyFuel Team
+ *
+ */
 public class User {
 
 	private String userName;
