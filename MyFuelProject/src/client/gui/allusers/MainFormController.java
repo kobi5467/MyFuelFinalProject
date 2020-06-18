@@ -93,6 +93,7 @@ public class MainFormController {
 	
 	private int currentPane = 0;
 	
+	private ArrayList<String> buttonNames;
 	@FXML
 	void onExitWindow(ActionEvent event) {
 		ObjectContainer.showMessage("yes_no","Exit","Are you sure \nyou want to exit program?");
@@ -104,7 +105,7 @@ public class MainFormController {
 	}
 
 	public ArrayList<String> getButtonNames(UserPermission userPermission) {
-		ArrayList<String> buttonNames = new ArrayList<>();
+		buttonNames = new ArrayList<>();
 		buttonNames.add("Home");
 		
 		switch (userPermission) {
@@ -240,7 +241,7 @@ public class MainFormController {
 		ClientUI.accept(msg);
 		
 		JsonObject customerJson = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
-		//Customer customer = new Gson().fromJson(customerJson.get("customerDetails").getAsString(), Customer.class);
+
 		Customer customer = new Customer();
 		customer.setCity(customerJson.get("city").getAsString());
 		customer.setCustomerId(customerJson.get("customerID").getAsString());
@@ -274,6 +275,16 @@ public class MainFormController {
 		setPane(title);
 	}
 	
+	public void setHomeButtonSelect() {
+		for (int i = 0; i < menuButtons.length; i++) {
+			if(i == 0) {
+				setButtonImage(buttonNames.get(i), i, true);
+			}else {
+				setButtonImage(buttonNames.get(i), i, false);
+			}
+		}
+	}
+	
 	public void setPane(String title) {
 		/***************************** ALL USERS **********************************/  
 		if(title.equals("Logout")) {
@@ -294,6 +305,7 @@ public class MainFormController {
 		
 		if(title.equals("Home")) {
 			lblMainTitle.setText("");
+			setHomeButtonSelect();
 			if(ObjectContainer.homeController == null) {
 				ObjectContainer.homeController = new HomeController();
 			}

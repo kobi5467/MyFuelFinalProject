@@ -31,7 +31,6 @@ import javafx.scene.layout.VBox;
  * @version final
  */
 
-
 public class OrderTrackingController {
 
 	@FXML
@@ -154,10 +153,7 @@ public class OrderTrackingController {
 			String orderID2 = orders.get(i).getAsJsonObject().get("orderID").getAsString();
 			if (orderID2.equals(orderID))
 				vbOrdersContainer.getChildren().add(orderPanes.get(i));
-			
-
 		}
-
 	}
 	
 	/**

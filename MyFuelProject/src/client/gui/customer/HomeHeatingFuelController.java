@@ -342,6 +342,8 @@ public class HomeHeatingFuelController {
 			datePickerDateSupply.setValue(null);
 			lblDiscountRate.setText(String.valueOf(this.discountrate));
 		}
+		if(txtAmount.getText().isEmpty())
+			return;
 		calcTotalPrice(Float.parseFloat(txtAmount.getText().trim()));
 	}
 	
@@ -743,7 +745,7 @@ public class HomeHeatingFuelController {
 		this.paymentMethod = cbPaymentMethod.getValue().toString().trim();
 		this.dateSuplly = datePickerDateSupply.getValue().toString().trim();
 		this.totalPrice = calcTotalPrice(Float.parseFloat(txtAmount.getText().trim()));
-		this.orderDate = getCurrentDate();
+		this.orderDate = ObjectContainer.getCurrentDate();
 		Customer customer = (Customer) ObjectContainer.currentUserLogin;
 		this.customerId = customer.getCustomerId();
 		this.city = txtCity.getText().trim();
@@ -778,16 +780,6 @@ public class HomeHeatingFuelController {
 		}
 		return json;
    }
-    
-	/**
-	 * This function get the current date.
-	 * @return the current date.
-	 */
-	public String getCurrentDate() {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		Date date = new Date(System.currentTimeMillis());
-		return formatter.format(date).toString();
-	}
 	
 	/**
 	 * This function set image in the pane.

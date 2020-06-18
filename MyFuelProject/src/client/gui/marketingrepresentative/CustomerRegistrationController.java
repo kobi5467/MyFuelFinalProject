@@ -699,6 +699,11 @@ public class CustomerRegistrationController {
 			return false;
 		}
 		
+		if(checkIfVehicleExistInNewVehicles(vehicleNumber)) {
+			lblVehicleError.setText("Vehicle already added");
+			return false;
+		}
+		
 		JsonObject vehicle = new JsonObject();
 		vehicle.addProperty("vehicleNumber", vehicleNumber);
 		Message msg = new Message(MessageType.CHECK_IF_VEHICLE_EXIST,vehicle.toString());
@@ -711,6 +716,16 @@ public class CustomerRegistrationController {
 		return !isExist;
 	}
 	
+	private boolean checkIfVehicleExistInNewVehicles(String vehicleNumber) {
+		ArrayList<Vehicle> vehicles = customer.getVehicles();
+		for(Vehicle v : vehicles) {
+			if(v.getVehicleNumber().equals(vehicleNumber)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/************************************** LOGIC *******************************************/
 	
 	private void changeStage(int op) {

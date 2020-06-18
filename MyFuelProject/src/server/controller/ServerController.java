@@ -32,7 +32,7 @@ public class ServerController extends AbstractServer {
 	public ServerController(int port) {
 		super(port);
 		dbConnector = new DBConnector();
-//		customerRanksAnalysis();
+		customerRanksAnalysis();
 	}
 
 	public void customerRanksAnalysis() {

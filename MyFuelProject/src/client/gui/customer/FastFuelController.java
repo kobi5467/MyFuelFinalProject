@@ -100,6 +100,12 @@ public class FastFuelController {
 	@FXML
 	private ImageView imgStationNumber;
 
+	@FXML
+    private ChoiceBox<String> cbPumpNumber;
+
+    @FXML
+    private ImageView imgPumpNumber;
+	
 	// variables
 	private float amount = 0;
 	private float totalPrice = 0;
@@ -135,7 +141,8 @@ public class FastFuelController {
 		json.addProperty("amountOfLitters", amount);
 		json.addProperty("totalPrice", priceAfterDiscount);
 		json.addProperty("paymentMethod", cbPaymentMethod.getValue());
-
+		json.addProperty("pumpNumber", cbPumpNumber.getValue());
+		
 		Message msg = new Message(MessageType.ADD_FAST_FUEL_ORDER, json.toString());
 		ClientUI.accept(msg);
 
@@ -214,12 +221,21 @@ public class FastFuelController {
 			}
 		}
 		
-		if(checkIfFuelAmountAvailable(fuelType)) {
+		if(cbPumpNumber.getValue().equals(cbPumpNumber.getItems().get(0))) {
+			setErrorImage(imgPumpNumber, "/images/error_icon.png");
+			flag = false;
+		} else {
+			setErrorImage(imgPumpNumber, "/images/v_icon.png");
+		}
+		
+		if(flag && checkIfFuelAmountAvailable(fuelType)) {
 			flag = true;
 		}else {
-			ObjectContainer.showMessage("Error", "Fast Fuel Order", 
-					"We are sorry\nWe only have " + availableAmount + " litters of " + fuelType + "\nPlease try less..");
-			flag = false;
+			if(flag) {
+				ObjectContainer.showMessage("Error", "Fast Fuel Order", 
+						"We are sorry\nWe only have " + availableAmount + " litters of " + fuelType + "\nPlease try less..");
+				flag = false;				
+			}
 		}
 
 		return flag;
@@ -277,6 +293,9 @@ public class FastFuelController {
 
 		creditCardViewPane.setVisible(false);
 		txtFuelAmount.textProperty().addListener((observable, oldValue, newValue) -> {
+			if(newValue.isEmpty()) {
+				setErrorImage(imgAmount, "/images/error_icon.png");
+			}
 			calcPrice();
 		});
 	}
@@ -358,6 +377,23 @@ public class FastFuelController {
 				}
 			}
 		});
+		
+		cbPumpNumber.getItems().clear();
+		cbPumpNumber.getItems().add("Choose pump:");
+		for(int i = 1; i < 5; i++) {
+			cbPumpNumber.getItems().add(""+i);
+		}
+		cbPumpNumber.setValue(cbPumpNumber.getItems().get(0));
+		cbPumpNumber.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
+				if ((Integer) number2 > 0) {
+					setErrorImage(imgPumpNumber, "/images/v_icon.png");
+				} else {
+					setErrorImage(imgPumpNumber, "/images/error_icon.png");
+				}
+			}
+		});
 	}
 
 	private JsonObject getCreditCardByCustomerID() {
@@ -435,7 +471,10 @@ public class FastFuelController {
 			totalDiscount += getDiscountBySubscribeType("SINGLE_VEHICLE_MONTHLY")
 					+ getDiscountBySubscribeType("MULTIPLE_VEHICLE_MONTHLY");
 		} else if (subscribeType.equals("SIGNLE_VEHICLE_FULL_MONTHLY")) {
-			return getPreviousMonthFuelAmount() * ((100 - getDiscountBySubscribeType(subscribeType)) / 100);
+			float prevPrice = getPreviousMonthFuelAmount();
+			if(prevPrice > 0) {
+				return prevPrice * ((100 - getDiscountBySubscribeType(subscribeType)) / 100);
+			}
 		}
 		price = totalPrice * ((100 - totalDiscount) / 100);
 		return price;
@@ -451,6 +490,9 @@ public class FastFuelController {
 	}
 
 	private float getDiscount(JsonObject response) {
+		if(response.get("saleData") == null) {
+			return 0;
+		}
 		JsonObject saleData = response.get("saleData").getAsJsonObject();
 		JsonArray saleTypes = saleData.get("saleTypes").getAsJsonArray();
 		float discountRate = 0;

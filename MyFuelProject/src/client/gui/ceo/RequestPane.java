@@ -227,7 +227,6 @@ public class RequestPane {
 		txtNewPrice.setEditable(false);
 		txtFuelType.setEditable(false);
 		txtCreateTime.setEditable(false);
-		
 	}
     /**
      * this function set image to the button in the pane
