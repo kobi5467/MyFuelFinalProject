@@ -81,9 +81,9 @@ public class AnalyticSystemController {
 		}
 		String url = isCertainHours ? "/images/checked.png" : "/images/unchecked.png";
 		setButtonsImages(url, btnCertainHours);
-		cbCertainHours.setVisible(isCertainHours);
-		if (cbCertainHours.isVisible())
+		if (!isCertainHours)
 			cbCertainHours.setValue(cbCertainHours.getItems().get(0));
+		cbCertainHours.setVisible(isCertainHours);
 	}
 
 	@FXML
@@ -95,9 +95,9 @@ public class AnalyticSystemController {
 		}
 		String url = isCustomerType ? "/images/checked.png" : "/images/unchecked.png";
 		setButtonsImages(url, btnCustomerType);
-		cbCustomerType.setVisible(isCustomerType);
-		if (cbCustomerType.isVisible())
+		if (!isCustomerType)
 			cbCustomerType.setValue(cbCustomerType.getItems().get(0));
+		cbCustomerType.setVisible(isCustomerType);
 	}
 
 	@FXML
@@ -109,9 +109,9 @@ public class AnalyticSystemController {
 		}
 		String url = isFuelType ? "/images/checked.png" : "/images/unchecked.png";
 		setButtonsImages(url, btnFuelType);
-		cbFuelType.setVisible(isFuelType);
-		if (cbFuelType.isVisible())
+		if (!isFuelType)
 			cbFuelType.setValue(cbFuelType.getItems().get(0));
+		cbFuelType.setVisible(isFuelType);
 	}
 
 	@FXML
@@ -127,6 +127,11 @@ public class AnalyticSystemController {
 			setButtonsImages(url, btnCustomerType);
 			isCertainHours = false;
 			setButtonsImages(url, btnCertainHours);
+			
+			cbCertainHours.setValue(cbCertainHours.getItems().get(0));
+			cbCustomerType.setValue(cbCustomerType.getItems().get(0));
+			cbFuelType.setValue(cbFuelType.getItems().get(0));
+			
 			cbCertainHours.setVisible(false);
 			cbCustomerType.setVisible(false);
 			cbFuelType.setVisible(false);
@@ -138,7 +143,13 @@ public class AnalyticSystemController {
 		if (isShowRanks) {
 			getCustomerRanks();
 		} else {
-			getDataFromDB();
+			if(!isFuelType && ! isCustomerType && !isCertainHours) {
+				isShowRanks = true;
+				setButtonsImages("/images/checked.png", btnShowRanks);
+				getCustomerRanks();
+			}else {
+				getDataFromDB();				
+			}
 		}
 	}
 
@@ -222,7 +233,7 @@ public class AnalyticSystemController {
 		String text = "";
 		text += fuelType.isEmpty() ? "" : " Fuel Type : " + fuelType + "\t";
 		text += customerType.isEmpty() ? "" : " Customer Type : " + customerType + "\t";
-		text += certainHours.isEmpty() ? "" : " Certain Hours : " + certainHours + "\t";
+		text += certainHours.equals("00:00:00 - 23:59:59") ? "" : " Certain Hours : " + certainHours + "\t";
 		lblTitleOfPane.setText(text);
 	}
 

@@ -284,9 +284,9 @@ public class CustomerDBLogic {
 		Statement stmt = null;
 		try {
 			if (DBConnector.conn != null) {
-				query = "SELECT * FROM customer, users, credit_card "
+				query = "SELECT * FROM customer, users "
 					  + "WHERE customer.customerID = '" + customerID + "'"
-					  		+ " AND users.userName = customer.userName AND customer.customerID = credit_card.customerID;";
+					  		+ " AND users.userName = customer.userName;";
 				stmt = DBConnector.conn.createStatement();
 				ResultSet rs = stmt.executeQuery(query);
 				if(rs.next()) {
@@ -297,9 +297,6 @@ public class CustomerDBLogic {
 					customer.addProperty("phoneNumber", rs.getString("phoneNumber"));
 					customer.addProperty("city", rs.getString("city"));
 					customer.addProperty("street", rs.getString("street"));
-					customer.addProperty("creditCardNumber", rs.getString("cardNumber"));
-					customer.addProperty("validationDate", rs.getString("validationDate"));
-					customer.addProperty("cvv", rs.getString("cvvNumber"));
 					customer.addProperty("customerType", rs.getString("customerType"));
 					customer.addProperty("subscribeType", rs.getString("subscribeType"));
 					customer.addProperty("purchaseModelType", rs.getString("purchaseModelType"));

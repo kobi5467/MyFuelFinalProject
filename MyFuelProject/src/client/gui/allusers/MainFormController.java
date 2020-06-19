@@ -488,7 +488,6 @@ public class MainFormController {
 	public void setButtonImage(String buttonName, int index, boolean isChecked) {
 		String url = "/images/menuButtons/"+buttonName;
 		url += isChecked ? "Check.png" : "UnCheck.png";
-		System.out.println(url);
 		BackgroundImage backgroundImage = new BackgroundImage(
 				new Image(getClass().getResource(url).toExternalForm()),
 				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
