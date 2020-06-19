@@ -68,7 +68,7 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <TableView fx:id="tblReport" layoutX="91.0" layoutY="202.0" prefHeight="323.0" prefWidth="771.0" />
+      <TableView fx:id="tblReport" layoutX="91.0" layoutY="202.0" prefHeight="303.0" prefWidth="771.0" />
       <Label fx:id="lblCountCustomer" layoutX="132.0" layoutY="522.0" textFill="WHITE" visible="false">
          <font>
             <Font name="System Bold" size="18.0" />

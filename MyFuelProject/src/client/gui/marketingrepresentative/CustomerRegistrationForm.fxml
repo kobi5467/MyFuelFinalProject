@@ -15,7 +15,7 @@
 
 <Pane fx:id="mainRegistrationPane" prefHeight="570.0" prefWidth="949.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.marketingrepresentative.CustomerRegistrationController">
 	<children>
-		<Pane fx:id="stageOne" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="949.0" visible="false">
+		<Pane fx:id="stageOne" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="949.0">
 			<children>
 				<Label layoutX="75.0" layoutY="-19.0" prefHeight="38.0" prefWidth="325.0" text="Customer Information :" textFill="WHITE" underline="true">
                <font>
@@ -257,7 +257,7 @@
             </Label>
 			</children>
 		</Pane>
-		<Pane fx:id="stageThree" prefHeight="570.0" prefWidth="949.0">
+		<Pane fx:id="stageThree" prefHeight="570.0" prefWidth="949.0" visible="false">
 			<children>
             <ScrollPane fx:id="spVehicleContainer" layoutX="79.0" layoutY="128.0" prefHeight="350.0" prefWidth="728.0">
                <content>

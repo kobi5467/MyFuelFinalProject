@@ -116,7 +116,7 @@ public class MainFormController {
 		switch (userPermission) {
 			case CUSTOMER: 
 				buttonNames.add("HomeHeatingFuel");
-				buttonNames.add("FastFuelOrder");
+//				buttonNames.add("FastFuelOrder");
 				buttonNames.add("OrderTracking");
 				break;
 			case MARKETING_MANAGER: 
@@ -398,12 +398,12 @@ public class MainFormController {
 			ObjectContainer.homeHeatingFuelController.load(changePane);
 		}
 		
-		if(title.equals("FastFuelOrder")) {
-			if(ObjectContainer.fastFuelController == null) {
-				ObjectContainer.fastFuelController = new FastFuelController();
-			}
-			ObjectContainer.fastFuelController.load(changePane);
-		}
+//		if(title.equals("FastFuelOrder")) {
+//			if(ObjectContainer.fastFuelController == null) {
+//				ObjectContainer.fastFuelController = new FastFuelController();
+//			}
+//			ObjectContainer.fastFuelController.load(changePane);
+//		}
 		
 		if(title.equals("OrderTracking")) {
 			if(ObjectContainer.orderTrackingController == null) {

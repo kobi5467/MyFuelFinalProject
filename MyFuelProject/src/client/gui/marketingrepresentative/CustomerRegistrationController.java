@@ -918,7 +918,21 @@ public class CustomerRegistrationController {
 		changeStage(0);
 		initErrorLabels();
 		initChoiceBoxes();
-		setButtonsImages("/images/eye_icon.png",btnShowPassword);
+		setButtonsImages("/images/white_eye_icon.png",btnShowPassword);
+		txtUsername.setStyle(""
+				+ "-fx-background-color:#0c83ff;\r\n" + 
+				"	-fx-font-size: 10pt;" + 
+				"	-fx-font-weight: bold;" + 
+				"	-fx-text-fill:#ffffff;\r\n" + 
+				"	-fx-border-color:#ffffff;\r\n" + 
+				"	-fx-border-width:2px;");
+		txtPassword.setStyle(""
+				+ "-fx-background-color:#0c83ff;\r\n" + 
+				"	-fx-font-size: 10pt;" + 
+				"	-fx-font-weight: bold;" + 
+				"	-fx-text-fill:#ffffff;\r\n" + 
+				"	-fx-border-color:#ffffff;\r\n" + 
+				"	-fx-border-width:2px;");
 		txtShowPassword.setVisible(false);
 		setBackgroundImage('+');
 		limitTextFields();

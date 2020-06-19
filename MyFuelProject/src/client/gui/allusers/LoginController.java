@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 
 import client.controller.ClientUI;
 import client.controller.ObjectContainer;
+import client.gui.customer.FastFuelController;
 import entitys.Message;
 import entitys.User;
 import entitys.enums.MessageType;
@@ -17,7 +18,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 /**
@@ -63,7 +70,20 @@ public class LoginController {
     @FXML
     private Button btnExit;
 
+    @FXML
+    private Button btnFastFuel;
+    
     //************ LOCAL VARIABLE ************
+    
+    @FXML
+    void onFastFuel(ActionEvent event) {
+    	if(ObjectContainer.fastFuelController == null) {
+			ObjectContainer.fastFuelController = new FastFuelController();
+		}
+		ObjectContainer.fastFuelController.start();
+		ObjectContainer.loginStage.hide();
+    }
+
     
     @FXML
     void onExit(ActionEvent event) {
@@ -138,9 +158,21 @@ public class LoginController {
 	
 	private void initUI() {
 		btnLogin.setDefaultButton(true);
+		setButtonImage("/images/FastFuel.png", btnFastFuel);
 		ObjectContainer.setTextFieldLimit(txtUsername, 15);
 		lblErrorMessage.setText("");
 		txtUsername.setText("");
 		txtPassword.setText("");
+		txtUsername.setStyle("-fx-text-fill:#000000;");
+		txtPassword.setStyle("-fx-text-fill:#000000;");
+	}
+	
+	public void setButtonImage(String url, Button btn) {
+		BackgroundImage backgroundImage = new BackgroundImage(
+				new Image(getClass().getResource(url).toExternalForm()),
+				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+				BackgroundSize.DEFAULT);
+		Background background = new Background(backgroundImage);
+		btn.setBackground(background);
 	}
 }

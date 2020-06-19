@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.google.gson.JsonObject;
+
+import client.controller.ObjectContainer;
 /**
  * This class responsible to rule on all the user DB Logic with all the requests from the server.
  * @author oyomtov
@@ -109,6 +111,8 @@ public class UserDBController {
 				if (rs.next()) {
 					user.addProperty("name", rs.getString("name"));
 					user.addProperty("userPermission", rs.getString("userPermission"));
+					user.addProperty("userName", userName);
+					user.addProperty("loginTime", ObjectContainer.getCurrentDate());
 				}
 			} else {
 				System.out.println("Conn is null");

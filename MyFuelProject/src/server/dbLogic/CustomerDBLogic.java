@@ -49,6 +49,7 @@ public class CustomerDBLogic {
 
 		return isExist;
 	}
+	
 	/**
 	 * @author Kobi Malka
 	 * This method responsible to get all the customer details by user name.
@@ -1002,22 +1003,10 @@ public class CustomerDBLogic {
 							(startHour.compareTo(orderHour) <= 0 &&	endHour.compareTo(orderHour) >= 0))
 				totalPrice += orders.get(j).getAsJsonObject().get("totalPrice").getAsFloat();
 			}
-//			if(!fuelType.isEmpty()) {
-//				currentCustomer.addProperty("Fuel Type", fuelType);
-//			}
-//			if(!customerType.isEmpty()) {
-//				currentCustomer.addProperty("Customer Type", customerType);
-//			}
-//			if(!(startHour.equals("00:00:00") && endHour.equals("23:59:59"))) {
-//				currentCustomer.addProperty("Certain Hours", certainHours);
-//			}
 			currentCustomer.addProperty("Total Price", totalPrice);
 			rows.add(currentCustomer);
 		}
 		
-//		if(!fuelType.isEmpty()) columns.add("Fuel Type");
-//		if(!customerType.isEmpty())	columns.add("Customer Type");
-//		if(!(startHour.equals("00:00:00") && endHour.equals("23:59:59")))columns.add("Certain Hours");
 		columns.add("Total Price");
 		result.add("columns", columns);
 		result.add("rows", rows);

@@ -1,6 +1,7 @@
 package server.controller;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -28,13 +29,40 @@ public class ServerController extends AbstractServer {
 
 	public static DBConnector dbConnector;
 
-	public static long intervalForRankAnalysis = 24 * 60 * 60 * 1000;
+	public static long intervalForOneDay = 24 * 60 * 60 * 1000;
+	public static long intervalForWeek = 7 * 24 * 60 * 60 * 1000;
+	
 	public ServerController(int port) {
 		super(port);
 		dbConnector = new DBConnector();
 		customerRanksAnalysis();
+		approveHomeHeatingFuelOrders();
 	}
 
+	public void approveHomeHeatingFuelOrders() {
+		new Thread() {
+			@Override
+			public void run() {
+				while(true) {
+					try {
+						JsonArray orders = dbConnector.orderDBLogic.getAllHomeHeatingFuelSupplyDates();
+						LocalDate date = LocalDate.now();
+						for(int i = 0; i < orders.size(); i++) {
+							JsonObject order = orders.get(i).getAsJsonObject();
+							String dateSupply = order.get("dateSupply").getAsString();
+							if(date.toString().compareTo(dateSupply) > 0) {
+								dbConnector.orderDBLogic.updateHomeHeatingFuelToSupplyByOrderID(order.get("orderID").getAsString());
+							}
+						}
+						sleep(intervalForOneDay);
+					}catch(Exception e) {
+						continue;
+					}
+				}
+			}
+		}.start();
+	}
+	
 	public void customerRanksAnalysis() {
 		new Thread() {
 			@Override
@@ -42,7 +70,7 @@ public class ServerController extends AbstractServer {
 				while(true) {
 					try {
 						dbConnector.customerDBLogic.generateRanks();
-						Thread.sleep(intervalForRankAnalysis);						
+						Thread.sleep(intervalForWeek);						
 					}catch (Exception e) {
 						continue;
 					}
@@ -111,6 +139,7 @@ public class ServerController extends AbstractServer {
 					case GET_ORDERS_BY_DATES:
 						messageFromServer = handleOrderMessage(message);
 						break;
+					case GET_CUSTOMERS_ID:
 					case CHECK_IF_CUSTOMER_EXIST:
 					case GET_CUSTOMER_DETAILS_BY_USERNAME:
 					case GET_SUBSCRIBE_TYPES:
@@ -558,6 +587,10 @@ public class ServerController extends AbstractServer {
 		JsonObject requestJson = msg.getMessageAsJsonObject();
 		JsonObject responseJson = new JsonObject();
 		switch (msg.getMessageType()) {
+		case GET_CUSTOMERS_ID:
+			JsonArray customerIDs = dbConnector.customerDBLogic.getAllCustomerId();
+			responseJson.add("customers", customerIDs);
+			break;
 		case CHECK_IF_CUSTOMER_EXIST:
 			boolean isExist = dbConnector.customerDBLogic
 					.checkIfCustomerExist(requestJson.get("customerID").getAsString());
@@ -688,8 +721,12 @@ public class ServerController extends AbstractServer {
 		case CHECK_LOGIN: {
 			String userName = requestJson.get("userName").getAsString();
 			String password = requestJson.get("password").getAsString();
-
+			
 			responseJson = dbConnector.userDBController.checkLogin(userName, password);
+			if (responseJson.get("isValid").getAsBoolean()) {
+				JsonObject userJson = dbConnector.userDBController.getUserDetails(requestJson);
+				ServerUI.mainServerController.addNewUser(userJson);
+			}
 		}
 			break;
 		case CHECK_IF_USER_EXIST:
@@ -713,6 +750,7 @@ public class ServerController extends AbstractServer {
 			break;
 		case LOGOUT:
 			dbConnector.userDBController.updateLoginFlag(requestJson.get("userName").getAsString(), 0);
+			ServerUI.mainServerController.removeUser(requestJson.get("userName").getAsString());
 			break;
 		default:
 			break;

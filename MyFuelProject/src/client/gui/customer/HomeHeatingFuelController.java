@@ -34,126 +34,128 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+
 /**
- * This class is for Home heating fuel order.
- * The first screen contain all the process of the home heating fuel order.
- * The second screen contain the order details.
+ * This class is for Home heating fuel order. The first screen contain all the
+ * process of the home heating fuel order. The second screen contain the order
+ * details.
+ * 
  * @author OrMamamn
  * @version final
  */
-public class HomeHeatingFuelController { 
-    @FXML
-    private Text txtSlash;
-    @FXML
-    private Text txtFuelCompany;
-    @FXML
-    private Pane mainPane;
-    @FXML
-    private Pane panePurchaseSuccessful;
-    @FXML
-    private Text txtOrderNumber;
-    @FXML
-    private Text txtDeliveryDetails;
-    @FXML
-    private Text txtDateSupplyOnPurchaseDetails;
-    @FXML
-    private Text paymentMethodOnPurchaseDetails;
-    @FXML
-    private Text totalPriceOnPurchaseDetails;
-    @FXML
-    private Label lblOrderNumberOnPurchasePain;
-    @FXML
-    private Label lblDateSupplyInPurchasePane;
-    @FXML
-    private Label lblPaymentMethodOnPurchasePane;
-    @FXML
-    private Label lblTotalPriceOnPurchasePane;
-    @FXML
-    private Text txtAdress;
-    @FXML
-    private Label lblAdress;
-    @FXML
-    private Text txtPurchaseSuccessful;
-    @FXML
-    private Label lblUserFirstName;
-    @FXML
-    private Text txtPurchaseSuccessful2;
-    @FXML
-    private ImageView imgPurchaseSuccessful;
-    @FXML
-    private Pane panePurchaseInputs;
-    @FXML
-    private TextField txtAmount;
-    @FXML
-    private TextField txtStreet;
-    @FXML
-    private Button btnSubmit;
-    @FXML
-    private CheckBox boxUrgentOrder;
-    @FXML
-    private ChoiceBox<String> cbPaymentMethod;
-    @FXML
-    private TextField txtCVV;
-    @FXML
-    private Text txtcvv;
-    @FXML
-    private Text txtCardNum;
-    @FXML
-    private Text txtDateVal;
-    @FXML
-    private CheckBox cbRemeberCreditCard;
-    @FXML
-    private Text txtRemeberCreditCard;
-     @FXML
-    private DatePicker datePickerDateSupply;
-    @FXML
-    private ChoiceBox<String> cbCreditCardMonthValidation;
-    @FXML
-    private ChoiceBox<String> cbCreditCardYearValidation;
-    @FXML
-    private Text txtTotalPrice;
-    @FXML
-    private Label lbltotalPriceAfterDiscount;
-    @FXML
-    private Label lblSubTotalPriceBeforeDiscount;
-    @FXML
-    private Label lblShippingRate;
-    @FXML
-    private Label lblDiscountRate;
-    @FXML
-    private Label lblCurrentPricePerLitter;
-    @FXML
-    private TextField txtCity;
-    @FXML
-    private ImageView imgAmountError;
-    @FXML
-    private ImageView imgStreetError;
-    @FXML
-    private ImageView imgCityError;
-    @FXML
-    private ImageView imgDateSupllyError;
-    @FXML
-    private ImageView imgPaymentMethodError;
-    @FXML
-    private ImageView imgCVVError;
-    @FXML
-    private ImageView imgCardNumberCVV;
-    @FXML
-    private ImageView imgDateValidationError;
-    @FXML
-    private ImageView imgfuelCompanyErrMsg;
-    @FXML
-    private TextField txtCardNumber;
-    @FXML
-    private Text txtOrderDetailsTitle;
-    @FXML
-    private ChoiceBox<String> cbfuelCompany;
-    @FXML
-    private Text txtOrderSummaryTitle;
-    @FXML
-    private Text textUrgentOrder;
-    @FXML
-    private Label lblUrgentOrder;
+public class HomeHeatingFuelController {
+	@FXML
+	private Text txtSlash;
+	@FXML
+	private Text txtFuelCompany;
+	@FXML
+	private Pane mainPane;
+	@FXML
+	private Pane panePurchaseSuccessful;
+	@FXML
+	private Text txtOrderNumber;
+	@FXML
+	private Text txtDeliveryDetails;
+	@FXML
+	private Text txtDateSupplyOnPurchaseDetails;
+	@FXML
+	private Text paymentMethodOnPurchaseDetails;
+	@FXML
+	private Text totalPriceOnPurchaseDetails;
+	@FXML
+	private Label lblOrderNumberOnPurchasePain;
+	@FXML
+	private Label lblDateSupplyInPurchasePane;
+	@FXML
+	private Label lblPaymentMethodOnPurchasePane;
+	@FXML
+	private Label lblTotalPriceOnPurchasePane;
+	@FXML
+	private Text txtAdress;
+	@FXML
+	private Label lblAdress;
+	@FXML
+	private Text txtPurchaseSuccessful;
+	@FXML
+	private Label lblUserFirstName;
+	@FXML
+	private Text txtPurchaseSuccessful2;
+	@FXML
+	private ImageView imgPurchaseSuccessful;
+	@FXML
+	private Pane panePurchaseInputs;
+	@FXML
+	private TextField txtAmount;
+	@FXML
+	private TextField txtStreet;
+	@FXML
+	private Button btnSubmit;
+	@FXML
+	private CheckBox boxUrgentOrder;
+	@FXML
+	private ChoiceBox<String> cbPaymentMethod;
+	@FXML
+	private TextField txtCVV;
+	@FXML
+	private Text txtcvv;
+	@FXML
+	private Text txtCardNum;
+	@FXML
+	private Text txtDateVal;
+	@FXML
+	private CheckBox cbRemeberCreditCard;
+	@FXML
+	private Text txtRemeberCreditCard;
+	@FXML
+	private DatePicker datePickerDateSupply;
+	@FXML
+	private ChoiceBox<String> cbCreditCardMonthValidation;
+	@FXML
+	private ChoiceBox<String> cbCreditCardYearValidation;
+	@FXML
+	private Text txtTotalPrice;
+	@FXML
+	private Label lbltotalPriceAfterDiscount;
+	@FXML
+	private Label lblSubTotalPriceBeforeDiscount;
+	@FXML
+	private Label lblShippingRate;
+	@FXML
+	private Label lblDiscountRate;
+	@FXML
+	private Label lblCurrentPricePerLitter;
+	@FXML
+	private TextField txtCity;
+	@FXML
+	private ImageView imgAmountError;
+	@FXML
+	private ImageView imgStreetError;
+	@FXML
+	private ImageView imgCityError;
+	@FXML
+	private ImageView imgDateSupllyError;
+	@FXML
+	private ImageView imgPaymentMethodError;
+	@FXML
+	private ImageView imgCVVError;
+	@FXML
+	private ImageView imgCardNumberCVV;
+	@FXML
+	private ImageView imgDateValidationError;
+	@FXML
+	private ImageView imgfuelCompanyErrMsg;
+	@FXML
+	private TextField txtCardNumber;
+	@FXML
+	private Text txtOrderDetailsTitle;
+	@FXML
+	private ChoiceBox<String> cbfuelCompany;
+	@FXML
+	private Text txtOrderSummaryTitle;
+	@FXML
+	private Text textUrgentOrder;
+	@FXML
+	private Label lblUrgentOrder;
 	public Boolean isPressed = false;
 	public String amount;
 	public String street;
@@ -172,14 +174,14 @@ public class HomeHeatingFuelController {
 	public String customerName;
 	public String fuelCompany;
 	public JsonObject creditCard;
-	public Boolean rememberCardPressed=false;
+	public Boolean rememberCardPressed = false;
 	public double discountrate = 0;
 	public float pricePerLitter;
-	public double shippingCost=10;
-	// **************************************************Initialize  function**************************************************
+	public double shippingCost = 10;
 
 	/**
 	 * This function gets HomeHeatingFuelForm.fxml and load it to the main pain.
+	 * 
 	 * @param changePane - change the exist pain to HomeHeatingFuelForm.fxml
 	 */
 	@FXML
@@ -196,10 +198,10 @@ public class HomeHeatingFuelController {
 		}
 
 	}
-	
-    /**
-     * This function  initialize home heating fuel order form 
-     */
+
+	/**
+	 * This function initialize home heating fuel order form
+	 */
 	public void initUI() {
 		textUrgentOrder.setVisible(false);
 		lblUrgentOrder.setVisible(false);
@@ -208,7 +210,7 @@ public class HomeHeatingFuelController {
 		getFuelCompaniesByCustomerID();
 		limitTextFields();
 		panePurchaseSuccessful.setVisible(false);
-		showCreditCardFields(false); 
+		showCreditCardFields(false);
 		initOrderSummary();
 		updatePaymentFormOnPaymentMethodClick();
 		creditCard = getCreditCardByCustomerID();
@@ -216,8 +218,8 @@ public class HomeHeatingFuelController {
 	}
 
 	/**
-	 * This function activates the second screen of home heating fuel order and close the first screen.
-	 * The second screen includes the details of the order:
+	 * This function activates the second screen of home heating fuel order and
+	 * close the first screen. The second screen includes the details of the order:
 	 * Order id,shipping date,Adders for shipping,Date supply.
 	 */
 	public void showPurchaseDetails() {
@@ -234,9 +236,11 @@ public class HomeHeatingFuelController {
 	}
 
 	/**
-	 * This function displays the credit information fields if the user chosen
-	 *  this payment option. Otherwise, this fields will be hidden.
-	 * @param flag if the flag is true we will display the credit card fields, else the function hide this fields.
+	 * This function displays the credit information fields if the user chosen this
+	 * payment option. Otherwise, this fields will be hidden.
+	 * 
+	 * @param flag if the flag is true we will display the credit card fields, else
+	 *             the function hide this fields.
 	 */
 	private void showCreditCardFields(boolean flag) {
 		txtCardNumber.setVisible(flag);
@@ -255,9 +259,10 @@ public class HomeHeatingFuelController {
 	}
 
 	/**
-	 * This function initialize the payment method choice box and date validation choice box.
+	 * This function initialize the payment method choice box and date validation
+	 * choice box.
 	 */
-	public void initCreditCardFields() {	
+	public void initCreditCardFields() {
 		cbPaymentMethod.getItems().add("Choose type");
 		cbPaymentMethod.getItems().add("Cash");
 		cbPaymentMethod.getItems().add("Credit Card");
@@ -276,6 +281,7 @@ public class HomeHeatingFuelController {
 		}
 		cbCreditCardYearValidation.setValue(cbCreditCardYearValidation.getItems().get(0));
 	}
+
 	/**
 	 * This function initialize the Order Summary fields.
 	 */
@@ -283,55 +289,48 @@ public class HomeHeatingFuelController {
 		lblSubTotalPriceBeforeDiscount.setText("0.00 $");
 		lblShippingRate.setText("0.00 $");
 		lblDiscountRate.setText("0.00 %");
-		lblShippingRate.setText(shippingCost+" $");
+		lblShippingRate.setText(shippingCost + " $");
 		lbltotalPriceAfterDiscount.setText("0.00 $");
-		lblCurrentPricePerLitter.setText(String.valueOf(getFuelObjectByType("Home Heating Fuel"))+" $");
+		lblCurrentPricePerLitter.setText(String.valueOf(getFuelObjectByType("Home Heating Fuel")) + " $");
 	}
-	// **************************************************End Initialize  function********************************************
 
-	// **************************************************On Click  function**************************************************
 	/**
-	 * This function check if all the fields on the first screen is correct and show message to the user 
-	 * to approve his order.
-	 * If one of the fields isn't correct this function show to the user error message.
-	 * If all the fields is correct , the function send a request to the server controller for insert
-	 * the order into our data base.
-	 * @param event- while the user click on button 'submit' 
+	 * This function check if all the fields on the first screen is correct and show
+	 * message to the user to approve his order. If one of the fields isn't correct
+	 * this function show to the user error message. If all the fields is correct ,
+	 * the function send a request to the server controller for insert the order
+	 * into our data base.
+	 * 
+	 * @param event- while the user click on button 'submit'
 	 */
 	@FXML
 	void onSubmit(ActionEvent event) {
 		Boolean flag = homeHeatingFuelFormTest();
-		if(!flag) 
+		if (!flag)
 			ObjectContainer.showMessage("Error", "Error", "Please fill all the field currect!");
 		else {
 			ObjectContainer.showMessage("yes_no", "Place order", " Do you want to place your order?");
 			flag = ObjectContainer.yesNoMessageResult;
 		}
 		if (flag) {
-			JsonObject json=createJsonObjectForOrder();
+			JsonObject json = createJsonObjectForOrder();
 			System.out.println(json.toString());
-			System.out.println("credit card press:"+this.rememberCardPressed.toString());
-//			if(this.rememberCardPressed) 
-//				json.addProperty("savePaymentDetails",this.rememberCardPressed.toString());
-//			else
-//				json.addProperty("savePaymentDetails","false");
-			
-	
+			System.out.println("credit card press:" + this.rememberCardPressed.toString());
+
 			if (paymentMethod.equals("Credit Card")) {
-				json.addProperty("updateExistsCreditCard","true");
+				json.addProperty("updateExistsCreditCard", "true");
 				json.addProperty("customerID", this.customerId);
 				json.addProperty("creditCard", this.cardNumber);
-				json.addProperty("cvv",  this.cvv);
+				json.addProperty("cvv", this.cvv);
 				json.addProperty("dateValidation", this.creditCardDateValidation);
-				json.addProperty("updateExistsCreditCard","false");
+				json.addProperty("updateExistsCreditCard", "false");
 				json.addProperty("savePaymentDetails", "false");
-				if(creditCard.get("creditCardNumber")==null&&this.rememberCardPressed) {
+				if (creditCard.get("creditCardNumber") == null && this.rememberCardPressed) {
 					System.out.println("credit card null");
 					json.addProperty("savePaymentDetails", "true");
-					json.addProperty("updateExistsCreditCard","false");
-				}
-				else if(this.rememberCardPressed)  {
-					json.addProperty("updateExistsCreditCard","true");
+					json.addProperty("updateExistsCreditCard", "false");
+				} else if (this.rememberCardPressed) {
+					json.addProperty("updateExistsCreditCard", "true");
 					json.addProperty("savePaymentDetails", "false");
 				}
 			}
@@ -340,56 +339,60 @@ public class HomeHeatingFuelController {
 			System.out.println("here after query");
 			getOrderIdFromDB(json);
 			showPurchaseDetails();
-			}
 		}
-	
+	}
+
 	/**
-	 * This function put the current date in date supply datePicker field of home heating fuel order
-	 * and disable the option to the user for select a date.
-	 * Another click will give to the user to select date supply. 
-	 * after click the function update the current price for the user.
+	 * This function put the current date in date supply datePicker field of home
+	 * heating fuel order and disable the option to the user for select a date.
+	 * Another click will give to the user to select date supply. after click the
+	 * function update the current price for the user.
+	 * 
 	 * @param event while the user press on choice box of "Urgent order"
 	 */
 	@FXML
 	void checkBoxPressed(ActionEvent event) {
 		this.isPressed = !this.isPressed;
 		if (this.isPressed) {
-			datePickerDateSupply.setDisable(true);
+			datePickerDateSupply.setEditable(true);
 			datePickerDateSupply.setValue(LocalDate.now());
 			lblDiscountRate.setText(String.valueOf(this.discountrate));
 		} else {
-			datePickerDateSupply.setDisable(false);
+			datePickerDateSupply.setEditable(false);
 			datePickerDateSupply.setValue(null);
 			lblDiscountRate.setText(String.valueOf(this.discountrate));
 		}
-		if(txtAmount.getText().isEmpty())
+		if (txtAmount.getText().isEmpty())
 			return;
 		calcTotalPrice(Float.parseFloat(txtAmount.getText().trim()));
 	}
-	
+
 	/**
-	 * This function change the value of "rememberCardPressed" variable from false to true
-	 *  for saving the user credit  card details in data base.
+	 * This function change the value of "rememberCardPressed" variable from false
+	 * to true for saving the user credit card details in data base.
+	 * 
 	 * @param event while the user press on choice box for remember his credit card.
 	 */
-    @FXML
-    void rememberCardPressed(ActionEvent event) {
-    	this.rememberCardPressed =!this.rememberCardPressed;
-    }
+	@FXML
+	void rememberCardPressed(ActionEvent event) {
+		this.rememberCardPressed = !this.rememberCardPressed;
+	}
 
 	/**
 	 * This function update order summary labels.
+	 * 
 	 * @param event after insert digit to amount field.
 	 */
 	@FXML
 	void updateOrderSummary(KeyEvent event) {
-		if (checkAmountField(false)) 
+		if (checkAmountField(false))
 			calcTotalPrice(Float.parseFloat(txtAmount.getText().trim()));
 	}
-	
+
 	/**
-	 * This function displays the credit card fields  if the user choose to pay in credit card option.
-	 * If the user register with credit card, we set his credit card details to the credit card field. 
+	 * This function displays the credit card fields if the user choose to pay in
+	 * credit card option. If the user register with credit card, we set his credit
+	 * card details to the credit card field.
 	 */
 	public void updatePaymentFormOnPaymentMethodClick() {
 		cbPaymentMethod.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
@@ -400,26 +403,29 @@ public class HomeHeatingFuelController {
 				if (value.equals("Choose type") || value.equals("Cash"))
 					showCreditCardFields(false);
 				else if (value.equals("Credit Card")) {
-					if(creditCard.get("creditCardNumber")!=null) {
+					if (creditCard.get("creditCardNumber") != null) {
 						txtCardNumber.setText(creditCard.get("creditCardNumber").getAsString());
 						txtCVV.setText(creditCard.get("cvv").getAsString());
-						cbCreditCardMonthValidation.setValue(creditCard.get("validationDate").getAsString().split("/")[0]);
-						cbCreditCardYearValidation.setValue(creditCard.get("validationDate").getAsString().split("/")[1]);
-						}
+						cbCreditCardMonthValidation
+								.setValue(creditCard.get("validationDate").getAsString().split("/")[0]);
+						cbCreditCardYearValidation
+								.setValue(creditCard.get("validationDate").getAsString().split("/")[1]);
+					}
 					showCreditCardFields(true);
 				}
 			}
 		});
 
 	}
-	// **************************************************On Click  function**********************************************
 
-	// **************************************************Test  function**************************************************
 	/**
-	 * This function coordinates all the fields tests.In case the user choose to pay in credit card,
-	 * the function will check the fields that contain to credit card.
-	 * @return if one of the tests fails the function will return false,, else the function will return true.
-	 *   
+	 * This function coordinates all the fields tests.In case the user choose to pay
+	 * in credit card, the function will check the fields that contain to credit
+	 * card.
+	 * 
+	 * @return if one of the tests fails the function will return false,, else the
+	 *         function will return true.
+	 * 
 	 */
 	public Boolean homeHeatingFuelFormTest() {
 		Boolean flag = true;
@@ -428,7 +434,7 @@ public class HomeHeatingFuelController {
 		flag = checkCityField() && flag;
 		flag = checkDateSupplyField() && flag;
 		flag = checkPaymentMethodField() && flag;
-		flag=checkFuelCompanyField()&&flag;
+		flag = checkFuelCompanyField() && flag;
 		if (cbPaymentMethod.getValue().trim().equals("Credit Card")) {
 			flag = checkCardNumberField() && flag;
 			flag = checkCVVField() && flag;
@@ -437,12 +443,14 @@ public class HomeHeatingFuelController {
 		return flag;
 
 	}
+
 	/**
-	 * This function check the amount field.This function performs the following tests:
-	 * -Field is empty.
-	 * -Field contain string.
-	 * -The user insert negative amount.
-	 * @param showErrorMsg for showing error message to the user only after he click on submit button.
+	 * This function check the amount field.This function performs the following
+	 * tests: -Field is empty. -Field contain string. -The user insert negative
+	 * amount.
+	 * 
+	 * @param showErrorMsg for showing error message to the user only after he click
+	 *                     on submit button.
 	 * @return true if all the test passed, else the function return false.
 	 */
 	public Boolean checkAmountField(Boolean showErrorMsg) {
@@ -450,39 +458,42 @@ public class HomeHeatingFuelController {
 		if (txtAmount.getText().toString() == null || txtAmount.getText().isEmpty()) {
 			lblSubTotalPriceBeforeDiscount.setText("0.00 $");
 			lbltotalPriceAfterDiscount.setText("0.00 $");
-			if(showErrorMsg) {
+			if (showErrorMsg) {
 				setErrorImage(imgAmountError, "/images/error_icon.png");
-				}
-			return false;
 			}
-		if(!ObjectContainer.checkIfStringContainsOnlyNumbers(txtAmount.getText().toString())&&showErrorMsg){
+			return false;
+		}
+		if (!ObjectContainer.checkIfStringContainsOnlyNumbers(txtAmount.getText().toString()) && showErrorMsg) {
 			setErrorImage(imgAmountError, "/images/error_icon.png");
 			return false;
-			}
+		}
 		float fuelAmount = Float.parseFloat(this.amount);
-		if (fuelAmount <= 0&&showErrorMsg) {
+		if (fuelAmount <= 0 && showErrorMsg) {
 			setErrorImage(imgAmountError, "/images/error_icon.png");
 			return false;
-			}
-		if(showErrorMsg) 
+		}
+		if (showErrorMsg)
 			setErrorImage(imgAmountError, "/images/v_icon.png");
 		return true;
 	}
+
 	/**
 	 * This function check if street field is empty.
+	 * 
 	 * @return true if this test passed, else the function return false.
 	 */
 	public Boolean checkStreetField() {
 		if (txtStreet.getText().toString() == null || txtStreet.getText().toString().isEmpty()) {
 			setErrorImage(imgStreetError, "/images/error_icon.png");
 			return false;
-			}
+		}
 		setErrorImage(imgStreetError, "/images/v_icon.png");
 		return true;
 	}
 
 	/**
 	 * This function check if city field is empty.
+	 * 
 	 * @return true if this test passed, else the function return false.
 	 */
 	public Boolean checkCityField() {
@@ -495,12 +506,12 @@ public class HomeHeatingFuelController {
 		return true;
 
 	}
-	
+
 	/**
-	 * This function check the date supply datePicker field.
-	 * This function performs the following tests:
-	 * -The user didn't choose date.
-	 * -The selected date has already passed.
+	 * This function check the date supply datePicker field. This function performs
+	 * the following tests: -The user didn't choose date. -The selected date has
+	 * already passed.
+	 * 
 	 * @return true if all the test passed, else the function return false.
 	 */
 	public Boolean checkDateSupplyField() {
@@ -515,22 +526,26 @@ public class HomeHeatingFuelController {
 		setErrorImage(imgDateSupllyError, "/images/v_icon.png");
 		return true;
 	}
-	
+
 	/**
-	 * This function check if the user didn't select payment method in 'method payment' choice box .
+	 * This function check if the user didn't select payment method in 'method
+	 * payment' choice box .
+	 * 
 	 * @return true if this test passed, else the function return false.
 	 */
 	public Boolean checkPaymentMethodField() {
 		if (cbPaymentMethod.getValue().trim().equals(cbPaymentMethod.getItems().get(0))) {
-				setErrorImage(imgPaymentMethodError, "/images/error_icon.png");
+			setErrorImage(imgPaymentMethodError, "/images/error_icon.png");
 			return false;
 		}
-			setErrorImage(imgPaymentMethodError, "/images/v_icon.png");
+		setErrorImage(imgPaymentMethodError, "/images/v_icon.png");
 		return true;
 	}
-	
+
 	/**
-	 * This function check if the user didn't  select company in 'fuel company' choice box .
+	 * This function check if the user didn't select company in 'fuel company'
+	 * choice box .
+	 * 
 	 * @return true if this test passed, else the function return false.
 	 */
 	public Boolean checkFuelCompanyField() {
@@ -541,13 +556,12 @@ public class HomeHeatingFuelController {
 		setErrorImage(imgfuelCompanyErrMsg, "/images/v_icon.png");
 		return true;
 	}
-	
+
 	/**
-	 * This function check the card number  field.
-	 * This function performs the following tests:
-	 * -This field is empty.
-	 * -This field contain string.
-	 * -The user entered an invalid credit card length.
+	 * This function check the card number field. This function performs the
+	 * following tests: -This field is empty. -This field contain string. -The user
+	 * entered an invalid credit card length.
+	 * 
 	 * @return true if all the test passed, else the function return false.
 	 */
 	public Boolean checkCardNumberField() {
@@ -555,11 +569,11 @@ public class HomeHeatingFuelController {
 			setErrorImage(imgCardNumberCVV, "/images/error_icon.png");
 			return false;
 		}
-		if(!ObjectContainer.checkIfStringContainsOnlyNumbers(txtCardNumber.getText().toString())){
+		if (!ObjectContainer.checkIfStringContainsOnlyNumbers(txtCardNumber.getText().toString())) {
 			setErrorImage(imgAmountError, "/images/error_icon.png");
 		}
-		System.out.println("lenght is:"+txtCardNumber.getText().trim().length());
- 		if (txtCardNumber.getText().trim().length() > 16||txtCardNumber.getText().trim().length() < 8) {
+		System.out.println("lenght is:" + txtCardNumber.getText().trim().length());
+		if (txtCardNumber.getText().trim().length() > 16 || txtCardNumber.getText().trim().length() < 8) {
 			setErrorImage(imgCardNumberCVV, "/images/error_icon.png");
 			return false;
 		}
@@ -568,61 +582,59 @@ public class HomeHeatingFuelController {
 	}
 
 	/**
-	 * This function check the cvv  field.
-	 * This function performs the following tests:
-	 * -This field is empty.
-	 * -This field contain string.
-	 * -The user entered an invalid cvv length.
+	 * This function check the cvv field. This function performs the following
+	 * tests: -This field is empty. -This field contain string. -The user entered an
+	 * invalid cvv length.
+	 * 
 	 * @return true if all the test passed, else the function return false.
 	 */
 	public Boolean checkCVVField() {
-		System.out.println("in checkCVV");
-		if (txtCVV.getText().toString() == null || txtCVV.getText().toString().isEmpty()) {
+		String cvv = txtCVV.getText();
+		if (cvv.isEmpty()) {
 			setErrorImage(imgCVVError, "/images/error_icon.png");
 			return false;
 		}
-		if (txtCVV.getText().trim().length() < 3 || txtcvv.getText().trim().length() > 4) {
+		if (cvv.length() < 3 || cvv.length() > 4) {
 			setErrorImage(imgCVVError, "/images/error_icon.png");
 			return false;
 		}
-		if(!ObjectContainer.checkIfStringContainsOnlyNumbers(txtCVV.getText().toString())){
+		if (!ObjectContainer.checkIfStringContainsOnlyNumbers(cvv)) {
 			setErrorImage(imgAmountError, "/images/error_icon.png");
 			return false;
 		}
 		setErrorImage(imgCVVError, "/images/v_icon.png");
 		return true;
 	}
-	
+
 	/**
-	 * This function check the date validation datePicker field.
-	 * This function performs the following tests:
-	 * -The user didn't choose date validation.
-	 * -The selected date has already passed.
+	 * This function check the date validation datePicker field. This function
+	 * performs the following tests: -The user didn't choose date validation. -The
+	 * selected date has already passed.
+	 * 
 	 * @return true if all the test passed, else the function return false.
 	 */
 	public Boolean checkDateValidationField() {
 		if (cbCreditCardMonthValidation.getValue().trim().equals(cbCreditCardMonthValidation.getItems().get(0))) {
 			setErrorImage(imgDateValidationError, "/images/error_icon.png");
 			return false;
-			}
-		if(!ObjectContainer.checkIfStringContainsOnlyNumbers(cbCreditCardMonthValidation.getValue().toString())||
-				!ObjectContainer.checkIfStringContainsOnlyNumbers(cbCreditCardYearValidation.getValue().toString())){
+		}
+		if (!ObjectContainer.checkIfStringContainsOnlyNumbers(cbCreditCardMonthValidation.getValue().toString())
+				|| !ObjectContainer
+						.checkIfStringContainsOnlyNumbers(cbCreditCardYearValidation.getValue().toString())) {
 			setErrorImage(imgAmountError, "/images/error_icon.png");
-			}
+		}
 		if (cbCreditCardYearValidation.getValue().trim().equals(cbCreditCardYearValidation.getItems().get(0))) {
 			setErrorImage(imgDateValidationError, "/images/error_icon.png");
 			return false;
-			}
+		}
 		setErrorImage(imgDateValidationError, "/images/v_icon.png");
 		return true;
 	}
-	// **************************************************End test  function**********************************************
-	
-	// **************************************************Data Base function**********************************************
 
 	/**
-	 * This function get fuel object(fuelType, pricePerLitter, maxPricePerLitter) 
+	 * This function get fuel object(fuelType, pricePerLitter, maxPricePerLitter)
 	 * from data base and return the current price per litter.
+	 * 
 	 * @param fuelType will be home heating fuel
 	 * @return the current price per litter.
 	 */
@@ -637,10 +649,11 @@ public class HomeHeatingFuelController {
 		System.out.println("price is:" + pricePerLitter);
 		return pricePerLitter;
 	}
-	
+
 	/**
-	 * This function get the order id of the user from data base.
-	 * In home_heating_fuel_orders table we generate order id in data base.
+	 * This function get the order id of the user from data base. In
+	 * home_heating_fuel_orders table we generate order id in data base.
+	 * 
 	 * @param json is the current user order.
 	 */
 	public void getOrderIdFromDB(JsonObject json) {
@@ -653,28 +666,31 @@ public class HomeHeatingFuelController {
 	}
 
 	/**
-	 * This function get from DB the fuel companies that the user can purchase, 
-	 * and displays them on fuel company choice box.
+	 * This function get from DB the fuel companies that the user can purchase, and
+	 * displays them on fuel company choice box.
 	 */
-    private void getFuelCompaniesByCustomerID() {
-    	String customerID = ((Customer)ObjectContainer.currentUserLogin).getCustomerId();
-    	JsonObject json = new JsonObject();
-    	json.addProperty("customerID", customerID);
-    	Message msg = new Message(MessageType.GET_FUEL_COMPANIES_BY_CUSTOMER_ID,json.toString());
-    	ClientUI.accept(msg);
-    	String[] fuelCompanies = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject().get("fuelCompanies").getAsString().split(",");
-    	cbfuelCompany.getItems().clear();
-    	cbfuelCompany.getItems().add("Choose company:");
-    	for(int i = 0; i < fuelCompanies.length; i++) {
-    		cbfuelCompany.getItems().add(fuelCompanies[i]);
-    	}
-    	cbfuelCompany.setValue(cbfuelCompany.getItems().get(0));
-    }
-    
-    /**
-     * This function get user credit card and create jsonObect of his credit card details.
-     * @return the credit card details.
-     */
+	private void getFuelCompaniesByCustomerID() {
+		String customerID = ((Customer) ObjectContainer.currentUserLogin).getCustomerId();
+		JsonObject json = new JsonObject();
+		json.addProperty("customerID", customerID);
+		Message msg = new Message(MessageType.GET_FUEL_COMPANIES_BY_CUSTOMER_ID, json.toString());
+		ClientUI.accept(msg);
+		String[] fuelCompanies = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject().get("fuelCompanies")
+				.getAsString().split(",");
+		cbfuelCompany.getItems().clear();
+		cbfuelCompany.getItems().add("Choose company:");
+		for (int i = 0; i < fuelCompanies.length; i++) {
+			cbfuelCompany.getItems().add(fuelCompanies[i]);
+		}
+		cbfuelCompany.setValue(cbfuelCompany.getItems().get(0));
+	}
+
+	/**
+	 * This function get user credit card and create jsonObect of his credit card
+	 * details.
+	 * 
+	 * @return the credit card details.
+	 */
 	private JsonObject getCreditCardByCustomerID() {
 		JsonObject json = new JsonObject();
 		Customer customer = (Customer) ObjectContainer.currentUserLogin;
@@ -683,29 +699,27 @@ public class HomeHeatingFuelController {
 		ClientUI.accept(msg);
 		return ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
 	}
-    
-	// **************************************************End Data Base function*****************************************
 
-	// **************************************************Sale function**************************************************
-
-    /**
-     * This function get the current sale details.
-     * @return the percentage discount for current sale.
-     */
+	/**
+	 * This function get the current sale details.
+	 * 
+	 * @return the percentage discount for current sale.
+	 */
 	private float getCurrentSaleDiscount() {
 		Message msg = new Message(MessageType.GET_CURRENT_SALE_TEMPLATE, "");
 		ClientUI.accept(msg);
 		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
 		return getDiscount(response);
 	}
-	
+
 	/**
 	 * This function get the data of discount.
+	 * 
 	 * @param response
 	 * @return the current percentage discount
 	 */
 	private float getDiscount(JsonObject response) {
-		if(response.get("saleData") == null) {
+		if (response.get("saleData") == null) {
 			return 0;
 		}
 		JsonObject saleData = response.get("saleData").getAsJsonObject();
@@ -713,7 +727,7 @@ public class HomeHeatingFuelController {
 		float discountRate = 0;
 		for (int i = 0; i < saleTypes.size(); i++) {
 			if (saleTypes.get(i).getAsString().equals(SaleTemplatePane.BY_FUEL_TYPE)) {
-				String fuel ="Home Heating Fuel";
+				String fuel = "Home Heating Fuel";
 				if (fuel.equals(saleData.get("fuelType").getAsString())) {
 					discountRate = response.get("discountRate").getAsFloat();
 					saleTemplateName = response.get("saleTemplateName").getAsString();
@@ -738,10 +752,14 @@ public class HomeHeatingFuelController {
 		}
 		return discountRate;
 	}
+
 	/**
-	 * This function check if the current sale is valid at time of placing home heating fuel order.
+	 * This function check if the current sale is valid at time of placing home
+	 * heating fuel order.
+	 * 
 	 * @param saleData contain all the data of the current sale
-	 * @return true if the sale is activate while placing an order, else returns false.
+	 * @return true if the sale is activate while placing an order, else returns
+	 *         false.
 	 */
 	private boolean checkTimes(JsonObject saleData) {
 		String from = saleData.get("from").getAsString();
@@ -754,11 +772,13 @@ public class HomeHeatingFuelController {
 	}
 
 	/**
-	 * This function create JsonObject with all the components of an home heating fuel order
+	 * This function create JsonObject with all the components of an home heating
+	 * fuel order
+	 * 
 	 * @return JsonObect that include all the details an home heating fuel order.
 	 */
-    private JsonObject createJsonObjectForOrder() {
-    	this.saleTemplateName = "";
+	private JsonObject createJsonObjectForOrder() {
+		this.saleTemplateName = "";
 		this.amount = txtAmount.getText().toString().trim();
 		this.street = txtStreet.getText().toString().trim();
 		this.paymentMethod = cbPaymentMethod.getValue().toString().trim();
@@ -768,8 +788,8 @@ public class HomeHeatingFuelController {
 		Customer customer = (Customer) ObjectContainer.currentUserLogin;
 		this.customerId = customer.getCustomerId();
 		this.city = txtCity.getText().trim();
-		this.customerName=customer.getName();
-		this.fuelCompany= cbfuelCompany.getValue().toString().trim();
+		this.customerName = customer.getName();
+		this.fuelCompany = cbfuelCompany.getValue().toString().trim();
 		JsonObject json = new JsonObject();
 		json.addProperty("orderID", this.orderId);
 		json.addProperty("customerId", this.customerId);
@@ -784,8 +804,8 @@ public class HomeHeatingFuelController {
 		json.addProperty("saleTemplateName", this.saleTemplateName);
 		json.addProperty("city", this.city);
 		json.addProperty("fuelCompany", this.fuelCompany);
-		json.addProperty("updateExistsCreditCard","false");
-		json.addProperty("savePaymentDetails","false");
+		json.addProperty("updateExistsCreditCard", "false");
+		json.addProperty("savePaymentDetails", "false");
 		if (paymentMethod.equals("Credit Card")) {
 			String month = cbCreditCardMonthValidation.getValue();
 			String year = cbCreditCardYearValidation.getValue();
@@ -798,10 +818,11 @@ public class HomeHeatingFuelController {
 			json.addProperty("customerID", this.customerId);
 		}
 		return json;
-   }
-	
+	}
+
 	/**
 	 * This function set image in the pane.
+	 * 
 	 * @param img is the name of the image.
 	 * @param url is the location of the image in the project.
 	 * 
@@ -810,48 +831,49 @@ public class HomeHeatingFuelController {
 		Image image = new Image(getClass().getResource(url).toString());
 		img.setImage(image);
 	}
-	
+
 	/**
 	 * This function calculate the price of the order - before and after discount.
-	 * After calculating, the function updates the Order Summary labels. 
+	 * After calculating, the function updates the Order Summary labels.
+	 * 
 	 * @param amountOfLitters is the amount of fuel that the user wants to buy.
 	 * @return the total price of the order.
 	 */
 	public String calcTotalPrice(float amountOfLitters) {
 		Boolean discountFlag = false;// If we have any discount change to true;
-		double totalPriceAfterDiscount =0, subTotalPriceBeforeDiscount = 0, commissionForUrgentorder = 0,totalCommision=0;
-		 this.discountrate=(double)getCurrentSaleDiscount();
+		double totalPriceAfterDiscount = 0, subTotalPriceBeforeDiscount = 0, commissionForUrgentorder = 0,
+				totalCommision = 0;
+		this.discountrate = (double) getCurrentSaleDiscount();
 		if (checkAmountField(false)) {
 			if (this.isPressed) {
 				commissionForUrgentorder = 2;
 				discountFlag = true;
-				totalCommision=(double)amountOfLitters*commissionForUrgentorder * 0.01;
+				totalCommision = (double) amountOfLitters * commissionForUrgentorder * 0.01;
 				textUrgentOrder.setVisible(true);
 				lblUrgentOrder.setVisible(true);
-	 			lblUrgentOrder.setText(String.format("%.2f",totalCommision)+" $");
-			}
-			else {
+				lblUrgentOrder.setText(String.format("%.2f", totalCommision) + " $");
+			} else {
 				textUrgentOrder.setVisible(false);
 				lblUrgentOrder.setVisible(false);
 			}
-				
+
 			if (amountOfLitters >= 600 && amountOfLitters <= 800) {
-				this.discountrate+= 3;
+				this.discountrate += 3;
 				discountFlag = true;
-			} 
-			else if (amountOfLitters >= 800) {
-				this.discountrate+= 4;
+			} else if (amountOfLitters >= 800) {
+				this.discountrate += 4;
 				discountFlag = true;
 			}
 			lblDiscountRate.setText(String.valueOf(this.discountrate) + " %");
- 			lblShippingRate.setText(shippingCost+" $");
+			lblShippingRate.setText(shippingCost + " $");
 			subTotalPriceBeforeDiscount = (double) amountOfLitters * (double) pricePerLitter;
-			totalPriceAfterDiscount = shippingCost+(subTotalPriceBeforeDiscount) * (100 - this.discountrate+commissionForUrgentorder) * 0.01;
-			lblSubTotalPriceBeforeDiscount.setText(String.format("%.2f",subTotalPriceBeforeDiscount)+" $");
-			lbltotalPriceAfterDiscount.setText(String.format("%.2f",totalPriceAfterDiscount) +" $");
+			totalPriceAfterDiscount = shippingCost
+					+ (subTotalPriceBeforeDiscount) * (100 - this.discountrate + commissionForUrgentorder) * 0.01;
+			lblSubTotalPriceBeforeDiscount.setText(String.format("%.2f", subTotalPriceBeforeDiscount) + " $");
+			lbltotalPriceAfterDiscount.setText(String.format("%.2f", totalPriceAfterDiscount) + " $");
 			if (discountFlag)
-				return String.format("%.2f",subTotalPriceBeforeDiscount);
-			return String.format("%.2f",totalPriceAfterDiscount);
+				return String.format("%.2f", subTotalPriceBeforeDiscount);
+			return String.format("%.2f", totalPriceAfterDiscount);
 		}
 		return null;
 	}
@@ -864,6 +886,6 @@ public class HomeHeatingFuelController {
 		ObjectContainer.setTextFieldLimit(txtStreet, 20);
 		ObjectContainer.setTextFieldLimit(txtCity, 20);
 		ObjectContainer.setTextFieldToGetOnlyDigitsWithLimit(txtCardNumber, 16);
-		ObjectContainer.setTextFieldToGetOnlyDigitsWithLimit(txtCVV,4);		
+		ObjectContainer.setTextFieldToGetOnlyDigitsWithLimit(txtCVV, 4);
 	}
 }

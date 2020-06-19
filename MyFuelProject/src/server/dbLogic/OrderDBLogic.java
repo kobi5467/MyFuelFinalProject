@@ -78,7 +78,7 @@ public class OrderDBLogic {
 		String totalPrice = order.get("totalPrice").getAsString();
 		String orderDate = order.get("orderDate").getAsString();
 		String paymentMethod = order.get("paymentMethod").getAsString();
-		String orderStatus = "WaitToApprove";
+		String orderStatus = "OnGoing";
 		String customerType = CustomerDBLogic.getCustomerTypeByCustomerID(customerId);
 		try {
 			if (DBConnector.conn != null) {
@@ -335,6 +335,7 @@ public class OrderDBLogic {
 					HHFOrder.addProperty("city", rs.getString("city"));
 					HHFOrder.addProperty("street", rs.getString("street"));
 					HHFOrder.addProperty("urgentOrder", rs.getString("urgentOrder"));
+					HHFOrder.addProperty("fuelCompany", rs.getString("fuelCompany"));
 					HHFOrders.add(HHFOrder);
 				}
 			} else {
@@ -739,5 +740,51 @@ public class OrderDBLogic {
 			System.out.println(sortedJsonArray.get(i).toString());
 		}
 		return sortedJsonArray;
+	}
+
+	public void updateHomeHeatingFuelToSupplyByOrderID(String orderID){
+		String query = "";
+		Statement stmt = null;
+		
+		try {
+			if (DBConnector.conn != null) {
+				stmt = DBConnector.conn.createStatement();
+				query = "UPDATE home_heating_fuel_orders " +
+						"SET orderStatus = 'Supplied'" +
+						" WHERE orderID = '" + orderID + "' AND orderStatus != 'Supplied';";
+				stmt.executeUpdate(query);
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public JsonArray getAllHomeHeatingFuelSupplyDates() {
+		JsonArray homeHeatingFuelOrders = new JsonArray();
+		String query = "";
+		Statement stmt = null;
+		try {
+			if (DBConnector.conn != null) {
+
+				query = "SELECT * FROM home_heating_fuel_orders;";
+				stmt = DBConnector.conn.createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				while (rs.next()) {
+					JsonObject order = new JsonObject();
+					order.addProperty("dateSupply", rs.getString("dateSupply"));
+					order.addProperty("orderID", rs.getString("orderID"));
+					homeHeatingFuelOrders.add(order);
+				}
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return homeHeatingFuelOrders;
 	}
 }

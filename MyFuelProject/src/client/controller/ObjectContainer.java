@@ -43,7 +43,7 @@ public class ObjectContainer {
 	public static Stage loginStage;
 	public static Stage mainStage;
 	public static Stage messageStage;
-	
+	public static Stage fastFuelStage;
 	
 	// **************************************** 	   controllers 		****************************************
 	

@@ -17,16 +17,23 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 /**
  * 
- 
- * This class is the gui class of Order Tracking form.
- * this class will contain and present the Home Heating Fuel orders of the customer.
- * it will allow him to track his/her Home heating fuel orders. 
+ * 
+ * This class is the gui class of Order Tracking form. this class will contain
+ * and present the Home Heating Fuel orders of the customer. it will allow him
+ * to track his/her Home heating fuel orders.
+ * 
  * @author Barak
  * @version final
  */
@@ -57,22 +64,34 @@ public class OrderTrackingController {
 	@FXML
 	private Label lblOrderID;
 
+	@FXML
+	private Label lblOrderNumber;
+
+	@FXML
+	private Label lblStatus;
+
+	@FXML
+	private Label lblSupplyDate;
+
+	@FXML
+	private Label lblFuelType;
+
 	private ArrayList<AnchorPane> orderPanes;
 	/**
 	 * Array list of order panes that will open and updated in dynamic way
 	 */
-	public static ArrayList<OrderPane> orderPaneControllers; 
+	public static ArrayList<OrderPane> orderPaneControllers;
 	private JsonArray orders;
 	private boolean showOnlyOpenOrdersFlag = false;
 	/**
 	 * Numbers of orders that open right now
 	 */
-	public static int currentOrderOpen = 0;	
-	
-	
+	public static int currentOrderOpen = 0;
+
 	/**
-	 * This method will be activated after the user will click on "Search" button 
-	 * to search specific order by its ID
+	 * This method will be activated after the user will click on "Search" button to
+	 * search specific order by its ID
+	 * 
 	 * @param event
 	 */
 	@FXML
@@ -99,23 +118,24 @@ public class OrderTrackingController {
 			lblerrorMessage.setText(errorMessage);
 			showAllOrders();
 
-		}
-		else {
+		} else {
 			lblerrorMessage.setText("");
 			txtTypeOrderID.setText("");
-			btnOnlyOpenOrder.setText("Show only open orders");
+			setButtonImage("/images/unchecked.png", btnOnlyOpenOrder);
 			showOnlyOpenOrdersFlag = false;
 			// showOnlyOpenOrdersFlag=true;
 			showOrderByID(OrderID);
 		}
 	}
-	
+
 	/**
-	 * This method will send to the server request to get the current Home Heating Fuel Orders of this user.
-	 * it will insert the result to an array of the orders for any use.
+	 * This method will send to the server request to get the current Home Heating
+	 * Fuel Orders of this user. it will insert the result to an array of the orders
+	 * for any use.
+	 * 
 	 * @return Json Array of the Home Heating Fuel Orders
 	 */
-	
+
 	public JsonArray getHHFOrders() {
 		JsonObject json = new JsonObject();
 		json.addProperty("userName", ObjectContainer.currentUserLogin.getUsername());
@@ -126,27 +146,27 @@ public class OrderTrackingController {
 		JsonArray HHFOrders = responseJson.get("HHFOrders").getAsJsonArray();
 		return HHFOrders;
 	}
-	
+
 	/**
-	 * This function will insert to the VBOX container only panes of orders 
-	 * that their status is "WAITING" which means its still an open order.
+	 * This function will insert to the VBOX container only panes of orders that
+	 * their status is "WAITING" which means its still an open order.
 	 */
 	public void showOnlyOpenOrders() {
 		vbOrdersContainer.getChildren().clear();
 		for (int i = 0; i < orderPanes.size(); i++) {
 			String orderStatus = orders.get(i).getAsJsonObject().get("orderStatus").getAsString();
-			if (orderStatus.equals("WAITING"))
+			if (orderStatus.equals("OnGoing"))
 				vbOrdersContainer.getChildren().add(orderPanes.get(i));
 		}
 	}
-	
-	
+
 	/**
-	 * This function will insert to the VBOX container orders that equals to the given orderID param.
-	 * it will be used in the "OnSearch" method up above.
+	 * This function will insert to the VBOX container orders that equals to the
+	 * given orderID param. it will be used in the "OnSearch" method up above.
+	 * 
 	 * @param orderID
 	 */
-	
+
 	public void showOrderByID(String orderID) {
 		vbOrdersContainer.getChildren().clear();
 		for (int i = 0; i < orderPanes.size(); i++) {
@@ -155,9 +175,10 @@ public class OrderTrackingController {
 				vbOrdersContainer.getChildren().add(orderPanes.get(i));
 		}
 	}
-	
+
 	/**
-	 * This function will insert to the VBOX container all of the order Panes without any condition.
+	 * This function will insert to the VBOX container all of the order Panes
+	 * without any condition.
 	 */
 
 	public void showAllOrders() {
@@ -166,55 +187,37 @@ public class OrderTrackingController {
 			vbOrdersContainer.getChildren().add(orderPanes.get(i));
 		}
 	}
-	
+
 	/**
-	 * This function will be activated only when the user click on show only open order button
-	 * and after it clicks once it will transform into "Show all orders" button
-	 * it will use both functions from up above "ShowOnlyOpenOrders" and "ShowAllOrders"
+	 * This function will be activated only when the user click on show only open
+	 * order button and after it clicks once it will transform into "Show all
+	 * orders" button it will use both functions from up above "ShowOnlyOpenOrders"
+	 * and "ShowAllOrders"
+	 * 
 	 * @param event
 	 */
 
 	@FXML
 	void OnShowOnlyOpenOrders(ActionEvent event) {
+		lblerrorMessage.setText("");
+		txtTypeOrderID.setText("");
 		if (!showOnlyOpenOrdersFlag) {
 			showOnlyOpenOrders();
-			btnOnlyOpenOrder.setText("Show all orders");
-			txtTypeOrderID.setText("");
-			showOnlyOpenOrdersFlag = true;
-			
-
+			setButtonImage("/images/checked.png", btnOnlyOpenOrder);
 		} else {
 			showAllOrders();
-			txtTypeOrderID.setText("");
-			btnOnlyOpenOrder.setText("Show only open orders");
-			showOnlyOpenOrdersFlag = false;
+			setButtonImage("/images/unchecked.png", btnOnlyOpenOrder);
 		}
+		showOnlyOpenOrdersFlag = !showOnlyOpenOrdersFlag;
 	}
-	
-	/**
-	 * This function gets an OrderPane and shows its extended view,
-	 * the rest of the panes, if one of them was open, it hided their extended view.
-	 * if one pane gets open extended, the rest get their extend close.  
-	 * @param OrderPane p
-	 */
 
-	public void openOrderByIndex(OrderPane p) {
-		for (int i = 0; i < orderPaneControllers.size(); i++) {
-			if(p != null && orderPaneControllers.get(i).equals(p)) {
-				orderPaneControllers.get(i).showView();
-			}else {
-				orderPaneControllers.get(i).hideView();
-			}
-		}
-	}
-	
 	/**
 	 * This function will check in the order panes which OrderPane has the given ID
 	 * returns boolean flag if its exist or not.
+	 * 
 	 * @param orderID
 	 * @return boolean flag
 	 */
-	
 	public boolean CheckIfOrderExists(String orderID) {
 		vbOrdersContainer.getChildren().clear();
 		boolean flag = false;
@@ -225,9 +228,19 @@ public class OrderTrackingController {
 		}
 		return flag;
 	}
+
+	public void setButtonImage(String url, Button btn) {
+		BackgroundImage backgroundImage = new BackgroundImage(
+				new Image(getClass().getResource(url).toExternalForm()),
+				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+				BackgroundSize.DEFAULT);
+		Background background = new Background(backgroundImage);
+		btn.setBackground(background);
+	}
 	
 	/**
 	 * this function load this pane
+	 * 
 	 * @param paneChange
 	 */
 
@@ -246,13 +259,14 @@ public class OrderTrackingController {
 		}
 	}
 
-	
 	/**
 	 * this function Initialize the pane by how we want it to be presented
 	 */
 	private void initUI() {
 		lblerrorMessage.setText("");
 		btnSearch.setId("dark-blue");
+		setButtonImage("/images/unchecked.png", btnOnlyOpenOrder);
+		vbOrdersContainer.setSpacing(5);
 		orders = getHHFOrders();
 		orderPanes = new ArrayList<>();
 		orderPaneControllers = new ArrayList<>();

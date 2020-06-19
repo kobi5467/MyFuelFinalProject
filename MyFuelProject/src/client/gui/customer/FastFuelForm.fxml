@@ -4,109 +4,115 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="fastFuelPane" prefHeight="570.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.customer.FastFuelController">
+<Pane fx:id="fastFuelPane" prefHeight="570.0" prefWidth="949.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.customer.FastFuelController">
    <children>
-      <Label layoutX="25.0" layoutY="14.0" text="Fuel Company :" textFill="WHITE">
+      <ImageView fitHeight="571.0" fitWidth="950.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../images/fast_fuel_BG.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="25.0" layoutY="148.0" text="Fuel Company :" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="511.0" layoutY="14.0" text="Station Number :" textFill="WHITE">
+      <Label layoutX="522.0" layoutY="147.0" text="Station Number :" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="25.0" layoutY="58.0" text="Vehicle Number :" textFill="WHITE">
+      <Label layoutX="25.0" layoutY="198.0" text="Vehicle Number :" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="25.0" layoutY="98.0" text="Fuel Amount (Litters):" textFill="WHITE">
+      <Label layoutX="25.0" layoutY="246.0" text="Fuel Amount (Litters):" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <ChoiceBox fx:id="cbFuelCompany" layoutX="226.0" layoutY="15.0" prefHeight="25.0" prefWidth="200.0" />
-      <ChoiceBox fx:id="cbVehicleNumber" layoutX="226.0" layoutY="59.0" prefHeight="25.0" prefWidth="200.0" />
-      <ChoiceBox fx:id="cbStationNumber" layoutX="712.0" layoutY="15.0" prefHeight="25.0" prefWidth="170.0" />
-      <Button fx:id="btnSubmitOrder" layoutX="764.0" layoutY="498.0" mnemonicParsing="false" onAction="#onSubmit" prefHeight="43.0" prefWidth="130.0" text="Submit order" />
-      <Label layoutX="421.0" layoutY="326.0" text="Order Details " textFill="WHITE" underline="true">
+      <ChoiceBox fx:id="cbFuelCompany" layoutX="226.0" layoutY="146.0" prefHeight="25.0" prefWidth="200.0" />
+      <ChoiceBox fx:id="cbVehicleNumber" layoutX="226.0" layoutY="196.0" prefHeight="25.0" prefWidth="200.0" />
+      <ChoiceBox fx:id="cbStationNumber" layoutX="693.0" layoutY="145.0" prefHeight="34.0" prefWidth="200.0" />
+      <Button fx:id="btnSubmitOrder" layoutX="410.0" layoutY="497.0" mnemonicParsing="false" onAction="#onSubmit" prefHeight="43.0" prefWidth="130.0" text="Submit order" />
+      <Label layoutX="647.0" layoutY="282.0" text="Order Details " textFill="WHITE" underline="true">
          <font>
             <Font name="System Bold" size="29.0" />
          </font>
       </Label>
-      <TextField fx:id="txtFuelAmount" layoutX="226.0" layoutY="99.0" prefHeight="25.0" prefWidth="200.0" />
-      <Label layoutX="374.0" layoutY="381.0" text="Fuel Type :" textFill="WHITE">
+      <TextField fx:id="txtFuelAmount" layoutX="226.0" layoutY="246.0" prefHeight="30.0" prefWidth="200.0" />
+      <Label layoutX="600.0" layoutY="337.0" text="Fuel Type :" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="374.0" layoutY="411.0" text="Price per litter :" textFill="WHITE">
+      <Label layoutX="600.0" layoutY="367.0" text="Price per litter :" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="374.0" layoutY="441.0" text="Total price :" textFill="WHITE">
+      <Label layoutX="600.0" layoutY="397.0" text="Total price :" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="lblFuelType" layoutX="555.0" layoutY="381.0" text="Details here" textFill="WHITE">
+      <Label fx:id="lblFuelType" layoutX="781.0" layoutY="337.0" text="Details here" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="lblPricePerLitter" layoutX="555.0" layoutY="411.0" text="Details here" textFill="WHITE">
+      <Label fx:id="lblPricePerLitter" layoutX="781.0" layoutY="367.0" text="Details here" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="lblTotalPrice" layoutX="555.0" layoutY="441.0" text="Details here" textFill="WHITE">
+      <Label fx:id="lblTotalPrice" layoutX="781.0" layoutY="397.0" text="Details here" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="374.0" layoutY="471.0" text="After Discount :" textFill="WHITE">
+      <Label layoutX="600.0" layoutY="427.0" text="After Discount :" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="lblPriceAfterDiscount" layoutX="555.0" layoutY="471.0" text="Details here" textFill="WHITE">
+      <Label fx:id="lblPriceAfterDiscount" layoutX="781.0" layoutY="427.0" text="Details here" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="25.0" layoutY="137.0" text="Payment Method :" textFill="WHITE">
+      <Label layoutX="25.0" layoutY="299.0" text="Payment Method :" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <ChoiceBox fx:id="cbPaymentMethod" layoutX="226.0" layoutY="138.0" prefWidth="200.0" />
-      <Pane fx:id="creditCardViewPane" layoutX="26.0" layoutY="180.0">
+      <ChoiceBox fx:id="cbPaymentMethod" layoutX="226.0" layoutY="294.0" prefWidth="200.0" />
+      <Pane fx:id="creditCardViewPane" layoutX="26.0" layoutY="342.0">
          <children>
-            <Label text="Credit Card Number :" textFill="WHITE">
+            <Label layoutY="2.0" text="Credit Card Number :" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="297.0" layoutY="93.0" text="/" textFill="WHITE">
+            <Label layoutX="297.0" layoutY="96.0" text="/" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
             <ChoiceBox fx:id="cbYear" layoutX="310.0" layoutY="94.0" prefHeight="25.0" prefWidth="91.0" />
-            <TextField fx:id="txtCreditCardNumber" layoutX="201.0" layoutY="1.0" prefHeight="25.0" prefWidth="200.0" />
+            <TextField fx:id="txtCreditCardNumber" layoutX="201.0" layoutY="1.0" prefHeight="30.0" prefWidth="200.0" />
             <Label layoutY="46.0" text="CVV :" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="txtCvv" layoutX="201.0" layoutY="47.0" prefHeight="25.0" prefWidth="200.0" />
-            <Label layoutX="2.0" layoutY="93.0" text="Date Validation :" textFill="WHITE">
+            <TextField fx:id="txtCvv" layoutX="201.0" layoutY="47.0" prefHeight="30.0" prefWidth="200.0" />
+            <Label layoutX="2.0" layoutY="95.0" text="Date Validation :" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
@@ -114,20 +120,33 @@
             <ChoiceBox fx:id="cbMonth" layoutX="201.0" layoutY="94.0" prefHeight="25.0" prefWidth="91.0" />
          </children>
       </Pane>
-      <ImageView fx:id="imgCompany" fitHeight="30.0" fitWidth="30.0" layoutX="446.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="imgVehicle" fitHeight="30.0" fitWidth="30.0" layoutX="446.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="imgPaymentMethod" fitHeight="30.0" fitWidth="30.0" layoutX="446.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="imgCreditCardNumber" fitHeight="30.0" fitWidth="30.0" layoutX="446.0" layoutY="180.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="imgCVV" fitHeight="30.0" fitWidth="30.0" layoutX="446.0" layoutY="225.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="imgDateValidation" fitHeight="30.0" fitWidth="30.0" layoutX="446.0" layoutY="270.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="imgAmount" fitHeight="30.0" fitWidth="30.0" layoutX="446.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="imgStationNumber" fitHeight="30.0" fitWidth="30.0" layoutX="898.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" />
-      <Label layoutX="511.0" layoutY="58.0" text="Pump Number :" textFill="WHITE">
+      <ImageView fx:id="imgCompany" fitHeight="30.0" fitWidth="30.0" layoutX="446.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgVehicle" fitHeight="30.0" fitWidth="30.0" layoutX="446.0" layoutY="198.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgPaymentMethod" fitHeight="30.0" fitWidth="30.0" layoutX="446.0" layoutY="295.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgCreditCardNumber" fitHeight="30.0" fitWidth="30.0" layoutX="446.0" layoutY="345.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgCVV" fitHeight="30.0" fitWidth="30.0" layoutX="446.0" layoutY="391.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgDateValidation" fitHeight="30.0" fitWidth="30.0" layoutX="446.0" layoutY="437.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgAmount" fitHeight="30.0" fitWidth="30.0" layoutX="446.0" layoutY="248.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgStationNumber" fitHeight="30.0" fitWidth="30.0" layoutX="907.0" layoutY="145.0" pickOnBounds="true" preserveRatio="true" />
+      <Label layoutX="522.0" layoutY="199.0" text="Pump Number :" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <ChoiceBox fx:id="cbPumpNumber" layoutX="712.0" layoutY="59.0" prefHeight="25.0" prefWidth="170.0" />
-      <ImageView fx:id="imgPumpNumber" fitHeight="30.0" fitWidth="30.0" layoutX="898.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true" />
+      <ChoiceBox fx:id="cbPumpNumber" layoutX="693.0" layoutY="196.0" prefHeight="34.0" prefWidth="200.0" />
+      <ImageView fx:id="imgPumpNumber" fitHeight="30.0" fitWidth="30.0" layoutX="907.0" layoutY="196.0" pickOnBounds="true" preserveRatio="true" />
+      <Label alignment="CENTER" prefHeight="0.0" prefWidth="949.0" text="Fast Fuel" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="58.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnClose" layoutX="905.0" layoutY="14.0" mnemonicParsing="false" onAction="#onClose" prefHeight="30.0" prefWidth="30.0" />
+      <Label layoutX="315.0" layoutY="99.0" text="Customer ID :" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cbCustomerIDs" layoutX="438.0" layoutY="95.0" prefHeight="25.0" prefWidth="200.0" />
+      <ImageView fx:id="imgCustomerID" fitHeight="30.0" fitWidth="30.0" layoutX="654.0" layoutY="96.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </Pane>
