@@ -183,13 +183,13 @@ public class ReportViewController {
 				ArrayList<String> orderAsString = new ArrayList<>();
 				order = jsonRows.get(j).getAsJsonObject();
 				if (order.get("orderID").isJsonNull()
-						|| order.get("customerId").isJsonNull()
+						|| order.get("customerID").isJsonNull()
 						|| order.get("amountOfLitters").isJsonNull()
 						|| order.get("totalPrice").isJsonNull()) {
 					break;
 				}
 				orderAsString.add(order.get("orderID").getAsString());
-				orderAsString.add(order.get("customerId").getAsString());
+				orderAsString.add(order.get("customerID").getAsString());
 				orderAsString.add(order.get("amountOfLitters").getAsString());
 				orderAsString.add(order.get("totalPrice").getAsString());
 

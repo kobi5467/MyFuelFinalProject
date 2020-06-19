@@ -51,9 +51,6 @@ public class SaleTemplatePane {
 	private Label lblSaleName;
 
 	@FXML
-	private Label lblSaleType;
-
-	@FXML
 	private Pane editPane;
 
 	@FXML
@@ -438,7 +435,6 @@ public class SaleTemplatePane {
 				types += "HOURS, ";
 			}
 		}
-		lblSaleType.setText(types.substring(0,types.length() - 2));
 		txtDescription.setText(saleTemplate.get("description").getAsString());
 	}
 	/**

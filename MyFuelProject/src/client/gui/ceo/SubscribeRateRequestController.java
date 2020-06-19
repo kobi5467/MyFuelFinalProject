@@ -12,11 +12,10 @@ import entitys.Message;
 import entitys.enums.MessageType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 /**
  * This class is responsible to approve/deny subscribe rate request from the station manager.
@@ -27,7 +26,7 @@ public class SubscribeRateRequestController {
 	
 	public static ArrayList<AnchorPane> rateRequestsAnchorPanes;
 	
-	public static ArrayList<SubscribePane> rateRequestsPanes;
+	public static ArrayList<SubscribePane> subscribeRequestPanes;
 
     @FXML
     private Pane requestPane;
@@ -36,6 +35,9 @@ public class SubscribeRateRequestController {
     private VBox vbSubscribeRate;
     
 	public static JsonArray requests;
+	
+	@FXML
+    private Label lblNoRequests;
 	
     /**
      * This function send a message to the server with the request to get the rates request from the
@@ -75,13 +77,14 @@ public class SubscribeRateRequestController {
 	 * it shows all the requests.
 	 */
 	public void initUI() {
+		
 		requests = getRatesRequests();
 		rateRequestsAnchorPanes = new ArrayList<>();
-		rateRequestsPanes= new ArrayList<>();
+		subscribeRequestPanes= new ArrayList<>();
 		vbSubscribeRate.setSpacing(5);
 		for (int i = 0; i < requests.size(); i++) {
 			SubscribePane subPane = new SubscribePane();
-			rateRequestsPanes.add(subPane);
+			subscribeRequestPanes.add(subPane);
 			String color = i % 2 == 0 ? "#0277ad" : "#014b88";
 			AnchorPane pane = subPane.load(requests.get(i).getAsJsonObject(), color);
 			rateRequestsAnchorPanes.add(pane);
@@ -98,15 +101,16 @@ public class SubscribeRateRequestController {
 	public void showAllRequests() {
 		vbSubscribeRate.getChildren().clear();
 		for (int i = 0; i < requests.size(); i++) {
-			if(!rateRequestsPanes.get(i).tookDecision) {
+			if(!subscribeRequestPanes.get(i).tookDecision) {
 				vbSubscribeRate.getChildren().add(rateRequestsAnchorPanes.get(i));
 			}	
 			else {
-				rateRequestsPanes.remove(i);
+				subscribeRequestPanes.remove(i);
 				rateRequestsAnchorPanes.remove(i);
 				requests.remove(i);
 			}
 		}
+		lblNoRequests.setVisible(requests.size() == 0);
 	}
 
 }

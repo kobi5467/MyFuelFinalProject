@@ -499,14 +499,14 @@ public class FastFuelController {
 		float discountFromSale = getCurrentSaleDiscount();
 		float totalDiscount = discountFromSale;
 		float price = totalPrice;
-		if (subscribeType.equals("REFULING_MIZDAMEN")) {
+		if (subscribeType.equals("Refueling Mizdamen")) {
 			// DO NOTHING
-		} else if (subscribeType.equals("SINGLE_VEHICLE_MONTHLY")) {
+		} else if (subscribeType.equals("Single Vehicle Monthly")) {
 			totalDiscount += getDiscountBySubscribeType(subscribeType);
-		} else if (subscribeType.equals("MULTIPLE_VEHICLE_MONTHLY")) {
-			totalDiscount += getDiscountBySubscribeType("SINGLE_VEHICLE_MONTHLY")
-					+ getDiscountBySubscribeType("MULTIPLE_VEHICLE_MONTHLY");
-		} else if (subscribeType.equals("SIGNLE_VEHICLE_FULL_MONTHLY")) {
+		} else if (subscribeType.equals("Multiple Vehicle Monthly")) {
+			totalDiscount += getDiscountBySubscribeType("Single Vehicle Monthly")
+					+ getDiscountBySubscribeType("Multiple Vehicle Monthly");
+		} else if (subscribeType.equals("Single Vehicle Full Monthly")) {
 			float prevPrice = getPreviousMonthFuelAmount();
 			if(prevPrice > 0) {
 				return prevPrice * ((100 - getDiscountBySubscribeType(subscribeType)) / 100);

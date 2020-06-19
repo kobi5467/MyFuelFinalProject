@@ -581,7 +581,7 @@ public class HomeHeatingFuelController {
 			setErrorImage(imgCVVError, "/images/error_icon.png");
 			return false;
 		}
-		if (txtCVV.getText().trim().length() >= 3 || txtcvv.getText().trim().length() <= 4) {
+		if (txtCVV.getText().trim().length() < 3 || txtcvv.getText().trim().length() > 4) {
 			setErrorImage(imgCVVError, "/images/error_icon.png");
 			return false;
 		}
@@ -591,7 +591,6 @@ public class HomeHeatingFuelController {
 		}
 		setErrorImage(imgCVVError, "/images/v_icon.png");
 		return true;
-
 	}
 	
 	/**

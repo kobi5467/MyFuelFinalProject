@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="mainSaleTemplatesPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="270.0" prefWidth="800.0" style="-fx-background-color: #123456; -fx-border-color: #ffffff; -fx-border-width: 3;" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8.0.51" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.marketingrepresentative.SaleTemplatePane">
+<Pane fx:id="mainSaleTemplatesPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="270.0" prefWidth="800.0" style="-fx-background-color: #123456; -fx-border-color: #ffffff; -fx-border-width: 3;" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.marketingrepresentative.SaleTemplatePane">
    <children>
       <Pane fx:id="editPane" prefHeight="270.0" prefWidth="800.0" visible="false">
          <children>
@@ -85,22 +85,12 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="286.0" layoutY="17.0" text="Type :" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Label>
             <Label layoutX="565.0" layoutY="17.0" text="Discount :" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label fx:id="lblSaleName" layoutX="84.0" layoutY="17.0" prefHeight="27.0" prefWidth="193.0" text="Sale Name" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblSaleType" layoutX="344.0" layoutY="17.0" prefHeight="27.0" prefWidth="202.0" text="Sale Type" textFill="WHITE">
+            <Label fx:id="lblSaleName" layoutX="84.0" layoutY="17.0" prefHeight="27.0" prefWidth="456.0" text="Sale Name" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>

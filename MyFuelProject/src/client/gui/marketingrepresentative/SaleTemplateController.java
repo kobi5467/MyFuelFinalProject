@@ -15,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -37,6 +38,9 @@ public class SaleTemplateController {
     @FXML
     private Button btnAddSale;
 
+    @FXML
+    private Label lblNoSales;
+    
     public ArrayList<SaleTemplatePane> saleTemplatePanes;
     public JsonArray saleTemplates;
     
@@ -54,6 +58,7 @@ public class SaleTemplateController {
     	saleTemplatePane = saleTemplatePane.load(null);
     	saleTemplatePanes.add(saleTemplatePane);
     	vbSaleContainer.getChildren().add(saleTemplatePane.getMainPane());
+    	lblNoSales.setVisible(false);
     }
     /**
      * This method is responsible to load 'xml' class and call to 'initUI'
@@ -112,6 +117,8 @@ public class SaleTemplateController {
 	    	saleTemplatePanes.add(saleTemplatePane);
 	    	vbSaleContainer.getChildren().add(saleTemplatePane.getMainPane());
 		}
+		
+		lblNoSales.setVisible(saleTemplates.size() == 0);
 	}
 	/**
 	 * This method is responsible to show all the sale templates.
@@ -121,6 +128,7 @@ public class SaleTemplateController {
 		for(int i = 0; i < saleTemplatePanes.size(); i++) {
 			vbSaleContainer.getChildren().add(saleTemplatePanes.get(i).getMainPane());
 		}
+		lblNoSales.setVisible(saleTemplatePanes.size() == 0);
 	}
 	/**
 	 * This method is responsible to request from the server to get the sale template from DB.

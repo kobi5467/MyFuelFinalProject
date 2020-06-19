@@ -29,7 +29,7 @@
       </Pane>
       <Pane fx:id="FuelRatePane" prefHeight="570.0" prefWidth="947.0">
          <children>
-            <Text fill="WHITE" layoutX="244.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fuel  type:" wrappingWidth="140.34007263183594">
+            <Text fill="WHITE" layoutX="244.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fuel  type:" wrappingWidth="140.34007263183594">
                <font>
                   <Font name="System Bold" size="26.0" />
                </font>
@@ -58,7 +58,7 @@
       </Pane>
       <Button fx:id="btnFuelRates" layoutX="158.0" layoutY="40.0" mnemonicParsing="false" onAction="#onFuelRates" prefHeight="42.0" prefWidth="235.0" text="Determining Fuel Rates" />
       <Button fx:id="btnDiscountRate" layoutX="557.0" layoutY="40.0" mnemonicParsing="false" onAction="#onDiscountRates" prefHeight="42.0" prefWidth="235.0" text="Subscribes Discount Rates" />
-      <Label fx:id="lblErrorMessage" alignment="CENTER" layoutY="477.0" prefHeight="48.0" prefWidth="949.0" text="Please fill all fileds!" textFill="#f80000" textOverrun="WORD_ELLIPSIS" underline="true">
+      <Label fx:id="lblErrorMessage" alignment="CENTER" layoutY="477.0" prefHeight="48.0" prefWidth="949.0" text="Please fill all fileds!" textFill="#f80000" textOverrun="WORD_ELLIPSIS">
          <font>
             <Font size="14.0" />
          </font>

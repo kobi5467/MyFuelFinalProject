@@ -158,7 +158,7 @@ public class OrderDBLogic {
 					JsonObject order = new JsonObject();
 					order.addProperty("orderID", rs.getString("orderID"));
 					order.addProperty("orderDate", rs.getString("orderDate"));
-					order.addProperty("customerId", rs.getString("customerId"));
+					order.addProperty("customerID", rs.getString("customerID"));
 					order.addProperty("amountOfLitters", rs.getString("amountOfLitters"));
 					order.addProperty("totalPrice", rs.getString("totalPrice"));
 					orders.add(order);
@@ -426,7 +426,7 @@ public class OrderDBLogic {
 		try {
 			if (DBConnector.conn != null) {
 				query = "SELECT * FROM fuel_inventory_orders "
-						+ "WHERE orderStatus = 'SENT_TO_SUPPLIER' AND orderStatus != 'DeniedByStationManager'"
+						+ "WHERE orderStatus != 'SENT_TO_SUPPLIER' AND orderStatus != 'DeniedByStationManager'"
 						+ " AND orderStatus != 'Supplied' AND orderStatus != 'DeniedBySupplier';";
 				stmt = DBConnector.conn.createStatement();
 				ResultSet rs = stmt.executeQuery(query);
@@ -494,7 +494,7 @@ public class OrderDBLogic {
 		try {
 			if (DBConnector.conn != null) {
 				query = "SELECT * FROM fuel_inventory_orders" + " WHERE supplierID = '" + supplierID
-						+ "' AND orderStatus != 'DeniedByStationManager'" + " AND orderStatus != '';";
+						+ "' AND orderStatus = 'SENT_TO_SUPPLIER';";
 				stmt = DBConnector.conn.createStatement();
 				stmt.executeQuery(query);
 				ResultSet rs = stmt.executeQuery(query);

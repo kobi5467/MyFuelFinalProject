@@ -576,12 +576,28 @@ public class ReportController {
 		cbQuarterly.getItems().add("July - September");
 		cbQuarterly.getItems().add("October - December");
 		cbQuarterly.setValue(cbQuarterly.getItems().get(0));
-
+		cbQuarterly.getSelectionModel().selectedIndexProperty()
+		.addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(
+					ObservableValue<? extends Number> observableValue,
+					Number number, Number number2) {
+				if((Integer)number != (Integer)number2) lblEmptyData.setText("");
+			}
+		});
 		// set options of years
 		for (int i = 2020; i <= 2030; i++)
 			cbYear.getItems().add(i + "");
 		cbYear.setValue(cbYear.getItems().get(0));
-
+		cbYear.getSelectionModel().selectedIndexProperty()
+		.addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(
+					ObservableValue<? extends Number> observableValue,
+					Number number, Number number2) {
+				if((Integer)number != (Integer)number2) lblEmptyData.setText("");
+			}
+		});
 		// set option of fuel type
 		Message msg = new Message(MessageType.GET_FUEL_TYPES, "");
 		ClientUI.accept(msg);
@@ -598,6 +614,15 @@ public class ReportController {
 		}
 		ObjectContainer.setChoiceOptionOfChoiceBox(cbFuelType, fuelTypes,
 				"Choose fuel type");
+		cbFuelType.getSelectionModel().selectedIndexProperty()
+		.addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(
+					ObservableValue<? extends Number> observableValue,
+					Number number, Number number2) {
+				if((Integer)number != (Integer)number2) lblEmptyData.setText("");
+			}
+		});
 	}
 
 	/**

@@ -542,7 +542,10 @@ public class CustomerRegistrationController {
 			errorMessage = "Please insert only numbers..";
 		} else if (customerIsExist(customerID)) {
 			errorMessage = "customer ID is already exist..";
-		} else {
+		} else if(customerID.length() < 6){
+			errorMessage = "To short number..";
+		}
+		else {
 			setErrorImage(imgCustomerIDError, "/images/v_icon.png");
 			return true;
 		}
@@ -741,7 +744,7 @@ public class CustomerRegistrationController {
 			ObjectContainer.showMessage("yes_no", "No Vehicle Added", "Are you sure you don't \nwant to add vehicle?");
 			isValid = ObjectContainer.yesNoMessageResult;
 		}else if(customer.getVehicles().size() < 2 && 
-			customer.getSubscribeType().getSubscribeType().equals("MULTIPLE_VEHICLE_MONTHLY") ) {
+			customer.getSubscribeType().getSubscribeType().equals("Multiple Vehicle Monthly") ) {
 			ObjectContainer.showMessage("Error", "Multiple vehicles", 
 					"You have choosen multiple vehicle monthly subscribe.\nPlease add more vehicles");
 			isValid = false;

@@ -324,7 +324,6 @@ public class UpdateCustomerController {
 		ObjectContainer.setTextFieldToGetOnlyDigitsWithLimit(txtCVV,4);
 		ObjectContainer.setTextFieldToGetOnlyDigitsWithLimit(txtPhoneUpdate,10);
 		ObjectContainer.setTextFieldToGetOnlyDigitsWithLimit(txtCreditCard, 16);
-		ObjectContainer.setTextFieldToGetOnlyCharacterWithLimit(txtCity, 20);
 	}
 	
 	/**

@@ -89,7 +89,7 @@ public class SubscribePane {
     	json.addProperty("reasonOfDecline", "");
     	json.addProperty("decision", true);	
     	json.addProperty("requestID", txtRequestID.getText());
-    	ObjectContainer.showMessage("yes_no", "Deny Order", "Are you sure you want to approve request?\n request number " + txtRequestID.getText());
+    	ObjectContainer.showMessage("yes_no", "Approve Request", "Are you sure you want to approve request?\nRequest number " + txtRequestID.getText());
 
     	if(ObjectContainer.yesNoMessageResult) {
 	    	Message msg = new Message(MessageType.UPDATE_DISCOUNT_DECISION, json.toString());
@@ -113,9 +113,11 @@ public class SubscribePane {
     	if(clickedDecline) {
     		viewPane.setVisible(true);
     		mainRequestPane.setPrefHeight(105);
+    		mainRequestPane.setMinHeight(105);
     	}else {
     		viewPane.setVisible(false);
     		mainRequestPane.setPrefHeight(52);
+    		mainRequestPane.setMinHeight(52);
     	}
     }
 
@@ -131,7 +133,7 @@ public class SubscribePane {
     	json.addProperty("reasonOfDecline", txtReason.getText());
     	json.addProperty("decision", false);	
     	json.addProperty("requestID", txtRequestID.getText());
-    	ObjectContainer.showMessage("yes_no", "Deny Order", "Are you sure you want to submit request decline?\n request number " + txtRequestID.getText());
+    	ObjectContainer.showMessage("yes_no", "Deny Request", "Are you sure you want to submit request decline?\nRequest number " + txtRequestID.getText());
     	if(ObjectContainer.yesNoMessageResult) {
 	    	Message msg = new Message(MessageType.UPDATE_DISCOUNT_DECISION, json.toString());
 			ClientUI.accept(msg);
@@ -174,6 +176,7 @@ public class SubscribePane {
 				+ "-fx-background-color:" + color + ";"
 				+ "-fx-border-color:#77cde7;"
 				+ "-fx-border-width:2px;");
+		mainRequestPane.setPrefHeight(52);
 		setButtonImage("../../../images/v_icon_30px.png", btnApprove);
 		setButtonImage("../../../images/error_icon_30px.png", btnDeny);
 		//setButtonImage("../../../images/v_icon.png", btnSubmit);
@@ -181,10 +184,11 @@ public class SubscribePane {
 		btnDeny.setText("");
 		
 		btnSubmit.setId("dark-blue");
-
+		
 		requestPane.setVisible(true);
 		viewPane.setVisible(false);
 		mainRequestPane.setPrefHeight(52);
+		mainRequestPane.setMinHeight(52);
 		fillData(request);
 	}
     /**

@@ -135,19 +135,6 @@ public class DeterminingFuelRatesController {
 		json.addProperty("pricePerLitter", newPrice);
 		Message msg = new Message(MessageType.SEND_RATE_REQUEST, json.toString());
 		ClientUI.accept(msg);
-		
-		lblErrorMessage.setText("Request to update sended succesfully");
-		lblErrorMessage.setStyle(""
-				+ "-fx-text-fill:#00ff00;" 
-				+ "-fx-font-weight: bold;"
-				+ "-fx-font-size:14pt;"
-				);
-		txtCurrPrice.setText("");
-		txtMaxPrice.setText("");
-		txtNewPrice.setText("");
-		cbFuelType.setValue(cbFuelType.getItems().get(0));
-		
-		
 	}
 	
 	/**
@@ -161,32 +148,6 @@ public class DeterminingFuelRatesController {
 		ClientUI.accept(msg);
 		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
 		return response.get("fuelTypes").getAsJsonArray();
-	}
-	/**
-	 * this function get the new price to be updated and send a request to the server
-	 * for update the fuel rate.
-	 * @param newPrice - the new price to update
-	 */
-	
-	public void updateFuel(String newPrice) {
-		JsonObject json = new JsonObject();
-		String fuelType = FuelType.enumToString(currentFuel.getFuelType());
-
-		json.addProperty("fuelType", fuelType);
-		json.addProperty("pricePerLitter", newPrice);
-		Message msg = new Message(MessageType.UPDATE_FUEL, json.toString());
-		ClientUI.accept(msg);
-		
-		lblErrorMessage.setText("Update Successfully");
-		lblErrorMessage.setStyle(""
-				+ "-fx-text-fill:#00ff00;" 
-				+ "-fx-font-weight: bold;"
-				+ "-fx-font-size:14pt;"
-				);
-		txtCurrPrice.setText("");
-		txtMaxPrice.setText("");
-		txtNewPrice.setText("");
-		cbFuelType.setValue(cbFuelType.getItems().get(0));
 	}
 	
 	/**
@@ -491,17 +452,9 @@ public class DeterminingFuelRatesController {
 		Message msg = new Message(MessageType.SEND_SUBSCRIBE_RATE_REQUEST, json.toString());
 		ClientUI.accept(msg);
 		
-		lblErrorMessage.setText("Request to update sended succesfully");
-		lblErrorMessage.setStyle(""
-				+ "-fx-text-fill:#00ff00;" 
-				+ "-fx-font-weight: bold;"
-				+ "-fx-font-size:14pt;"
-				);
-		txtCurrPrice.setText("");
-		txtMaxPrice.setText("");
-		txtNewPrice.setText("");
-		cbSubscribesType.setValue(cbSubscribesType.getItems().get(0));	
+		ObjectContainer.showMessage("Error", "Request Successesful",
+				"Request sent to CEO\n" + subscribeType + "\nNew Discount = "+ newDiscount);
+		cbSubscribesType.setValue(cbSubscribesType.getItems().get(0));
+		txtDiscountRate.setText("");
 	}
-
-	
 }

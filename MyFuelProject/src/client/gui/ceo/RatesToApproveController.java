@@ -13,6 +13,7 @@ import entitys.enums.MessageType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -54,6 +55,8 @@ public class RatesToApproveController {
     @FXML
     private VBox vbRequestsContainer;
 
+    @FXML
+    private Label lblNoRequests;
     
     /**
      * This function send a message to the server with the request to get the rates request from the
@@ -126,6 +129,7 @@ public class RatesToApproveController {
 				requests.remove(i);
 			}
 		}
+		lblNoRequests.setVisible(requests.size() == 0);
 	}
 	/**
 	 * this function start the primary stage.

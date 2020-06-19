@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainRequestPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.ceo.SubscribePane">
+<AnchorPane fx:id="mainRequestPane" prefHeight="105.0" prefWidth="910.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.ceo.SubscribePane">
    <children>
       <Pane fx:id="viewPane" prefHeight="105.0" prefWidth="910.0">
          <children>
@@ -16,19 +16,19 @@
                   <Font name="System Bold" size="15.0" />
                </font>
             </Label>
-            <Button fx:id="btnSubmit" layoutX="737.0" layoutY="67.0" mnemonicParsing="false" onAction="#onSubmit" prefHeight="25.0" prefWidth="121.0" text="Submit" />
-            <TextField fx:id="txtReason" layoutX="173.0" layoutY="67.0" prefHeight="25.0" prefWidth="537.0" />
+            <Button fx:id="btnSubmit" layoutX="781.0" layoutY="67.0" mnemonicParsing="false" onAction="#onSubmit" prefHeight="25.0" prefWidth="121.0" text="Submit" />
+            <TextField fx:id="txtReason" layoutX="173.0" layoutY="67.0" prefHeight="25.0" prefWidth="582.0" />
          </children>
       </Pane>
       <Pane fx:id="requestPane" prefHeight="52.0" prefWidth="910.0">
          <children>
-            <TextField fx:id="txtRequestID" layoutX="23.0" layoutY="13.0" prefHeight="25.0" prefWidth="64.0" />
-            <TextField fx:id="txtCurrentDiscount" layoutX="154.0" layoutY="13.0" prefHeight="25.0" prefWidth="64.0" />
-            <TextField fx:id="txtNewDiscount" layoutX="284.0" layoutY="14.0" prefHeight="25.0" prefWidth="64.0" />
-            <TextField fx:id="txtSubscribeType" layoutX="391.0" layoutY="13.0" />
-            <TextField fx:id="txtCreateTime" layoutX="586.0" layoutY="13.0" />
-            <Button fx:id="btnDeny" layoutX="848.0" layoutY="14.0" mnemonicParsing="false" onAction="#onDeny" text="..." />
-            <Button fx:id="btnApprove" layoutX="809.0" layoutY="13.0" mnemonicParsing="false" onAction="#onApprove" text="..." />
+            <TextField fx:id="txtRequestID" layoutX="23.0" layoutY="12.0" prefHeight="25.0" prefWidth="64.0" />
+            <TextField fx:id="txtCurrentDiscount" layoutX="144.0" layoutY="12.0" prefHeight="25.0" prefWidth="64.0" />
+            <TextField fx:id="txtNewDiscount" layoutX="274.0" layoutY="13.0" prefHeight="25.0" prefWidth="64.0" />
+            <TextField fx:id="txtSubscribeType" layoutX="392.0" layoutY="12.0" prefHeight="25.0" prefWidth="206.0" />
+            <TextField fx:id="txtCreateTime" layoutX="624.0" layoutY="12.0" prefHeight="25.0" prefWidth="172.0" />
+            <Button fx:id="btnDeny" layoutX="871.0" layoutY="11.0" mnemonicParsing="false" onAction="#onDeny" prefHeight="30.0" prefWidth="30.0" text="..." />
+            <Button fx:id="btnApprove" layoutX="826.0" layoutY="11.0" mnemonicParsing="false" onAction="#onApprove" prefHeight="30.0" prefWidth="30.0" text="..." />
          </children>
       </Pane>
    </children>
