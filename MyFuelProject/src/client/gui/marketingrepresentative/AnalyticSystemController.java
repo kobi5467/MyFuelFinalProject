@@ -1,8 +1,9 @@
 package client.gui.marketingrepresentative;
 
 import java.io.IOException;
-import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -206,11 +207,20 @@ public class AnalyticSystemController {
 		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
 		ArrayList<String> columns = convertJsonArrayToArrayListString(response.get("columns").getAsJsonArray());
 		ArrayList<ArrayList<String>> rows = convertJsonObjectToArrayList(response);
-
+		
+		rows.sort(new Comparator<ArrayList<String>>() {
+			@Override
+			public int compare(ArrayList<String> o1, ArrayList<String> o2) {
+				int rank1 = Integer.parseInt(o1.get(o1.size() - 1));
+				int rank2 = Integer.parseInt(o2.get(o2.size() - 1));
+				return rank2 - rank1;
+			}
+		});
+		
 		fillDataView(columns, rows);
 		lblTitleOfPane.setText("");
 	}
-
+	
 	public void getDataFromDB() {
 		String fuelType = cbFuelType.getValue().equals(cbFuelType.getItems().get(0)) ? "" : cbFuelType.getValue();
 		String customerType = cbCustomerType.getValue().equals(cbCustomerType.getItems().get(0)) ? ""
@@ -227,14 +237,56 @@ public class AnalyticSystemController {
 		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
 		ArrayList<String> columns = convertJsonArrayToArrayListString(response.get("columns").getAsJsonArray());
 		ArrayList<ArrayList<String>> rows = convertJsonObjectToArrayList(response);
+		
+		ArrayList<ArrayList<String>> after_ignore_zero = new ArrayList<ArrayList<String>>();
+		
+		for(ArrayList<String> arr : rows) {
+			if(!arr.get(arr.size() - 1).equals("0.0"))
+				after_ignore_zero.add(arr);
+		}
 
-		fillDataView(columns, rows);
-
+		after_ignore_zero.sort(new Comparator<ArrayList<String>>() {
+			@Override
+			public int compare(ArrayList<String> o1, ArrayList<String> o2) {
+				float price1 = Float.parseFloat(o1.get(o1.size() - 1));
+				float price2 = Float.parseFloat(o2.get(o2.size() - 1));
+				if(price2 > price1) return 1;
+				if(price2 == price1) return 0;
+				return -1;
+			}
+		});
+		
+		fillDataView(columns, after_ignore_zero);
+		
 		String text = "";
-		text += fuelType.isEmpty() ? "" : " Fuel Type : " + fuelType + "\t";
-		text += customerType.isEmpty() ? "" : " Customer Type : " + customerType + "\t";
-		text += certainHours.equals("00:00:00 - 23:59:59") ? "" : " Certain Hours : " + certainHours + "\t";
+		if(after_ignore_zero.size() > 0) {
+			text += "| ";
+			text += fuelType.isEmpty() ? "" : "Fuel Type : " + fuelType + " | ";
+			text += customerType.isEmpty() ? "" : " Customer Type : " + customerType + " | ";
+			text += certainHours.equals("00:00:00 - 23:59:59") ? "" : " Certain Hours : " + certainHours + " |";
+			if(text.equals("| "))text = "";			
+		}else {
+			text = "No data for this combination, please try something else !";
+			
+		}
 		lblTitleOfPane.setText(text);
+	}
+
+	private void clearFields() {
+		isCertainHours = false;
+		cbCertainHours.setValue(cbCertainHours.getItems().get(0));
+		cbCertainHours.setVisible(false);
+		setButtonsImages("/images/unchecked.png", btnCertainHours);
+		
+		isFuelType = false;
+		cbFuelType.setValue(cbFuelType.getItems().get(0));
+		cbFuelType.setVisible(false);
+		setButtonsImages("/images/unchecked.png", btnFuelType);
+		
+		isCustomerType = false;
+		cbCustomerType.setValue(cbCustomerType.getItems().get(0));
+		cbCustomerType.setVisible(false);
+		setButtonsImages("/images/unchecked.png", btnCustomerType);
 	}
 
 	public String getCodeByCombination() {
@@ -273,6 +325,7 @@ public class AnalyticSystemController {
 
 	public void initUI() {
 		initCB();
+		tblDataView.setId("my-table");
 		btnSort.setId("dark-blue");
 		String url = "/images/unchecked.png";
 		setButtonsImages(url, btnCertainHours);
