@@ -116,7 +116,7 @@ public class SaleTemplatePane {
 	private String to = "";
 	private String from = "";
 	private int isRunning;
-	
+	private String color;
 	/**************** functions ***********************/
 	/**
 	 * This method is responsible to request from the server to update running sale.
@@ -144,15 +144,17 @@ public class SaleTemplatePane {
 		isRunning = 1 - isRunning;
 		changeCSS();
 	}
+	
 	/**
 	 * This method is responsible to change the style of the pane.
 	 */
 	private void changeCSS() {
 		mainSaleTemplatesPane.setStyle(""
-				+ "-fx-background-color:#123456;"
+				+ "-fx-background-color:"+color+";"
 				+ "-fx-border-width:3px;"
 				+ "-fx-border-color:" + ((isRunning == 1) ? "#00ff00;" : "#ffffff;"));
 	}
+	
 	/**
 	 * This method is responsible to choose the desirable hours.
 	 * @param event - when we press on Choose certain hours button.
@@ -565,6 +567,13 @@ public class SaleTemplatePane {
 	 */
 	public Pane getMainPane() {
 		return mainSaleTemplatesPane;
+	}
+	public void setColor(String color) {
+		this.color = color;
+		mainSaleTemplatesPane.setStyle(""
+				+ "-fx-background-color:"+color+";"
+				+ "-fx-border-width:3px;"
+				+ "-fx-border-color:" + ((isRunning == 1) ? "#00ff00;" : "#ffffff;"));
 	}
 
 }

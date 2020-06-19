@@ -122,6 +122,9 @@ public class UpdateCustomerController {
 
 	@FXML
 	private Label lblCity;
+	
+	@FXML
+	private ChoiceBox<String> cbSubscribeType;
 
 	/******************************* CreditCard Pane ******************************/
 	@FXML
@@ -237,6 +240,7 @@ public class UpdateCustomerController {
 	private JsonArray vehicles;
 	JsonObject customerDetails = new JsonObject();
 	private int flag = 0; //The flag will be 1 if customer want to insert credit card.
+	private String subscribeType = "";
 
 	/**
 	 * This method responsible to get the 'fxml' file and call to the method that init the UI.
@@ -291,6 +295,7 @@ public class UpdateCustomerController {
 		txtPurchaseModelType.setDisable(true);
 		txtCreditCard.setDisable(true);
 		txtCVV.setDisable(true);
+		cbSubscribeType.setDisable(true);
 		lblErrorText.setText("");
 		lblAddress.setText("");
 		lblCity.setText("");
@@ -462,6 +467,7 @@ public class UpdateCustomerController {
 		customer.addProperty("customerID", customerID);
 		Message msg = new Message(MessageType.GET_CUSTOMER_DETAILS_BY_ID, customer.toString());
 		ClientUI.accept(msg);
+		
 		customerDetails = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
 		txtUserNameUpdate.setText(customerDetails.get("userName").getAsString());
 		txtCustomerNameUpdate.setText(customerDetails.get("name").getAsString());
@@ -470,6 +476,17 @@ public class UpdateCustomerController {
 		txtAddressUpdate.setText(customerDetails.get("street").getAsString());
 		txtEmailUpdate.setText(customerDetails.get("email").getAsString());
 		txtPurchaseModelType.setText(customerDetails.get("purchaseModelType").getAsString());
+		subscribeType = customerDetails.get("subscribeType").getAsString();
+		
+		msg = new Message(MessageType.GET_SUBSCRIBE_TYPES, "");
+		ClientUI.accept(msg);
+		
+		JsonArray json = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject().get("subscribeTypes").getAsJsonArray();
+		for(int i = 0; i < json.size(); i++) {
+			cbSubscribeType.getItems().add(json.get(i).getAsString());
+		}
+		cbSubscribeType.setValue(subscribeType);
+		
 		System.out.println(customerDetails.toString());
 		if(customerDetails.get("paymentMethod").getAsString().equals("Credit Card")) {
 			Message msg2 = new Message(MessageType.GET_CREDIT_CARD_DETAILS_BY_ID, customer.toString());
@@ -524,6 +541,7 @@ public class UpdateCustomerController {
 		txtEmailUpdate.setDisable(false);
 		txtPhoneUpdate.setDisable(false);
 		txtAddressUpdate.setDisable(false);
+		cbSubscribeType.setDisable(false);
 		txtCity.setDisable(false);
 		btnSaveDetails.setVisible(true);
 		btnEditDetails.setVisible(false);
@@ -562,6 +580,7 @@ public class UpdateCustomerController {
 			txtEmailUpdate.setDisable(true);
 			txtPhoneUpdate.setDisable(true);
 			txtAddressUpdate.setDisable(true);
+			cbSubscribeType.setDisable(true);
 			txtCity.setDisable(true);
 			btnSaveDetails.setVisible(false);
 			btnEditDetails.setVisible(true);
@@ -582,7 +601,8 @@ public class UpdateCustomerController {
 		json.addProperty("phoneNumber", txtPhoneUpdate.getText());
 		json.addProperty("street", txtAddressUpdate.getText());
 		json.addProperty("city", txtCity.getText());
-
+		json.addProperty("subscribeType", cbSubscribeType.getValue());
+		
 		Message msg = new Message(MessageType.UPDATE_CUSTOMER_DETAILS, json.toString());
 		ClientUI.accept(msg);
 		JsonObject customerUpdate = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
@@ -700,6 +720,8 @@ public class UpdateCustomerController {
 	 */
 	@FXML
 	void onEditVehicle(ActionEvent event) {
+
+
 		JsonObject vehicle = new JsonObject();
 		vehicle.addProperty("vehicleNumber", txtVehicleNumber.getText());
 		Message msg = new Message(MessageType.CHECK_IF_VEHICLE_EXIST,vehicle.toString());
@@ -707,32 +729,44 @@ public class UpdateCustomerController {
 		
 		boolean isExist = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject().get("isExist").getAsBoolean();
 		if(isExist) {
-			ObjectContainer.showMessage("Error", "Vehicle Update", "Vehicle Number Already Exist in DB");
+			ObjectContainer.showMessage("Error", "Vehicle Update", "Vehicle Number Already Exist in DB!");
 			return;
 		}
 		
-		if(!txtVehicleNumber.getText().isEmpty() && txtVehicleNumber.getText().length() > 5
-				&& txtVehicleNumber.getText().length() < 9) {
-			String newVehicleNumber = txtVehicleNumber.getText();
-			String newFuelType = cbAddFuelType.getSelectionModel().getSelectedItem();
-			String vehicleToID = txtEnterYourCustomerID.getText();
-			
-			JsonObject newVehicle = new JsonObject();
-			newVehicle.addProperty("customerID", vehicleToID);
-			newVehicle.addProperty("fuelType", newFuelType);
-			newVehicle.addProperty("vehicleNumber", newVehicleNumber);
-			updateVehicleInDB(newVehicle);
-			
-			// Update new Vehicle in GUI
-			vehicles.add(newVehicle);
-			CustomerVehiclesController customerVehiclesController = new CustomerVehiclesController();
-			String color = (vehicles.size()-1) % 2 == 0 ? "#0277ad" : "#014b88";
-			customerVehicles
-			.add(customerVehiclesController.load(vehicles.get(vehicles.size() - 1).getAsJsonObject(), color));
-			vbVehicleContainer.getChildren().add(customerVehicles.get(vehicles.size() - 1).getVehiclePane());
-			txtVehicleNumber.setText("");
-			
+		if(txtVehicleNumber.getText().isEmpty()) {
+			ObjectContainer.showMessage("Error", "Invalid Operation", "You have to write vehicle number!");
+			return;
 		}
+		
+		if(txtVehicleNumber.getText().length() < 6) {
+			ObjectContainer.showMessage("Error", "Invalid Operation", "Vehicle Number to short.");
+			return;
+		}
+		
+		if(cbSubscribeType.getValue().startsWith("S") && vehicles.size() == 1) {
+			ObjectContainer.showMessage("Error", "Invalid Operation", "You cant add more vehicles.\n Your subscribe type is \n\"" + cbSubscribeType.getValue() + "\"");
+			return;
+		}
+		
+		String newVehicleNumber = txtVehicleNumber.getText();
+		String newFuelType = cbAddFuelType.getSelectionModel().getSelectedItem();
+		String vehicleToID = txtEnterYourCustomerID.getText();
+		
+		JsonObject newVehicle = new JsonObject();
+		newVehicle.addProperty("customerID", vehicleToID);
+		newVehicle.addProperty("fuelType", newFuelType);
+		newVehicle.addProperty("vehicleNumber", newVehicleNumber);
+		updateVehicleInDB(newVehicle);
+		
+		// Update new Vehicle in GUI
+		vehicles.add(newVehicle);
+		CustomerVehiclesController customerVehiclesController = new CustomerVehiclesController();
+		String color = (vehicles.size()-1) % 2 == 0 ? "#0277ad" : "#014b88";
+		customerVehicles
+		.add(customerVehiclesController.load(vehicles.get(vehicles.size() - 1).getAsJsonObject(), color));
+		vbVehicleContainer.getChildren().add(customerVehicles.get(vehicles.size() - 1).getVehiclePane());
+		txtVehicleNumber.setText("");
+		cbAddFuelType.setValue(cbAddFuelType.getItems().get(0));
 	}
 	/**
 	 * This method responsible to request from the server to update the vehicle in DB

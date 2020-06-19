@@ -324,6 +324,7 @@ public class CustomerDBLogic {
 		String email = customerUpdate.get("email").getAsString();
 		String userName = customerUpdate.get("userName").getAsString();
 		String customerID = customerUpdate.get("customerID").getAsString();
+		String subscribeType = customerUpdate.get("subscribeType").getAsString();
 		
 		String queryCustomer = "";
 		String queryUser = "";
@@ -331,9 +332,10 @@ public class CustomerDBLogic {
 		try {
 			if(DBConnector.conn != null) {
 				stmt = DBConnector.conn.createStatement();
-				queryCustomer =  "UPDATE customer " + 
-						 "SET city = '" + city  + "'" + ", street= '" + street + "'" +
-						 " WHERE customerID = '" + customerID + "';";
+				queryCustomer =  
+				"UPDATE customer " + 
+				"SET city = '" + city  + "'" + ", street= '" + street + "', subscribeType = '" + subscribeType + "'" +
+			    " WHERE customerID = '" + customerID + "';";
 				stmt.executeUpdate(queryCustomer);
 				
 				queryUser = "UPDATE users " +

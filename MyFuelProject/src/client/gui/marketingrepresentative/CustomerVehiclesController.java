@@ -13,6 +13,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 /**
  * This class create a new pane for dynamic vehicles to show them on the gui in "UpdateCustomerController" class.
@@ -86,6 +93,9 @@ public class CustomerVehiclesController {
 	 */
 	private void initUI(JsonObject vehicle, String color) {
 		this.vehicle = vehicle;
+		setButtonImage("../../../images/error_icon_30px.png", btnRemoveVehicle);
+		btnRemoveVehicle.setText("");
+
 		setColor(color);
 		txtVehicle.setText(vehicle.get("vehicleNumber").getAsString());
 		txtFuelType.setText(vehicle.get("fuelType").getAsString());
@@ -99,5 +109,20 @@ public class CustomerVehiclesController {
 				+ "-fx-border-color:#77cde7;"
 				+ "-fx-border-width:3px;");
 	}
+	
+    /**
+     * this function set image to the button in the pane
+     * @param url - the path
+     * @param btn - the button
+     */
+    public void setButtonImage(String url, Button btn) {
+		BackgroundImage backgroundImage = new BackgroundImage(
+				new Image(getClass().getResource(url).toExternalForm()),
+				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+				BackgroundSize.DEFAULT);
+		Background background = new Background(backgroundImage);
+		btn.setBackground(background);
+	}	
+
 
 }

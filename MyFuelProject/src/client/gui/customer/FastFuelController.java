@@ -308,10 +308,12 @@ public class FastFuelController {
 		getDiscountRate();
 		creditCard = getCreditCardByCustomerID();
 		initCB();
-		txtCreditCardNumber.setText(creditCard.get("creditCardNumber").getAsString());
-		txtCvv.setText(creditCard.get("cvv").getAsString());
-		cbMonth.setValue(creditCard.get("validationDate").getAsString().split("/")[0]);
-		cbYear.setValue(creditCard.get("validationDate").getAsString().split("/")[1]);
+		if(creditCard.get("creditCardNumber") != null) {
+			txtCreditCardNumber.setText(creditCard.get("creditCardNumber").getAsString());
+			txtCvv.setText(creditCard.get("cvv").getAsString());
+			cbMonth.setValue(creditCard.get("validationDate").getAsString().split("/")[0]);
+			cbYear.setValue(creditCard.get("validationDate").getAsString().split("/")[1]);			
+		}
 
 		creditCardViewPane.setVisible(false);
 		txtFuelAmount.textProperty().addListener((observable, oldValue, newValue) -> {

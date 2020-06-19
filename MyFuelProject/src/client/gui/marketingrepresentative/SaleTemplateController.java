@@ -114,6 +114,7 @@ public class SaleTemplateController {
 		for (int i = 0; i < saleTemplates.size(); i++) {
 			SaleTemplatePane saleTemplatePane = new SaleTemplatePane();
 	    	saleTemplatePane = saleTemplatePane.load(saleTemplates.get(i).getAsJsonObject());
+	    	saleTemplatePane.setColor(i % 2 == 0? ObjectContainer.rowColorBG1 : ObjectContainer.rowColorBG2);
 	    	saleTemplatePanes.add(saleTemplatePane);
 	    	vbSaleContainer.getChildren().add(saleTemplatePane.getMainPane());
 		}
@@ -126,6 +127,7 @@ public class SaleTemplateController {
 	public void showAllSaleTemplates() {
 		vbSaleContainer.getChildren().clear();
 		for(int i = 0; i < saleTemplatePanes.size(); i++) {
+			saleTemplatePanes.get(i).setColor(i % 2 == 0? ObjectContainer.rowColorBG1 : ObjectContainer.rowColorBG2);
 			vbSaleContainer.getChildren().add(saleTemplatePanes.get(i).getMainPane());
 		}
 		lblNoSales.setVisible(saleTemplatePanes.size() == 0);

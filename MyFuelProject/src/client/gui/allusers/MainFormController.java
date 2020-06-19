@@ -453,7 +453,7 @@ public class MainFormController {
 		
 		/********************************* Supplier ************************************/
 		
-		if(title.equals("OrdersRecived")) {
+		if(title.equals("OrdersReceived")) {
 			if(ObjectContainer.supplierController == null) {
 				ObjectContainer.supplierController = new SupplierController();
 			}

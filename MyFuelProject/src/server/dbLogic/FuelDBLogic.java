@@ -11,6 +11,7 @@ import client.controller.ObjectContainer;
 import entitys.DeterminingRateRequests;
 import entitys.Fuel;
 import entitys.enums.FuelType;
+import server.controller.MailSender;
 
 
 /**
@@ -795,10 +796,23 @@ public class FuelDBLogic {
 		String orderDate = ObjectContainer.getCurrentDate();
 		String orderStatus = "SENT_TO_STATION_MANAGER";
 		String supplierID = getSupplierID();
-		float fuelAmount = json.get("maxFuelAmount").getAsFloat() - json.get("currentFuelAmount").getAsFloat();
 		
+		float fuelAmount = json.get("maxFuelAmount").getAsFloat() - json.get("currentFuelAmount").getAsFloat();
 		float pricePerLitter = getFuelObjectByType(fuelType).getPricePerLitter();
 		float totalPrice = fuelAmount * pricePerLitter;
+
+		String managerEmail = getManagerEmailByStatonID(stationID);
+		String subject = "New Inventory Order - Station Number " + stationID;
+		String message = "New Inventory Order Created\n"+
+				"Fuel Type : " + fuelType + "\n" + 
+				"Fuel Amount : " + fuelAmount + "\n" + 
+				"Please log in to system and see more details.";
+		new Thread() {
+			@Override
+			public void run() {
+				MailSender.sendMail(subject, message, managerEmail);							
+			}
+		}.start();
 		
 		String query = "";
 		Statement stmt = null;
@@ -817,5 +831,30 @@ public class FuelDBLogic {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private String getManagerEmailByStatonID(String stationID) {
+		String query = "";
+		Statement stmt = null;
+		String email = "";
+		try {
+			if (DBConnector.conn != null) {
+				query = "SELECT * FROM fuel_stations, employees, users "
+						+ "WHERE stationID = '" + stationID + "' AND"
+							+" fuel_stations.managerID = employees.employeeNumber AND "
+							+ "employees.username = users.username;";
+				stmt = DBConnector.conn.createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				if (rs.next()) {
+					email = rs.getString("email");
+				}
+			} else {
+				System.out.println("Conn is null");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return email;
 	}
 }
