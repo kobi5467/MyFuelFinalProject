@@ -81,8 +81,10 @@ public class MainServerController {
     @FXML
     void onClose(ActionEvent event) {
     	ObjectContainer.showMessage("yes_no", "Exit Server", "Are you sure that you want to exit server?");
-    	if(ObjectContainer.yesNoMessageResult && ServerUI.serverController.isListening())
+    	if(ObjectContainer.yesNoMessageResult && ServerUI.serverController != null && 
+    			ServerUI.serverController.isListening())
     		ServerUI.stopServer();
+    	ServerUI.serverStage.close();
     }
     /**
      * This method is responsible to start the current stage.
@@ -102,7 +104,6 @@ public class MainServerController {
 		primaryStage.initStyle(StageStyle.UNDECORATED);
 		primaryStage.setTitle("Server Manage");
 		primaryStage.setScene(scene);
-
 		primaryStage.show();
 	}
 

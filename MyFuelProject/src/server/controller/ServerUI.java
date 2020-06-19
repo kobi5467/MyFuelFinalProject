@@ -14,6 +14,7 @@ public class ServerUI extends Application {
 
 	public static ServerController serverController;
 	public static MainServerController mainServerController;
+	public static Stage serverStage;
 	
 	public static void main(String[] args) {
 		launch(args);
@@ -24,6 +25,7 @@ public class ServerUI extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		mainServerController = new MainServerController();
+		serverStage = primaryStage;
 		mainServerController.start(primaryStage);
 //		runServer("5555");
 	}
