@@ -322,7 +322,10 @@ public class UpdateCustomerController {
 		txtFuelStation3.setDisable(true);
 		txtFuelStation3.setVisible(false);
 		ObjectContainer.setTextFieldToGetOnlyDigitsWithLimit(txtVehicleNumber, 8);
-		
+		ObjectContainer.setTextFieldToGetOnlyDigitsWithLimit(txtCVV,4);
+		ObjectContainer.setTextFieldToGetOnlyDigitsWithLimit(txtPhoneUpdate,10);
+		ObjectContainer.setTextFieldToGetOnlyDigitsWithLimit(txtCreditCard, 16);
+		ObjectContainer.setTextFieldToGetOnlyCharacterWithLimit(txtCity, 20);
 	}
 	
 	/**

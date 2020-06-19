@@ -654,7 +654,7 @@ public class CustomerDBLogic {
 				stmt.executeUpdate(query);
 				
 				updatePayment = "UPDATE customer " +
-							"SET paymentMethod = 'creditCard'" +
+							"SET paymentMethod = 'Credit Card'" +
 							" WHERE customerID = '" + customerID + "';";
 				stmt.executeUpdate(updatePayment);
 			}else {

@@ -150,6 +150,10 @@ public class HomeHeatingFuelController {
     private ChoiceBox<String> cbfuelCompany;
     @FXML
     private Text txtOrderSummaryTitle;
+    @FXML
+    private Text textUrgentOrder;
+    @FXML
+    private Label lblUrgentOrder;
 	public Boolean isPressed = false;
 	public String amount;
 	public String street;
@@ -197,6 +201,9 @@ public class HomeHeatingFuelController {
      * This function  initialize home heating fuel order form 
      */
 	public void initUI() {
+		textUrgentOrder.setVisible(false);
+		lblUrgentOrder.setVisible(false);
+		btnSubmit.setId("dark-blue");
 		initCreditCardFields();
 		getFuelCompaniesByCustomerID();
 		limitTextFields();
@@ -205,6 +212,7 @@ public class HomeHeatingFuelController {
 		initOrderSummary();
 		updatePaymentFormOnPaymentMethodClick();
 		creditCard = getCreditCardByCustomerID();
+		System.out.println(creditCard);
 	}
 
 	/**
@@ -221,7 +229,7 @@ public class HomeHeatingFuelController {
 		lblDateSupplyInPurchasePane.setText(this.dateSuplly);
 		lblPaymentMethodOnPurchasePane.setText(this.paymentMethod);
 		lblTotalPriceOnPurchasePane.setText(this.totalPrice);
-		lblUserFirstName.setText(this.customerName+",");
+		lblUserFirstName.setText(this.customerName);
 		setErrorImage(imgPurchaseSuccessful, "/images/purchase_successful.png");
 	}
 
@@ -276,7 +284,6 @@ public class HomeHeatingFuelController {
 		lblShippingRate.setText("0.00 $");
 		lblDiscountRate.setText("0.00 %");
 		lblShippingRate.setText(shippingCost+" $");
-
 		lbltotalPriceAfterDiscount.setText("0.00 $");
 		lblCurrentPricePerLitter.setText(String.valueOf(getFuelObjectByType("Home Heating Fuel"))+" $");
 	}
@@ -304,16 +311,29 @@ public class HomeHeatingFuelController {
 			JsonObject json=createJsonObjectForOrder();
 			System.out.println(json.toString());
 			System.out.println("credit card press:"+this.rememberCardPressed.toString());
-			if(this.rememberCardPressed) 
-				json.addProperty("savePaymentDetails",this.rememberCardPressed.toString());
-			else
-				json.addProperty("savePaymentDetails","false");
-			if(!creditCard.get("creditCardNumber").isJsonNull()) {
+//			if(this.rememberCardPressed) 
+//				json.addProperty("savePaymentDetails",this.rememberCardPressed.toString());
+//			else
+//				json.addProperty("savePaymentDetails","false");
+			
+	
+			if (paymentMethod.equals("Credit Card")) {
 				json.addProperty("updateExistsCreditCard","true");
 				json.addProperty("customerID", this.customerId);
 				json.addProperty("creditCard", this.cardNumber);
 				json.addProperty("cvv",  this.cvv);
 				json.addProperty("dateValidation", this.creditCardDateValidation);
+				json.addProperty("updateExistsCreditCard","false");
+				json.addProperty("savePaymentDetails", "false");
+				if(creditCard.get("creditCardNumber")==null&&this.rememberCardPressed) {
+					System.out.println("credit card null");
+					json.addProperty("savePaymentDetails", "true");
+					json.addProperty("updateExistsCreditCard","false");
+				}
+				else if(this.rememberCardPressed)  {
+					json.addProperty("updateExistsCreditCard","true");
+					json.addProperty("savePaymentDetails", "false");
+				}
 			}
 			Message msg = new Message(MessageType.SUBMIT_HOME_HEATING_FUEL_ORDER, json.toString());
 			ClientUI.accept(msg);
@@ -561,7 +581,7 @@ public class HomeHeatingFuelController {
 			setErrorImage(imgCVVError, "/images/error_icon.png");
 			return false;
 		}
-		if (txtCVV.getText().trim().length()!=3) {
+		if (txtCVV.getText().trim().length() >= 3 || txtcvv.getText().trim().length() <= 4) {
 			setErrorImage(imgCVVError, "/images/error_icon.png");
 			return false;
 		}
@@ -800,13 +820,22 @@ public class HomeHeatingFuelController {
 	 */
 	public String calcTotalPrice(float amountOfLitters) {
 		Boolean discountFlag = false;// If we have any discount change to true;
-		double totalPriceAfterDiscount =0, subTotalPriceBeforeDiscount = 0, commissionForUrgentorder = 0;
+		double totalPriceAfterDiscount =0, subTotalPriceBeforeDiscount = 0, commissionForUrgentorder = 0,totalCommision=0;
 		 this.discountrate=(double)getCurrentSaleDiscount();
 		if (checkAmountField(false)) {
 			if (this.isPressed) {
 				commissionForUrgentorder = 2;
 				discountFlag = true;
+				totalCommision=(double)amountOfLitters*commissionForUrgentorder * 0.01;
+				textUrgentOrder.setVisible(true);
+				lblUrgentOrder.setVisible(true);
+	 			lblUrgentOrder.setText(String.format("%.2f",totalCommision)+" $");
 			}
+			else {
+				textUrgentOrder.setVisible(false);
+				lblUrgentOrder.setVisible(false);
+			}
+				
 			if (amountOfLitters >= 600 && amountOfLitters <= 800) {
 				this.discountrate+= 3;
 				discountFlag = true;
@@ -816,10 +845,9 @@ public class HomeHeatingFuelController {
 				discountFlag = true;
 			}
 			lblDiscountRate.setText(String.valueOf(this.discountrate) + " %");
-			lblShippingRate.setText(shippingCost+" $");
-			subTotalPriceBeforeDiscount = (double) amountOfLitters * (double) pricePerLitter
-					* (100 + commissionForUrgentorder) * 0.01;
-			totalPriceAfterDiscount = (shippingCost+subTotalPriceBeforeDiscount) * (100 - this.discountrate) * 0.01;
+ 			lblShippingRate.setText(shippingCost+" $");
+			subTotalPriceBeforeDiscount = (double) amountOfLitters * (double) pricePerLitter;
+			totalPriceAfterDiscount = shippingCost+(subTotalPriceBeforeDiscount) * (100 - this.discountrate+commissionForUrgentorder) * 0.01;
 			lblSubTotalPriceBeforeDiscount.setText(String.format("%.2f",subTotalPriceBeforeDiscount)+" $");
 			lbltotalPriceAfterDiscount.setText(String.format("%.2f",totalPriceAfterDiscount) +" $");
 			if (discountFlag)
@@ -835,8 +863,8 @@ public class HomeHeatingFuelController {
 	private void limitTextFields() {
 		ObjectContainer.setTextFieldToGetOnlyDigitsWithLimit(txtAmount, 5);
 		ObjectContainer.setTextFieldLimit(txtStreet, 20);
-		ObjectContainer.setTextFieldToGetOnlyCharacterWithLimit(txtCity,15);
+		ObjectContainer.setTextFieldLimit(txtCity, 20);
 		ObjectContainer.setTextFieldToGetOnlyDigitsWithLimit(txtCardNumber, 16);
-		ObjectContainer.setTextFieldToGetOnlyDigitsWithLimit(txtCVV, 4);		
+		ObjectContainer.setTextFieldToGetOnlyDigitsWithLimit(txtCVV,4);		
 	}
 }

@@ -237,7 +237,13 @@ public class ServerController extends AbstractServer {
 		switch (msg.getMessageType()) {
 		case SUBMIT_HOME_HEATING_FUEL_ORDER: {
 			dbConnector.orderDBLogic.insertHomeHeatingFuelOrder(requestJson);
-		}
+			if(requestJson.get("paymentMethod").getAsString().equals("Credit Card")) {
+				if(requestJson.get("updateExistsCreditCard").getAsString().equals("true"))	
+					dbConnector.customerDBLogic.updateCreditCardDetails(requestJson);
+				else if(requestJson.get("savePaymentDetails").getAsString().equals("true"))	
+					dbConnector.customerDBLogic.addCreditCard(requestJson);
+				}
+			}
 			break;
 		case GET_HOME_HEATING_FUEL_ORDERS: { // check with or haim , about changes here.
 			String userName = requestJson.get("userName").getAsString();
