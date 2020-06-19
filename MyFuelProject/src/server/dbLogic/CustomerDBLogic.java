@@ -990,13 +990,14 @@ public class CustomerDBLogic {
 			JsonObject currentCustomer = new JsonObject();
 			currentCustomer.addProperty("Customer ID", customerID);
 			float totalPrice = 0;
+
 			for (int j = 0; j < orders.size(); j++) {
-				JsonObject order = orders.get(i).getAsJsonObject();
+				JsonObject order = orders.get(j).getAsJsonObject();
 				String orderHour = order.get("orderHour").getAsString();
 				if((fuelType.isEmpty() || fuelType.equals(order.get("fuelType").getAsString())) && 
 						(customerType.isEmpty() || customerType.equals(order.get("customerType").getAsString())) && 
 							(startHour.compareTo(orderHour) <= 0 &&	endHour.compareTo(orderHour) >= 0))
-				totalPrice += orders.get(i).getAsJsonObject().get("totalPrice").getAsFloat();
+				totalPrice += orders.get(j).getAsJsonObject().get("totalPrice").getAsFloat();
 			}
 			if(!fuelType.isEmpty()) {
 				currentCustomer.addProperty("Fuel Type", fuelType);
@@ -1040,7 +1041,10 @@ public class CustomerDBLogic {
 			for(int j = 0; j < customerOrders.size(); j++) {
 				totalRank += getRankByOrder(customerOrders.get(j).getAsJsonObject());
 			}
-			int avg = Math.round(totalRank / customerOrders.size());
+			int avg = 0;
+			if(customerOrders.size() > 0) {
+				avg = Math.round(totalRank / customerOrders.size());				
+			}
 			setCustomerRank(customers.get(i).getAsString() , avg);
 		}
 		

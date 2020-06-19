@@ -271,7 +271,7 @@ public class UpdateCustomerController {
 		btnEditPurchaseModel.setId("dark-blue");
 		btnUpdateCreditCard.setId("dark-blue");
 		btnViewCreditCard.setId("dark-blue");
-		
+		btnUpdatePurchaseModel.setId("dark-blue");
 		btnSubmitCustomerID.setDefaultButton(true);
 		vbVehicleContainer.setSpacing(5);
         btnCustomerDetails.setId("selected");
@@ -303,7 +303,6 @@ public class UpdateCustomerController {
 		lblCreditCardNumber.setText("");
 		lblCVV.setText("");
 		lblDateValidition.setText("");
-		VehicleScrollPane.setStyle("-fx-background-color:#F0FFFF;");
 		cbCompanyName1.setVisible(false);
 		cbCompanyName2.setVisible(false);
 		cbCompanyName3.setVisible(false);
@@ -702,6 +701,17 @@ public class UpdateCustomerController {
 	 */
 	@FXML
 	void onEditVehicle(ActionEvent event) {
+		JsonObject vehicle = new JsonObject();
+		vehicle.addProperty("vehicleNumber", txtVehicleNumber.getText());
+		Message msg = new Message(MessageType.CHECK_IF_VEHICLE_EXIST,vehicle.toString());
+		ClientUI.accept(msg);
+		
+		boolean isExist = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject().get("isExist").getAsBoolean();
+		if(isExist) {
+			ObjectContainer.showMessage("Error", "Vehicle Update", "Vehicle Number Already Exist in DB");
+			return;
+		}
+		
 		if(!txtVehicleNumber.getText().isEmpty() && txtVehicleNumber.getText().length() > 5
 				&& txtVehicleNumber.getText().length() < 9) {
 			String newVehicleNumber = txtVehicleNumber.getText();
@@ -775,9 +785,10 @@ public class UpdateCustomerController {
 	private void initVehcilesChoiseBox(JsonArray vehicles) {
 		
 		this.vehicles = vehicles;
+		vbVehicleContainer.getChildren().clear();
 		for (int i = 0; i < vehicles.size(); i++) {
 			CustomerVehiclesController customerVehiclesController = new CustomerVehiclesController();
-			String color = i % 2 == 0 ? "#0277ad" : "#014b88";
+			String color = i % 2 == 0 ? ObjectContainer.rowColorBG1 : ObjectContainer.rowColorBG2;
 			customerVehicles.add(customerVehiclesController.load(vehicles.get(i).getAsJsonObject(), color));
 			vbVehicleContainer.getChildren().add(customerVehicles.get(i).getVehiclePane());
 		}
@@ -796,7 +807,7 @@ public class UpdateCustomerController {
 		}
 		
 		for(int i = 0; i < vehicles.size(); i++) {
-			String color = i % 2 == 0 ? "#0277ad" : "#014b88";
+			String color = i % 2 == 0 ? ObjectContainer.rowColorBG1 : ObjectContainer.rowColorBG2;
 			customerVehicles.get(i).setColor(color);
 			vbVehicleContainer.getChildren().add(customerVehicles.get(i).getVehiclePane());
 		}

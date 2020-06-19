@@ -57,106 +57,109 @@ public class ServerController extends AbstractServer {
 	 */
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
-
-		try {
-			Message message = (Message) msg;
-			Message messageFromServer = null;
-			switch (message.getMessageType()) {
-			case CHECK_LOGIN:
-			case CHECK_IF_USER_EXIST:
-			case GET_USER_DETAILS:
-			case GET_USER_ID_BY_USERNAME:
-			case LOGOUT:
-				messageFromServer = handleUserMessage(message);
-				break;
-			case GET_STATION_ID_BY_USER_NAME:
-				messageFromServer = handleEmployeeMessage(message);
-				break;
-			case GET_FUEL_BY_TYPE:
-			case GET_FUEL_TYPES:
-			case GET_FUEL_COMPANIES_NAMES:
-			case UPDATE_FUEL:
-			case SEND_RATE_REQUEST:
-			case GET_RATES_REQUESTS:
-			case UPDATE_DECISION:
-			case GET_FUEL_INVENTORY_PER_STATION:
-			case GET_STATION_BY_MANAGERID:
-			case UPDATE_FUEL_STATION_INVENTORY:
-			case GET_FUEL_INVENTORY_BY_USER_NAME:
-			case GET_CURRENT_FUEL_AMOUNT_BY_FUEL_TYPE:
-			case GET_SUBSCRIBE_RATE:	
-			case SEND_SUBSCRIBE_RATE_REQUEST:
-			case UPDATE_DISCOUNT_RATE:	
-			case GET_DISCOUNT_REQUESTS:
-			case UPDATE_DISCOUNT_DECISION:
-				messageFromServer = handleFuelMessage(message);
-				break;
-			case GET_PURCHASE_MODELS:
-				messageFromServer = handlePurchaseModelsMessage(message);
-				break;
-			case SUBMIT_HOME_HEATING_FUEL_ORDER:
-			case GET_HOME_HEATING_FUEL_ORDERS:
-			case GET_ORDERS_BY_SUPLLIER_ID:
-			case UPDATE_FUEL_AMOUNT_INVENTORY:
-			case GET_ORDERS_BY_STATIONID_AND_FUEL_TYPE:
-			case GET_ORDERS_BY_STATIONID_AND_QUARTER:
-			case GET_ORDERS_BY_STATIONID_AND_SALE_NAME:
-			case GET_ORDER_ID:
-			case GET_ORDERS_FROM_DB:
-			case REMOVE_ORDER_FROM_DB:
-			case UPDATE_ORDER_IN_DB:
-			case ADD_FAST_FUEL_ORDER:
-			case GET_ORDERS_BY_DATES:
-				messageFromServer = handleOrderMessage(message);
-				break;
-			case CHECK_IF_CUSTOMER_EXIST:
-			case GET_CUSTOMER_DETAILS_BY_USERNAME:
-			case GET_SUBSCRIBE_TYPES:
-			case CHECK_IF_VEHICLE_EXIST:
-			case REGISTER_CUSTOMER:
-			case GET_CUSTOMER_DETAILS_BY_ID:
-			case UPDATE_CUSTOMER_DETAILS:
-			case GET_CUSTOMER_VEHICLES_BY_CUSTOMER_ID:
-			case GET_FUEL_COMPANIES_BY_CUSTOMER_ID:
-			case GET_STATION_NUMBERS_BY_FUEL_COMPANY:
-			case GET_DICOUNT_RATES_BY_TYPES:
-			case REMOVE_VEHICLE_FROM_DB:
-			case UPDATE_VEHICLES_IN_DB:
-			case UPDATE_PURCHASE_MODEL_IN_DB:
-			case GET_CREDIT_CARD_DETAILS_BY_ID:
-			case UPDATE_CREDIT_CARD_DETAILS:
-			case INSERT_CREDIT_CARD_DETAILS:
-			case GET_CUSTOMER_FUEL_TYPE:
-			case GET_PREVIOUS_AMOUNT_FAST_FUEL_ORDER:
-			case GET_CUSTOMER_RANKS:
-			case GET_ACTIVITY_TRACKING_DATA:
-				messageFromServer = handleCustomerMessage(message);
-				break;
-			case GET_SALE_TEMPLATES:
-			case UPDATE_RUNNING_SALE:
-			case GET_SALE_NAMES:
-			case GET_CURRENT_SALE_TEMPLATE:
-			case ADD_NEW_SALE_TEMPLATE:
-			case REMOVE_SALE_TEMPLATE:
-				messageFromServer = handleSaleTemplateMessage(message);
-				break;
-			case ADD_NEW_REPORT:
-			case GET_STATION_ID_BY_REPORT_TYPE:
-			case GET_CREAT_DATES_BY_STATION_ID_AND_REPORT_TYPE:
-			case GET_CREAT_DATES_BY_REPORT_TYPE:
-			case GET_STATIONS_REPORTS:
-			case GET_MARKETING_MANAGER_REPORTS:
-				messageFromServer = handleReportMessage(message);
-				break;
-			default:
+		new Thread() {
+			@Override
+			public void run() {
+				try {
+					Message message = (Message) msg;
+					Message messageFromServer = null;
+					switch (message.getMessageType()) {
+					case CHECK_LOGIN:
+					case CHECK_IF_USER_EXIST:
+					case GET_USER_DETAILS:
+					case GET_USER_ID_BY_USERNAME:
+					case LOGOUT:
+						messageFromServer = handleUserMessage(message);
+						break;
+					case GET_STATION_ID_BY_USER_NAME:
+						messageFromServer = handleEmployeeMessage(message);
+						break;
+					case GET_FUEL_BY_TYPE:
+					case GET_FUEL_TYPES:
+					case GET_FUEL_COMPANIES_NAMES:
+					case UPDATE_FUEL:
+					case SEND_RATE_REQUEST:
+					case GET_RATES_REQUESTS:
+					case UPDATE_DECISION:
+					case GET_FUEL_INVENTORY_PER_STATION:
+					case GET_STATION_BY_MANAGERID:
+					case UPDATE_FUEL_STATION_INVENTORY:
+					case GET_FUEL_INVENTORY_BY_USER_NAME:
+					case GET_CURRENT_FUEL_AMOUNT_BY_FUEL_TYPE:
+					case GET_SUBSCRIBE_RATE:	
+					case SEND_SUBSCRIBE_RATE_REQUEST:
+					case UPDATE_DISCOUNT_RATE:	
+					case GET_DISCOUNT_REQUESTS:
+					case UPDATE_DISCOUNT_DECISION:
+						messageFromServer = handleFuelMessage(message);
+						break;
+					case GET_PURCHASE_MODELS:
+						messageFromServer = handlePurchaseModelsMessage(message);
+						break;
+					case SUBMIT_HOME_HEATING_FUEL_ORDER:
+					case GET_HOME_HEATING_FUEL_ORDERS:
+					case GET_ORDERS_BY_SUPLLIER_ID:
+					case UPDATE_FUEL_AMOUNT_INVENTORY:
+					case GET_ORDERS_BY_STATIONID_AND_FUEL_TYPE:
+					case GET_ORDERS_BY_STATIONID_AND_QUARTER:
+					case GET_ORDERS_BY_STATIONID_AND_SALE_NAME:
+					case GET_ORDER_ID:
+					case GET_ORDERS_FROM_DB:
+					case REMOVE_ORDER_FROM_DB:
+					case UPDATE_ORDER_IN_DB:
+					case ADD_FAST_FUEL_ORDER:
+					case GET_ORDERS_BY_DATES:
+						messageFromServer = handleOrderMessage(message);
+						break;
+					case CHECK_IF_CUSTOMER_EXIST:
+					case GET_CUSTOMER_DETAILS_BY_USERNAME:
+					case GET_SUBSCRIBE_TYPES:
+					case CHECK_IF_VEHICLE_EXIST:
+					case REGISTER_CUSTOMER:
+					case GET_CUSTOMER_DETAILS_BY_ID:
+					case UPDATE_CUSTOMER_DETAILS:
+					case GET_CUSTOMER_VEHICLES_BY_CUSTOMER_ID:
+					case GET_FUEL_COMPANIES_BY_CUSTOMER_ID:
+					case GET_STATION_NUMBERS_BY_FUEL_COMPANY:
+					case GET_DICOUNT_RATES_BY_TYPES:
+					case REMOVE_VEHICLE_FROM_DB:
+					case UPDATE_VEHICLES_IN_DB:
+					case UPDATE_PURCHASE_MODEL_IN_DB:
+					case GET_CREDIT_CARD_DETAILS_BY_ID:
+					case UPDATE_CREDIT_CARD_DETAILS:
+					case INSERT_CREDIT_CARD_DETAILS:
+					case GET_CUSTOMER_FUEL_TYPE:
+					case GET_PREVIOUS_AMOUNT_FAST_FUEL_ORDER:
+					case GET_CUSTOMER_RANKS:
+					case GET_ACTIVITY_TRACKING_DATA:
+						messageFromServer = handleCustomerMessage(message);
+						break;
+					case GET_SALE_TEMPLATES:
+					case UPDATE_RUNNING_SALE:
+					case GET_SALE_NAMES:
+					case GET_CURRENT_SALE_TEMPLATE:
+					case ADD_NEW_SALE_TEMPLATE:
+					case REMOVE_SALE_TEMPLATE:
+						messageFromServer = handleSaleTemplateMessage(message);
+						break;
+					case ADD_NEW_REPORT:
+					case GET_STATION_ID_BY_REPORT_TYPE:
+					case GET_CREAT_DATES_BY_STATION_ID_AND_REPORT_TYPE:
+					case GET_CREAT_DATES_BY_REPORT_TYPE:
+					case GET_STATIONS_REPORTS:
+					case GET_MARKETING_MANAGER_REPORTS:
+						messageFromServer = handleReportMessage(message);
+						break;
+					default:
 //				messageFromServer = new Message(MessageType.ERROR_TYPE_IS_UNSET, null);
-				break;
+						break;
+					}
+					client.sendToClient(messageFromServer);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
-
-			client.sendToClient(messageFromServer);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		}.start();
 	}
 
 	/**

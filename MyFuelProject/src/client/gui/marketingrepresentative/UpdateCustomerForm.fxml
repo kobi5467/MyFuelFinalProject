@@ -108,11 +108,11 @@
                            </font></Label>
                      </children>
                   </Pane>
-                  <Pane fx:id="VehiclesPane" layoutX="56.0" layoutY="100.0" prefHeight="370.0" prefWidth="823.0" visible="false">
+                  <Pane fx:id="VehiclesPane" layoutX="56.0" layoutY="100.0" prefHeight="370.0" prefWidth="823.0">
                      <children>
-                        <ScrollPane fx:id="VehicleScrollPane" layoutX="62.0" layoutY="45.0" prefHeight="180.0" prefWidth="700.0">
+                        <ScrollPane fx:id="VehicleScrollPane" layoutX="71.0" layoutY="45.0" prefHeight="180.0" prefWidth="682.0">
                            <content>
-                              <VBox fx:id="vbVehicleContainer" prefHeight="175.0" prefWidth="680.0" />
+                              <VBox fx:id="vbVehicleContainer" prefHeight="177.0" prefWidth="680.0" />
                            </content>
                         </ScrollPane>
                         <Label fx:id="lblVehicles" layoutX="389.0" layoutY="3.0" text="Vehicles" textFill="WHITE">
@@ -132,7 +132,7 @@
                            </font></Text>
                      </children>
                   </Pane>
-                  <Pane fx:id="PurchaseModelPane" layoutX="14.0" layoutY="100.0" prefHeight="396.0" prefWidth="890.0">
+                  <Pane fx:id="PurchaseModelPane" layoutX="14.0" layoutY="100.0" prefHeight="396.0" prefWidth="890.0" visible="false">
                      <children>
                         <Label fx:id="lblEroorPurchaseModel" layoutX="322.0" layoutY="273.0" text="You Cant choose the same fuel company, try again" textFill="#e02626" visible="false" />
                         <Label fx:id="lblPurchaceModel" layoutX="396.0" layoutY="6.0" text="Purchase Model" textFill="WHITE">
