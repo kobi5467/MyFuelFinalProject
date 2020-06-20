@@ -786,7 +786,6 @@ public class CustomerDBLogic {
 				query = "UPDATE customer "
 					  + "SET customerRank = " + rank + " "
 				      + "WHERE customerID = '"+ customerID + "';";
-				System.out.println(query);
 				stmt = DBConnector.conn.createStatement();
 				stmt.executeUpdate(query);
 			} else {

@@ -170,7 +170,7 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Text fx:id="txtOrderSummaryTitle" fill="WHITE" layoutX="581.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order Summary">
+            <Text fx:id="txtOrderSummaryTitle" fill="WHITE" layoutX="582.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order Summary" underline="true">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
