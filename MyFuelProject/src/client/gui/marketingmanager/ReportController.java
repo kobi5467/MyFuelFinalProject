@@ -464,7 +464,6 @@ public class ReportController {
 				return false;
 			} else {
 				lblErorrFields.setText("");
-				System.out.println(dpStartDate.getValue());
 				return true;
 			}
 		} else if (cbReportType.getValue().equals("Comments report")) {
@@ -873,7 +872,6 @@ public class ReportController {
 					JsonObject order = new JsonObject();
 					ArrayList<String> orderAsString = new ArrayList<>();
 					order = orders.get(j).getAsJsonObject();
-					System.out.println(order.toString());
 					orderAsString.add(order.get("customerID").getAsString());
 					Message msg = new Message(
 							MessageType.GET_FUEL_COMPANIES_NAMES, "");

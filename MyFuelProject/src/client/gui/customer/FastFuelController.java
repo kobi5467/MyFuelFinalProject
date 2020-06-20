@@ -370,6 +370,15 @@ public class FastFuelController {
 		ObjectContainer.fastFuelStage.show();
 	}
 
+	private JsonArray getVehiclesByCustomerID(String customerID) {
+		JsonObject json = new JsonObject();
+		json.addProperty("customerID", customerID);
+		Message msg = new Message(MessageType.GET_CUSTOMER_VEHICLES_BY_CUSTOMER_ID, json.toString());
+		ClientUI.accept(msg);
+
+		return ObjectContainer.currentMessageFromServer.getMessageAsJsonObject().get("vehicles").getAsJsonArray();
+	}
+	
 	private void initUI() {
 		lblFuelType.setText("");
 		lblPricePerLitter.setText("");
@@ -381,10 +390,19 @@ public class FastFuelController {
 		ObjectContainer.setButtonImage("/images/exit.png", btnClose);
 		
 		JsonArray customers = getCustomersID();
+		JsonArray customersWithVehicles = new JsonArray();
+		for(int i = 0; i < customers.size();i++) {
+			String customerID = customers.get(i).getAsString();
+			JsonArray vehiclesArray = getVehiclesByCustomerID(customerID);
+			if(vehiclesArray.size() > 0) {
+				customersWithVehicles.add(customerID);
+			}
+		}
+		
 		creditCardViewPane.setVisible(false);
 		cbCustomerIDs.getItems().add("Choose customer id:");
-		for(int i = 0; i < customers.size(); i++) {
-			cbCustomerIDs.getItems().add(customers.get(i).getAsString());
+		for(int i = 0; i < customersWithVehicles.size(); i++) {
+			cbCustomerIDs.getItems().add(customersWithVehicles.get(i).getAsString());
 		}
 		cbCustomerIDs.setValue(cbCustomerIDs.getItems().get(0));
 		cbCustomerIDs.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
@@ -393,12 +411,10 @@ public class FastFuelController {
 				if (oldValue.equals(newValue))
 					return;
 				if ((Integer) newValue > 0) {
-//					setErrorImage(imgCustomerID, "/images/v_icon.png");
 					ObjectContainer.setImageBackground(ObjectContainer.vIcon, imgCustomerID);
 					customerID = cbCustomerIDs.getItems().get((Integer)newValue);
 					setCustomerDetails();
 				} else {
-//					setErrorImage(imgCustomerID, "/images/error_icon.png");
 					ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgCustomerID);
 				}
 			}
@@ -416,6 +432,7 @@ public class FastFuelController {
 		getDiscountRate();
 		creditCard = getCreditCardByCustomerID();
 		initCB();
+		
 		if (creditCard.get("creditCardNumber") != null) {
 			txtCreditCardNumber.setText(creditCard.get("creditCardNumber").getAsString());
 			txtCvv.setText(creditCard.get("cvv").getAsString());
@@ -683,31 +700,30 @@ public class FastFuelController {
 		JsonObject saleData = response.get("saleData").getAsJsonObject();
 		JsonArray saleTypes = saleData.get("saleTypes").getAsJsonArray();
 		float discountRate = 0;
+		int count = 0;
+
 		for (int i = 0; i < saleTypes.size(); i++) {
-			String saleType = saleTypes.get(i).getAsString();
-			
 			if (saleTypes.get(i).getAsString().equals(SaleTemplatePane.BY_FUEL_TYPE)) {
 				String fuel = FuelType.enumToString(FuelType.stringToEnumVal(fuelType));
 				if (fuel.equals(saleData.get("fuelType").getAsString())) {
-					discountRate = response.get("discountRate").getAsFloat();
-					saleTemplateName = response.get("saleTemplateName").getAsString();
-					break;
+					count++;
 				}
 			}
 			if (saleTypes.get(i).getAsString().equals(SaleTemplatePane.BY_CUSTOMER_TYPE)) {
 				if (customerType.equals(saleData.get("customerType").getAsString())) {
-					discountRate = response.get("discountRate").getAsFloat();
-					saleTemplateName = response.get("saleTemplateName").getAsString();
-					break;
+					count++;
 				}
 			}
 			if (saleTypes.get(i).getAsString().equals(SaleTemplatePane.BY_CRETIAN_HOURS)) {
 				if (checkTimes(saleData)) {
-					discountRate = response.get("discountRate").getAsFloat();
-					saleTemplateName = response.get("saleTemplateName").getAsString();
-					break;
+					count++;
 				}
 			}
+		}
+		
+		if(count == saleTypes.size()) {
+			discountRate = response.get("discountRate").getAsFloat();
+			saleTemplateName = response.get("saleTemplateName").getAsString();
 		}
 		return discountRate;
 	}

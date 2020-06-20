@@ -1,6 +1,7 @@
 package client.gui.marketingrepresentative;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
@@ -697,7 +698,21 @@ public class CustomerRegistrationController {
 			lblDateError.setText("Please insert date validation..");
 			isValid = false;
 		}
+		
+		if(!checkValidation(month,year)) {
+			lblDateError.setText("Please choose valid date..");
+			isValid = false;
+		}
 		return isValid;
+	}
+	
+	private boolean checkValidation(String month, String year) {
+		LocalDate date = LocalDate.now();
+		int currentMonth = date.getMonth().getValue();
+		int currentYear = date.getYear();
+		if(currentYear < Integer.parseInt(year))return true;
+		if(currentMonth < Integer.parseInt(month))return true;
+		return false;
 	}
 	/**
 	 * This method is responsible to check companies name.
@@ -942,18 +957,18 @@ public class CustomerRegistrationController {
 		initChoiceBoxes();
 		ObjectContainer.setButtonImage("/images/white_eye_icon.png",btnShowPassword);
 		txtUsername.setStyle(""
-				+ "-fx-background-color:#0c83ff;\r\n" + 
+				+ "-fx-background-color:#ffffff;\r\n" + 
 				"	-fx-font-size: 10pt;" + 
 				"	-fx-font-weight: bold;" + 
-				"	-fx-text-fill:#ffffff;\r\n" + 
-				"	-fx-border-color:#ffffff;\r\n" + 
+				"	-fx-text-fill:#123456;\r\n" + 
+				"	-fx-border-color:#123456;\r\n" + 
 				"	-fx-border-width:2px;");
 		txtPassword.setStyle(""
-				+ "-fx-background-color:#0c83ff;\r\n" + 
+				+ "-fx-background-color:#ffffff;\r\n" + 
 				"	-fx-font-size: 10pt;" + 
 				"	-fx-font-weight: bold;" + 
-				"	-fx-text-fill:#ffffff;\r\n" + 
-				"	-fx-border-color:#ffffff;\r\n" + 
+				"	-fx-text-fill:#123456;\r\n" + 
+				"	-fx-border-color:#123456;\r\n" + 
 				"	-fx-border-width:2px;");
 		txtShowPassword.setVisible(false);
 		setBackgroundImage('+');
@@ -1213,7 +1228,7 @@ public class CustomerRegistrationController {
 		public TextField txtVehicleNumber;
 		public ChoiceBox<String> cbFuelType;
 		
-		public int width = 720;
+		public int width = 700;
 		public int height = 60;
 		
 		public Vehicle vehicle;
@@ -1272,7 +1287,7 @@ public class CustomerRegistrationController {
 			
 			btnDeleteVehicle = new Button();
 			btnDeleteVehicle.setPrefSize(30, 30);
-			btnDeleteVehicle.relocate(690, 15);
+			btnDeleteVehicle.relocate(650, 15);
 			btnDeleteVehicle.setText("");
 			ObjectContainer.setButtonImage("/images/delete_icon.png", btnDeleteVehicle);
 			btnDeleteVehicle.setOnAction(new EventHandler<ActionEvent>() {

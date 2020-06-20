@@ -52,8 +52,8 @@ public class OrderPane {
 	/**
 	 * This function gets an Home Heating Fuel order and load it to the main order Tracking Form.
 	 * also gets the color of the pane. 
-	 * @param JsonObject HHFOrder
-	 * @param String color
+	 * @param  HHFOrder
+	 * @param  color
 	 * @return
 	 */
 	
@@ -75,7 +75,7 @@ public class OrderPane {
 	/**
 	 *This function gets an Home Heating Fuel order and Initialize it.
 	 * also gets the color of the pane. 	 * @param JsonObject HHFOrder
-	 * @param String color
+	 * @param  color
 	 */
 
 	public void initUI(JsonObject HHFOrder, String color) {

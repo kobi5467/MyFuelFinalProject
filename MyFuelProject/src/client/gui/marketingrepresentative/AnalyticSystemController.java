@@ -30,6 +30,13 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 
+/**
+* This class is the gui class of Analytic system controller.
+* this class is responsible for all of the checks and to display 
+* all of the analytic information in myFuel system
+* @author Kobi Malka
+* @version final
+*/
 public class AnalyticSystemController {
 
 	@FXML
@@ -72,6 +79,11 @@ public class AnalyticSystemController {
 
 	private JsonArray currentColumns;
 
+	/**
+	 * this function will make the operation that needed to be activated when click 
+	 * on the certain hour button and start the event.
+	 * @param event
+	 */
 	@FXML
 	void onCertainHours(ActionEvent event) {
 		isCertainHours = !isCertainHours;
@@ -86,6 +98,11 @@ public class AnalyticSystemController {
 		cbCertainHours.setVisible(isCertainHours);
 	}
 
+	/**
+	 * this function will make the operation that needed to be activated when click 
+	 * on the Customer type button and start the event.
+	 * @param event
+	 */
 	@FXML
 	void onCustomerType(ActionEvent event) {
 		isCustomerType = !isCustomerType;
@@ -100,6 +117,12 @@ public class AnalyticSystemController {
 		cbCustomerType.setVisible(isCustomerType);
 	}
 
+	/**
+	 * /**
+	 * this function will make the operation that needed to be activated when click 
+	 * on the Fuel Type button and start the event.
+	 * @param event
+	 */
 	@FXML
 	void onFuelType(ActionEvent event) {
 		isFuelType = !isFuelType;
@@ -114,6 +137,11 @@ public class AnalyticSystemController {
 		cbFuelType.setVisible(isFuelType);
 	}
 
+	/**
+	 * this function will make the operation that needed to be activated when click 
+	 * on the Show ranks button and start the event.
+	 * @param event
+	 */
 	@FXML
 	void onShowRanks(ActionEvent event) {
 		isShowRanks = !isShowRanks;
@@ -138,6 +166,11 @@ public class AnalyticSystemController {
 		}
 	}
 
+	/**
+	 * this function will make the operation that needed to be activated when click 
+	 * on the Sort button and start the event.
+	 * @param event
+	 */
 	@FXML
 	void onSort(ActionEvent event) {
 		if (isShowRanks) {
@@ -153,19 +186,29 @@ public class AnalyticSystemController {
 		}
 	}
 
+	/**
+	 * this function is responsible to convert an JsonArray to ArrayList.
+	 * its gets the JsonArray with all of the information and insert it to 
+	 * an array list of Strings
+	 * @param jsonArray
+	 * @return array list of string
+	 */
 	public ArrayList<String> convertJsonArrayToArrayListString(JsonArray jsonArray) {
-		System.out.println("Columns:");
 		ArrayList<String> result = new ArrayList<>();
 		for (int i = 0; i < jsonArray.size(); i++) {
 			result.add(jsonArray.get(i).getAsString());
-			System.out.println(jsonArray.get(i).getAsString());
 		}
 
 		return result;
 	}
 
+	/**
+	 * this function is reponsible to convert Json object with the data inside to
+	 * an array list.
+	 * @param jsonObject - Json object with the data needed.
+	 * @return - array list
+	 */
 	public ArrayList<ArrayList<String>> convertJsonObjectToArrayList(JsonObject jsonObject) {
-		System.out.println("Rows:");
 		ArrayList<ArrayList<String>> result = new ArrayList<>();
 		JsonArray columns = jsonObject.get("columns").getAsJsonArray();
 		JsonArray rows = jsonObject.get("rows").getAsJsonArray();
@@ -176,12 +219,17 @@ public class AnalyticSystemController {
 			for (int i = 0; i < columns.size(); i++) {
 				arrayList.add(json.get(columns.get(i).getAsString()).getAsString());
 			}
-			System.out.println(arrayList.toString());
 			result.add(arrayList);
 		}
 		return result;
 	}
 
+	/**
+	 * this function is responsible to fill the data in the table and display it.
+	 * it sends message to the server with the appropriate request.
+	 * @param columns 
+	 * @param rows
+	 */
 	public void fillDataView(ArrayList<String> columns, ArrayList<ArrayList<String>> rows) {
 		tblDataView.getColumns().clear();
 		tblDataView.getItems().clear();
@@ -199,6 +247,10 @@ public class AnalyticSystemController {
 		}
 	}
 
+	/**
+	 * this function get the customer ranks. it sends message to the server with the
+	 * request to get the customer ranks.
+	 */
 	public void getCustomerRanks() {
 		Message msg = new Message(MessageType.GET_CUSTOMER_RANKS, "");
 		ClientUI.accept(msg);
@@ -220,6 +272,10 @@ public class AnalyticSystemController {
 		lblTitleOfPane.setText("");
 	}
 	
+	/**
+	 * this function is responsible to get the analytic data from the DataBase.
+	 * it send a message to the server with the request to get the activity tracking data.
+	 */
 	public void getDataFromDB() {
 		String fuelType = cbFuelType.getValue().equals(cbFuelType.getItems().get(0)) ? "" : cbFuelType.getValue();
 		String customerType = cbCustomerType.getValue().equals(cbCustomerType.getItems().get(0)) ? ""
@@ -271,6 +327,9 @@ public class AnalyticSystemController {
 		lblTitleOfPane.setText(text);
 	}
 
+	/**
+	 * this function is responsible to clear all the fields in the screen.
+	 */
 	private void clearFields() {
 		isCertainHours = false;
 		cbCertainHours.setValue(cbCertainHours.getItems().get(0));
@@ -288,6 +347,11 @@ public class AnalyticSystemController {
 		ObjectContainer.setButtonImage(ObjectContainer.unchecked, btnCustomerType);
 	}
 
+	/**
+	 * this function is responsible to get the code by specific combination.
+	 * it returns the code in a string object.
+	 * @return code - string type.
+	 */
 	public String getCodeByCombination() {
 		String code = "";
 		for (int i = 0; i < cbCustomerType.getItems().size(); i++) {
@@ -335,6 +399,9 @@ public class AnalyticSystemController {
 		getCustomerRanks();
 	}
 
+	/**
+	 * this function set the values in the choice boxes.
+	 */
 	private void initCB() {
 		Message msg = new Message(MessageType.GET_FUEL_TYPES, "");
 		ClientUI.accept(msg);

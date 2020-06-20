@@ -1,0 +1,16 @@
+client.controller
+client.gui.allusers
+client.gui.ceo
+client.gui.customer
+client.gui.marketingmanager
+client.gui.marketingrepresentative
+client.gui.stationmanager
+client.gui.supplier
+entitys
+entitys.enums
+ocsf.client
+ocsf.server
+server.controller
+server.dbLogic
+server.gui
+srcTest

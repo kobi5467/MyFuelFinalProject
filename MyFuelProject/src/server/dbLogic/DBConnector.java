@@ -4,6 +4,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * this class is responsible to connect the system to the DB and initialize the DBLOGIC classes
+ * @author MyFuel Team
+ *
+ */
 public class DBConnector {
 
 	public static Connection conn;	//
@@ -25,7 +30,9 @@ public class DBConnector {
 		createConnection();
 		initLogicObjects();
 	}
-	
+	/**
+	 * this function initialize the DBLOGIC classes
+	 */
 	public void initLogicObjects() {
 		userDBController = new UserDBController();
 		fuelDBLogic = new FuelDBLogic();
@@ -37,6 +44,9 @@ public class DBConnector {
 		reportDBLogic =  new ReportDBLogic();
 	}
 	
+	/**
+	 * this function create the connection to the server and let us know if it succeed or failed.
+	 */
 	private void createConnection() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
@@ -53,7 +63,9 @@ public class DBConnector {
 			System.out.println("VendorError: " + ex.getErrorCode());
 		}
 	}
-	
+	/**
+	 * this function close the connection to the DB
+	 */
 	public void closeConnection() {
 		try {
 			if(!conn.isClosed()) {

@@ -75,7 +75,7 @@ public class EmployeeDBLogic {
 	 * this function get the string username and send query to the DB
 	 * and find the station ID number by the username, then it returns
 	 * it as a string value
-	 * @param userName - the string value of username 
+	 * @param username - the string value of username 
 	 * @return Station ID- as the string value of it
 	 */
 	public String getStationIDByUserName(String username){

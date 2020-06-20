@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainRequestPane" prefHeight="105.0" prefWidth="910.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.ceo.SubscribePane">
+<AnchorPane fx:id="mainRequestPane" prefHeight="105.0" prefWidth="910.0" xmlns="http://javafx.com/javafx/8.0.51" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.ceo.SubscribePane">
    <children>
       <Pane fx:id="viewPane" prefHeight="105.0" prefWidth="910.0">
          <children>

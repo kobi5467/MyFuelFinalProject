@@ -29,7 +29,7 @@ public class ServerController extends AbstractServer {
 
 	public static DBConnector dbConnector;
 
-	public static long intervalForOneDay = 24 * 60 * 60 * 1000;
+	public static long checkSupplyHomeHeatingFuelOrders = 10 * 60 * 1000;
 	public static long intervalForWeek = 7 * 24 * 60 * 60 * 1000;
 	
 	public ServerController(int port) {
@@ -54,7 +54,7 @@ public class ServerController extends AbstractServer {
 								dbConnector.orderDBLogic.updateHomeHeatingFuelToSupplyByOrderID(order.get("orderID").getAsString());
 							}
 						}
-						sleep(intervalForOneDay);
+						sleep(checkSupplyHomeHeatingFuelOrders);
 					}catch(Exception e) {
 						continue;
 					}
@@ -132,7 +132,7 @@ public class ServerController extends AbstractServer {
 					case GET_ORDERS_BY_STATIONID_AND_QUARTER:
 					case GET_ORDERS_BY_STATIONID_AND_SALE_NAME:
 					case GET_ORDER_ID:
-					case GET_ORDERS_FROM_DB:
+					case GET_INVENTORY_ORDERS_FROM_DB_FOR_MARKETING_MANAGER:
 					case REMOVE_ORDER_FROM_DB:
 					case UPDATE_ORDER_IN_DB:
 					case ADD_FAST_FUEL_ORDER:
@@ -332,7 +332,7 @@ public class ServerController extends AbstractServer {
 			JsonArray orders = dbConnector.orderDBLogic.getInvertoryOrdersByID(supplierID);
 			responseJson.add("orders", orders);
 		}	break;
-		case GET_ORDERS_FROM_DB:{
+		case GET_INVENTORY_ORDERS_FROM_DB_FOR_MARKETING_MANAGER:{
 			JsonArray orders = dbConnector.orderDBLogic.getInvertoryOrdersFromDB(requestJson);
 			responseJson.add("orders", orders);
 		}	break;

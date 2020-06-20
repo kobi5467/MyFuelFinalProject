@@ -127,6 +127,7 @@ public class MainFormController {
 				buttonNames.add("InventoryOrders");
 				buttonNames.add("Inventory");
 				buttonNames.add("ReportGeneration");
+				buttonNames.add("ActivityTracking");
 				break;
 			case CEO:
 				buttonNames.add("FuelRatesRequest");

@@ -28,7 +28,7 @@ import javafx.scene.layout.Pane;
  * this class will show to the marketing manager the current and max fuel rates
  * and will allow him/her to make a request to change new fuel rate,
  * the request will be sended to the ceo of the company.
- * @author Barak & Or Yom Tov
+ * @author Barak and Or Yom Tov
  * @version final
  */
 
@@ -420,7 +420,6 @@ public class DeterminingFuelRatesController {
     //New Method - Have to fix it
     public void sendSubscribeRequest(String newDiscount) {
 		JsonObject json = new JsonObject();
-		System.out.println(cbSubscribesType.getValue());
 		String subscribeType =cbSubscribesType.getValue();
 
 		json.addProperty("subscribeType", subscribeType);

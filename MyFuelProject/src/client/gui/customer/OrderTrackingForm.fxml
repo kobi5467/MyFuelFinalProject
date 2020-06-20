@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="OrderTrackingControlPane" prefHeight="570.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.customer.OrderTrackingController">
+<Pane fx:id="OrderTrackingControlPane" prefHeight="570.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/8.0.51" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.customer.OrderTrackingController">
    <children>
       <TextField fx:id="txtTypeOrderID" layoutX="143.0" layoutY="26.0" prefHeight="35.0" prefWidth="160.0" promptText="Enter order id.." />
       <Button fx:id="btnSearch" layoutX="321.0" layoutY="26.0" mnemonicParsing="false" onAction="#OnSearch" prefHeight="35.0" prefWidth="80.0" text="Search" />

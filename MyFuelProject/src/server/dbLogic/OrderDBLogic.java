@@ -180,7 +180,7 @@ public class OrderDBLogic {
 	 * 
 	 * @param stationID is the station that the user want to take the orders
 	 *                  details.
-	 * @quarter is the time in the year that we want to generate the report.
+	 * @param quarter- is the time in the year that we want to generate the report.
 	 * @param year is when the fuel orders were made.
 	 */
 
@@ -224,7 +224,7 @@ public class OrderDBLogic {
 	 * 
 	 * @param stationID is the station that the user want to take the orders
 	 *                  details.
-	 * @quarter is the time of year that we want to take orders for generate the
+	 * @param quarter is the time of year that we want to take orders for generate the
 	 *          report.
 	 * @param year is when the fuel orders were made.
 	 */
@@ -303,8 +303,7 @@ public class OrderDBLogic {
 	 * given userName. it used the result of the query and insert it to an
 	 * jsonObject and then insert it into JsonArray and returns it.
 	 * 
-	 * @param String username
-	 * @return JsonArray HHFOrders
+	 * @param  username
 	 */
 	public JsonArray GetHomeHeatingFuelOrder(String username) {
 		JsonArray HHFOrders = new JsonArray();
@@ -427,8 +426,7 @@ public class OrderDBLogic {
 		try {
 			if (DBConnector.conn != null) {
 				query = "SELECT * FROM fuel_inventory_orders "
-						+ "WHERE orderStatus != 'SENT_TO_SUPPLIER' AND orderStatus != 'DeniedByStationManager'"
-						+ " AND orderStatus != 'Supplied' AND orderStatus != 'DeniedBySupplier';";
+						+ "WHERE orderStatus = 'SENT_TO_STATION_MANAGER';";
 				stmt = DBConnector.conn.createStatement();
 				ResultSet rs = stmt.executeQuery(query);
 				while (rs.next()) {
@@ -495,7 +493,7 @@ public class OrderDBLogic {
 		try {
 			if (DBConnector.conn != null) {
 				query = "SELECT * FROM fuel_inventory_orders" + " WHERE supplierID = '" + supplierID
-						+ "' AND orderStatus = 'SENT_TO_SUPPLIER';";
+						+ "' AND orderStatus = 'SENT_TO_SUPPLIER' OR orderStatus = 'Supllied';";
 				stmt = DBConnector.conn.createStatement();
 				stmt.executeQuery(query);
 				ResultSet rs = stmt.executeQuery(query);
@@ -721,7 +719,6 @@ public class OrderDBLogic {
 				try {
 					float num1 = a.get("total").getAsFloat();
 					float num2 = b.get("total").getAsFloat();
-					System.out.println(num1 + "  " + num2);
 					if (num1 > num2) {
 						return -1;
 					} else if (num1 == num2) {
@@ -735,9 +732,6 @@ public class OrderDBLogic {
 		});
 		for (int i = 0; i < jsonArray.size(); i++) {
 			sortedJsonArray.add(list.get(i));
-		}
-		for (int i = 0; i < sortedJsonArray.size(); i++) {
-			System.out.println(sortedJsonArray.get(i).toString());
 		}
 		return sortedJsonArray;
 	}

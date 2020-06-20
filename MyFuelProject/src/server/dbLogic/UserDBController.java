@@ -85,7 +85,7 @@ public class UserDBController {
 			e.printStackTrace();
 		}
 
-//		if(isValid) updateLoginFlag(userName, 1);		// TODO - SET THIS BACK !!!!!!!!!!! 
+		if(isValid) updateLoginFlag(userName, 1);		// TODO - SET THIS BACK !!!!!!!!!!! 
 		response.addProperty("isValid", isValid);
 		response.addProperty("errorMessage", errorMessage);
 		return response;

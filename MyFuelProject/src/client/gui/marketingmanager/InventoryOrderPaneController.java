@@ -125,10 +125,7 @@ public class InventoryOrderPaneController {
     	return orderPane;
     }
     
-    /**
-	 * This method responsible to get the 'fxml' file and call to the method that init the UI.
-	 * @param changePane - This is the value that responsible to change the panes by the correct button.
-	 */
+    
 	public InventoryOrderPaneController load(JsonObject orders, String color) {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("InventoryOrderPane.fxml"));

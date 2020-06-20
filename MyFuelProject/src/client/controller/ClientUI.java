@@ -4,7 +4,11 @@ import client.gui.allusers.LoginController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
+/**
+ * this class launch the Login controller and begin the process of the client UI
+ * @author MyFuel Team
+ *
+ */
 public class ClientUI extends Application{
 
 	public static ClientController clientController;

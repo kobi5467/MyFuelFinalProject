@@ -423,7 +423,6 @@ public class UpdateCustomerController {
 		ClientUI.accept(msg);
 		JsonObject customerFuelType = new JsonObject();
 		customerFuelType = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
-		System.out.println(customerFuelType.toString());
 		String[] res = customerFuelType.get("fuelCompanies").getAsString().split(",");
 		switch(res.length) {
 		case 1:
@@ -780,7 +779,6 @@ public class UpdateCustomerController {
 		ClientUI.accept(msg);
 		JsonArray vehicles = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject().get("vehicles")
 				.getAsJsonArray();
-		System.out.println(vehicles.toString());
 		initVehcilesChoiseBox(vehicles);
 		initFuelTypes();
 	}

@@ -8,7 +8,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainInventoryPane" prefHeight="177.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.stationmanager.InventoryPane">
+<AnchorPane fx:id="mainInventoryPane" prefHeight="177.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/8.0.51" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.stationmanager.InventoryPane">
    <children>
       <Label layoutX="13.0" layoutY="25.0" text="Fuel Type :" textFill="WHITE">
          <font>

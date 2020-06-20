@@ -13,7 +13,7 @@ import com.google.gson.JsonObject;
 import entitys.enums.FuelType;
 /**
  * This class responsible to rule on all the customer DB Logic with all the requests from the server.
- * @author Or Yom Tov & Kobi Malka.
+ * @author Or Yom Tov and Kobi Malka.
  * @version - Final
  */
 public class CustomerDBLogic {
@@ -140,9 +140,9 @@ public class CustomerDBLogic {
 		Statement stmt = null;
 		try {
 			if (DBConnector.conn != null) {
-				query = "INSERT INTO customer (customerID, userName, city, street, customerType, purchaseModelType, subscribeType, paymentMethod) " + 
+				query = "INSERT INTO customer (customerID, userName, city, street, customerType, purchaseModelType, subscribeType, paymentMethod, customerRank) " + 
 						"VALUES ('" + customerID + "','"+ userName + "','" + city + "','" + street 
-								+ "','" + customerType + "','" + purchaseModelType + "','" + subscribeType + "','" + paymentMethod + "');";
+								+ "','" + customerType + "','" + purchaseModelType + "','" + subscribeType + "','" + paymentMethod + "', 0);";
 				stmt = DBConnector.conn.createStatement();
 				stmt.execute(query);
 			} else {

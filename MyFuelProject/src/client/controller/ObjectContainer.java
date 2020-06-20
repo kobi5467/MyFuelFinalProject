@@ -43,6 +43,12 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
 
+/**
+ * In this class we contain all of STATIC controllers, stages, pane controllers, global variables
+ * and global methods for the use in the whole project
+ * @author MyFuel Team
+ *
+ */
 public class ObjectContainer {
 
 	
@@ -105,7 +111,13 @@ public class ObjectContainer {
 	public static String checked = "/images/checked.png";
 	public static String unchecked = "/images/unchecked.png";
 	// ****************************************     global methods  	****************************************
-		
+	/**
+	 * This function shows message to the user, it gets the type of the message, the title we display
+	 * and the message we want to show
+	 * @param type - type of the message, can be error, approve etc...
+	 * @param title - the title of the message 
+	 * @param msg - the message itself
+	 */
 	public static void showMessage(String type,String title, String msg) {
 		if(ObjectContainer.messageController == null) {
 			ObjectContainer.messageController = new MessageController();
@@ -113,6 +125,11 @@ public class ObjectContainer {
 		ObjectContainer.messageController.start(type,title,msg);
 	}
 	
+	/**
+	 * this function get string value and return true/false if the string contains only numbers without letters and signs
+	 * @param val - the string value we want to check
+	 * @return - true/false boolean 
+	 */
 	public static boolean checkIfStringContainsOnlyNumbers(String val) {
 		boolean flag = true;
 		for (int i = 0; i < val.length(); i++) {
@@ -123,6 +140,13 @@ public class ObjectContainer {
 		}
 		return flag;
 	}
+	
+	/**
+	 * this function get a string value and check if its contain only numbers with maybe "." between them
+	 * to represent "Float" type number.
+	 * @param val - the string value we want to check
+	 * @return true/false boolean answer
+	 */
 	public static boolean checkIfStringContainsOnlyNumbersFloatType(String val) {
 		boolean flag = true;
 		for (int i = 0; i < val.length(); i++) {
@@ -138,6 +162,11 @@ public class ObjectContainer {
 		return flag;
 	}
 	
+	/**
+	 * this function get string value and checks if it contains only characters (to check only letters).
+	 * @param val - the string value we want to check
+	 * @return true/false bollean answer
+	 */
 	public static boolean checkIfStringContainsOnlyChar(String val) {
 		for(int i = 0; i<val.length(); i++) {
 			if(!Character.isAlphabetic(val.charAt(i)))
@@ -145,7 +174,11 @@ public class ObjectContainer {
 		}
 		return true;
 	}
-	
+	/**
+	 * this function get text from textfield and set the textfield limit.
+	 * @param txt
+	 * @param limit
+	 */
 	public static void setTextFieldLimit(TextField txt, int limit) {	// set length limit for textfields.
 		txt.textProperty().addListener((observable, oldValue, newValue) -> {
             if(txt.getText().length() > limit) {
@@ -154,6 +187,11 @@ public class ObjectContainer {
         });
 	}
 	
+	/**
+	 * 	 * this function get text from textfield and set the textfield limit but to get only digits.
+	 * @param txt - the text we want to set
+	 * @param limit - the limit
+	 */
 	public static void setTextFieldToGetOnlyDigitsWithLimit(TextField txt, int limit) {
 		txt.textProperty().addListener((observable, oldValue, newValue) -> {
 			if(newValue.isEmpty()) {
@@ -165,6 +203,11 @@ public class ObjectContainer {
         });
 	}
 	
+	/**
+	 * 	 * this function get text from textfield and set the textfield limit but to get only chars.
+	 * @param txt - the text we want to set
+	 * @param limit - the limit
+	 */
 	public static void setTextFieldToGetOnlyCharacterWithLimit(TextField txt, int limit) {
 		txt.textProperty().addListener((observable, oldValue, newValue) -> {
 			if(newValue.isEmpty()) {
@@ -178,10 +221,13 @@ public class ObjectContainer {
         });
 	}
 	
+	/**
+	 * this function get text field and set float value
+	 * @param txt
+	 */
 	public static void setTextFieldToGetFloat(TextField txt) {
 		txt.textProperty().addListener((observable, oldValue, newValue) -> {
 			try {
-				System.out.println("newValue = "+ newValue + ", oldValue = " + oldValue);
 				Float.parseFloat(newValue);
 				txt.setText(newValue);
 			}catch(NumberFormatException e) {
@@ -190,6 +236,12 @@ public class ObjectContainer {
         });
 	}
 	
+	/**
+	 * this function set choice option in the choiceBox
+	 * @param choiceBox - the choice box we get
+	 * @param choiceOption - the choice option we want t insert
+	 * @param defualtValue - default value of the choice bpx we want to set
+	 */
 	public static void setChoiceOptionOfChoiceBox(ChoiceBox<String> choiceBox,
 			JsonArray choiceOption, String defualtValue) {
 		int i;
@@ -201,12 +253,17 @@ public class ObjectContainer {
 		choiceBox.setValue(defualtValue);
 	}
 	
+	/**
+	 * this method returns the current date when it get used.
+	 * @return current Date in string value
+	 */
 	public static String getCurrentDate() {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date date = new Date(System.currentTimeMillis());
 		return formatter.format(date).toString();
 	}
 
+	
 	public static void setButtonImage(String url, Button button) {
 		Image img = new Image(ObjectContainer.class.getResource(url).toString());
 		BackgroundImage backgroundImage = new BackgroundImage(img, BackgroundRepeat.NO_REPEAT,

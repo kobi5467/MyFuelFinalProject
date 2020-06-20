@@ -230,7 +230,6 @@ public class ReportViewController {
 				JsonObject order = new JsonObject();
 				ArrayList<String> orderAsString = new ArrayList<>();
 				order = jsonRows.get(j).getAsJsonObject();
-				System.out.println(order.toString());
 				orderAsString.add(order.get("customerID").getAsString());
 				Message msg = new Message(MessageType.GET_FUEL_COMPANIES_NAMES,
 						"");

@@ -121,7 +121,7 @@
 }
 
 .choice-box .arrow{
--fx-background-color: #ffffff;
+-fx-background-color: #123456;
 }
 
 
@@ -136,38 +136,32 @@
 }
 
 .choice-box{
-	-fx-background-color:#090a0c,
-        linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),
-        linear-gradient(#02b6de, #024079),
-        radial-gradient(center 50% 0%, radius 100%, rgba(12,131,255,0.9), rgba(255,255,255,0));
+	-fx-background-color:#ffffff;
 	-fx-alignment:center;
 	-fx-font-size: 10pt;
 	-fx-font-weight: bold;
-	-fx-border-color:#ffffff;
+	-fx-border-color:#123456;
 	-fx-border-width:2px;
 }
 .choice-box>.label{
-	-fx-text-fill:#ffffff;
+	-fx-text-fill:#123456;
 }
 
 .text-field{
-	-fx-background-color:#090a0c,
-        linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),
-        linear-gradient(#02b6de, #024079),
-        radial-gradient(center 50% 0%, radius 100%, rgba(12,131,255,0.9), rgba(255,255,255,0));
+	-fx-background-color:#ffffff;
 	-fx-font-size: 10pt;
 	-fx-font-weight: bold;
-	-fx-text-fill:#ffffff;
-	-fx-border-color:#ffffff;
+	-fx-text-fill:#123456;
+	-fx-border-color:#123456;
 	-fx-border-width:2px;
 }
 
 .password-field{
-	-fx-background-color:#0c83ff;
+	-fx-background-color:#ffffff;
 	-fx-font-size: 10pt;
 	-fx-font-weight: bold;
-	-fx-text-fill:#ffffff;
-	-fx-border-color:#ffffff;
+	-fx-text-fill:#123456;
+	-fx-border-color:#123456;
 	-fx-border-width:2px;
 }
 

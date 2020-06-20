@@ -1,11 +1,8 @@
 package client.gui.customer;
 
 import java.io.IOException;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
-import java.util.Date;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -15,7 +12,6 @@ import client.controller.ObjectContainer;
 import client.gui.marketingrepresentative.SaleTemplatePane;
 import entitys.Customer;
 import entitys.Message;
-import entitys.enums.FuelType;
 import entitys.enums.MessageType;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -28,10 +24,8 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
@@ -156,6 +150,11 @@ public class HomeHeatingFuelController {
 	private Text textUrgentOrder;
 	@FXML
 	private Label lblUrgentOrder;
+    @FXML
+    private Button btnHelp;
+    @FXML
+    private ImageView imgHelpCVV;
+	
 	public Boolean isPressed = false;
 	public String amount;
 	public String street;
@@ -203,6 +202,13 @@ public class HomeHeatingFuelController {
 	 * This function initialize home heating fuel order form
 	 */
 	public void initUI() {
+		ObjectContainer.setButtonImage("/images/help_icon.png", btnHelp);
+		ObjectContainer.setImageBackground("/images/cvvHelp.png", imgHelpCVV);
+		imgHelpCVV.setVisible(false);
+		btnHelp.hoverProperty().addListener((ov, oldValue, newValue) -> {
+		    showHelp(newValue);
+		});
+		btnHelp.setVisible(false);
 		textUrgentOrder.setVisible(false);
 		lblUrgentOrder.setVisible(false);
 		btnSubmit.setId("dark-blue");
@@ -216,6 +222,17 @@ public class HomeHeatingFuelController {
 		creditCard = getCreditCardByCustomerID();
 	}
 
+	/**
+	 * This method is responsible to show help to the user.
+	 * @param isShow - boolaen value.
+	 */
+	public void showHelp(boolean isShow) {
+		if(isShow) {
+			imgCVVError.setVisible(false);
+		}
+		imgHelpCVV.setVisible(isShow);
+	}
+	
 	/**
 	 * This function activates the second screen of home heating fuel order and
 	 * close the first screen. The second screen includes the details of the order:
@@ -247,6 +264,7 @@ public class HomeHeatingFuelController {
 		txtCVV.setVisible(flag);
 		txtcvv.setVisible(flag);
 		txtDateVal.setVisible(flag);
+		btnHelp.setVisible(flag);
 		cbCreditCardMonthValidation.setVisible(flag);
 		cbCreditCardYearValidation.setVisible(flag);
 		imgCardNumberCVV.setVisible(flag);
@@ -498,11 +516,9 @@ public class HomeHeatingFuelController {
 	 */
 	public Boolean checkCityField() {
 		if (txtCity.getText() == null || txtCity.getText().toString().isEmpty()) {
-//			setErrorImage(imgCityError, "/images/error_icon.png");
 			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgCityError);
 			return false;
 		}
-//		setErrorImage(imgCityError, "/images/v_icon.png");
 		ObjectContainer.setImageBackground(ObjectContainer.vIcon, imgCityError);
 		return true;
 
@@ -743,34 +759,36 @@ public class HomeHeatingFuelController {
 		JsonObject saleData = response.get("saleData").getAsJsonObject();
 		JsonArray saleTypes = saleData.get("saleTypes").getAsJsonArray();
 		float discountRate = 0;
+		int count = 0;
+
 		for (int i = 0; i < saleTypes.size(); i++) {
 			if (saleTypes.get(i).getAsString().equals(SaleTemplatePane.BY_FUEL_TYPE)) {
 				String fuel = "Home Heating Fuel";
 				if (fuel.equals(saleData.get("fuelType").getAsString())) {
-					discountRate = response.get("discountRate").getAsFloat();
-					saleTemplateName = response.get("saleTemplateName").getAsString();
-					break;
+					count++;
 				}
 			}
 			if (saleTypes.get(i).getAsString().equals(SaleTemplatePane.BY_CUSTOMER_TYPE)) {
 				Customer customer = (Customer) ObjectContainer.currentUserLogin;
+
 				if (customer.getCustomerType().equals(saleData.get("customerType").getAsString())) {
-					discountRate = response.get("discountRate").getAsFloat();
-					saleTemplateName = response.get("saleTemplateName").getAsString();
-					break;
+					count++;
 				}
 			}
 			if (saleTypes.get(i).getAsString().equals(SaleTemplatePane.BY_CRETIAN_HOURS)) {
 				if (checkTimes(saleData)) {
-					discountRate = response.get("discountRate").getAsFloat();
-					saleTemplateName = response.get("saleTemplateName").getAsString();
-					break;
+					count++;
 				}
 			}
 		}
+		
+		if(count == saleTypes.size()) {
+			discountRate = response.get("discountRate").getAsFloat();
+			saleTemplateName = response.get("saleTemplateName").getAsString();
+		}
 		return discountRate;
 	}
-
+	
 	/**
 	 * This function check if the current sale is valid at time of placing home
 	 * heating fuel order.
@@ -866,7 +884,8 @@ public class HomeHeatingFuelController {
 			if (this.isPressed) {
 				commissionForUrgentorder = 2;
 				discountFlag = true;
-				totalCommision = (double) amountOfLitters * commissionForUrgentorder * 0.01;
+//				totalCommision = (double) amountOfLitters * commissionForUrgentorder * 0.01;
+				totalCommision = (double) pricePerLitter * amountOfLitters * commissionForUrgentorder * 0.01;
 				textUrgentOrder.setVisible(true);
 				lblUrgentOrder.setVisible(true);
 				lblUrgentOrder.setText(String.format("%.2f", totalCommision) + " $");

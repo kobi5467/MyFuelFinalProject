@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="RatesToApprovePane" prefHeight="563.0" prefWidth="945.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.ceo.RatesToApproveController">
+<Pane fx:id="RatesToApprovePane" prefHeight="563.0" prefWidth="945.0" xmlns="http://javafx.com/javafx/8.0.51" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.ceo.RatesToApproveController">
    <children>
       <ScrollPane fx:id="spRequestsContainer" layoutX="9.0" layoutY="70.0" prefHeight="486.0" prefWidth="932.0">
          <content>

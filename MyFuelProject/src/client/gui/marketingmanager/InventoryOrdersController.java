@@ -91,7 +91,7 @@ public class InventoryOrdersController {
 	private void getInvertoryOrdersFromDB() {
 		JsonObject order = new JsonObject();
 		order.addProperty("orders", "orders2");
-		Message msg = new Message(MessageType.GET_ORDERS_FROM_DB, order.toString());
+		Message msg = new Message(MessageType.GET_INVENTORY_ORDERS_FROM_DB_FOR_MARKETING_MANAGER, order.toString());
 		ClientUI.accept(msg);
 		JsonObject orders = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
 		JsonArray ordersArray = orders.get("orders").getAsJsonArray();

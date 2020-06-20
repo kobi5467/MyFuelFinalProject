@@ -5,6 +5,12 @@ import java.io.IOException;
 import entitys.Message;
 import ocsf.client.AbstractClient;
 
+
+/**
+ * this class is the controller that connect the messages from server to the client
+ * @author MyFuel Team
+ *
+ */
 public class ClientController extends AbstractClient {
 
 	private volatile boolean waitingForResponse = false;
@@ -13,6 +19,9 @@ public class ClientController extends AbstractClient {
 		super(host, port);
 	}
 
+	/**
+	 * This method handle message from server.
+	 */
 	@Override
 	protected void handleMessageFromServer(Object msg) {
 		waitingForResponse = false;
