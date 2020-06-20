@@ -18,13 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 /**
@@ -152,13 +146,18 @@ public class LoginController {
 		ObjectContainer.allowDrag(mainLoginPane, ObjectContainer.loginStage);
 		
 		Scene scene = new Scene(mainLoginPane);
+		scene.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
 	
 	private void initUI() {
 		btnLogin.setDefaultButton(true);
-		setButtonImage("/images/FastFuel.png", btnFastFuel);
+//		ObjectContainer.setButtonImage("/images/FastFuel.png", btnFastFuel);
+		ObjectContainer.setButtonImage("/images/FastFuelGif.gif", btnFastFuel);
+		ObjectContainer.setImageBackground("/images/pass_icon.png", imgPass);
+		ObjectContainer.setImageBackground("/images/user_icon.png", imgUser);
+		ObjectContainer.setImageBackground("/images/MyFuelLoginLogo.jpg", imgLoginBackground);
 		ObjectContainer.setTextFieldLimit(txtUsername, 15);
 		lblErrorMessage.setText("");
 		txtUsername.setText("");
@@ -167,12 +166,4 @@ public class LoginController {
 		txtPassword.setStyle("-fx-text-fill:#000000;");
 	}
 	
-	public void setButtonImage(String url, Button btn) {
-		BackgroundImage backgroundImage = new BackgroundImage(
-				new Image(getClass().getResource(url).toExternalForm()),
-				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-				BackgroundSize.DEFAULT);
-		Background background = new Background(backgroundImage);
-		btn.setBackground(background);
-	}
 }

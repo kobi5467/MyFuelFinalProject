@@ -5,10 +5,7 @@ import java.io.IOException;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import client.controller.ClientUI;
 import client.controller.ObjectContainer;
-import entitys.Message;
-import entitys.enums.MessageType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -214,7 +211,6 @@ public class InventoryPane {
 		String errorMessage = "";
 		String threshold1 = txtThreshold.getText().trim();
 		String maxAmount1 = txtMaxAmount.getText().trim();
-		String fuelType1 = txtFuelType.getText().trim();
 		if (!checkFields(txtThreshold.getText(), txtMaxAmount.getText())) {
 			errorMessage = "Only Numbers!";
 			lblErrorMessage.setText(errorMessage);
@@ -235,7 +231,6 @@ public class InventoryPane {
 
 		}
 	}
-
 	
 	/**
 	 * this function check the fields entered and make validity tests.

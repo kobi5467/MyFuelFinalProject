@@ -14,15 +14,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
+/**
+ * This class create a new pane for dynamic order to show them on the gui in "InventoryOrdersController" class.
+ * @author Or Yom Tov
+ * @version - Final
+ */
 public class InventoryOrderPaneController {
 
     @FXML
@@ -145,15 +144,6 @@ public class InventoryOrderPaneController {
 	}
 
 	
-	public void setButtonImage(String url, Button btn) {
-		BackgroundImage backgroundImage = new BackgroundImage(
-				new Image(getClass().getResource(url).toExternalForm()),
-				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-				BackgroundSize.DEFAULT);
-		Background background = new Background(backgroundImage);
-		btn.setBackground(background);
-	}	
-	
 	/**
 	 * This method responsible to init all the buttons, texts, lables and etc.
 	 */
@@ -161,8 +151,8 @@ public class InventoryOrderPaneController {
 		
 		this.orders = orders;
 		btnSubmitReason.setId("dark-blue");
-		setButtonImage("/images/v_icon_30px.png", btnApprove);
-		setButtonImage("/images/error_icon_30px.png", btnDeny);
+		ObjectContainer.setButtonImage("/images/v_icon_30px.png", btnApprove);
+		ObjectContainer.setButtonImage("/images/error_icon_30px.png", btnDeny);
 		lblDenyReason.setVisible(false);
 		txtReasonDeny.setVisible(false);
 		btnSubmitReason.setVisible(false);

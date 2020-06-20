@@ -8,9 +8,7 @@ import com.google.gson.JsonObject;
 
 import client.controller.ClientUI;
 import client.controller.ObjectContainer;
-import client.gui.allusers.MessageController;
 import client.gui.marketingrepresentative.SaleTemplatePane;
-import entitys.Customer;
 import entitys.Message;
 import entitys.enums.FuelType;
 import entitys.enums.MessageType;
@@ -24,13 +22,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -46,6 +38,9 @@ public class FastFuelController {
 
 	@FXML
 	private Pane fastFuelPane;
+	
+    @FXML
+    private ImageView imgFastFuelBG;
 
 	@FXML
 	private ChoiceBox<String> cbFuelCompany;
@@ -137,7 +132,6 @@ public class FastFuelController {
 	private float pricePerLitter = 0;
 	private String fuelType = "";
 	private JsonArray vehicles;
-	private float purchaseModelRate = 0;
 	private JsonArray subscribeTypes;
 	private JsonObject creditCard;
 	private String saleTemplateName = "";
@@ -146,6 +140,7 @@ public class FastFuelController {
 	private String subscribeType = "";
 	private String purchaseModel = "";
 	private String customerType = "";
+
 	@FXML
 	private Button btnClose;
 
@@ -199,45 +194,57 @@ public class FastFuelController {
 			return false;
 		}
 		if (cbVehicleNumber.getValue().equals(cbVehicleNumber.getItems().get(0))) {
-			setErrorImage(imgVehicle, "/images/error_icon.png");
+//			setErrorImage(imgVehicle, "/images/error_icon.png");
+			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgVehicle);
 			flag = false;
 		} else {
-			setErrorImage(imgVehicle, "/images/v_icon.png");
+//			setErrorImage(imgVehicle, "/images/v_icon.png");
+			ObjectContainer.setImageBackground(ObjectContainer.vIcon, imgVehicle);
 		}
 
 		if (cbFuelCompany.getValue().equals(cbFuelCompany.getItems().get(0))) {
-			setErrorImage(imgCompany, "/images/error_icon.png");
+//			setErrorImage(imgCompany, "/images/error_icon.png");
+			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgCompany);
 			flag = false;
 		} else {
-			setErrorImage(imgCompany, "/images/v_icon.png");
+//			setErrorImage(imgCompany, "/images/v_icon.png");
+			ObjectContainer.setImageBackground(ObjectContainer.vIcon, imgCompany);
 		}
 
 		if (cbStationNumber.getValue().equals(cbStationNumber.getItems().get(0))) {
-			setErrorImage(imgStationNumber, "/images/error_icon.png");
+//			setErrorImage(imgStationNumber, "/images/error_icon.png");
+			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgStationNumber);
 			flag = false;
 		} else {
-			setErrorImage(imgStationNumber, "/images/v_icon.png");
+//			setErrorImage(imgStationNumber, "/images/v_icon.png");
+			ObjectContainer.setImageBackground(ObjectContainer.vIcon, imgStationNumber);
 		}
 
 		if (cbPaymentMethod.getValue().equals(cbPaymentMethod.getItems().get(0))) {
-			setErrorImage(imgPaymentMethod, "/images/error_icon.png");
+//			setErrorImage(imgPaymentMethod, "/images/error_icon.png");
+			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgPaymentMethod);
 			flag = false;
 		} else {
-			setErrorImage(imgPaymentMethod, "/images/v_icon.png");
+//			setErrorImage(imgPaymentMethod, "/images/v_icon.png");
+			ObjectContainer.setImageBackground(ObjectContainer.vIcon, imgPaymentMethod);
 		}
 
 		if (txtFuelAmount.getText().isEmpty()) {
-			setErrorImage(imgAmount, "/images/error_icon.png");
+//			setErrorImage(imgAmount, "/images/error_icon.png");
+			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgAmount);
 			flag = false;
 		} else {
-			setErrorImage(imgAmount, "/images/v_icon.png");
+//			setErrorImage(imgAmount, "/images/v_icon.png");
+			ObjectContainer.setImageBackground(ObjectContainer.vIcon, imgAmount);
 		}
 
 		try {
 			Float.parseFloat(txtFuelAmount.getText());
-			setErrorImage(imgAmount, "/images/v_icon.png");
+//			setErrorImage(imgAmount, "/images/v_icon.png");
+			ObjectContainer.setImageBackground(ObjectContainer.vIcon, imgAmount);
 		} catch (NumberFormatException e) {
-			setErrorImage(imgAmount, "/images/error_icon.png");
+//			setErrorImage(imgAmount, "/images/error_icon.png");
+			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgAmount);
 			flag = false;
 		}
 
@@ -246,34 +253,42 @@ public class FastFuelController {
 			if (txtCreditCardNumber.getText().isEmpty()
 					|| !ObjectContainer.checkIfStringContainsOnlyNumbers(txtCreditCardNumber.getText())
 					|| txtCreditCardNumber.getText().length() > 16 || txtCreditCardNumber.getText().length() < 8) {
-				setErrorImage(imgCreditCardNumber, "/images/error_icon.png");
+//				setErrorImage(imgCreditCardNumber, "/images/error_icon.png");
+				ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgCreditCardNumber);
 				flag = false;
 			} else {
-				setErrorImage(imgCreditCardNumber, "/images/v_icon.png");
+//				setErrorImage(imgCreditCardNumber, "/images/v_icon.png");
+				ObjectContainer.setImageBackground(ObjectContainer.vIcon, imgCreditCardNumber);
 			}
 
 			if (txtCvv.getText().length() > 4 || txtCvv.getText().length() < 3
 					|| !ObjectContainer.checkIfStringContainsOnlyNumbers(txtCvv.getText())) {
-				setErrorImage(imgCVV, "/images/error_icon.png");
+//				setErrorImage(imgCVV, "/images/error_icon.png");
+				ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgCVV);
 				flag = false;
 			} else {
-				setErrorImage(imgCVV, "/images/v_icon.png");
+//				setErrorImage(imgCVV, "/images/v_icon.png");
+				ObjectContainer.setImageBackground(ObjectContainer.vIcon, imgCVV);
 			}
 
 			if (cbYear.getValue().equals(cbYear.getItems().get(0))
 					|| cbMonth.getValue().equals(cbYear.getItems().get(0))) {
-				setErrorImage(imgDateValidation, "/images/error_icon.png");
+//				setErrorImage(imgDateValidation, "/images/error_icon.png");
+				ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgDateValidation);
 				flag = false;
 			} else {
-				setErrorImage(imgDateValidation, "/images/v_icon.png");
+//				setErrorImage(imgDateValidation, "/images/v_icon.png");
+				ObjectContainer.setImageBackground(ObjectContainer.vIcon, imgDateValidation);
 			}
 		}
 
 		if (cbPumpNumber.getValue().equals(cbPumpNumber.getItems().get(0))) {
-			setErrorImage(imgPumpNumber, "/images/error_icon.png");
+//			setErrorImage(imgPumpNumber, "/images/error_icon.png");
+			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgPumpNumber);
 			flag = false;
 		} else {
-			setErrorImage(imgPumpNumber, "/images/v_icon.png");
+//			setErrorImage(imgPumpNumber, "/images/v_icon.png");
+			ObjectContainer.setImageBackground(ObjectContainer.vIcon, imgPumpNumber);
 		}
 
 		if (flag && checkIfFuelAmountAvailable(fuelType)) {
@@ -309,17 +324,6 @@ public class FastFuelController {
 		if (amount > availableAmount)
 			isValid = false;
 		return isValid;
-	}
-
-	/**
-	 * This method responsible to set error image.
-	 * 
-	 * @param img - the node to set image.
-	 * @param url - string value of path image.
-	 */
-	public void setErrorImage(ImageView img, String url) {
-		Image image = new Image(getClass().getResource(url).toString());
-		img.setImage(image);
 	}
 
 	/**
@@ -360,21 +364,12 @@ public class FastFuelController {
 		}
 
 		Scene scene = new Scene(fastFuelPane);
-		
+		scene.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
 		ObjectContainer.fastFuelStage.setScene(scene);
 		ObjectContainer.fastFuelStage.centerOnScreen();
 		ObjectContainer.fastFuelStage.show();
 	}
 
-	public void setButtonImage(String url, Button btn) {
-		BackgroundImage backgroundImage = new BackgroundImage(
-				new Image(getClass().getResource(url).toExternalForm()),
-				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-				BackgroundSize.DEFAULT);
-		Background background = new Background(backgroundImage);
-		btn.setBackground(background);
-	}
-	
 	private void initUI() {
 		lblFuelType.setText("");
 		lblPricePerLitter.setText("");
@@ -382,7 +377,8 @@ public class FastFuelController {
 		lblPriceAfterDiscount.setText("");
 		btnSubmitOrder.setText("Submit");
 		btnSubmitOrder.setId("dark-blue");
-		setButtonImage("/images/exit.png", btnClose);
+		ObjectContainer.setImageBackground("/images/fast_fuel_BG.png", imgFastFuelBG);
+		ObjectContainer.setButtonImage("/images/exit.png", btnClose);
 		
 		JsonArray customers = getCustomersID();
 		creditCardViewPane.setVisible(false);
@@ -397,11 +393,13 @@ public class FastFuelController {
 				if (oldValue.equals(newValue))
 					return;
 				if ((Integer) newValue > 0) {
-					setErrorImage(imgCustomerID, "/images/v_icon.png");
+//					setErrorImage(imgCustomerID, "/images/v_icon.png");
+					ObjectContainer.setImageBackground(ObjectContainer.vIcon, imgCustomerID);
 					customerID = cbCustomerIDs.getItems().get((Integer)newValue);
 					setCustomerDetails();
 				} else {
-					setErrorImage(imgCustomerID, "/images/error_icon.png");
+//					setErrorImage(imgCustomerID, "/images/error_icon.png");
+					ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgCustomerID);
 				}
 			}
 		});
@@ -428,7 +426,8 @@ public class FastFuelController {
 		creditCardViewPane.setVisible(false);
 		txtFuelAmount.textProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue.isEmpty()) {
-				setErrorImage(imgAmount, "/images/error_icon.png");
+//				setErrorImage(imgAmount, "/images/error_icon.png");
+				ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgAmount);
 			}
 			calcPrice();
 		});
@@ -449,10 +448,12 @@ public class FastFuelController {
 				lblTotalPrice.setText(String.format("%.2f$", totalPrice));
 				priceAfterDiscount = calcTotalPrice();
 				lblPriceAfterDiscount.setText(String.format("%.2f$", priceAfterDiscount));
-				setErrorImage(imgAmount, "/images/v_icon.png");
+//				setErrorImage(imgAmount, "/images/v_icon.png");
+				ObjectContainer.setImageBackground(ObjectContainer.vIcon, imgAmount);
 			}
 		} catch (Exception e) {
-			setErrorImage(imgAmount, "/images/error_icon.png");
+//			setErrorImage(imgAmount, "/images/error_icon.png");
+			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgAmount);
 		}
 
 	}
@@ -470,9 +471,11 @@ public class FastFuelController {
 				if (oldValue.equals(newValue))
 					return;
 				if ((Integer) newValue > 0) {
-					setErrorImage(imgStationNumber, "/images/v_icon.png");
+//					setErrorImage(imgStationNumber, "/images/v_icon.png");
+					ObjectContainer.setImageBackground(ObjectContainer.vIcon, imgStationNumber);
 				} else {
-					setErrorImage(imgStationNumber, "/images/error_icon.png");
+//					setErrorImage(imgStationNumber, "/images/error_icon.png");
+					ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgStationNumber);
 				}
 			}
 		});
@@ -503,9 +506,11 @@ public class FastFuelController {
 			@Override
 			public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
 				if ((Integer) number2 > 0) {
-					setErrorImage(imgPaymentMethod, "/images/v_icon.png");
+//					setErrorImage(imgPaymentMethod, "/images/v_icon.png");
+					ObjectContainer.setImageBackground(ObjectContainer.vIcon, imgPaymentMethod);
 				} else if((Integer) number2 == 0){
-					setErrorImage(imgPaymentMethod, "/images/error_icon.png");
+//					setErrorImage(imgPaymentMethod, "/images/error_icon.png");
+					ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgPaymentMethod);
 				}else {
 					return;
 				}
@@ -533,9 +538,11 @@ public class FastFuelController {
 			@Override
 			public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
 				if ((Integer) number2 > 0) {
-					setErrorImage(imgPumpNumber, "/images/v_icon.png");
+//					setErrorImage(imgPumpNumber, "/images/v_icon.png");
+					ObjectContainer.setImageBackground(ObjectContainer.vIcon, imgPumpNumber);
 				} else {
-					setErrorImage(imgPumpNumber, "/images/error_icon.png");
+//					setErrorImage(imgPumpNumber, "/images/error_icon.png");
+					ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgPumpNumber);
 				}
 			}
 		});
@@ -583,9 +590,11 @@ public class FastFuelController {
 					getPricePerLitterByFuelType(fuelType);
 					lblPricePerLitter.setText(pricePerLitter + "");
 					calcPrice();
-					setErrorImage(imgVehicle, "/images/v_icon.png");
+//					setErrorImage(imgVehicle, "/images/v_icon.png");
+					ObjectContainer.setImageBackground(ObjectContainer.vIcon, imgVehicle);
 				} else {
-					setErrorImage(imgVehicle, "/images/error_icon.png");
+//					setErrorImage(imgVehicle, "/images/error_icon.png");
+					ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgVehicle);
 					pricePerLitter = 0;
 				}
 			}
@@ -613,7 +622,6 @@ public class FastFuelController {
 		ClientUI.accept(msg);
 
 		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
-		purchaseModelRate = response.get("purchaseModelRate").getAsFloat();
 		subscribeTypes = response.get("subscribeTypes").getAsJsonArray();
 		
 	}
@@ -777,9 +785,11 @@ public class FastFuelController {
 			public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
 				if ((Integer) number2 > 0) {
 					getStationNumbersByFuelCompany(cbFuelCompany.getItems().get((Integer) number2));
-					setErrorImage(imgCompany, "/images/v_icon.png");
+//					setErrorImage(imgCompany, "/images/v_icon.png");
+					ObjectContainer.setImageBackground(ObjectContainer.vIcon, imgCompany);
 				} else {
-					setErrorImage(imgCompany, "/images/error_icon.png");
+//					setErrorImage(imgCompany, "/images/error_icon.png");
+					ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgCompany);
 					cbStationNumber.getItems().clear();
 					cbStationNumber.getItems().add("Choose company first");
 					cbStationNumber.setValue(cbStationNumber.getItems().get(0));

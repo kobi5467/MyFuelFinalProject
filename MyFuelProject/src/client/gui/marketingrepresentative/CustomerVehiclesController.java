@@ -93,7 +93,7 @@ public class CustomerVehiclesController {
 	 */
 	private void initUI(JsonObject vehicle, String color) {
 		this.vehicle = vehicle;
-		setButtonImage("../../../images/error_icon_30px.png", btnRemoveVehicle);
+		ObjectContainer.setButtonImage("/images/error_icon_30px.png", btnRemoveVehicle);
 		btnRemoveVehicle.setText("");
 
 		setColor(color);
@@ -109,20 +109,4 @@ public class CustomerVehiclesController {
 				+ "-fx-border-color:#77cde7;"
 				+ "-fx-border-width:3px;");
 	}
-	
-    /**
-     * this function set image to the button in the pane
-     * @param url - the path
-     * @param btn - the button
-     */
-    public void setButtonImage(String url, Button btn) {
-		BackgroundImage backgroundImage = new BackgroundImage(
-				new Image(getClass().getResource(url).toExternalForm()),
-				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-				BackgroundSize.DEFAULT);
-		Background background = new Background(backgroundImage);
-		btn.setBackground(background);
-	}	
-
-
 }

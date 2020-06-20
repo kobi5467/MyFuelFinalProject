@@ -214,7 +214,6 @@ public class HomeHeatingFuelController {
 		initOrderSummary();
 		updatePaymentFormOnPaymentMethodClick();
 		creditCard = getCreditCardByCustomerID();
-		System.out.println(creditCard);
 	}
 
 	/**
@@ -223,7 +222,6 @@ public class HomeHeatingFuelController {
 	 * Order id,shipping date,Adders for shipping,Date supply.
 	 */
 	public void showPurchaseDetails() {
-		System.out.println("in showPurchaseDetails");
 		panePurchaseInputs.setVisible(false);
 		panePurchaseSuccessful.setVisible(true);
 		lblOrderNumberOnPurchasePain.setText(this.orderId);
@@ -232,7 +230,8 @@ public class HomeHeatingFuelController {
 		lblPaymentMethodOnPurchasePane.setText(this.paymentMethod);
 		lblTotalPriceOnPurchasePane.setText(this.totalPrice);
 		lblUserFirstName.setText(this.customerName);
-		setErrorImage(imgPurchaseSuccessful, "/images/purchase_successful.png");
+//		setErrorImage(imgPurchaseSuccessful, "/images/purchase_successful.png");
+		ObjectContainer.setImageBackground("/images/purchase_successful.png", imgPurchaseSuccessful);
 	}
 
 	/**
@@ -314,8 +313,6 @@ public class HomeHeatingFuelController {
 		}
 		if (flag) {
 			JsonObject json = createJsonObjectForOrder();
-			System.out.println(json.toString());
-			System.out.println("credit card press:" + this.rememberCardPressed.toString());
 
 			if (paymentMethod.equals("Credit Card")) {
 				json.addProperty("updateExistsCreditCard", "true");
@@ -326,7 +323,6 @@ public class HomeHeatingFuelController {
 				json.addProperty("updateExistsCreditCard", "false");
 				json.addProperty("savePaymentDetails", "false");
 				if (creditCard.get("creditCardNumber") == null && this.rememberCardPressed) {
-					System.out.println("credit card null");
 					json.addProperty("savePaymentDetails", "true");
 					json.addProperty("updateExistsCreditCard", "false");
 				} else if (this.rememberCardPressed) {
@@ -336,7 +332,6 @@ public class HomeHeatingFuelController {
 			}
 			Message msg = new Message(MessageType.SUBMIT_HOME_HEATING_FUEL_ORDER, json.toString());
 			ClientUI.accept(msg);
-			System.out.println("here after query");
 			getOrderIdFromDB(json);
 			showPurchaseDetails();
 		}
@@ -399,7 +394,6 @@ public class HomeHeatingFuelController {
 			@Override
 			public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
 				String value = cbPaymentMethod.getItems().get((Integer) number2);
-				System.out.println("we are in updatePaymentForm");
 				if (value.equals("Choose type") || value.equals("Cash"))
 					showCreditCardFields(false);
 				else if (value.equals("Credit Card")) {
@@ -459,21 +453,25 @@ public class HomeHeatingFuelController {
 			lblSubTotalPriceBeforeDiscount.setText("0.00 $");
 			lbltotalPriceAfterDiscount.setText("0.00 $");
 			if (showErrorMsg) {
-				setErrorImage(imgAmountError, "/images/error_icon.png");
+//				setErrorImage(imgAmountError, "/images/error_icon.png");
+				ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgAmountError);
 			}
 			return false;
 		}
 		if (!ObjectContainer.checkIfStringContainsOnlyNumbers(txtAmount.getText().toString()) && showErrorMsg) {
-			setErrorImage(imgAmountError, "/images/error_icon.png");
+//			setErrorImage(imgAmountError, "/images/error_icon.png");
+			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgAmountError);
 			return false;
 		}
 		float fuelAmount = Float.parseFloat(this.amount);
 		if (fuelAmount <= 0 && showErrorMsg) {
-			setErrorImage(imgAmountError, "/images/error_icon.png");
+//			setErrorImage(imgAmountError, "/images/error_icon.png");
+			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgAmountError);
 			return false;
 		}
 		if (showErrorMsg)
-			setErrorImage(imgAmountError, "/images/v_icon.png");
+//			setErrorImage(imgAmountError, "/images/v_icon.png");
+		ObjectContainer.setImageBackground(ObjectContainer.vIcon, imgAmountError);
 		return true;
 	}
 
@@ -484,10 +482,12 @@ public class HomeHeatingFuelController {
 	 */
 	public Boolean checkStreetField() {
 		if (txtStreet.getText().toString() == null || txtStreet.getText().toString().isEmpty()) {
-			setErrorImage(imgStreetError, "/images/error_icon.png");
+//			setErrorImage(imgStreetError, "/images/error_icon.png");
+			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgStreetError);
 			return false;
 		}
-		setErrorImage(imgStreetError, "/images/v_icon.png");
+//		setErrorImage(imgStreetError, "/images/v_icon.png");
+		ObjectContainer.setImageBackground(ObjectContainer.vIcon, imgStreetError);
 		return true;
 	}
 
@@ -497,12 +497,13 @@ public class HomeHeatingFuelController {
 	 * @return true if this test passed, else the function return false.
 	 */
 	public Boolean checkCityField() {
-		System.out.println("checkCityField" + txtCity.getText());
 		if (txtCity.getText() == null || txtCity.getText().toString().isEmpty()) {
-			setErrorImage(imgCityError, "/images/error_icon.png");
+//			setErrorImage(imgCityError, "/images/error_icon.png");
+			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgCityError);
 			return false;
 		}
-		setErrorImage(imgCityError, "/images/v_icon.png");
+//		setErrorImage(imgCityError, "/images/v_icon.png");
+		ObjectContainer.setImageBackground(ObjectContainer.vIcon, imgCityError);
 		return true;
 
 	}
@@ -516,14 +517,17 @@ public class HomeHeatingFuelController {
 	 */
 	public Boolean checkDateSupplyField() {
 		if (datePickerDateSupply.getValue() == null || datePickerDateSupply.getValue().toString().trim().isEmpty()) {
-			setErrorImage(imgDateSupllyError, "/images/error_icon.png");
+//			setErrorImage(imgDateSupllyError, "/images/error_icon.png");
+			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgDateSupllyError);
 			return false;
 		}
 		if (datePickerDateSupply.getValue().isBefore(LocalDate.now())) {
-			setErrorImage(imgDateSupllyError, "/images/error_icon.png");
+//			setErrorImage(imgDateSupllyError, "/images/error_icon.png");
+			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgDateSupllyError);
 			return false;
 		}
-		setErrorImage(imgDateSupllyError, "/images/v_icon.png");
+//		setErrorImage(imgDateSupllyError, "/images/v_icon.png");
+		ObjectContainer.setImageBackground(ObjectContainer.vIcon, imgDateSupllyError);
 		return true;
 	}
 
@@ -535,10 +539,12 @@ public class HomeHeatingFuelController {
 	 */
 	public Boolean checkPaymentMethodField() {
 		if (cbPaymentMethod.getValue().trim().equals(cbPaymentMethod.getItems().get(0))) {
-			setErrorImage(imgPaymentMethodError, "/images/error_icon.png");
+//			setErrorImage(imgPaymentMethodError, "/images/error_icon.png");
+			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgPaymentMethodError);
 			return false;
 		}
-		setErrorImage(imgPaymentMethodError, "/images/v_icon.png");
+//		setErrorImage(imgPaymentMethodError, "/images/v_icon.png");
+		ObjectContainer.setImageBackground(ObjectContainer.vIcon, imgPaymentMethodError);
 		return true;
 	}
 
@@ -550,10 +556,12 @@ public class HomeHeatingFuelController {
 	 */
 	public Boolean checkFuelCompanyField() {
 		if (cbfuelCompany.getValue().trim().equals(cbfuelCompany.getItems().get(0))) {
-			setErrorImage(imgfuelCompanyErrMsg, "/images/error_icon.png");
+//			setErrorImage(imgfuelCompanyErrMsg, "/images/error_icon.png");
+			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgfuelCompanyErrMsg);
 			return false;
 		}
-		setErrorImage(imgfuelCompanyErrMsg, "/images/v_icon.png");
+//		setErrorImage(imgfuelCompanyErrMsg, "/images/v_icon.png");
+		ObjectContainer.setImageBackground(ObjectContainer.vIcon, imgfuelCompanyErrMsg);
 		return true;
 	}
 
@@ -566,18 +574,21 @@ public class HomeHeatingFuelController {
 	 */
 	public Boolean checkCardNumberField() {
 		if (txtCardNumber.getText().trim() == null || txtCardNumber.getText().trim().isEmpty()) {
-			setErrorImage(imgCardNumberCVV, "/images/error_icon.png");
+//			setErrorImage(imgCardNumberCVV, "/images/error_icon.png");
+			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgCardNumberCVV);
 			return false;
 		}
 		if (!ObjectContainer.checkIfStringContainsOnlyNumbers(txtCardNumber.getText().toString())) {
-			setErrorImage(imgAmountError, "/images/error_icon.png");
+//			setErrorImage(imgAmountError, "/images/error_icon.png");
+			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgCardNumberCVV);
 		}
-		System.out.println("lenght is:" + txtCardNumber.getText().trim().length());
 		if (txtCardNumber.getText().trim().length() > 16 || txtCardNumber.getText().trim().length() < 8) {
-			setErrorImage(imgCardNumberCVV, "/images/error_icon.png");
+//			setErrorImage(imgCardNumberCVV, "/images/error_icon.png");
+			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgCardNumberCVV);
 			return false;
 		}
-		setErrorImage(imgCardNumberCVV, "/images/v_icon.png");
+//		setErrorImage(imgCardNumberCVV, "/images/v_icon.png");
+		ObjectContainer.setImageBackground(ObjectContainer.vIcon, imgCardNumberCVV);
 		return true;
 	}
 
@@ -591,18 +602,22 @@ public class HomeHeatingFuelController {
 	public Boolean checkCVVField() {
 		String cvv = txtCVV.getText();
 		if (cvv.isEmpty()) {
-			setErrorImage(imgCVVError, "/images/error_icon.png");
+//			setErrorImage(imgCVVError, "/images/error_icon.png");
+			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgCVVError);
 			return false;
 		}
 		if (cvv.length() < 3 || cvv.length() > 4) {
-			setErrorImage(imgCVVError, "/images/error_icon.png");
+//			setErrorImage(imgCVVError, "/images/error_icon.png");
+			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgCVVError);
 			return false;
 		}
 		if (!ObjectContainer.checkIfStringContainsOnlyNumbers(cvv)) {
-			setErrorImage(imgAmountError, "/images/error_icon.png");
+//			setErrorImage(imgAmountError, "/images/error_icon.png");
+			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgCVVError);
 			return false;
 		}
-		setErrorImage(imgCVVError, "/images/v_icon.png");
+//		setErrorImage(imgCVVError, "/images/v_icon.png");
+		ObjectContainer.setImageBackground(ObjectContainer.vIcon, imgCVVError);
 		return true;
 	}
 
@@ -615,19 +630,23 @@ public class HomeHeatingFuelController {
 	 */
 	public Boolean checkDateValidationField() {
 		if (cbCreditCardMonthValidation.getValue().trim().equals(cbCreditCardMonthValidation.getItems().get(0))) {
-			setErrorImage(imgDateValidationError, "/images/error_icon.png");
+//			setErrorImage(imgDateValidationError, "/images/error_icon.png");
+			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgDateValidationError);
 			return false;
 		}
 		if (!ObjectContainer.checkIfStringContainsOnlyNumbers(cbCreditCardMonthValidation.getValue().toString())
 				|| !ObjectContainer
 						.checkIfStringContainsOnlyNumbers(cbCreditCardYearValidation.getValue().toString())) {
-			setErrorImage(imgAmountError, "/images/error_icon.png");
+//			setErrorImage(imgDateValidationError, "/images/error_icon.png");
+			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgDateValidationError);
 		}
 		if (cbCreditCardYearValidation.getValue().trim().equals(cbCreditCardYearValidation.getItems().get(0))) {
-			setErrorImage(imgDateValidationError, "/images/error_icon.png");
+//			setErrorImage(imgDateValidationError, "/images/error_icon.png");
+			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgDateValidationError);
 			return false;
 		}
-		setErrorImage(imgDateValidationError, "/images/v_icon.png");
+//		setErrorImage(imgDateValidationError, "/images/v_icon.png");
+		ObjectContainer.setImageBackground(ObjectContainer.vIcon, imgDateValidationError);
 		return true;
 	}
 
@@ -646,7 +665,6 @@ public class HomeHeatingFuelController {
 		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
 		fuelType = response.get("fuelType").getAsString();
 		pricePerLitter = response.get("pricePerLitter").getAsFloat();
-		System.out.println("price is:" + pricePerLitter);
 		return pricePerLitter;
 	}
 
@@ -820,17 +838,17 @@ public class HomeHeatingFuelController {
 		return json;
 	}
 
-	/**
-	 * This function set image in the pane.
-	 * 
-	 * @param img is the name of the image.
-	 * @param url is the location of the image in the project.
-	 * 
-	 */
-	public void setErrorImage(ImageView img, String url) {
-		Image image = new Image(getClass().getResource(url).toString());
-		img.setImage(image);
-	}
+//	/**
+//	 * This function set image in the pane.
+//	 * 
+//	 * @param img is the name of the image.
+//	 * @param url is the location of the image in the project.
+//	 * 
+//	 */
+//	public void setErrorImage(ImageView img, String url) {
+//		Image image = new Image(getClass().getResource(url).toString());
+//		img.setImage(image);
+//	}
 
 	/**
 	 * This function calculate the price of the order - before and after discount.

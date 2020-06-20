@@ -103,6 +103,17 @@ public class OrderPane {
 		txtCreateDate.setText(HHFOrder.get("orderDate").getAsString().split(" ")[0]);
 		txtStatus.setText(HHFOrder.get("orderStatus").getAsString());
 		
+		String color = HHFOrder.get("orderStatus").getAsString().equals("OnGoing") ?
+				"rgba(255,0,0,0.9)" : "rgba(0,255,0,0.9)";
+		txtStatus.setStyle(""
+				+ "-fx-background-color:#090a0c," + 
+				"        radial-gradient(center 50% 0%, radius 100%,"+color+", rgba(255,255,255,0));" + 
+				"	-fx-font-size: 10pt;" + 
+				"	-fx-font-weight: bold;" + 
+				"	-fx-text-fill:#ffffff;" + 
+				"	-fx-border-color:#ffffff;" + 
+				"	-fx-border-width:2px;");
+		
 		txtOrderNumber.setEditable(false);
 		txtAmount.setEditable(false);
 		txtTotalPrice.setEditable(false);

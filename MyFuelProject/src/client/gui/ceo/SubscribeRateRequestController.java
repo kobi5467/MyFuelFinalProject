@@ -85,7 +85,7 @@ public class SubscribeRateRequestController {
 		for (int i = 0; i < requests.size(); i++) {
 			SubscribePane subPane = new SubscribePane();
 			subscribeRequestPanes.add(subPane);
-			String color = i % 2 == 0 ? "#0277ad" : "#014b88";
+			String color = i % 2 == 0 ? ObjectContainer.rowColorBG1 : ObjectContainer.rowColorBG2;
 			AnchorPane pane = subPane.load(requests.get(i).getAsJsonObject(), color);
 			rateRequestsAnchorPanes.add(pane);
 		}

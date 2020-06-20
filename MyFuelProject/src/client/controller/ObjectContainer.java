@@ -30,9 +30,17 @@ import entitys.User;
 import javafx.event.EventHandler;
 import javafx.event.WeakEventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
 
 public class ObjectContainer {
@@ -91,6 +99,11 @@ public class ObjectContainer {
 	public static String rowColorBG1 = "#0277ad";
 	public static String rowColorBG2 = "#014b88";
 	
+	public static String errorIcon = "/images/error_icon.png";
+	public static String vIcon = "/images/v_icon.png";
+	
+	public static String checked = "/images/checked.png";
+	public static String unchecked = "/images/unchecked.png";
 	// ****************************************     global methods  	****************************************
 		
 	public static void showMessage(String type,String title, String msg) {
@@ -194,6 +207,19 @@ public class ObjectContainer {
 		return formatter.format(date).toString();
 	}
 
+	public static void setButtonImage(String url, Button button) {
+		Image img = new Image(ObjectContainer.class.getResource(url).toString());
+		BackgroundImage backgroundImage = new BackgroundImage(img, BackgroundRepeat.NO_REPEAT,
+				BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,	BackgroundSize.DEFAULT);
+		Background background = new Background(backgroundImage);
+		button.setBackground(background);
+		
+	}
+	
+	public static void setImageBackground(String url, ImageView img) {
+		Image image = new Image(ObjectContainer.class.getResource(url).toString());
+		img.setImage(image);
+	}
 	
 	// **************************************** Allow to drag the window **************************************** 
 	

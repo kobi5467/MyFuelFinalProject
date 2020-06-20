@@ -50,7 +50,7 @@ public class ServerController extends AbstractServer {
 						for(int i = 0; i < orders.size(); i++) {
 							JsonObject order = orders.get(i).getAsJsonObject();
 							String dateSupply = order.get("dateSupply").getAsString();
-							if(date.toString().compareTo(dateSupply) > 0) {
+							if(date.toString().compareTo(dateSupply) >= 0) {
 								dbConnector.orderDBLogic.updateHomeHeatingFuelToSupplyByOrderID(order.get("orderID").getAsString());
 							}
 						}
@@ -351,6 +351,7 @@ public class ServerController extends AbstractServer {
 			boolean createNewOrder = dbConnector.fuelDBLogic.checkIfNeedToCreateInventoryOrder(stationID, fuelType);
 			if(createNewOrder) {
 				dbConnector.fuelDBLogic.createInventoryOrderByFuelTypeAndStationID(stationID, fuelType);
+				dbConnector.fuelDBLogic.sendMailToStationManager(stationID, fuelType, amount);
 			}
 			break;
 		case UPDATE_FUEL_AMOUNT_INVENTORY:

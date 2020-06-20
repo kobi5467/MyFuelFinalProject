@@ -21,12 +21,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 /**
  * This class is responsible to create new sale template pane.
@@ -110,8 +104,8 @@ public class SaleTemplatePane {
 	private boolean isFuelTypeClicked;
 	private boolean isOpen;
 
-	private String checkedURL = "/images/checked.png";
-	private String uncheckedURL = "/images/unchecked.png";
+	private String checkedURL = ObjectContainer.checked;
+	private String uncheckedURL = ObjectContainer.unchecked;
 
 	private String to = "";
 	private String from = "";
@@ -130,7 +124,7 @@ public class SaleTemplatePane {
 				saleTemplate.addProperty("isRunning", 1);
 				Message msg = new Message(MessageType.UPDATE_RUNNING_SALE, saleTemplate.toString());
 				ClientUI.accept(msg);
-				setImageButton("/images/stop.png", btnRunStop);
+				ObjectContainer.setButtonImage("/images/stop.png", btnRunStop);
 			}else {
 				ObjectContainer.showMessage("Error", "Run Sale", "Can't run two sales at the same time.\nPlease stop other sale before.");
 				return;
@@ -139,7 +133,7 @@ public class SaleTemplatePane {
 			saleTemplate.addProperty("isRunning", 0);
 			Message msg = new Message(MessageType.UPDATE_RUNNING_SALE, saleTemplate.toString());
 			ClientUI.accept(msg);
-			setImageButton("/images/run.png", btnRunStop);
+			ObjectContainer.setButtonImage("/images/run.png", btnRunStop);
 		}
 		isRunning = 1 - isRunning;
 		changeCSS();
@@ -164,7 +158,7 @@ public class SaleTemplatePane {
 		isCertainHoursClicked = !isCertainHoursClicked;
 		String url = isCertainHoursClicked ? checkedURL : uncheckedURL;
 		viewCertainHours(isCertainHoursClicked);
-		setImageButton(url, btnChooseCertainHours);
+		ObjectContainer.setButtonImage(url, btnChooseCertainHours);
 		if (isCertainHoursClicked) {
 			if (!from.equals("")) {
 				cbFromHour.getValueFactory().setValue(from);
@@ -181,7 +175,7 @@ public class SaleTemplatePane {
 		isCustomerTypeClicked = !isCustomerTypeClicked;
 		String url = isCustomerTypeClicked ? checkedURL : uncheckedURL;
 		cbCustomerType.setVisible(isCustomerTypeClicked);
-		setImageButton(url, btnChooseCustomerType);
+		ObjectContainer.setButtonImage(url, btnChooseCustomerType);
 	}
 	/**
 	 * This method is responsible to choose fuel type.
@@ -192,7 +186,7 @@ public class SaleTemplatePane {
 		isFuelTypeClicked = !isFuelTypeClicked;
 		String url = isFuelTypeClicked ? checkedURL : uncheckedURL;
 		cbFuelTypes.setVisible(isFuelTypeClicked);
-		setImageButton(url, btnChooseFuelType);
+		ObjectContainer.setButtonImage(url, btnChooseFuelType);
 	}
 	/**
 	 * This method is responsible to edit the details.
@@ -358,9 +352,9 @@ public class SaleTemplatePane {
 		isFuelTypeClicked = false;
 		isOpen = false;
 
-		setImageButton(uncheckedURL, btnChooseCertainHours);
-		setImageButton(uncheckedURL, btnChooseCustomerType);
-		setImageButton(uncheckedURL, btnChooseFuelType);
+		ObjectContainer.setButtonImage(uncheckedURL, btnChooseCertainHours);
+		ObjectContainer.setButtonImage(uncheckedURL, btnChooseCustomerType);
+		ObjectContainer.setButtonImage(uncheckedURL, btnChooseFuelType);
 		btnEdit.setId("dark-blue");
 
 		initCB();
@@ -368,8 +362,8 @@ public class SaleTemplatePane {
 		if (saleTemplate == null) {
 			this.saleTemplate = new JsonObject();
 			isNew = true;
-			setImageButton("/images/minus_icon.png", btnOpen);
-			setImageButton("/images/remove.png", btnRemove);
+			ObjectContainer.setButtonImage("/images/minus_icon.png", btnOpen);
+			ObjectContainer.setButtonImage("/images/remove.png", btnRemove);
 			btnRunStop.setVisible(false);
 			btnEdit.setText("Save");
 			open();
@@ -383,11 +377,11 @@ public class SaleTemplatePane {
 				btnRunStop.setVisible(true);
 				btnEdit.setVisible(false);
 				String url = "/images/" + ((isRunning == 1) ? "stop" : "run") + ".png";
-				setImageButton(url, btnRunStop);
+				ObjectContainer.setButtonImage(url, btnRunStop);
 			}else {																 // MARKETING_REPRESENTATIVE
 				btnRemove.setVisible(true);
 				btnRunStop.setVisible(false);
-				setImageButton("/images/remove.png", btnRemove);
+				ObjectContainer.setButtonImage("/images/remove.png", btnRemove);
 				btnEdit.setVisible(true);
 				btnEdit.setText("Edit");
 			}
@@ -408,33 +402,29 @@ public class SaleTemplatePane {
 		cbDiscountRate.getValueFactory().setValue(saleTemplate.get("discountRate").getAsString() + "%");
 		JsonObject saleData = saleTemplate.get("saleData").getAsJsonObject();
 		JsonArray saleTypes = saleData.get("saleTypes").getAsJsonArray();
-		String types = "";
 		for(int i = 0; i < saleTypes.size(); i++) {
 			String type = saleTypes.get(i).getAsString();
 			if(type.equals(BY_FUEL_TYPE)) {
 				isFuelTypeClicked = true;
 				cbFuelTypes.setVisible(true);
-				setImageButton(checkedURL, btnChooseFuelType);
+				ObjectContainer.setButtonImage(checkedURL, btnChooseFuelType);
 				cbFuelTypes.setValue(saleData.get("fuelType").getAsString());
-				types += "FUEL, ";
 			}
 			if(type.equals(BY_CUSTOMER_TYPE)) {
 				isCustomerTypeClicked = true;
 				cbCustomerType.setVisible(true);
-				setImageButton(checkedURL, btnChooseCustomerType);
+				ObjectContainer.setButtonImage(checkedURL, btnChooseCustomerType);
 				cbCustomerType.setValue(saleData.get("customerType").getAsString());
-				types += "CUSTOMER, ";
 			}
 			if(type.equals(BY_CRETIAN_HOURS)) {
 				isCertainHoursClicked = true;
 				viewCertainHours(true);
-				setImageButton(checkedURL, btnChooseCertainHours);
+				ObjectContainer.setButtonImage(checkedURL, btnChooseCertainHours);
 				from = saleData.get("from").getAsString();
 				to = saleData.get("to").getAsString();
 				cbFromHour.getValueFactory().setValue(from);
 				cbToHour.getValueFactory().setValue(to);
 				
-				types += "HOURS, ";
 			}
 		}
 		txtDescription.setText(saleTemplate.get("description").getAsString());
@@ -459,7 +449,7 @@ public class SaleTemplatePane {
 	 * This method is responsible to open the pane.
 	 */
 	private void open() {
-		setImageButton("/images/minus_icon.png", btnOpen);
+		ObjectContainer.setButtonImage("/images/minus_icon.png", btnOpen);
 		closePane.setVisible(false);
 		editPane.setVisible(true);
 		cbCustomerType.setVisible(isCustomerTypeClicked);
@@ -476,7 +466,7 @@ public class SaleTemplatePane {
 		isOpen = false;
 		closePane.setVisible(true);
 		editPane.setVisible(false);
-		setImageButton("/images/add_icon.png", btnOpen);
+		ObjectContainer.setButtonImage("/images/add_icon.png", btnOpen);
 		mainSaleTemplatesPane.setPrefHeight(60);
 	}
 	/**
@@ -496,18 +486,18 @@ public class SaleTemplatePane {
 		cbFromHour.setValueFactory(valueFactoryFrom);
 		cbToHour.setValueFactory(valueFactoryTo);
 	}
-	/**
-	 * This method is responsible to set the image of the current button.
-	 * @param url - string value of the image path.
-	 * @param btn - the current button.
-	 */
-	private void setImageButton(String url, Button btn) {
-		BackgroundImage backgroundImage = new BackgroundImage(new Image(getClass().getResource(url).toExternalForm()),
-				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-				BackgroundSize.DEFAULT);
-		Background background = new Background(backgroundImage);
-		btn.setBackground(background);
-	}
+//	/**
+//	 * This method is responsible to set the image of the current button.
+//	 * @param url - string value of the image path.
+//	 * @param btn - the current button.
+//	 */
+//	private void setImageButton(String url, Button btn) {
+//		BackgroundImage backgroundImage = new BackgroundImage(new Image(getClass().getResource(url).toExternalForm()),
+//				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+//				BackgroundSize.DEFAULT);
+//		Background background = new Background(backgroundImage);
+//		btn.setBackground(background);
+//	}
 	/**
 	 * This method is responsible to view the certain hours.
 	 * @param flag - boolean value.

@@ -22,12 +22,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -109,24 +103,15 @@ public class SupplierController {
 		txtAllOrdersSupplied.setVisible(false);
 		this.isPress = !this.isPress;
 		if (this.isPress)
-			setButtonImage("/images/checked.png", btnShowOpenOrder);
+			ObjectContainer.setButtonImage(ObjectContainer.checked, btnShowOpenOrder);
 		else
-			setButtonImage("/images/unchecked.png", btnShowOpenOrder);
+			ObjectContainer.setButtonImage(ObjectContainer.unchecked, btnShowOpenOrder);
 		this.orderid = null;
 		txtOrderId.setText("");
 		getDataBySupplierID(this.supplierId, this.isPress, this.orderid);
 
 	}
 
-	public void setButtonImage(String url, Button btn) {
-		BackgroundImage backgroundImage = new BackgroundImage(
-				new Image(getClass().getResource(url).toExternalForm()),
-				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-				BackgroundSize.DEFAULT);
-		Background background = new Background(backgroundImage);
-		btn.setBackground(background);
-	}	
-	
 	/**
 	 * This function provider to search specific order by order id.
 	 * @param event while the user press on search button.
@@ -134,7 +119,7 @@ public class SupplierController {
 	@FXML
 	void OnSearch(ActionEvent event) {
 		this.isPress = false;
-		setButtonImage("/images/unchecked.png", btnShowOpenOrder);
+		ObjectContainer.setButtonImage(ObjectContainer.unchecked, btnShowOpenOrder);
 		txtAllOrdersSupplied.setVisible(false);
 		if (checkOrderId()) {
 			this.orderid = tfOrderIdInput.getText();
@@ -149,7 +134,7 @@ public class SupplierController {
 	private void initUI() {
 		vbocOrdersPane.setSpacing(5);
 		btnSearch.setId("dark-blue");
-		setButtonImage("/images/unchecked.png", btnShowOpenOrder);
+		ObjectContainer.setButtonImage(ObjectContainer.unchecked, btnShowOpenOrder);
 		String supplierID = "777";
 		txtAllOrdersSupplied.setVisible(false);
 		lblError.setText("");

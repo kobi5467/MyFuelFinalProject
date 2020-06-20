@@ -181,11 +181,9 @@ public class DeterminingFuelRatesController {
 	public Boolean checkFields(String newPrice, String errorMessage) {
 		Float newPriceint = -1f;
 		Float maxPriceint = -1f;
-		Float currPriceint = -1f;
 		try {
 			newPriceint = Float.parseFloat(newPrice);
 			maxPriceint = currentFuel.getMaxPricePerLitter();
-			currPriceint = currentFuel.getPricePerLitter();
 			if (newPriceint > maxPriceint ) {
 				lblErrorMessage.setText("New price higher than the maximum price");
 			}else if(newPriceint<=0) {
@@ -304,29 +302,6 @@ public class DeterminingFuelRatesController {
 		
 		
 	}
-//	/**
-//	 * This method is responsible to request from the server to update the rates.
-//	 * @param newRate - string value of new rate.
-//	 */
-//	public void updateRate(String newRate) {
-//		JsonObject json = new JsonObject();
-//
-//		json.addProperty("subscribeType", cbSubscribesType.getValue());
-//		json.addProperty("newRate", newRate);
-//		Message msg = new Message(MessageType.UPDATE_DISCOUNT_RATE, json.toString());
-//		ClientUI.accept(msg);
-//		
-//		lblErrorMessage.setText("Update Successfully");
-//		lblErrorMessage.setStyle(""
-//				+ "-fx-text-fill:#00ff00;" 
-//				+ "-fx-font-weight: bold;"
-//				+ "-fx-font-size:14pt;"
-//				);
-//		txtCurrPrice.setText("");
-//		txtMaxPrice.setText("");
-//		txtNewPrice.setText("");
-//		cbFuelType.setValue(cbFuelType.getItems().get(0));
-//	}
 	/**
 	 * this function set the correct details in the text fields by 
 	 * the type of fuel the user chose. 
@@ -433,6 +408,8 @@ public class DeterminingFuelRatesController {
 			try {
 				flag= (Float.parseFloat(newRate)>0);
 			}catch(NumberFormatException e) {
+				errorMessage = "Invalid input, please insert float positive number.";
+				lblErrorMessage.setText(errorMessage);
 				flag = false;
 			}
 			if (flag) {

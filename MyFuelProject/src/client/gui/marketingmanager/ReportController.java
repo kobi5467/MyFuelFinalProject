@@ -1,11 +1,8 @@
 package client.gui.marketingmanager;
 
-import java.awt.List;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -189,8 +186,6 @@ public class ReportController {
 		Message msg = new Message(MessageType.ADD_NEW_REPORT,
 				request.toString());
 		ClientUI.accept(msg);
-		JsonObject response = ObjectContainer.currentMessageFromServer
-				.getMessageAsJsonObject();
 	}
 
 	/**
@@ -372,9 +367,6 @@ public class ReportController {
 			} else {
 				fillTable(columns, rows);
 				addNewReport(orders, "Fuel type: " + cbFuelType.getValue());
-				for (int i = 0; i < orders.size(); i++) {
-					JsonObject order = orders.get(i).getAsJsonObject();
-				}
 			}
 
 		} else if (cbReportType.getValue().equals("Inventory items")) {
@@ -419,10 +411,6 @@ public class ReportController {
 					fillTable(columns, rows);
 					addNewReport(fastFuelorders,
 							"Quarterly: " + cbQuarterly.getValue());
-					for (int i = 0; i < fastFuelorders.size(); i++) {
-						JsonObject order = fastFuelorders.get(i)
-								.getAsJsonObject();
-					}
 				}
 			}
 		}
@@ -804,7 +792,6 @@ public class ReportController {
 		default:
 			break;
 		}
-		System.out.println("Columns = " + columns.toString());
 		return columns;
 	}
 

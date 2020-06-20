@@ -77,10 +77,10 @@ public class AnalyticSystemController {
 		isCertainHours = !isCertainHours;
 		if (isCertainHours) {
 			isShowRanks = false;
-			setButtonsImages("/images/unchecked.png", btnShowRanks);
+			ObjectContainer.setButtonImage(ObjectContainer.unchecked, btnShowRanks);
 		}
-		String url = isCertainHours ? "/images/checked.png" : "/images/unchecked.png";
-		setButtonsImages(url, btnCertainHours);
+		String url = isCertainHours ? ObjectContainer.checked : ObjectContainer.unchecked;
+		ObjectContainer.setButtonImage(url, btnCertainHours);
 		if (!isCertainHours)
 			cbCertainHours.setValue(cbCertainHours.getItems().get(0));
 		cbCertainHours.setVisible(isCertainHours);
@@ -91,10 +91,10 @@ public class AnalyticSystemController {
 		isCustomerType = !isCustomerType;
 		if (isCustomerType) {
 			isShowRanks = false;
-			setButtonsImages("/images/unchecked.png", btnShowRanks);
+			ObjectContainer.setButtonImage(ObjectContainer.unchecked, btnShowRanks);
 		}
-		String url = isCustomerType ? "/images/checked.png" : "/images/unchecked.png";
-		setButtonsImages(url, btnCustomerType);
+		String url = isCustomerType ? ObjectContainer.checked : ObjectContainer.unchecked;
+		ObjectContainer.setButtonImage(url, btnCustomerType);
 		if (!isCustomerType)
 			cbCustomerType.setValue(cbCustomerType.getItems().get(0));
 		cbCustomerType.setVisible(isCustomerType);
@@ -105,10 +105,10 @@ public class AnalyticSystemController {
 		isFuelType = !isFuelType;
 		if (isFuelType) {
 			isShowRanks = false;
-			setButtonsImages("/images/unchecked.png", btnShowRanks);
+			ObjectContainer.setButtonImage(ObjectContainer.unchecked, btnShowRanks);
 		}
-		String url = isFuelType ? "/images/checked.png" : "/images/unchecked.png";
-		setButtonsImages(url, btnFuelType);
+		String url = isFuelType ? ObjectContainer.checked : ObjectContainer.unchecked;
+		ObjectContainer.setButtonImage(url, btnFuelType);
 		if (!isFuelType)
 			cbFuelType.setValue(cbFuelType.getItems().get(0));
 		cbFuelType.setVisible(isFuelType);
@@ -117,16 +117,16 @@ public class AnalyticSystemController {
 	@FXML
 	void onShowRanks(ActionEvent event) {
 		isShowRanks = !isShowRanks;
-		String url = isShowRanks ? "/images/checked.png" : "/images/unchecked.png";
-		setButtonsImages(url, btnShowRanks);
+		String url = isShowRanks ? ObjectContainer.checked : ObjectContainer.unchecked;
+		ObjectContainer.setButtonImage(url, btnShowRanks);
 		if (isShowRanks) {
-			url = "/images/unchecked.png";
+			url = ObjectContainer.unchecked;
 			isFuelType = false;
-			setButtonsImages(url, btnFuelType);
+			ObjectContainer.setButtonImage(url, btnFuelType);
 			isCustomerType = false;
-			setButtonsImages(url, btnCustomerType);
+			ObjectContainer.setButtonImage(url, btnCustomerType);
 			isCertainHours = false;
-			setButtonsImages(url, btnCertainHours);
+			ObjectContainer.setButtonImage(url, btnCertainHours);
 			
 			cbCertainHours.setValue(cbCertainHours.getItems().get(0));
 			cbCustomerType.setValue(cbCustomerType.getItems().get(0));
@@ -145,7 +145,7 @@ public class AnalyticSystemController {
 		} else {
 			if(!isFuelType && ! isCustomerType && !isCertainHours) {
 				isShowRanks = true;
-				setButtonsImages("/images/checked.png", btnShowRanks);
+				ObjectContainer.setButtonImage(ObjectContainer.checked, btnShowRanks);
 				getCustomerRanks();
 			}else {
 				getDataFromDB();				
@@ -275,17 +275,17 @@ public class AnalyticSystemController {
 		isCertainHours = false;
 		cbCertainHours.setValue(cbCertainHours.getItems().get(0));
 		cbCertainHours.setVisible(false);
-		setButtonsImages("/images/unchecked.png", btnCertainHours);
+		ObjectContainer.setButtonImage(ObjectContainer.unchecked, btnCertainHours);
 		
 		isFuelType = false;
 		cbFuelType.setValue(cbFuelType.getItems().get(0));
 		cbFuelType.setVisible(false);
-		setButtonsImages("/images/unchecked.png", btnFuelType);
+		ObjectContainer.setButtonImage(ObjectContainer.unchecked, btnFuelType);
 		
 		isCustomerType = false;
 		cbCustomerType.setValue(cbCustomerType.getItems().get(0));
 		cbCustomerType.setVisible(false);
-		setButtonsImages("/images/unchecked.png", btnCustomerType);
+		ObjectContainer.setButtonImage(ObjectContainer.unchecked, btnCustomerType);
 	}
 
 	public String getCodeByCombination() {
@@ -326,11 +326,11 @@ public class AnalyticSystemController {
 		initCB();
 		tblDataView.setId("my-table");
 		btnSort.setId("dark-blue");
-		String url = "/images/unchecked.png";
-		setButtonsImages(url, btnCertainHours);
-		setButtonsImages(url, btnCustomerType);
-		setButtonsImages(url, btnFuelType);
-		setButtonsImages("/images/checked.png", btnShowRanks);
+		String url = ObjectContainer.unchecked;
+		ObjectContainer.setButtonImage(url, btnCertainHours);
+		ObjectContainer.setButtonImage(url, btnCustomerType);
+		ObjectContainer.setButtonImage(url, btnFuelType);
+		ObjectContainer.setButtonImage(ObjectContainer.checked, btnShowRanks);
 		isShowRanks = true;
 		getCustomerRanks();
 	}
@@ -359,11 +359,4 @@ public class AnalyticSystemController {
 		cbCertainHours.setVisible(false);
 	}
 
-	private void setButtonsImages(String url, Button btn) {
-		BackgroundImage backgroundImage = new BackgroundImage(new Image(getClass().getResource(url).toExternalForm()),
-				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-				BackgroundSize.DEFAULT);
-		Background background = new Background(backgroundImage);
-		btn.setBackground(background);
-	}
 }

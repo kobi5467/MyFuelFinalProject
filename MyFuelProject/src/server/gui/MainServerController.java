@@ -16,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
@@ -33,6 +34,9 @@ import server.controller.ServerUI;
  */
 public class MainServerController {
 
+	@FXML
+    private ImageView imgBGServer;
+	
     @FXML
     private Label lblServerTitle;
 
@@ -85,7 +89,9 @@ public class MainServerController {
     			ServerUI.serverController.isListening())
     		ServerUI.stopServer();
     	ServerUI.serverStage.close();
+    	System.exit(0);
     }
+    
     /**
      * This method is responsible to start the current stage.
      * After that load the 'xml' class and call to 'initUI' method.
@@ -94,13 +100,14 @@ public class MainServerController {
      */
 	public void start(Stage primaryStage) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("../gui/ServerForm.fxml"));
+		loader.setLocation(getClass().getResource("/server/gui/ServerForm.fxml"));
 		Pane root = loader.load();
 		ServerUI.mainServerController = loader.getController();
 		ServerUI.mainServerController.initUI();
 		
+		ObjectContainer.allowDrag(root, primaryStage);
 		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("../../client/gui/style.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
 		primaryStage.initStyle(StageStyle.UNDECORATED);
 		primaryStage.setTitle("Server Manage");
 		primaryStage.setScene(scene);
@@ -146,10 +153,11 @@ public class MainServerController {
 	 * This method is responsible to init the port to "5555".
 	 */
 	private void initUI() {
+		ObjectContainer.setImageBackground("/images/fast_fuel_BG.png", imgBGServer);
 		btnStart.setDefaultButton(true);
 		vbUserContainer.setSpacing(5);
 		userPanes = new ArrayList<UserPaneController>();
-		btnClose.setBackground(new Background(new BackgroundImage(new Image("/images/delete_icon.png"),
+		btnClose.setBackground(new Background(new BackgroundImage(new Image(getClass().getResource("/images/delete_icon.png").toExternalForm()),
 				BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.DEFAULT,BackgroundSize.DEFAULT)));
 	}
 

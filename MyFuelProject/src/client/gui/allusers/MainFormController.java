@@ -12,7 +12,6 @@ import client.controller.ObjectContainer;
 import client.gui.ceo.RatesToApproveController;
 import client.gui.ceo.ReportViewController;
 import client.gui.ceo.SubscribeRateRequestController;
-import client.gui.customer.FastFuelController;
 import client.gui.customer.HomeHeatingFuelController;
 import client.gui.customer.OrderTrackingController;
 import client.gui.marketingmanager.DeterminingFuelRatesController;
@@ -40,13 +39,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -150,6 +143,7 @@ public class MainFormController {
 
 		return buttonNames;
 	}
+	
 	/**
 	 * This methid responsible to init the clock.
 	 */
@@ -185,6 +179,7 @@ public class MainFormController {
 		}
 		
 		Scene scene = new Scene(mainPane);
+		scene.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
 		ObjectContainer.mainStage.setScene(scene);
 		ObjectContainer.loginStage.hide();
 		ObjectContainer.mainStage.show();
@@ -223,8 +218,7 @@ public class MainFormController {
 	 */
 	public void setBackgroundImage(String title) {
 		String url = title.equals("Home") ? "/images/HomeBG.jpg" : "/images/mainBG.jpg"; 
-		Image image = new Image(getClass().getResource(url).toString());
-		imgBackgroundMain.setImage(image);
+		ObjectContainer.setImageBackground(url, imgBackgroundMain);
 	}
 	
 	private void updateUserDetails() {
@@ -488,12 +482,7 @@ public class MainFormController {
 	public void setButtonImage(String buttonName, int index, boolean isChecked) {
 		String url = "/images/menuButtons/"+buttonName;
 		url += isChecked ? "Check.png" : "UnCheck.png";
-		BackgroundImage backgroundImage = new BackgroundImage(
-				new Image(getClass().getResource(url).toExternalForm()),
-				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-				BackgroundSize.DEFAULT);
-		Background background = new Background(backgroundImage);
-		menuButtons[index].setBackground(background);
+		ObjectContainer.setButtonImage(url, menuButtons[index]);
 	}
 	
 }

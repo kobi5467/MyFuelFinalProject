@@ -20,11 +20,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.input.ContextMenuEvent;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.MouseDragEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -487,7 +482,6 @@ public class UpdateCustomerController {
 		}
 		cbSubscribeType.setValue(subscribeType);
 		
-		System.out.println(customerDetails.toString());
 		if(customerDetails.get("paymentMethod").getAsString().equals("Credit Card")) {
 			Message msg2 = new Message(MessageType.GET_CREDIT_CARD_DETAILS_BY_ID, customer.toString());
 			ClientUI.accept(msg2);
@@ -605,8 +599,6 @@ public class UpdateCustomerController {
 		
 		Message msg = new Message(MessageType.UPDATE_CUSTOMER_DETAILS, json.toString());
 		ClientUI.accept(msg);
-		JsonObject customerUpdate = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
-
 	}
 	/**
 	 * This method responsible to check if some string value is empty.
@@ -775,7 +767,6 @@ public class UpdateCustomerController {
 	private void updateVehicleInDB(JsonObject newVehicle) {
 		Message msg = new Message(MessageType.UPDATE_VEHICLES_IN_DB, newVehicle.toString());
 		ClientUI.accept(msg);
-		JsonObject updateVehicle = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
 	}
 	/**
 	 * This method responsible to request from the server to get the vehicle details from the DB by customer id.
@@ -1072,7 +1063,6 @@ public class UpdateCustomerController {
 		
 		Message msg = new Message(MessageType.UPDATE_PURCHASE_MODEL_IN_DB, purchaseModelJson.toString());
 		ClientUI.accept(msg);
-		JsonObject purchaseModelJsonUpdate = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
 	}
 	
 }

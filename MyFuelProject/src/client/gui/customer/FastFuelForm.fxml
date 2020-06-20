@@ -4,18 +4,13 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="fastFuelPane" prefHeight="570.0" prefWidth="949.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.customer.FastFuelController">
+<Pane fx:id="fastFuelPane" prefHeight="570.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.customer.FastFuelController">
    <children>
-      <ImageView fitHeight="571.0" fitWidth="950.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../images/fast_fuel_BG.png" />
-         </image>
-      </ImageView>
+      <ImageView fx:id="imgFastFuelBG" fitHeight="571.0" fitWidth="950.0" pickOnBounds="true" preserveRatio="true" />
       <Label layoutX="25.0" layoutY="148.0" text="Fuel Company :" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />

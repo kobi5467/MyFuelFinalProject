@@ -4,7 +4,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
@@ -12,18 +11,14 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="server.gui.MainServerController">
    <children>
-      <ImageView fitHeight="500.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../images/fast_fuel_BG.png" />
-         </image>
-      </ImageView>
-      <Label fx:id="lblServerTitle" alignment="CENTER" layoutY="18.0" prefHeight="85.0" prefWidth="800.0" text="MyFuel Server">
+      <ImageView fx:id="imgBGServer" fitHeight="500.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="lblServerTitle" alignment="CENTER" layoutY="20.0" prefHeight="85.0" prefWidth="800.0" text="MyFuel Server">
          <font>
             <Font name="System Bold" size="58.0" />
          </font>
       </Label>
-      <Button fx:id="btnStart" layoutX="321.0" layoutY="134.0" mnemonicParsing="false" onAction="#onStartServer" prefHeight="25.0" prefWidth="63.0" text="Start" />
-      <TextField fx:id="txtPort" layoutX="118.0" layoutY="134.0" promptText="type port number...." />
+      <Button fx:id="btnStart" layoutX="510.0" layoutY="129.0" mnemonicParsing="false" onAction="#onStartServer" prefHeight="25.0" prefWidth="63.0" text="Start" />
+      <TextField fx:id="txtPort" layoutX="290.0" layoutY="125.0" prefHeight="25.0" prefWidth="186.0" promptText="type port number...." />
       <Label layoutX="46.0" layoutY="206.0" text="Username" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
@@ -44,7 +39,7 @@
             <VBox fx:id="vbUserContainer" prefHeight="217.0" prefWidth="727.0" />
          </content>
       </ScrollPane>
-      <Label layoutX="39.0" layoutY="132.0" text="Port :" textFill="WHITE">
+      <Label layoutX="228.0" layoutY="127.0" text="Port :" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>

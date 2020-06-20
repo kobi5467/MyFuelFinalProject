@@ -39,7 +39,6 @@ public class MessageController {
     @FXML
     private Button btnOk;
 
-    private String type;
     private String title;
     
     @FXML
@@ -88,7 +87,6 @@ public class MessageController {
 	}
 
 	private void initUI(String type, String title, String msg) {
-		this.type = type;
 		this.title = title;
 		if(type.equals("yes_no")) {
 			btnOk.setVisible(false);

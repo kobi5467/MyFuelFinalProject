@@ -121,7 +121,7 @@ public class OrderTrackingController {
 		} else {
 			lblerrorMessage.setText("");
 			txtTypeOrderID.setText("");
-			setButtonImage("/images/unchecked.png", btnOnlyOpenOrder);
+			ObjectContainer.setButtonImage(ObjectContainer.unchecked, btnOnlyOpenOrder);
 			showOnlyOpenOrdersFlag = false;
 			// showOnlyOpenOrdersFlag=true;
 			showOrderByID(OrderID);
@@ -203,10 +203,10 @@ public class OrderTrackingController {
 		txtTypeOrderID.setText("");
 		if (!showOnlyOpenOrdersFlag) {
 			showOnlyOpenOrders();
-			setButtonImage("/images/checked.png", btnOnlyOpenOrder);
+			ObjectContainer.setButtonImage(ObjectContainer.checked, btnOnlyOpenOrder);
 		} else {
 			showAllOrders();
-			setButtonImage("/images/unchecked.png", btnOnlyOpenOrder);
+			ObjectContainer.setButtonImage(ObjectContainer.unchecked, btnOnlyOpenOrder);
 		}
 		showOnlyOpenOrdersFlag = !showOnlyOpenOrdersFlag;
 	}
@@ -227,15 +227,6 @@ public class OrderTrackingController {
 				flag = true;
 		}
 		return flag;
-	}
-
-	public void setButtonImage(String url, Button btn) {
-		BackgroundImage backgroundImage = new BackgroundImage(
-				new Image(getClass().getResource(url).toExternalForm()),
-				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-				BackgroundSize.DEFAULT);
-		Background background = new Background(backgroundImage);
-		btn.setBackground(background);
 	}
 	
 	/**
@@ -265,7 +256,7 @@ public class OrderTrackingController {
 	private void initUI() {
 		lblerrorMessage.setText("");
 		btnSearch.setId("dark-blue");
-		setButtonImage("/images/unchecked.png", btnOnlyOpenOrder);
+		ObjectContainer.setButtonImage(ObjectContainer.unchecked, btnOnlyOpenOrder);
 		vbOrdersContainer.setSpacing(5);
 		orders = getHHFOrders();
 		orderPanes = new ArrayList<>();

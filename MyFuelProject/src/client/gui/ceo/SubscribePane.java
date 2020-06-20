@@ -13,13 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 /**
  * This class is for only one sub-request pane that will be loaded in the main Subscribe to approve form
@@ -171,15 +165,13 @@ public class SubscribePane {
      * @param color - the color of the pain.
      */
     public void initUI(JsonObject request, String color) {
-		//mainRequestPane.setStyle("-fx-background-color:" + color + ";");
 		mainRequestPane.setStyle(""
 				+ "-fx-background-color:" + color + ";"
 				+ "-fx-border-color:#77cde7;"
 				+ "-fx-border-width:2px;");
 		mainRequestPane.setPrefHeight(52);
-		setButtonImage("../../../images/v_icon_30px.png", btnApprove);
-		setButtonImage("../../../images/error_icon_30px.png", btnDeny);
-		//setButtonImage("../../../images/v_icon.png", btnSubmit);
+		ObjectContainer.setButtonImage("/images/v_icon_30px.png", btnApprove);
+		ObjectContainer.setButtonImage("/images/error_icon_30px.png", btnDeny);
 		btnApprove.setText("");
 		btnDeny.setText("");
 		
@@ -213,18 +205,4 @@ public class SubscribePane {
 		txtCreateTime.setEditable(false);
 		
 	}
-    /**
-     * this function set image to the button in the pane
-     * @param url - the path
-     * @param btn - the button
-     */
-    public void setButtonImage(String url, Button btn) {
-		BackgroundImage backgroundImage = new BackgroundImage(
-				new Image(getClass().getResource(url).toExternalForm()),
-				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-				BackgroundSize.DEFAULT);
-		Background background = new Background(backgroundImage);
-		btn.setBackground(background);
-	}	
-
 }

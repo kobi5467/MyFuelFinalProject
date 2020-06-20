@@ -801,19 +801,6 @@ public class FuelDBLogic {
 		float pricePerLitter = getFuelObjectByType(fuelType).getPricePerLitter();
 		float totalPrice = fuelAmount * pricePerLitter;
 
-		String managerEmail = getManagerEmailByStatonID(stationID);
-		String subject = "New Inventory Order - Station Number " + stationID;
-		String message = "New Inventory Order Created\n"+
-				"Fuel Type : " + fuelType + "\n" + 
-				"Fuel Amount : " + fuelAmount + "\n" + 
-				"Please log in to system and see more details.";
-		new Thread() {
-			@Override
-			public void run() {
-				MailSender.sendMail(subject, message, managerEmail);							
-			}
-		}.start();
-		
 		String query = "";
 		Statement stmt = null;
 
@@ -833,6 +820,22 @@ public class FuelDBLogic {
 		}
 	}
 
+	public void sendMailToStationManager(String stationID, String fuelType, float fuelAmount) {
+		String managerEmail = getManagerEmailByStatonID(stationID);
+		String subject = "New Inventory Order - Station Number " + stationID;
+		String message = "New Inventory Order Created\n"+
+				"Fuel Type : " + fuelType + "\n" + 
+				"Fuel Amount : " + fuelAmount + "\n" + 
+				"Please log in to system and see more details.";
+		new Thread() {
+			@Override
+			public void run() {
+				MailSender.sendMail(subject, message, managerEmail);							
+			}
+		}.start();
+		
+	}
+	
 	private String getManagerEmailByStatonID(String stationID) {
 		String query = "";
 		Statement stmt = null;
