@@ -19,7 +19,6 @@ public class ClientUI extends Application{
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		
 		clientController = new ClientController("localhost", 5555);
 		ObjectContainer.loginStage = primaryStage;
 		ObjectContainer.loginStage.initStyle(StageStyle.UNDECORATED);

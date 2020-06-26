@@ -178,6 +178,54 @@ public class HomeHeatingFuelController {
 	public float pricePerLitter;
 	public double shippingCost = 10;
 
+	
+	public IHomeHeatingFuelDBManager iHomeHeatingFuelDBManager;
+	
+	public HomeHeatingFuelController() {
+		iHomeHeatingFuelDBManager = new IHomeHeatingFuelDBManager() {
+			
+			@Override
+			public boolean submitHomeHeatingFuelOrder(JsonObject json) {
+				Message msg = new Message(MessageType.SUBMIT_HOME_HEATING_FUEL_ORDER, json.toString());
+				ClientUI.accept(msg);
+				return true;
+			}
+			
+			@Override
+			public int getLastOrderID(JsonObject json) {
+				return getOrderIdFromDB(json);
+			}
+			
+			@Override
+			public float getPricePerLitter() {
+				return getFuelObjectByType("Home Heating Fuel");
+			}
+			
+			@Override
+			public String[] getFuelCompaniesByCustomerID(String customerID) {
+				JsonObject json = new JsonObject();
+				json.addProperty("customerID", customerID);
+				Message msg = new Message(MessageType.GET_FUEL_COMPANIES_BY_CUSTOMER_ID, json.toString());
+				ClientUI.accept(msg);
+				String[] fuelCompanies = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject().get("fuelCompanies")
+						.getAsString().split(",");
+				return fuelCompanies;
+			}
+			
+			@Override
+			public float getCurrentRunningSaleTemplateDiscount() {
+				return getCurrentSaleDiscount();
+			}
+			
+			@Override
+			public JsonObject getCreditCardByCustomerID() {
+				return getCreditCard();
+			}
+		};
+	}
+	
+	
+	
 	/**
 	 * This function gets HomeHeatingFuelForm.fxml and load it to the main pain.
 	 * 
@@ -219,7 +267,7 @@ public class HomeHeatingFuelController {
 		showCreditCardFields(false);
 		initOrderSummary();
 		updatePaymentFormOnPaymentMethodClick();
-		creditCard = getCreditCardByCustomerID();
+		creditCard = iHomeHeatingFuelDBManager.getCreditCardByCustomerID();
 	}
 
 	/**
@@ -308,7 +356,8 @@ public class HomeHeatingFuelController {
 		lblDiscountRate.setText("0.00 %");
 		lblShippingRate.setText(shippingCost + " $");
 		lbltotalPriceAfterDiscount.setText("0.00 $");
-		lblCurrentPricePerLitter.setText(String.valueOf(getFuelObjectByType("Home Heating Fuel")) + " $");
+		pricePerLitter = iHomeHeatingFuelDBManager.getPricePerLitter();
+		lblCurrentPricePerLitter.setText(String.valueOf(pricePerLitter) + " $");
 	}
 
 	/**
@@ -348,9 +397,10 @@ public class HomeHeatingFuelController {
 					json.addProperty("savePaymentDetails", "false");
 				}
 			}
-			Message msg = new Message(MessageType.SUBMIT_HOME_HEATING_FUEL_ORDER, json.toString());
-			ClientUI.accept(msg);
-			getOrderIdFromDB(json);
+//			Message msg = new Message(MessageType.SUBMIT_HOME_HEATING_FUEL_ORDER, json.toString());
+//			ClientUI.accept(msg);
+			iHomeHeatingFuelDBManager.submitHomeHeatingFuelOrder(json);
+			iHomeHeatingFuelDBManager.getLastOrderID(json);
 			showPurchaseDetails();
 		}
 	}
@@ -398,7 +448,7 @@ public class HomeHeatingFuelController {
 	 */
 	@FXML
 	void updateOrderSummary(KeyEvent event) {
-		if (checkAmountField(false))
+		if (checkAmountField(false,txtAmount.getText().trim()))
 			calcTotalPrice(Float.parseFloat(txtAmount.getText().trim()));
 	}
 
@@ -441,19 +491,39 @@ public class HomeHeatingFuelController {
 	 */
 	public Boolean homeHeatingFuelFormTest() {
 		Boolean flag = true;
-		flag = checkAmountField(true);
-		flag = checkStreetField() && flag;
-		flag = checkCityField() && flag;
-		flag = checkDateSupplyField() && flag;
-		flag = checkPaymentMethodField() && flag;
-		flag = checkFuelCompanyField() && flag;
+		flag = checkAmountField(true,txtAmount.getText().trim());
+		flag = checkStreetField(txtStreet.getText()) && flag;
+		flag = checkCityField(txtCity.getText()) && flag;
+		flag = checkDateSupplyField(datePickerDateSupply.getValue()) && flag;
+		flag = checkPaymentMethodField(cbPaymentMethod.getValue()) && flag;
+		flag = checkFuelCompanyField(cbfuelCompany.getValue().trim()) && flag;
 		if (cbPaymentMethod.getValue().trim().equals("Credit Card")) {
-			flag = checkCardNumberField() && flag;
-			flag = checkCVVField() && flag;
-			flag = checkDateValidationField() && flag;
+			flag = checkCardNumberField(txtCardNumber.getText().trim()) && flag;
+			flag = checkCVVField(txtCVV.getText()) && flag;
+			flag = checkDateValidationField(cbCreditCardMonthValidation.getValue().trim(),cbCreditCardYearValidation.getValue().trim()) && flag;
 		}
 		return flag;
 
+	}
+	
+	
+	public boolean checkFuelAmount(String fuelAmount) {
+		if(fuelAmount == null || fuelAmount.isEmpty()) {
+			return false;
+		}
+		if(!ObjectContainer.checkIfStringContainsOnlyNumbersFloatType(fuelAmount)) {
+			return false;
+		}
+		float amount = -1;
+		try {
+			amount = Float.parseFloat(fuelAmount);
+		}catch(NumberFormatException e) {
+			return false;
+		}
+		if(amount <= 0) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -465,9 +535,9 @@ public class HomeHeatingFuelController {
 	 *                     on submit button.
 	 * @return true if all the test passed, else the function return false.
 	 */
-	public Boolean checkAmountField(Boolean showErrorMsg) {
-		this.amount = txtAmount.getText().trim();
-		if (txtAmount.getText().toString() == null || txtAmount.getText().isEmpty()) {
+	public Boolean checkAmountField(Boolean showErrorMsg, String fuelAmount) {
+		this.amount = fuelAmount;
+		if (fuelAmount == null || fuelAmount.isEmpty()) {
 			lblSubTotalPriceBeforeDiscount.setText("0.00 $");
 			lbltotalPriceAfterDiscount.setText("0.00 $");
 			if (showErrorMsg) {
@@ -476,13 +546,13 @@ public class HomeHeatingFuelController {
 			}
 			return false;
 		}
-		if (!ObjectContainer.checkIfStringContainsOnlyNumbers(txtAmount.getText().toString()) && showErrorMsg) {
+		if (!ObjectContainer.checkIfStringContainsOnlyNumbers(fuelAmount) && showErrorMsg) {
 //			setErrorImage(imgAmountError, "/images/error_icon.png");
 			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgAmountError);
 			return false;
 		}
-		float fuelAmount = Float.parseFloat(this.amount);
-		if (fuelAmount <= 0 && showErrorMsg) {
+		float fuelAmountFloat = Float.parseFloat(this.amount);
+		if (fuelAmountFloat <= 0 && showErrorMsg) {
 //			setErrorImage(imgAmountError, "/images/error_icon.png");
 			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgAmountError);
 			return false;
@@ -493,20 +563,25 @@ public class HomeHeatingFuelController {
 		return true;
 	}
 
+	public boolean checkStreet(String street) {
+		if (street == null || street.isEmpty()) {
+			return false;
+		}
+		return true;
+	}
+	
 	/**
 	 * This function check if street field is empty.
 	 * 
 	 * @return true if this test passed, else the function return false.
 	 */
-	public Boolean checkStreetField() {
-		if (txtStreet.getText().toString() == null || txtStreet.getText().toString().isEmpty()) {
-//			setErrorImage(imgStreetError, "/images/error_icon.png");
-			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgStreetError);
-			return false;
+	public Boolean checkStreetField(String street) {
+		if (checkStreet(street)) {
+			ObjectContainer.setImageBackground(ObjectContainer.vIcon, imgStreetError);
+			return true;
 		}
-//		setErrorImage(imgStreetError, "/images/v_icon.png");
-		ObjectContainer.setImageBackground(ObjectContainer.vIcon, imgStreetError);
-		return true;
+		ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgStreetError);
+		return false;
 	}
 
 	/**
@@ -514,8 +589,8 @@ public class HomeHeatingFuelController {
 	 * 
 	 * @return true if this test passed, else the function return false.
 	 */
-	public Boolean checkCityField() {
-		if (txtCity.getText() == null || txtCity.getText().toString().isEmpty()) {
+	public Boolean checkCityField(String city) {
+		if (city == null || city.isEmpty()) {
 			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgCityError);
 			return false;
 		}
@@ -524,6 +599,20 @@ public class HomeHeatingFuelController {
 
 	}
 
+	public boolean checkIfDateSupplyIsValid(String date) {
+		if (date == null || date.isEmpty()) {
+			return false;
+		}
+		return true;
+	}
+	
+	public boolean checkIfDateSupplyIsPassed(LocalDate date) {
+		if(date.isBefore(LocalDate.now())) {
+			return false;
+		}
+		return true;
+	}
+	
 	/**
 	 * This function check the date supply datePicker field. This function performs
 	 * the following tests: -The user didn't choose date. -The selected date has
@@ -531,30 +620,34 @@ public class HomeHeatingFuelController {
 	 * 
 	 * @return true if all the test passed, else the function return false.
 	 */
-	public Boolean checkDateSupplyField() {
-		if (datePickerDateSupply.getValue() == null || datePickerDateSupply.getValue().toString().trim().isEmpty()) {
-//			setErrorImage(imgDateSupllyError, "/images/error_icon.png");
+	public Boolean checkDateSupplyField(LocalDate date) {
+		if (!checkIfDateSupplyIsValid(date.toString())){
 			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgDateSupllyError);
 			return false;
 		}
-		if (datePickerDateSupply.getValue().isBefore(LocalDate.now())) {
-//			setErrorImage(imgDateSupllyError, "/images/error_icon.png");
+		if (!checkIfDateSupplyIsPassed(date)) {
 			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgDateSupllyError);
 			return false;
 		}
-//		setErrorImage(imgDateSupllyError, "/images/v_icon.png");
 		ObjectContainer.setImageBackground(ObjectContainer.vIcon, imgDateSupllyError);
 		return true;
 	}
 
+	public boolean checkIfSelectedPaymentMethod(String paymentMethod, String defualtValue) {
+		if(paymentMethod.equals(defualtValue)) {
+			return false;
+		}
+		return true;
+	}
+	
 	/**
 	 * This function check if the user didn't select payment method in 'method
 	 * payment' choice box .
 	 * 
 	 * @return true if this test passed, else the function return false.
 	 */
-	public Boolean checkPaymentMethodField() {
-		if (cbPaymentMethod.getValue().trim().equals(cbPaymentMethod.getItems().get(0))) {
+	public Boolean checkPaymentMethodField(String paymentMethod) {
+		if (!checkIfSelectedPaymentMethod(paymentMethod,cbPaymentMethod.getItems().get(0))) {
 //			setErrorImage(imgPaymentMethodError, "/images/error_icon.png");
 			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgPaymentMethodError);
 			return false;
@@ -570,8 +663,8 @@ public class HomeHeatingFuelController {
 	 * 
 	 * @return true if this test passed, else the function return false.
 	 */
-	public Boolean checkFuelCompanyField() {
-		if (cbfuelCompany.getValue().trim().equals(cbfuelCompany.getItems().get(0))) {
+	public Boolean checkFuelCompanyField(String fuelCompany) {
+		if (fuelCompany.equals(cbfuelCompany.getItems().get(0))) {
 //			setErrorImage(imgfuelCompanyErrMsg, "/images/error_icon.png");
 			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgfuelCompanyErrMsg);
 			return false;
@@ -588,17 +681,17 @@ public class HomeHeatingFuelController {
 	 * 
 	 * @return true if all the test passed, else the function return false.
 	 */
-	public Boolean checkCardNumberField() {
-		if (txtCardNumber.getText().trim() == null || txtCardNumber.getText().trim().isEmpty()) {
+	public Boolean checkCardNumberField(String cardNumber) {
+		if (cardNumber == null || cardNumber.isEmpty()) {
 //			setErrorImage(imgCardNumberCVV, "/images/error_icon.png");
 			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgCardNumberCVV);
 			return false;
 		}
-		if (!ObjectContainer.checkIfStringContainsOnlyNumbers(txtCardNumber.getText().toString())) {
+		if (!ObjectContainer.checkIfStringContainsOnlyNumbers(cardNumber)) {
 //			setErrorImage(imgAmountError, "/images/error_icon.png");
 			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgCardNumberCVV);
 		}
-		if (txtCardNumber.getText().trim().length() > 16 || txtCardNumber.getText().trim().length() < 8) {
+		if (cardNumber.length() > 16 || cardNumber.length() < 8) {
 //			setErrorImage(imgCardNumberCVV, "/images/error_icon.png");
 			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgCardNumberCVV);
 			return false;
@@ -615,8 +708,7 @@ public class HomeHeatingFuelController {
 	 * 
 	 * @return true if all the test passed, else the function return false.
 	 */
-	public Boolean checkCVVField() {
-		String cvv = txtCVV.getText();
+	public Boolean checkCVVField(String cvv) {
 		if (cvv.isEmpty()) {
 //			setErrorImage(imgCVVError, "/images/error_icon.png");
 			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgCVVError);
@@ -644,19 +736,19 @@ public class HomeHeatingFuelController {
 	 * 
 	 * @return true if all the test passed, else the function return false.
 	 */
-	public Boolean checkDateValidationField() {
-		if (cbCreditCardMonthValidation.getValue().trim().equals(cbCreditCardMonthValidation.getItems().get(0))) {
+	public Boolean checkDateValidationField(String month, String year) {
+		if (month.equals(cbCreditCardMonthValidation.getItems().get(0))) {
 //			setErrorImage(imgDateValidationError, "/images/error_icon.png");
 			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgDateValidationError);
 			return false;
 		}
-		if (!ObjectContainer.checkIfStringContainsOnlyNumbers(cbCreditCardMonthValidation.getValue().toString())
+		if (!ObjectContainer.checkIfStringContainsOnlyNumbers(month)
 				|| !ObjectContainer
-						.checkIfStringContainsOnlyNumbers(cbCreditCardYearValidation.getValue().toString())) {
+						.checkIfStringContainsOnlyNumbers(year)) {
 //			setErrorImage(imgDateValidationError, "/images/error_icon.png");
 			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgDateValidationError);
 		}
-		if (cbCreditCardYearValidation.getValue().trim().equals(cbCreditCardYearValidation.getItems().get(0))) {
+		if (year.equals(cbCreditCardYearValidation.getItems().get(0))) {
 //			setErrorImage(imgDateValidationError, "/images/error_icon.png");
 			ObjectContainer.setImageBackground(ObjectContainer.errorIcon, imgDateValidationError);
 			return false;
@@ -680,8 +772,8 @@ public class HomeHeatingFuelController {
 		ClientUI.accept(msg);
 		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
 		fuelType = response.get("fuelType").getAsString();
-		pricePerLitter = response.get("pricePerLitter").getAsFloat();
-		return pricePerLitter;
+		float price = response.get("pricePerLitter").getAsFloat();
+		return price;
 	}
 
 	/**
@@ -690,13 +782,13 @@ public class HomeHeatingFuelController {
 	 * 
 	 * @param json is the current user order.
 	 */
-	public void getOrderIdFromDB(JsonObject json) {
+	public int getOrderIdFromDB(JsonObject json) {
 		// get last order id from db:
 		Message msg = new Message(MessageType.GET_ORDER_ID, json.toString());
 		ClientUI.accept(msg);
 		JsonObject response = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject();
 		this.orderId = response.get("orderId").getAsString();
-		this.orderId = response.get("orderId").getAsString();
+		return Integer.parseInt(this.orderId);
 	}
 
 	/**
@@ -705,12 +797,13 @@ public class HomeHeatingFuelController {
 	 */
 	private void getFuelCompaniesByCustomerID() {
 		String customerID = ((Customer) ObjectContainer.currentUserLogin).getCustomerId();
-		JsonObject json = new JsonObject();
-		json.addProperty("customerID", customerID);
-		Message msg = new Message(MessageType.GET_FUEL_COMPANIES_BY_CUSTOMER_ID, json.toString());
-		ClientUI.accept(msg);
-		String[] fuelCompanies = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject().get("fuelCompanies")
-				.getAsString().split(",");
+//		JsonObject json = new JsonObject();
+//		json.addProperty("customerID", customerID);
+//		Message msg = new Message(MessageType.GET_FUEL_COMPANIES_BY_CUSTOMER_ID, json.toString());
+//		ClientUI.accept(msg);
+//		String[] fuelCompanies = ObjectContainer.currentMessageFromServer.getMessageAsJsonObject().get("fuelCompanies")
+//				.getAsString().split(",");
+		String[] fuelCompanies = iHomeHeatingFuelDBManager.getFuelCompaniesByCustomerID(customerID);
 		cbfuelCompany.getItems().clear();
 		cbfuelCompany.getItems().add("Choose company:");
 		for (int i = 0; i < fuelCompanies.length; i++) {
@@ -725,7 +818,7 @@ public class HomeHeatingFuelController {
 	 * 
 	 * @return the credit card details.
 	 */
-	private JsonObject getCreditCardByCustomerID() {
+	private JsonObject getCreditCard() {
 		JsonObject json = new JsonObject();
 		Customer customer = (Customer) ObjectContainer.currentUserLogin;
 		json.addProperty("customerID", customer.getCustomerId());
@@ -842,6 +935,7 @@ public class HomeHeatingFuelController {
 		json.addProperty("fuelCompany", this.fuelCompany);
 		json.addProperty("updateExistsCreditCard", "false");
 		json.addProperty("savePaymentDetails", "false");
+		json.addProperty("customerType", customer.getCustomerType());
 		if (paymentMethod.equals("Credit Card")) {
 			String month = cbCreditCardMonthValidation.getValue();
 			String year = cbCreditCardYearValidation.getValue();
@@ -855,19 +949,30 @@ public class HomeHeatingFuelController {
 		}
 		return json;
 	}
-
-//	/**
-//	 * This function set image in the pane.
-//	 * 
-//	 * @param img is the name of the image.
-//	 * @param url is the location of the image in the project.
-//	 * 
-//	 */
-//	public void setErrorImage(ImageView img, String url) {
-//		Image image = new Image(getClass().getResource(url).toString());
-//		img.setImage(image);
-//	}
-
+	
+	
+	public float calcTotalPrice(float amountOfLitters, boolean isUrgentOrder) {
+		float discount = 0;
+		float price = 0;
+		float shippingCost = 10;
+		
+		pricePerLitter = iHomeHeatingFuelDBManager.getPricePerLitter();
+		discount = iHomeHeatingFuelDBManager.getCurrentRunningSaleTemplateDiscount();
+		
+		if(isUrgentOrder) {
+			discount -= 2;
+		}
+		
+		if(amountOfLitters >= 600 && amountOfLitters <= 800) {
+			discount += 3;
+		}else if(amountOfLitters > 800){
+			discount += 4;
+		}
+		
+		price = (float) ((amountOfLitters * pricePerLitter * (100 - discount) * 0.01) + shippingCost);  
+		return price;
+	}
+	
 	/**
 	 * This function calculate the price of the order - before and after discount.
 	 * After calculating, the function updates the Order Summary labels.
@@ -879,8 +984,8 @@ public class HomeHeatingFuelController {
 		Boolean discountFlag = false;// If we have any discount change to true;
 		double totalPriceAfterDiscount = 0, subTotalPriceBeforeDiscount = 0, commissionForUrgentorder = 0,
 				totalCommision = 0;
-		this.discountrate = (double) getCurrentSaleDiscount();
-		if (checkAmountField(false)) {
+		this.discountrate = (double) iHomeHeatingFuelDBManager.getCurrentRunningSaleTemplateDiscount();
+		if (checkAmountField(false,txtAmount.getText().trim())) {
 			if (this.isPressed) {
 				commissionForUrgentorder = 2;
 				discountFlag = true;
@@ -924,5 +1029,10 @@ public class HomeHeatingFuelController {
 		ObjectContainer.setTextFieldLimit(txtCity, 20);
 		ObjectContainer.setTextFieldToGetOnlyDigitsWithLimit(txtCardNumber, 16);
 		ObjectContainer.setTextFieldToGetOnlyDigitsWithLimit(txtCVV, 4);
+	}
+
+
+	public void setHomeHeatingFuelInterface(IHomeHeatingFuelDBManager iHomeHeatingFuelDBManager) {
+		this.iHomeHeatingFuelDBManager = iHomeHeatingFuelDBManager;
 	}
 }

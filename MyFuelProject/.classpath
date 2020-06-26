@@ -9,10 +9,12 @@
 		</accessrules>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="srcTest"/>
 	<classpathentry kind="src" path="res"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/OCSF"/>
 	<classpathentry kind="lib" path="external_jars/gson-2.8.5.jar"/>
 	<classpathentry kind="lib" path="external_jars/mysql-connector-java-8.0.13.jar"/>
 	<classpathentry kind="lib" path="external_jars/javax.mail-1.6.2.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

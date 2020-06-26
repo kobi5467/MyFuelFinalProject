@@ -63,7 +63,7 @@ public class OrderDBLogic {
 	 * 
 	 * @param order is the data of a single order that made by the user.
 	 */
-	public void insertHomeHeatingFuelOrder(JsonObject order) {
+	public boolean insertHomeHeatingFuelOrder(JsonObject order) {
 
 		String query = " ";
 		Statement stmt = null;
@@ -79,7 +79,7 @@ public class OrderDBLogic {
 		String orderDate = order.get("orderDate").getAsString();
 		String paymentMethod = order.get("paymentMethod").getAsString();
 		String orderStatus = "OnGoing";
-		String customerType = CustomerDBLogic.getCustomerTypeByCustomerID(customerId);
+		String customerType = order.get("customerType").getAsString();
 		try {
 			if (DBConnector.conn != null) {
 				query = "INSERT INTO  home_heating_fuel_orders(customerID, amountOfLitters, city, street, dateSupply, urgentOrder, saleTemplateName, totalPrice, orderStatus, orderDate, paymentMethod, fuelCompany, customerType)"
@@ -87,13 +87,15 @@ public class OrderDBLogic {
 						+ "','" + urgentOrder + "','" + saleTemplateName + "','" + totalPrice + "','" + orderStatus + "','" + orderDate
 						+ "','" + paymentMethod + "','" + fuelCompany + "','" + customerType + "');";
 				stmt = DBConnector.conn.createStatement();
-				stmt.execute(query);
+				int res = stmt.executeUpdate(query);
+				return res > 0;
 			} else {
 				System.out.println("Conn is null");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
 
 	/**
@@ -780,5 +782,82 @@ public class OrderDBLogic {
 		}
 
 		return homeHeatingFuelOrders;
+	}
+
+	public JsonArray getHomeHeatingFuelOrdersByCustomerID(String customerID) {
+		JsonArray HHFOrders = new JsonArray();
+
+		String query = "";
+		Statement stmt = null;
+
+		try {
+			if (DBConnector.conn != null) {
+				// query = "SELECT * FROM home_heating_fuel_orders , ";
+				query = "SELECT * FROM home_heating_fuel_orders " 
+						+ "WHERE customerID = '" + customerID + "';";
+				stmt = DBConnector.conn.createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				while (rs.next()) {
+					JsonObject HHFOrder = new JsonObject();
+					HHFOrder.addProperty("orderID", rs.getString("orderID"));
+					HHFOrder.addProperty("customerID", rs.getString("customerID"));
+					HHFOrder.addProperty("saleTemplateName", rs.getString("saleTemplateName"));
+					HHFOrder.addProperty("orderDate", rs.getString("orderDate"));
+					HHFOrder.addProperty("orderStatus", rs.getString("orderStatus"));
+					HHFOrder.addProperty("fuelAmount", rs.getString("amountOfLitters"));
+					HHFOrder.addProperty("totalPrice", rs.getString("totalPrice"));
+					HHFOrder.addProperty("paymentMethod", rs.getString("paymentMethod"));
+					HHFOrder.addProperty("dateSupply", rs.getString("dateSupply"));
+					HHFOrder.addProperty("city", rs.getString("city"));
+					HHFOrder.addProperty("street", rs.getString("street"));
+					HHFOrder.addProperty("urgentOrder", rs.getString("urgentOrder"));
+					HHFOrder.addProperty("fuelCompany", rs.getString("fuelCompany"));
+					HHFOrders.add(HHFOrder);
+				}
+			} else {
+				System.out.println("Conn is null");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return HHFOrders;
+		
+	}
+
+	public JsonObject getHomeHeatingFuelOrderByOrderID(String orderID) {
+		JsonObject HHFOrder = new JsonObject();
+		
+		String query = "";
+		Statement stmt = null;
+
+		try {
+			if (DBConnector.conn != null) {
+				// query = "SELECT * FROM home_heating_fuel_orders , ";
+				query = "SELECT * FROM home_heating_fuel_orders " 
+						+ "WHERE orderID = '" + orderID + "';";
+				stmt = DBConnector.conn.createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				if (rs.next()) {
+					HHFOrder.addProperty("orderID", rs.getString("orderID"));
+					HHFOrder.addProperty("customerID", rs.getString("customerID"));
+					HHFOrder.addProperty("saleTemplateName", rs.getString("saleTemplateName"));
+					HHFOrder.addProperty("orderDate", rs.getString("orderDate"));
+					HHFOrder.addProperty("orderStatus", rs.getString("orderStatus"));
+					HHFOrder.addProperty("fuelAmount", rs.getString("amountOfLitters"));
+					HHFOrder.addProperty("totalPrice", rs.getString("totalPrice"));
+					HHFOrder.addProperty("paymentMethod", rs.getString("paymentMethod"));
+					HHFOrder.addProperty("dateSupply", rs.getString("dateSupply"));
+					HHFOrder.addProperty("city", rs.getString("city"));
+					HHFOrder.addProperty("street", rs.getString("street"));
+					HHFOrder.addProperty("urgentOrder", rs.getString("urgentOrder"));
+					HHFOrder.addProperty("fuelCompany", rs.getString("fuelCompany"));
+				}
+			} else {
+				System.out.println("Conn is null");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return HHFOrder;
 	}
 }
